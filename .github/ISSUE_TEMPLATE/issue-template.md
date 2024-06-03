@@ -1,7 +1,7 @@
 ---
 name: issue template
 about: 위 이슈 생성 템플렛을 사용하여 이슈를 생성하고, 작성해주세요!
-title: "[Feat]"
+title: "[분류] 기능 내용"
 labels: ''
 assignees: ''
 
