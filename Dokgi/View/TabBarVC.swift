@@ -12,32 +12,24 @@ class TabBarVC: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // AlarmPageVC 설정
-        let alarmPageVC = AlarmPageVC()
-        let alarmPageNav = UINavigationController(rootViewController: alarmPageVC)
-        alarmPageNav.tabBarItem.title = "알람"
-        alarmPageNav.tabBarItem.image = UIImage(systemName: "alarm")
+        // 홈화면 설정
+        let homePageVC = HomeVC()
+        homePageVC.tabBarItem = UITabBarItem(title: "홈", image: UIImage(systemName: "house"), tag: 0)
 
-        // StopWatchViewController 설정
-        let stopWatchVC = StopWatchViewController()
-        let stopWatchNav = UINavigationController(rootViewController: stopWatchVC)
-        stopWatchNav.tabBarItem.title = "스톱워치"
-        stopWatchNav.tabBarItem.image = UIImage(systemName: "stopwatch")
-        
-        // TimerViewController 설정
-        let timerVC = TimerViewController()
-        let timerNav = UINavigationController(rootViewController: timerVC)
-        timerNav.tabBarItem.title = "타이머"
-        timerNav.tabBarItem.image = UIImage(systemName: "timer")
+        // 구절화면 설정
+        let verseVC = 구절VC()
+        verseVC.tabBarItem = UITabBarItem(title: "구절", image: UIImage(systemName: "doc.plaintext.fill"), tag: 1)
+
+        // 내 서재 설정
+        let myLibraryVC = 내서재VC()
+        myLibraryVC.tabBarItem = UITabBarItem(title: "내 서재", image: UIImage(systemName: "book"), tag: 2)
 
         // 탭바 컨트롤러에 뷰 컨트롤러 설정
-        viewControllers = [alarmPageNav, stopWatchNav, timerNav]
-        
+        viewControllers = [homePageVC, verseVC, myLibraryVC]
+
         // 탭 바의 색상 설정
-        UITabBar.appearance().tintColor = ColorPalette.wakeRed // 선택된 아이템의 색상
-        UITabBar.appearance().unselectedItemTintColor = UIColor.black // 선택되지 않은 아이템의 색상
-        
-        UITabBar.appearance().backgroundColor = ColorPalette.wakeBeige // 여기서 원하는 색상으로 설정
+        UITabBar.appearance().tintColor = UIColor.black // 선택된 아이템의 색상
+        UITabBar.appearance().unselectedItemTintColor = .tabBarGrey// 선택되지 않은 아이템의 색상
     }
 
 }
