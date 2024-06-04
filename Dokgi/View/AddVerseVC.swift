@@ -79,6 +79,17 @@ class AddVerseVC: UIViewController {
         return label
     }()
     
+    let verseTextField: UITextField = {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.placeholder = "구절을 입력해주세요"
+        textField.font = UIFont.systemFont(ofSize: 14)
+        textField.textColor = UIColor(named: "CharcoalBlue")
+        textField.borderStyle = .roundedRect
+        textField.frame.size.height = 50
+        return textField
+    }()
+    
     func setupViews() {
         view.addSubview(scrollView)
         scrollView.addSubview(viewInScroll)
@@ -87,6 +98,7 @@ class AddVerseVC: UIViewController {
         infoView.addSubview(imageView)
         infoView.addSubview(titleLabel)
         infoView.addSubview(authorLabel)
+        viewInScroll.addSubview(verseTextField)
     }
     
     func initLayout() {
@@ -137,6 +149,13 @@ class AddVerseVC: UIViewController {
             make.leading.equalTo(imageView.snp.trailing).offset(16)
             make.top.equalTo(titleLabel.snp.bottom).offset(8)
             make.trailing.equalTo(infoView.snp.trailing).offset(-16)
+        }
+        
+        verseTextField.snp.makeConstraints { make in
+            make.top.equalTo(infoView.snp.bottom).offset(32)
+            make.leading.equalTo(viewInScroll.snp.leading).offset(16)
+            make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
+            make.height.equalTo(44)
         }
         
         scrollView.contentSize = viewInScroll.bounds.size
