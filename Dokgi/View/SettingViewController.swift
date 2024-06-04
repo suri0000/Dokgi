@@ -13,7 +13,7 @@ class SettingViewController : UIViewController{
     
     let titleLbl = UILabel().then {
         $0.text = "설정"
-        $0.font = UIFont.boldSystemFont(ofSize: 28)
+        $0.font = Pretendard.bold.of(size: 28)
     }
     
     let alarmView = AlarmView()

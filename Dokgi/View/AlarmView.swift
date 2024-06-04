@@ -10,19 +10,24 @@ import SnapKit
 
 class AlarmView : UIView {
     
+    let alarmTitle = UILabel().then {
+        $0.text = "알림 설정"
+        $0.font = Pretendard.bold.of(size: 20)
+    }
+    
     let remindSwitch = UISwitch().then {
         $0.isOn = true
     }
     
     let remindTitle = UILabel().then {
         $0.text = "리마인드 알림"
-        $0.font = UIFont.boldSystemFont(ofSize: 20)
+        $0.font = Pretendard.regular.of(size: 17)
     }
     
     let remindDescription = UILabel().then {
         $0.text = "구절을 리마인드 해주는 알림"
         $0.textColor = UIColor(named: "AlarmMemoGray")
-        $0.font = UIFont.systemFont(ofSize: 14)
+        $0.font = Pretendard.regular.of(size: 14)
     }
     
     let remindStack = UIStackView().then {
@@ -32,14 +37,14 @@ class AlarmView : UIView {
     
     let remindTimeLbl = UILabel().then {
         $0.text = "알림 시간"
-        $0.font = UIFont.systemFont(ofSize: 14)
+        $0.font = Pretendard.regular.of(size: 14)
         $0.textColor = UIColor(named: "AlarmSettingText")
     }
     
     let remindTimeBtn = UIButton().then {
         $0.setTitle("PM 15 : 00", for: .normal)
         $0.setTitleColor(UIColor(named: "AlarmSettingText"), for: .normal)
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        $0.titleLabel?.font = Pretendard.regular.of(size: 14)
     }
     
     let border = UIView().then {
@@ -57,13 +62,13 @@ class AlarmView : UIView {
     
     let writeTitle = UILabel().then {
         $0.text = "기록하기 알림"
-        $0.font = UIFont.boldSystemFont(ofSize: 20)
+        $0.font = Pretendard.regular.of(size: 17)
     }
     
     let writeDescription = UILabel().then {
         $0.text = "독서 알림"
         $0.textColor = UIColor(named: "AlarmMemoGray")
-        $0.font = UIFont.systemFont(ofSize: 14)
+        $0.font = Pretendard.regular.of(size: 14)
     }
     
     let writeStack = UIStackView().then {
@@ -73,14 +78,14 @@ class AlarmView : UIView {
     
     let writeWeek = UILabel().then {
         $0.text = "알림 요일"
-        $0.font = UIFont.systemFont(ofSize: 14)
+        $0.font = Pretendard.regular.of(size: 14)
         $0.textColor = UIColor(named: "AlarmSettingText")
     }
     
     let weekBtn = UIButton().then {
         $0.setTitle("매일", for: .normal)
         $0.setTitleColor(UIColor(named: "AlarmSettingText"), for: .normal)
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        $0.titleLabel?.font = Pretendard.regular.of(size: 14)
     }
     
     let writeWeekStack = UIStackView().then {
@@ -90,14 +95,14 @@ class AlarmView : UIView {
     
     let writeTimeLbl = UILabel().then {
         $0.text = "알림 시간"
-        $0.font = UIFont.systemFont(ofSize: 14)
+        $0.font = Pretendard.regular.of(size: 14)
         $0.textColor = UIColor(named: "AlarmSettingText")
     }
     
     let writeTimeBtn = UIButton().then {
         $0.setTitle("PM 15 : 00", for: .normal)
         $0.setTitleColor(UIColor(named: "AlarmSettingText"), for: .normal)
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        $0.titleLabel?.font = Pretendard.regular.of(size: 14)
     }
     
     let writeTimeStack = UIStackView().then {
@@ -134,7 +139,7 @@ class AlarmView : UIView {
         [writeTimeLbl, writeTimeBtn].forEach {
             writeTimeStack.addArrangedSubview($0)
         }
-        
+        addSubview(alarmTitle)
         addSubview(remindSwitch)
         addSubview(remindStack)
         addSubview(remindTimeStack)
@@ -144,8 +149,13 @@ class AlarmView : UIView {
         addSubview(writeWeekStack)
         addSubview(writeTimeStack)
         
+        alarmTitle.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview().offset(27)
+            
+        }
         remindStack.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(0)
+            $0.top.equalTo(alarmTitle.snp.bottom).offset(20)
             $0.leading.equalToSuperview().offset(27)
         }
         
