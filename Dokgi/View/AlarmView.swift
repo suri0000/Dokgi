@@ -16,10 +16,13 @@ class AlarmView : UIView {
     
     let remindTitle = UILabel().then {
         $0.text = "리마인드 알림"
+        $0.font = UIFont.boldSystemFont(ofSize: 20)
     }
     
     let remindDescription = UILabel().then {
         $0.text = "구절을 리마인드 해주는 알림"
+        $0.textColor = UIColor(named: "AlarmMemoGray")
+        $0.font = UIFont.systemFont(ofSize: 14)
     }
     
     let remindStack = UIStackView().then {
@@ -29,15 +32,18 @@ class AlarmView : UIView {
     
     let remindTimeLbl = UILabel().then {
         $0.text = "알림 시간"
+        $0.font = UIFont.systemFont(ofSize: 14)
+        $0.textColor = UIColor(named: "AlarmSettingText")
     }
     
     let remindTimeBtn = UIButton().then {
         $0.setTitle("PM 15 : 00", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
+        $0.setTitleColor(UIColor(named: "AlarmSettingText"), for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
     }
     
     let border = UIView().then {
-        $0.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        $0.backgroundColor = #colorLiteral(red: 0.8588235294, green: 0.8431372549, blue: 0.8431372549, alpha: 1)
     }
     
     let remindTimeStack = UIStackView().then {
@@ -51,10 +57,13 @@ class AlarmView : UIView {
     
     let writeTitle = UILabel().then {
         $0.text = "기록하기 알림"
+        $0.font = UIFont.boldSystemFont(ofSize: 20)
     }
     
     let writeDescription = UILabel().then {
         $0.text = "독서 알림"
+        $0.textColor = UIColor(named: "AlarmMemoGray")
+        $0.font = UIFont.systemFont(ofSize: 14)
     }
     
     let writeStack = UIStackView().then {
@@ -64,11 +73,14 @@ class AlarmView : UIView {
     
     let writeWeek = UILabel().then {
         $0.text = "알림 요일"
+        $0.font = UIFont.systemFont(ofSize: 14)
+        $0.textColor = UIColor(named: "AlarmSettingText")
     }
     
     let weekBtn = UIButton().then {
         $0.setTitle("매일", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
+        $0.setTitleColor(UIColor(named: "AlarmSettingText"), for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
     }
     
     let writeWeekStack = UIStackView().then {
@@ -78,11 +90,14 @@ class AlarmView : UIView {
     
     let writeTimeLbl = UILabel().then {
         $0.text = "알림 시간"
+        $0.font = UIFont.systemFont(ofSize: 14)
+        $0.textColor = UIColor(named: "AlarmSettingText")
     }
     
     let writeTimeBtn = UIButton().then {
         $0.setTitle("PM 15 : 00", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
+        $0.setTitleColor(UIColor(named: "AlarmSettingText"), for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
     }
     
     let writeTimeStack = UIStackView().then {
@@ -140,7 +155,7 @@ class AlarmView : UIView {
         }
         
         remindTimeStack.snp.makeConstraints {
-            $0.top.equalTo(remindSwitch.snp.bottom).offset(35)
+            $0.top.equalTo(remindStack.snp.bottom).offset(23)
             $0.leading.trailing.equalToSuperview().inset(27)
         }
         

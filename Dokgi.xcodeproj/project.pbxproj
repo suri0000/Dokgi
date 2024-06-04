@@ -26,6 +26,7 @@
 		A74874932C0D7F3400B830EE /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A74874922C0D7F3400B830EE /* RxSwift */; };
 		A75908B72C0EF4C000415D6D /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908B62C0EF4C000415D6D /* SettingViewController.swift */; };
 		A75908B92C0F087900415D6D /* AlarmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908B82C0F087900415D6D /* AlarmView.swift */; };
+		AB66D3442C0EEFE3000D72DA /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		A75908B52C0EF44D00415D6D /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		A75908B62C0EF4C000415D6D /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		A75908B82C0F087900415D6D /* AlarmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmView.swift; sourceTree = "<group>"; };
+		AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 				A74874652C0D7E0700B830EE /* ViewController.swift */,
 				A75908B62C0EF4C000415D6D /* SettingViewController.swift */,
 				A75908B82C0F087900415D6D /* AlarmView.swift */,
+				AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -250,6 +253,7 @@
 				3C4181632C0DC1E000D141FD /* Network.swift in Sources */,
 				A74874832C0D7ED100B830EE /* Extension.swift in Sources */,
 				3C41815F2C0DBF9800D141FD /* BookModel.swift in Sources */,
+				AB66D3442C0EEFE3000D72DA /* TabBarVC.swift in Sources */,
 				3C4181652C0DC4A100D141FD /* BookManager.swift in Sources */,
 				A75908B92C0F087900415D6D /* AlarmView.swift in Sources */,
 				A74874642C0D7E0600B830EE /* SceneDelegate.swift in Sources */,

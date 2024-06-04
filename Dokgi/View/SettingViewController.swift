@@ -13,6 +13,7 @@ class SettingViewController : UIViewController{
     
     let titleLbl = UILabel().then {
         $0.text = "설정"
+        $0.font = UIFont.boldSystemFont(ofSize: 28)
     }
     
     let alarmView = AlarmView()
@@ -27,12 +28,12 @@ class SettingViewController : UIViewController{
         view.addSubview(alarmView)
         
         titleLbl.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(64)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
             $0.leading.equalToSuperview().offset(20)
         }
         
         alarmView.snp.makeConstraints {
-            $0.top.equalTo(titleLbl.snp.bottom).offset(20)
+            $0.top.equalTo(titleLbl.snp.bottom).offset(40)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
