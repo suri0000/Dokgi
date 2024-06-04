@@ -28,10 +28,10 @@ class TabBarVC: UITabBarController {
         viewControllers = [homePageVC, verseVC, myLibraryVC]
 
         // 탭 바의 색상 설정
-        UITabBar.appearance().tintColor = UIColor.black // 선택된 아이템의 색상
-        UITabBar.appearance().unselectedItemTintColor = .tabBarGray// 선택되지 않은 아이템의 색상
+        UITabBar.appearance().tintColor = UIColor.black // 선택된 아이템
+        UITabBar.appearance().unselectedItemTintColor = .tabBarGray// 선택되지 않은 아이템
         
-        // 탭바 경계선
+        // 탭바 상단 경계선
         let lineView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 1))
         lineView.backgroundColor = .tabBarGray
         tabBar.addSubview(lineView)
