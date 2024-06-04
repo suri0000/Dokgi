@@ -29,7 +29,12 @@ class TabBarVC: UITabBarController {
 
         // 탭 바의 색상 설정
         UITabBar.appearance().tintColor = UIColor.black // 선택된 아이템의 색상
-        UITabBar.appearance().unselectedItemTintColor = .tabBarGrey// 선택되지 않은 아이템의 색상
+        UITabBar.appearance().unselectedItemTintColor = .tabBarGray// 선택되지 않은 아이템의 색상
+        
+        // 탭바 경계선
+        let lineView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 1))
+        lineView.backgroundColor = .tabBarGray
+        tabBar.addSubview(lineView)
     }
 
 }
