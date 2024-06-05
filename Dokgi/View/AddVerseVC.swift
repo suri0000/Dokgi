@@ -107,7 +107,7 @@ class AddVerseVC: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "키워드를 입력해 주세요"
         textField.borderStyle = .roundedRect
-//        textField.layer.cornerRadius = 10
+        //        textField.layer.cornerRadius = 10
         textField.layer.masksToBounds = true
         return textField
     }()
@@ -128,7 +128,34 @@ class AddVerseVC: UIViewController {
         return collectionView
     }()
     
+    let pageLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "페이지"
+        label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        label.textColor = .black
+        return label
+    }()
     
+    let pageNumberTextField: UITextField = {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.placeholder = "페이지 수"
+        textField.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        textField.borderStyle = .roundedRect
+        return textField
+    }()
+    
+    let percentageButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("%", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .lightGray // 버튼 배경색 설정 (선택 사항)
+        button.layer.cornerRadius = 8
+        return button
+    }()
     
     func setupViews() {
         view.addSubview(scrollView)
@@ -142,6 +169,9 @@ class AddVerseVC: UIViewController {
         viewInScroll.addSubview(keywordLabel)
         viewInScroll.addSubview(keywordField)
         viewInScroll.addSubview(keywordCollectionView)
+        viewInScroll.addSubview(pageLabel)
+        viewInScroll.addSubview(pageNumberTextField)
+        viewInScroll.addSubview(percentageButton)
     }
     
     func initLayout() {
@@ -200,7 +230,7 @@ class AddVerseVC: UIViewController {
             make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
             make.height.equalTo(329)
         }
-
+        
         keywordLabel.snp.makeConstraints { make in
             make.top.equalTo(verseTextField.snp.bottom).offset(32)
             make.leading.equalTo(viewInScroll.snp.leading).offset(16)
@@ -220,6 +250,17 @@ class AddVerseVC: UIViewController {
             make.leading.equalTo(viewInScroll.snp.leading).offset(16)
             make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
             make.height.equalTo(35) // 적절한 높이 설정
+        }
+        
+        pageLabel.snp.makeConstraints { make in
+            make.top.equalTo(keywordCollectionView.snp.bottom).offset(50)
+            make.leading.equalTo(viewInScroll.snp.leading).offset(16)
+        }
+        
+        pageNumberTextField.snp.makeConstraints { make in
+            make.centerY.equalTo(pageLabel.snp.centerY)
+            make.leading.equalTo(pageLabel.snp.trailing).offset(-32)
+            make.width.equalTo(pageLabel.snp.width)
         }
         
         scrollView.contentSize = viewInScroll.bounds.size
