@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3C208EAC2C0F378000CED104 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C208EAB2C0F378000CED104 /* HomeViewController.swift */; };
 		3C208EAE2C0F63DF00CED104 /* CurrentLengthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C208EAD2C0F63DF00CED104 /* CurrentLengthCell.swift */; };
+		3C208EB02C10273F00CED104 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C208EAF2C10273F00CED104 /* DataManager.swift */; };
 		3C41815F2C0DBF9800D141FD /* BookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C41815E2C0DBF9800D141FD /* BookModel.swift */; };
 		3C4181632C0DC1E000D141FD /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4181622C0DC1E000D141FD /* Network.swift */; };
 		3C4181652C0DC4A100D141FD /* BookManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4181642C0DC4A100D141FD /* BookManager.swift */; };
@@ -32,6 +33,7 @@
 /* Begin PBXFileReference section */
 		3C208EAB2C0F378000CED104 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		3C208EAD2C0F63DF00CED104 /* CurrentLengthCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLengthCell.swift; sourceTree = "<group>"; };
+		3C208EAF2C10273F00CED104 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		3C41815E2C0DBF9800D141FD /* BookModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookModel.swift; sourceTree = "<group>"; };
 		3C4181622C0DC1E000D141FD /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		3C4181642C0DC4A100D141FD /* BookManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookManager.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			children = (
 				A748747E2C0D7EBF00B830EE /* Model.swift */,
 				3C41815E2C0DBF9800D141FD /* BookModel.swift */,
+				3C208EAF2C10273F00CED104 /* DataManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -247,6 +250,7 @@
 				A748747F2C0D7EBF00B830EE /* Model.swift in Sources */,
 				A748746C2C0D7E0700B830EE /* Dokgi.xcdatamodeld in Sources */,
 				A74874662C0D7E0700B830EE /* ViewController.swift in Sources */,
+				3C208EB02C10273F00CED104 /* DataManager.swift in Sources */,
 				A74874622C0D7E0600B830EE /* AppDelegate.swift in Sources */,
 				A74874812C0D7EC800B830EE /* ViewModel.swift in Sources */,
 				3C4181632C0DC1E000D141FD /* Network.swift in Sources */,

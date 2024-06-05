@@ -37,14 +37,12 @@ class HomeViewController: UIViewController {
         view.register(CurrentLengthCell.self, forCellWithReuseIdentifier: CurrentLengthCell.identifier)
         view.isPagingEnabled = false
         view.contentInset = Const.CollectionViewContentInset
-        view.decelerationRate = .normal
+        view.decelerationRate = .fast
         return view
     }()
-    private var randomColor: UIColor {
-      UIColor(red: CGFloat(drand48()), green: CGFloat(drand48()), blue: CGFloat(drand48()), alpha: 1.0)
-    }
     
-    private lazy var items = (0...23).map { _ in randomColor }
+    
+//    private lazy var items = (0...23).map { _ in randomColor }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,27 +73,21 @@ class HomeViewController: UIViewController {
         
         currentLengthLabel.text = "현재 구절 길이"
         currentLengthLabel.font = .systemFont(ofSize: 20, weight: .semibold)
-        
     }
 
 }
 
 extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        items.count
+        24
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CurrentLengthCell.identifier, for: indexPath) as? CurrentLengthCell else { return UICollectionViewCell() }
         return cell
     }
-    
-    
 }
 
-extension HomeViewController: UICollectionViewDelegate {
-    
-}
 
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
   func scrollViewWillEndDragging(
