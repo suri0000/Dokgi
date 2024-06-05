@@ -174,6 +174,16 @@ class AddVerseVC: UIViewController {
         return button
     }()
     
+    let recordButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("기록 하기", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = UIColor(named: "CharcoalBlue") // 버튼 배경색 설정
+        button.layer.cornerRadius = 8
+        return button
+    }()
     
     func setupViews() {
         view.addSubview(scrollView)
@@ -191,6 +201,7 @@ class AddVerseVC: UIViewController {
         viewInScroll.addSubview(pageNumberTextField)
         viewInScroll.addSubview(percentageButton)
         viewInScroll.addSubview(pageButton)
+        viewInScroll.addSubview(recordButton)
     }
     
     func initLayout() {
@@ -297,6 +308,14 @@ class AddVerseVC: UIViewController {
             make.height.equalTo(percentageButton.snp.height)
         }
         
+        recordButton.snp.makeConstraints { make in
+            make.top.equalTo(pageLabel.snp.bottom).offset(60)
+            make.leading.equalTo(viewInScroll.snp.leading).offset(16)
+            make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(50) // 적절한 높이 설정
+        }
+        
         scrollView.contentSize = viewInScroll.bounds.size
     }
     
@@ -335,7 +354,7 @@ extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        cell.backgroundColor = .blue // 예시로 셀의 배경색을 파란색으로 설정
+        cell.backgroundColor = UIColor(named: "LightSkyBlue") // 예시로 셀의 배경색을 파란색으로 설정
         return cell
     }
     
