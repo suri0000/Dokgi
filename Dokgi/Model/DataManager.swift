@@ -16,7 +16,7 @@ struct Card {
 
 class DataManager {
     static let shared = DataManager()
-    
+    private init() {}
     let cardInfo: [Card] = [
         Card(cardImage: UIImage(named: "grape"), level: 1, descrption: "포도 한 알", length: 20),
         Card(cardImage: UIImage(named: "goni"), level: 2, descrption: "고니가 잰 길이", length: 30),

@@ -42,7 +42,7 @@ class HomeViewController: UIViewController {
     }()
     
     
-//    private lazy var items = (0...23).map { _ in randomColor }
+    let viewModel = HomeViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,12 +79,13 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        DataManager.shared.cardInfo.count
+        
+        viewModel.data.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CurrentLengthCell.identifier, for: indexPath) as? CurrentLengthCell else { return UICollectionViewCell() }
-        cell.setCellConfig(DataManager.shared.cardInfo[indexPath.row])
+        cell.setCellConfig(viewModel.data[indexPath.row])
         return cell
     }
 }
