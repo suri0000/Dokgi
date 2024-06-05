@@ -90,9 +90,26 @@ class AddVerseVC: UIViewController {
         view.text = textViewPlaceHolder
         view.textColor = .lightGray
         view.layer.cornerRadius = 8
-//        view.delegate = self // <-
-
+        // view.delegate = self
         return view
+    }()
+    
+    let keywordLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.attributedText = AddVerseVC.createAttributedString(for: "키워드 (선택)")
+        label.textAlignment = .left
+        return label
+    }()
+    
+    let keywordField: UITextField = {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.placeholder = "키워드를 입력해 주세요"
+        textField.borderStyle = .roundedRect
+//        textField.layer.cornerRadius = 10
+        textField.layer.masksToBounds = true
+        return textField
     }()
     
     func setupViews() {
@@ -104,6 +121,8 @@ class AddVerseVC: UIViewController {
         infoView.addSubview(titleLabel)
         infoView.addSubview(authorLabel)
         viewInScroll.addSubview(verseTextField)
+        viewInScroll.addSubview(keywordLabel)
+        viewInScroll.addSubview(keywordField)
     }
     
     func initLayout() {
@@ -162,6 +181,19 @@ class AddVerseVC: UIViewController {
             make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
             make.height.equalTo(329)
         }
+
+        keywordLabel.snp.makeConstraints { make in
+            make.top.equalTo(verseTextField.snp.bottom).offset(32)
+            make.leading.equalTo(viewInScroll.snp.leading).offset(16)
+            make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
+        }
+        
+        keywordField.snp.makeConstraints { make in
+            make.top.equalTo(keywordLabel.snp.bottom).offset(8)
+            make.leading.equalTo(viewInScroll.snp.leading).offset(16)
+            make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
+            make.height.equalTo(40)
+        }
         
         scrollView.contentSize = viewInScroll.bounds.size
     }
@@ -175,4 +207,20 @@ class AddVerseVC: UIViewController {
         print("구절 스캔 버튼이 눌렸습니다.")
     }
     
+    // 텍스트 속성을 설정하는 함수
+    private static func createAttributedString(for text: String) -> NSAttributedString {
+        let attributedString = NSMutableAttributedString(string: text)
+        
+        // "키워드" 부분에 대한 속성 설정
+        let keywordRange = (text as NSString).range(of: "키워드")
+        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 16, weight: .semibold), range: keywordRange)
+        
+        // "선택" 부분에 대한 속성 설정
+        let selectionRange = (text as NSString).range(of: "(선택)")
+        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 16, weight: .regular), range: selectionRange)
+        attributedString.addAttribute(.foregroundColor, value: UIColor.gray, range: selectionRange)
+        
+        return attributedString
+    }
 }
+
