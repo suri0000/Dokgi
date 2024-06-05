@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import VisionKit
 
 class AddVerseVC: UIViewController {
     
@@ -79,15 +80,19 @@ class AddVerseVC: UIViewController {
         return label
     }()
     
-    let verseTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "구절을 입력해주세요"
-        textField.font = UIFont.systemFont(ofSize: 14)
-        textField.textColor = UIColor(named: "CharcoalBlue")
-        textField.borderStyle = .roundedRect
-        textField.frame.size.height = 50
-        return textField
+    let textViewPlaceHolder = "텍스트를 입력하세요"
+    lazy var verseTextField: UITextView = {
+        let view = UITextView()
+        view.layer.borderWidth = 1.0
+        view.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.7).cgColor
+        view.textContainerInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
+        view.font = .systemFont(ofSize: 18)
+        view.text = textViewPlaceHolder
+        view.textColor = .lightGray
+        view.layer.cornerRadius = 8
+//        view.delegate = self // <-
+
+        return view
     }()
     
     func setupViews() {
@@ -155,7 +160,7 @@ class AddVerseVC: UIViewController {
             make.top.equalTo(infoView.snp.bottom).offset(32)
             make.leading.equalTo(viewInScroll.snp.leading).offset(16)
             make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
-            make.height.equalTo(44)
+            make.height.equalTo(329)
         }
         
         scrollView.contentSize = viewInScroll.bounds.size
@@ -169,4 +174,5 @@ class AddVerseVC: UIViewController {
         // 구절 스캔 버튼이 눌렸을 때 실행될 액션 구현
         print("구절 스캔 버튼이 눌렸습니다.")
     }
+    
 }
