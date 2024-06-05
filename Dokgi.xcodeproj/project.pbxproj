@@ -35,6 +35,7 @@
 		A75908C82C0F758900415D6D /* DaySelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908C72C0F758900415D6D /* DaySelectViewController.swift */; };
 		A75908CB2C0FEDEF00415D6D /* DayTimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908CA2C0FEDEF00415D6D /* DayTimeViewModel.swift */; };
 		A75908CD2C0FFFB300415D6D /* writeTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908CC2C0FFFB300415D6D /* writeTimeViewController.swift */; };
+		A75908CF2C101A3900415D6D /* DayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908CE2C101A3900415D6D /* DayTableViewCell.swift */; };
 		AB66D3442C0EEFE3000D72DA /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +66,7 @@
 		A75908C72C0F758900415D6D /* DaySelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectViewController.swift; sourceTree = "<group>"; };
 		A75908CA2C0FEDEF00415D6D /* DayTimeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTimeViewModel.swift; sourceTree = "<group>"; };
 		A75908CC2C0FFFB300415D6D /* writeTimeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = writeTimeViewController.swift; sourceTree = "<group>"; };
+		A75908CE2C101A3900415D6D /* DayTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTableViewCell.swift; sourceTree = "<group>"; };
 		AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -201,6 +203,7 @@
 				A75908C52C0F756800415D6D /* TimePickerViewController.swift */,
 				A75908C72C0F758900415D6D /* DaySelectViewController.swift */,
 				A75908CC2C0FFFB300415D6D /* writeTimeViewController.swift */,
+				A75908CE2C101A3900415D6D /* DayTableViewCell.swift */,
 			);
 			path = SettingView;
 			sourceTree = "<group>";
@@ -306,6 +309,7 @@
 				3C41815F2C0DBF9800D141FD /* BookModel.swift in Sources */,
 				AB66D3442C0EEFE3000D72DA /* TabBarVC.swift in Sources */,
 				3C4181652C0DC4A100D141FD /* BookManager.swift in Sources */,
+				A75908CF2C101A3900415D6D /* DayTableViewCell.swift in Sources */,
 				A75908B92C0F087900415D6D /* AlarmView.swift in Sources */,
 				A75908C62C0F756800415D6D /* TimePickerViewController.swift in Sources */,
 				A74874642C0D7E0600B830EE /* SceneDelegate.swift in Sources */,

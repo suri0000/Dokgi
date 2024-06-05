@@ -47,6 +47,7 @@ class writeTimeViewController : UIViewController {
         $0.backgroundColor = .white
     }
     
+    //MARK: - lifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -65,7 +66,7 @@ class writeTimeViewController : UIViewController {
         setupLayout()
         buttonTapped()
     }
-    
+    // MARK: - Layout
     func setupLayout() {
         
         [cancelBtn, titleLbl, saveBtn].forEach {
@@ -102,7 +103,7 @@ class writeTimeViewController : UIViewController {
         }.disposed(by: disposeBag)
     }
 }
-
+// MARK: - PickerView DataSource, Delegate
 extension writeTimeViewController : UIPickerViewDataSource, UIPickerViewDelegate {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         3

@@ -23,6 +23,7 @@ class SettingViewController : UIViewController{
     
     let alarmView = AlarmView()
     
+    //MARK: - lifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -31,6 +32,7 @@ class SettingViewController : UIViewController{
         buttonTitle()
     }
     
+    // MARK: - Layout
     func setupLayout() {
         view.addSubview(titleLbl)
         view.addSubview(alarmView)
@@ -72,7 +74,11 @@ class SettingViewController : UIViewController{
         DayTimeViewModel.writeTime.subscribe {[weak self] Time in
             self?.alarmView.writeTimeBtn.setTitle(self?.viewModel.timeToString(time: Time), for: .normal)
         }.disposed(by: disposeBag)
+        
+        DayTimeViewModel.dayCheck.subscribe {[weak self] Time in
+            self?.alarmView.weekBtn.setTitle(self?.viewModel.dayToString(), for: .normal)
+        }.disposed(by: disposeBag)
     }
 }
-//
-//#Preview{SettingViewController()}
+
+#Preview{SettingViewController()}

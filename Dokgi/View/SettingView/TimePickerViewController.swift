@@ -46,7 +46,7 @@ class TimePickerViewController : UIViewController {
     let timePicker = UIPickerView().then {
         $0.backgroundColor = .white
     }
-    
+    //MARK: - lifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -65,7 +65,7 @@ class TimePickerViewController : UIViewController {
         setupLayout()
         buttonTapped()
     }
-    
+    // MARK: - Layout
     func setupLayout() {
         
         [cancelBtn, titleLbl, saveBtn].forEach {
@@ -102,7 +102,7 @@ class TimePickerViewController : UIViewController {
         }.disposed(by: disposeBag)
     }
 }
-
+// MARK: - PickerView DataSource, Delegate
 extension TimePickerViewController : UIPickerViewDataSource, UIPickerViewDelegate {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         3

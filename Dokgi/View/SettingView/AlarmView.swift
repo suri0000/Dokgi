@@ -54,6 +54,7 @@ class AlarmView : UIView {
     let remindTimeStack = UIStackView().then {
         $0.axis = .horizontal
         $0.spacing = 100
+        $0.distribution = .equalSpacing
     }
     
     let writeSwitch = UISwitch().then {
@@ -91,6 +92,7 @@ class AlarmView : UIView {
     let writeWeekStack = UIStackView().then {
         $0.axis = .horizontal
         $0.spacing = 10
+        $0.distribution = .equalSpacing
     }
     
     let writeTimeLbl = UILabel().then {
@@ -107,7 +109,8 @@ class AlarmView : UIView {
     
     let writeTimeStack = UIStackView().then {
         $0.axis = .horizontal
-        $0.spacing = 10
+        $0.spacing = 100
+        $0.distribution = .equalSpacing
     }
     
     override init(frame: CGRect) {
