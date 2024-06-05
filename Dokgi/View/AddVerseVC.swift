@@ -35,13 +35,19 @@ class AddVerseVC: UIViewController {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitle("구절 스캔", for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold) // 세미볼드 글꼴 설정
-        btn.setTitleColor(UIColor(named: "CharcoalBlue"), for: .normal) // 글씨 색상을 검은색으로 설정
-        btn.backgroundColor = .lightSkyBlue // 버튼 배경색 추가 (선택 사항)
-        btn.setImage(UIImage(named: "camera.viewfinder"), for: .normal) // 버튼 이미지 설정
-        btn.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0) // 이미지와 텍스트 간의 여백 조정
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        btn.setTitleColor(UIColor(named: "CharcoalBlue"), for: .normal)
+        btn.backgroundColor = .lightSkyBlue
+        
+        // iOS 13 이상에서만 이미지 색상 변경
+        if #available(iOS 13.0, *) {
+            btn.setImage(UIImage(named: "camera.viewfinder")?.withTintColor(UIColor(named: "CharcoalBlue") ?? .black, renderingMode: .alwaysOriginal), for: .normal)
+        } else {
+            btn.setImage(UIImage(named: "camera.viewfinder"), for: .normal)
+        }
+        
+        btn.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
         btn.layer.cornerRadius = 18
-        btn.tintColor = UIColor(named: "CharcoalBlue")
         return btn
     }()
     
@@ -56,8 +62,8 @@ class AddVerseVC: UIViewController {
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "camera") // 이미지 이름을 적절히 수정하세요
-        imageView.contentMode = .scaleAspectFit // 이미지의 비율을 유지하면서 이미지뷰에 맞춥니다.
+        imageView.image = UIImage(named: "camera")
+        imageView.contentMode = .scaleAspectFit
         imageView.backgroundColor = .gray
         return imageView
     }()
@@ -107,7 +113,6 @@ class AddVerseVC: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "키워드를 입력해 주세요"
         textField.borderStyle = .roundedRect
-        //        textField.layer.cornerRadius = 10
         textField.layer.masksToBounds = true
         return textField
     }()
@@ -268,10 +273,10 @@ class AddVerseVC: UIViewController {
         }
         
         keywordField.snp.makeConstraints { make in
-            make.top.equalTo(keywordLabel.snp.bottom).offset(8)
+            make.top.equalTo(keywordLabel.snp.bottom).offset(16)
             make.leading.equalTo(viewInScroll.snp.leading).offset(16)
             make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
-            make.height.equalTo(40)
+            make.height.equalTo(33)
         }
         
         // 컬렉션 뷰의 제약 조건 설정
