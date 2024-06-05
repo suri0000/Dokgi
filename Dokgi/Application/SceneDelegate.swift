@@ -20,9 +20,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         // ⚠️ 여기서 ViewController를 생성하여 window의 rootViewController로 지정해주세요.
-        let main = ViewController()
+        let main = LibrarySearchViewController()
+        let navigationController = UINavigationController()
+        navigationController.viewControllers = [main]
+        navigationController.navigationBar.isHidden = true
         
-        window?.rootViewController = main
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
 
