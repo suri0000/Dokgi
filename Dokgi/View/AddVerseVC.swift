@@ -150,12 +150,30 @@ class AddVerseVC: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("%", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .lightGray // 버튼 배경색 설정 (선택 사항)
-        button.layer.cornerRadius = 8
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
+        button.setTitleColor(UIColor(named: "CharcoalBlue"), for: .normal)
+        button.layer.cornerRadius = 15
+        button.layer.borderWidth = 1.0 // 테두리 두께 설정
+        if let charcoalBlueColor = UIColor(named: "CharcoalBlue") {
+            button.layer.borderColor = charcoalBlueColor.cgColor
+        }
         return button
     }()
+    
+    let pageButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Page", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
+        button.setTitleColor(.black, for: .normal)
+        button.layer.cornerRadius = 15
+        button.layer.borderWidth = 1.0 // 테두리 두께 설정
+        if let charcoalBlueColor = UIColor(named: "CharcoalBlue") {
+            button.layer.borderColor = charcoalBlueColor.cgColor
+        }
+        return button
+    }()
+    
     
     func setupViews() {
         view.addSubview(scrollView)
@@ -172,6 +190,7 @@ class AddVerseVC: UIViewController {
         viewInScroll.addSubview(pageLabel)
         viewInScroll.addSubview(pageNumberTextField)
         viewInScroll.addSubview(percentageButton)
+        viewInScroll.addSubview(pageButton)
     }
     
     func initLayout() {
@@ -259,8 +278,23 @@ class AddVerseVC: UIViewController {
         
         pageNumberTextField.snp.makeConstraints { make in
             make.centerY.equalTo(pageLabel.snp.centerY)
-            make.leading.equalTo(pageLabel.snp.trailing).offset(-32)
-            make.width.equalTo(pageLabel.snp.width)
+            make.leading.equalTo(pageLabel.snp.trailing).offset(8)
+            make.width.equalTo(55)
+            make.height.equalTo(30)
+        }
+        
+        percentageButton.snp.makeConstraints { make in
+            make.centerY.equalTo(pageLabel.snp.centerY)
+            make.trailing.equalTo(pageButton.snp.leading).offset(-8)
+            make.width.equalTo(60) // 적절한 폭 설정
+            make.height.equalTo(pageLabel.snp.height) // pageLabel과 같은 높이 설정
+        }
+        
+        pageButton.snp.makeConstraints { make in
+            make.centerY.equalTo(percentageButton.snp.centerY)
+            make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
+            make.width.equalTo(60) // 적절한 폭 설정
+            make.height.equalTo(percentageButton.snp.height)
         }
         
         scrollView.contentSize = viewInScroll.bounds.size
