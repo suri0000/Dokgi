@@ -39,17 +39,14 @@ class AddVerseVC: UIViewController {
         btn.setTitleColor(UIColor(named: "CharcoalBlue"), for: .normal)
         btn.backgroundColor = .lightSkyBlue
         
-        // iOS 13 이상에서만 이미지 색상 변경
-        if #available(iOS 13.0, *) {
-            btn.setImage(UIImage(named: "camera.viewfinder")?.withTintColor(UIColor(named: "CharcoalBlue") ?? .black, renderingMode: .alwaysOriginal), for: .normal)
-        } else {
-            btn.setImage(UIImage(named: "camera.viewfinder"), for: .normal)
-        }
+        // 이미지 색상 변경
+        btn.setImage(UIImage(named: "camera.viewfinder")?.withTintColor(UIColor(named: "CharcoalBlue") ?? .black, renderingMode: .alwaysOriginal), for: .normal)
         
         btn.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
         btn.layer.cornerRadius = 18
         return btn
     }()
+
     
     let infoView: UIView = {
         let view = UIView()
@@ -96,7 +93,6 @@ class AddVerseVC: UIViewController {
         view.text = textViewPlaceHolder
         view.textColor = .lightGray
         view.layer.cornerRadius = 8
-        // view.delegate = self
         return view
     }()
     
