@@ -31,6 +31,10 @@
 		A75908C12C0F6AD100415D6D /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = A75908BD2C0F6AD100415D6D /* Pretendard-Regular.otf */; };
 		A75908C22C0F6AD100415D6D /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = A75908BE2C0F6AD100415D6D /* Pretendard-SemiBold.otf */; };
 		A75908C42C0F6B9600415D6D /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908C32C0F6B9600415D6D /* Font.swift */; };
+		A75908C62C0F756800415D6D /* TimePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908C52C0F756800415D6D /* TimePickerViewController.swift */; };
+		A75908C82C0F758900415D6D /* DaySelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908C72C0F758900415D6D /* DaySelectViewController.swift */; };
+		A75908CB2C0FEDEF00415D6D /* DayTimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908CA2C0FEDEF00415D6D /* DayTimeViewModel.swift */; };
+		A75908CD2C0FFFB300415D6D /* writeTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908CC2C0FFFB300415D6D /* writeTimeViewController.swift */; };
 		AB66D3442C0EEFE3000D72DA /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +61,10 @@
 		A75908BD2C0F6AD100415D6D /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		A75908BE2C0F6AD100415D6D /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		A75908C32C0F6B9600415D6D /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
+		A75908C52C0F756800415D6D /* TimePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerViewController.swift; sourceTree = "<group>"; };
+		A75908C72C0F758900415D6D /* DaySelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectViewController.swift; sourceTree = "<group>"; };
+		A75908CA2C0FEDEF00415D6D /* DayTimeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTimeViewModel.swift; sourceTree = "<group>"; };
+		A75908CC2C0FFFB300415D6D /* writeTimeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = writeTimeViewController.swift; sourceTree = "<group>"; };
 		AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -140,9 +148,8 @@
 		A748747A2C0D7E1300B830EE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A75908C92C0F759D00415D6D /* SettingView */,
 				A74874652C0D7E0700B830EE /* ViewController.swift */,
-				A75908B62C0EF4C000415D6D /* SettingViewController.swift */,
-				A75908B82C0F087900415D6D /* AlarmView.swift */,
 				AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */,
 			);
 			path = View;
@@ -152,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				A74874802C0D7EC800B830EE /* ViewModel.swift */,
+				A75908CA2C0FEDEF00415D6D /* DayTimeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -183,6 +191,18 @@
 				A75908BE2C0F6AD100415D6D /* Pretendard-SemiBold.otf */,
 			);
 			path = Font;
+			sourceTree = "<group>";
+		};
+		A75908C92C0F759D00415D6D /* SettingView */ = {
+			isa = PBXGroup;
+			children = (
+				A75908B62C0EF4C000415D6D /* SettingViewController.swift */,
+				A75908B82C0F087900415D6D /* AlarmView.swift */,
+				A75908C52C0F756800415D6D /* TimePickerViewController.swift */,
+				A75908C72C0F758900415D6D /* DaySelectViewController.swift */,
+				A75908CC2C0FFFB300415D6D /* writeTimeViewController.swift */,
+			);
+			path = SettingView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -274,16 +294,20 @@
 				A748747F2C0D7EBF00B830EE /* Model.swift in Sources */,
 				A75908B72C0EF4C000415D6D /* SettingViewController.swift in Sources */,
 				A75908C42C0F6B9600415D6D /* Font.swift in Sources */,
+				A75908CD2C0FFFB300415D6D /* writeTimeViewController.swift in Sources */,
 				A748746C2C0D7E0700B830EE /* Dokgi.xcdatamodeld in Sources */,
 				A74874662C0D7E0700B830EE /* ViewController.swift in Sources */,
+				A75908C82C0F758900415D6D /* DaySelectViewController.swift in Sources */,
 				A74874622C0D7E0600B830EE /* AppDelegate.swift in Sources */,
 				A74874812C0D7EC800B830EE /* ViewModel.swift in Sources */,
 				3C4181632C0DC1E000D141FD /* Network.swift in Sources */,
+				A75908CB2C0FEDEF00415D6D /* DayTimeViewModel.swift in Sources */,
 				A74874832C0D7ED100B830EE /* Extension.swift in Sources */,
 				3C41815F2C0DBF9800D141FD /* BookModel.swift in Sources */,
 				AB66D3442C0EEFE3000D72DA /* TabBarVC.swift in Sources */,
 				3C4181652C0DC4A100D141FD /* BookManager.swift in Sources */,
 				A75908B92C0F087900415D6D /* AlarmView.swift in Sources */,
+				A75908C62C0F756800415D6D /* TimePickerViewController.swift in Sources */,
 				A74874642C0D7E0600B830EE /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
