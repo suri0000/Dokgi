@@ -17,7 +17,7 @@ class CurrentLengthCell: UICollectionViewCell {
     let levelLabel = UILabel()
     let descrptionLabel = UILabel()
     let lengthLabel = UILabel()
-    let imageView = UIImageView()
+    let cardImageView = UIImageView()
     
     
     override init(frame: CGRect) {
@@ -31,9 +31,9 @@ class CurrentLengthCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureUI() {
+    func setupConstraints() {
         contentView.addSubview(cardView)
-        [textView, imageView].forEach {
+        [textView, cardImageView].forEach {
             cardView.addSubview($0)
         }
         [levelView, levelLabel, descrptionLabel, lengthLabel].forEach {
@@ -44,7 +44,7 @@ class CurrentLengthCell: UICollectionViewCell {
             $0.edges.equalToSuperview()
         }
         
-        imageView.snp.makeConstraints {
+        cardImageView.snp.makeConstraints {
             $0.height.width.equalTo(107)
             $0.trailing.equalToSuperview().offset(-20)
             $0.centerY.equalToSuperview()
@@ -54,7 +54,7 @@ class CurrentLengthCell: UICollectionViewCell {
             $0.top.equalToSuperview().offset(32.5)
             $0.bottom.equalToSuperview().offset(-32.5)
             $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalTo(imageView.snp.leading)
+            $0.trailing.equalTo(cardImageView.snp.leading)
         }
         
         levelView.snp.makeConstraints {
@@ -79,12 +79,13 @@ class CurrentLengthCell: UICollectionViewCell {
         
     }
     
-    func setupConstraints() {
+    func configureUI() {
         contentView.layer.cornerRadius = 8
         cardView.backgroundColor = .white
         
         
-        imageView.backgroundColor = .gray
+        cardImageView.backgroundColor = .clear
+        cardImageView.contentMode = .scaleAspectFit
         textView.backgroundColor = .clear
         
         levelView.backgroundColor = .lightSkyBlue
@@ -96,10 +97,21 @@ class CurrentLengthCell: UICollectionViewCell {
         
         descrptionLabel.text = "고니가 잰 길이만큼 (3cm)"
         descrptionLabel.font = .monospacedDigitSystemFont(ofSize: 14, weight: .medium)
+        descrptionLabel.numberOfLines = 2
         
         lengthLabel.text = "00mm"
         lengthLabel.textColor = .mediumSkyBlue
         lengthLabel.font = .monospacedDigitSystemFont(ofSize: 30, weight: .heavy)
+    }
+    
+    func setCellConfig(_ cardData: Card) {
+        if let cardImage = cardData.cardImage {
+            cardImageView.image = cardImage
+        }
+        
+        levelLabel.text = "LEVEL " + String(cardData.level)
+        descrptionLabel.text = "\(cardData.descrption) 만큼 (\(cardData.length))"
+        lengthLabel.text = String(cardData.length)
     }
     
     func setUpShadow() {
