@@ -38,7 +38,7 @@ class DataManager {
         Card(cardImage: UIImage(named: "shinRamen"), level: 18, descrption: "신라면 면발 길이", length: 50000),
         Card(cardImage: UIImage(named: "soccerField"), level: 19, descrption: "축구장", length: 110000),
         Card(cardImage: UIImage(named: "EffelTower"), level: 20, descrption: "에펠탑 높이", length: 330000),
-        Card(cardImage: UIImage(named: "ktx"), level: 21, descrption: "KTX", length: 338104),
+        Card(cardImage: UIImage(named: "ktx"), level: 21, descrption: "KTX", length: 338100),
         Card(cardImage: UIImage(named: "everest"), level: 22, descrption: "에베레스트", length: 8849000),
         Card(cardImage: UIImage(named: "marathon"), level: 23, descrption: "마라톤 풀코스", length: 42000000),
         Card(cardImage: UIImage(named: "SeoulToBusan"), level: 24, descrption: "서울에서 부산", length: 320000000)

@@ -109,9 +109,10 @@ class CurrentLengthCell: UICollectionViewCell {
             cardImageView.image = cardImage
         }
         
+        let formattedLength = formatLength(length: cardData.length)
         levelLabel.text = "LEVEL " + String(cardData.level)
-        descrptionLabel.text = "\(cardData.descrption) 만큼 (\(cardData.length))"
-        lengthLabel.text = String(cardData.length)
+        descrptionLabel.text = "\(cardData.descrption) 만큼 (\(formattedLength))"
+        lengthLabel.text = String(formattedLength)
     }
     
     func setUpShadow() {
@@ -120,6 +121,22 @@ class CurrentLengthCell: UICollectionViewCell {
         layer.shadowOffset = CGSize(width: 0, height: 0)
         contentView.layer.cornerRadius = 10
         contentView.layer.masksToBounds = true
+    }
+    
+    func formatLength(length: Int) -> String {
+        switch length {
+        case 0..<10:
+            return "\(length) mm"
+        case 10..<1000:
+            let cmLength = Double(length) / 10.0
+            return "\(cmLength) cm"
+        case 1000..<1000000:
+            let mLength = Double(length) / 1000.0
+            return "\(mLength) m"
+        default:
+            let kmLength = Double(length) / 1000000.0
+            return "\(kmLength) km"
+        }
     }
     
 //    override func prepareForReuse() {
