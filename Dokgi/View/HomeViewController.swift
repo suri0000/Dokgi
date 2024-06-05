@@ -140,12 +140,12 @@ class HomeViewController: UIViewController {
         progressPosition.backgroundColor = .deepSkyBlue
         currentPosition.image = UIImage(named: "speechBubble1")
         nextPosition.image = UIImage(named: "speechBubble2")
-        currentPositionImage.backgroundColor = .red
+        currentPositionImage.backgroundColor = .clear
         currentPositionImage.layer.cornerRadius = 18
         currentPositionImage.image = UIImage(named: "grape")
         currentPositionImage.layer.masksToBounds = true
         currentPositionImage.contentMode = .scaleAspectFit
-        nextpositionImage.backgroundColor = .yellow
+        nextpositionImage.backgroundColor = .clear
         nextpositionImage.layer.cornerRadius = 18
         nextpositionImage.image = UIImage(named: "goni")
         nextpositionImage.contentMode = .scaleAspectFit
