@@ -115,8 +115,9 @@ class CurrentLengthCell: UICollectionViewCell {
     }
     
     func setUpShadow() {
-        layer.shadowOpacity = 0.5
-        layer.shadowRadius = 5
+        layer.shadowOpacity = 0.4
+        layer.shadowRadius = 9
+        layer.shadowOffset = CGSize(width: 0, height: 0)
         contentView.layer.cornerRadius = 10
         contentView.layer.masksToBounds = true
     }
