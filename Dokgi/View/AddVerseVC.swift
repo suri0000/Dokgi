@@ -112,6 +112,24 @@ class AddVerseVC: UIViewController {
         return textField
     }()
     
+    // 컬렉션 뷰 추가
+    lazy var keywordCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 10
+        layout.minimumLineSpacing = 10
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .clear
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.showsHorizontalScrollIndicator = false
+        return collectionView
+    }()
+    
+    
+    
     func setupViews() {
         view.addSubview(scrollView)
         scrollView.addSubview(viewInScroll)
@@ -123,6 +141,7 @@ class AddVerseVC: UIViewController {
         viewInScroll.addSubview(verseTextField)
         viewInScroll.addSubview(keywordLabel)
         viewInScroll.addSubview(keywordField)
+        viewInScroll.addSubview(keywordCollectionView)
     }
     
     func initLayout() {
@@ -195,6 +214,14 @@ class AddVerseVC: UIViewController {
             make.height.equalTo(40)
         }
         
+        // 컬렉션 뷰의 제약 조건 설정
+        keywordCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(keywordField.snp.bottom).offset(16)
+            make.leading.equalTo(viewInScroll.snp.leading).offset(16)
+            make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
+            make.height.equalTo(35) // 적절한 높이 설정
+        }
+        
         scrollView.contentSize = viewInScroll.bounds.size
     }
     
@@ -224,3 +251,20 @@ class AddVerseVC: UIViewController {
     }
 }
 
+// MARK: - CollectionView 관련 Extension
+extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10 // 예시로 10개의 아이템을 반환
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        cell.backgroundColor = .blue // 예시로 셀의 배경색을 파란색으로 설정
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 100, height: 40) // 예시로 셀의 크기를 설정
+    }
+}
