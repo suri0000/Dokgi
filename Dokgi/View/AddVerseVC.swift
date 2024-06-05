@@ -321,11 +321,29 @@ class AddVerseVC: UIViewController {
     
     func setupActions() {
         scanButton.addTarget(self, action: #selector(scanButtonTapped(_:)), for: .touchUpInside)
+        percentageButton.addTarget(self, action: #selector(percentageButtonTapped(_:)), for: .touchUpInside)
+        pageButton.addTarget(self, action: #selector(pageButtonButtonTapped(_:)), for: .touchUpInside)
+        recordButton.addTarget(self, action: #selector(recordButtonButtonTapped(_:)), for: .touchUpInside)
     }
     
     @objc func scanButtonTapped(_ sender: UIButton) {
         // 구절 스캔 버튼이 눌렸을 때 실행될 액션 구현
         print("구절 스캔 버튼이 눌렸습니다.")
+    }
+    
+    @objc func percentageButtonTapped(_ sender: UIButton) {
+        // 구절 스캔 버튼이 눌렸을 때 실행될 액션 구현
+        print("% 버튼이 눌렸습니다.")
+    }
+    
+    @objc func pageButtonButtonTapped(_ sender: UIButton) {
+        // 구절 스캔 버튼이 눌렸을 때 실행될 액션 구현
+        print("page 버튼이 눌렸습니다.")
+    }
+    
+    @objc func recordButtonButtonTapped(_ sender: UIButton) {
+        // 구절 스캔 버튼이 눌렸을 때 실행될 액션 구현
+        print("기록하기 버튼이 눌렸습니다.")
     }
     
     // 텍스트 속성을 설정하는 함수
