@@ -52,7 +52,6 @@ class AddVerseVC: UIViewController {
         return btn
     }()
 
-    
     let infoView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -97,6 +96,7 @@ class AddVerseVC: UIViewController {
         view.font = .systemFont(ofSize: 14)
         view.textColor = .placeholderText
         view.layer.cornerRadius = 8
+        view.showsVerticalScrollIndicator = false
         view.delegate = self
         return view
     }()
@@ -159,7 +159,7 @@ class AddVerseVC: UIViewController {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
         button.setTitleColor(UIColor(named: "CharcoalBlue"), for: .normal)
         button.layer.cornerRadius = 15
-        button.layer.borderWidth = 1.0 // 테두리 두께 설정
+        button.layer.borderWidth = 1.0
         if let charcoalBlueColor = UIColor(named: "CharcoalBlue") {
             button.layer.borderColor = charcoalBlueColor.cgColor
         }
@@ -167,28 +167,28 @@ class AddVerseVC: UIViewController {
     }()
     
     let pageButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Page", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
-        button.setTitleColor(.black, for: .normal)
-        button.layer.cornerRadius = 15
-        button.layer.borderWidth = 1.0 // 테두리 두께 설정
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitle("Page", for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
+        btn.setTitleColor(.black, for: .normal)
+        btn.layer.cornerRadius = 15
+        btn.layer.borderWidth = 1.0
         if let charcoalBlueColor = UIColor(named: "CharcoalBlue") {
-            button.layer.borderColor = charcoalBlueColor.cgColor
+            btn.layer.borderColor = charcoalBlueColor.cgColor
         }
-        return button
+        return btn
     }()
     
     let recordButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("기록 하기", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor(named: "CharcoalBlue") // 버튼 배경색 설정
-        button.layer.cornerRadius = 8
-        return button
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitle("기록 하기", for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        btn.setTitleColor(.white, for: .normal)
+        btn.backgroundColor = UIColor(named: "CharcoalBlue")
+        btn.layer.cornerRadius = 8
+        return btn
     }()
     
     func setupViews() {
@@ -210,6 +210,7 @@ class AddVerseVC: UIViewController {
         viewInScroll.addSubview(recordButton)
     }
     
+    // MARK: - 제약조건
     func initLayout() {
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
@@ -238,7 +239,7 @@ class AddVerseVC: UIViewController {
             make.centerY.equalTo(viewInScroll.snp.top).offset(170)
             make.leading.equalTo(viewInScroll.snp.leading).offset(16)
             make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
-            make.height.equalTo(200) // 적절한 높이 설정
+            make.height.equalTo(200)
         }
         
         imageView.snp.makeConstraints { make in
@@ -280,12 +281,11 @@ class AddVerseVC: UIViewController {
             make.height.equalTo(33)
         }
         
-        // 컬렉션 뷰의 제약 조건 설정
         keywordCollectionView.snp.makeConstraints { make in
             make.top.equalTo(keywordField.snp.bottom).offset(16)
             make.leading.equalTo(viewInScroll.snp.leading).offset(16)
             make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
-            make.height.equalTo(35) // 적절한 높이 설정
+            make.height.equalTo(35)
         }
         
         pageLabel.snp.makeConstraints { make in
@@ -303,14 +303,14 @@ class AddVerseVC: UIViewController {
         percentageButton.snp.makeConstraints { make in
             make.centerY.equalTo(pageLabel.snp.centerY)
             make.trailing.equalTo(pageButton.snp.leading).offset(-8)
-            make.width.equalTo(60) // 적절한 폭 설정
-            make.height.equalTo(pageLabel.snp.height) // pageLabel과 같은 높이 설정
+            make.width.equalTo(60)
+            make.height.equalTo(pageLabel.snp.height)
         }
         
         pageButton.snp.makeConstraints { make in
             make.centerY.equalTo(percentageButton.snp.centerY)
             make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
-            make.width.equalTo(60) // 적절한 폭 설정
+            make.width.equalTo(60)
             make.height.equalTo(percentageButton.snp.height)
         }
         
@@ -319,7 +319,7 @@ class AddVerseVC: UIViewController {
             make.leading.equalTo(viewInScroll.snp.leading).offset(16)
             make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
             make.centerX.equalToSuperview()
-            make.height.equalTo(50) // 적절한 높이 설정
+            make.height.equalTo(50)
         }
         
         scrollView.contentSize = viewInScroll.bounds.size
@@ -416,7 +416,7 @@ class AddVerseVC: UIViewController {
     }
 }
 
-// MARK: - CollectionView 관련 Extension
+// MARK: - CollectionView 관련
 extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -425,16 +425,16 @@ extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        cell.backgroundColor = UIColor(named: "LightSkyBlue") // 예시로 셀의 배경색을 파란색으로 설정
+        cell.backgroundColor = UIColor(named: "LightSkyBlue")
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 100, height: 40) // 예시로 셀의 크기를 설정
+        return CGSize(width: 100, height: 40)
     }
 }
 
-
+// MARK: - 텍스트뷰 placeholder 관련
 extension AddVerseVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         guard textView.textColor == .placeholderText else { return }
@@ -451,10 +451,8 @@ extension AddVerseVC: UITextViewDelegate {
 
 extension AddVerseVC: VNDocumentCameraViewControllerDelegate {
     func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
-        // 첫 번째 페이지의 이미지를 사용
         let image = scan.imageOfPage(at: 0)
         recognizeText(from: image)
-        
         controller.dismiss(animated: true)
     }
 
