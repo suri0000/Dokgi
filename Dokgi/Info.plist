@@ -23,5 +23,7 @@
 			</array>
 		</dict>
 	</dict>
+    <key>NSCameraUsageDescription</key>
+    <string>이 앱은 문서 스캔을 위해 카메라를 사용합니다.</string>
 </dict>
 </plist>

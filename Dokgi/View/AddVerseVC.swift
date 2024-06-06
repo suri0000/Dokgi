@@ -340,7 +340,6 @@ class AddVerseVC: UIViewController {
     }
     
     @objc func scanButtonTapped(_ sender: UIButton) {
-        // 구절 스캔 버튼이 눌렸을 때 실행될 액션 구현
         print("구절 스캔 버튼이 눌렸습니다.")
     }
     
