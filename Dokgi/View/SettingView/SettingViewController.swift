@@ -10,11 +10,14 @@ import SnapKit
 import Then
 import RxSwift
 import RxCocoa
+import NotificationCenter
 
 class SettingViewController : UIViewController{
     let disposeBag = DisposeBag()
     
     let viewModel = DayTimeViewModel()
+    
+    var myUserDefaults = UserDefaults.standard
     
     let titleLbl = UILabel().then {
         $0.text = "설정"
@@ -30,6 +33,16 @@ class SettingViewController : UIViewController{
         setupLayout()
         buttonTap()
         buttonTitle()
+        switchOnOff()
+        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+               for request in requests {
+                   print("Identifier: \(request.identifier)")
+                   print("Title: \(request.content.title)")
+                   print("Body: \(request.content.body)")
+                   print("Trigger: \(String(describing: request.trigger))")
+                   print("---")
+               }
+           }
     }
     
     // MARK: - Layout
@@ -47,6 +60,8 @@ class SettingViewController : UIViewController{
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
+        alarmView.remindSwitch.isOn = myUserDefaults.bool(forKey: "remindSwitch")
+        alarmView.writeSwitch.isOn = myUserDefaults.bool(forKey: "writeSwitch")
     }
     
     func buttonTap() {
@@ -69,16 +84,32 @@ class SettingViewController : UIViewController{
     func buttonTitle() {
         DayTimeViewModel.remindTime.subscribe {[weak self] Time in
             self?.alarmView.remindTimeBtn.setTitle(self?.viewModel.timeToString(time: Time), for: .normal)
+            self?.myUserDefaults.set(Time, forKey: "remindTime")
+            self?.viewModel.sendLocalPushRemind(identifier: "remindTime", time: Time)
         }.disposed(by: disposeBag)
         
         DayTimeViewModel.writeTime.subscribe {[weak self] Time in
             self?.alarmView.writeTimeBtn.setTitle(self?.viewModel.timeToString(time: Time), for: .normal)
+            self?.myUserDefaults.set(Time, forKey: "writeTime")
+            self?.viewModel.sendLocalPushWrite(identifier: "writeTime", time: Time, day: DayTimeViewModel.dayCheck.value)
         }.disposed(by: disposeBag)
         
-        DayTimeViewModel.dayCheck.subscribe {[weak self] Time in
-            self?.alarmView.weekBtn.setTitle(self?.viewModel.dayToString(), for: .normal)
+        DayTimeViewModel.dayCheck.subscribe {[weak self] week in
+            self?.alarmView.weekBtn.setTitle(self?.viewModel.dayToString(day: week), for: .normal)
+            self?.myUserDefaults.set(week, forKey: "writeWeek")
+            self?.viewModel.sendLocalPushWrite(identifier: "writeTime", time: DayTimeViewModel.writeTime.value, day: week)
+        }.disposed(by: disposeBag)
+    }
+    
+    func switchOnOff() {
+        alarmView.remindSwitch.rx.isOn.subscribe { [weak self] bool in
+            self?.viewModel.removePendingNotification(identifiers: "remindTime",time: DayTimeViewModel.remindTime.value, on: bool)
+            self?.myUserDefaults.set(bool, forKey: "remindSwitch")
+        }.disposed(by: disposeBag)
+        
+        alarmView.writeSwitch.rx.isOn.subscribe { [weak self] bool in
+            self?.viewModel.removePendingNotification(identifiers: "writeTime",time: DayTimeViewModel.remindTime.value, on: bool)
+            self?.myUserDefaults.set(bool, forKey: "writeSwitch")
         }.disposed(by: disposeBag)
     }
 }
-
-#Preview{SettingViewController()}

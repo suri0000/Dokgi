@@ -8,12 +8,13 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import NotificationCenter
 
 class DayTimeViewModel {
     
-    static var dayCheck = BehaviorRelay<[Int]>(value: Array(repeating: 1, count: 7))
-    static var remindTime = BehaviorRelay<[Int]>(value: [3 , 00, 1])
-    static var writeTime = BehaviorRelay<[Int]>(value: [3 , 00, 1])
+    static var dayCheck = BehaviorRelay<[Int]>(value: UserDefaults.standard.array(forKey: "writeWeek") as? [Int] ?? [1, 1, 1, 1, 1, 1, 1])
+    static var remindTime = BehaviorRelay<[Int]>(value: UserDefaults.standard.array(forKey: "remindTime") as? [Int] ?? [3 , 00, 1])
+    static var writeTime = BehaviorRelay<[Int]>(value: UserDefaults.standard.array(forKey: "writeTime") as? [Int] ?? [3 , 00, 1])
     
     let hourArr = [Int](1...12)
     let minArr = [Int](0...59)
@@ -59,31 +60,110 @@ class DayTimeViewModel {
         }
     }
     
-    func dayToString() -> String{
-        if DayTimeViewModel.dayCheck.value.contains(0) == false {
+    func dayToString(day : [Int]) -> String{
+        if day.contains(0) == false {
             return "매일"
-        }else if DayTimeViewModel.dayCheck.value.filter({$0 == 0}).count == 1{
+        }else if day.filter({$0 == 0}).count == 1{
             var str = [String]()
             
             for i in 0 ... 6 {
-                if DayTimeViewModel.dayCheck.value[i] == 1 {
+                if day[i] == 1 {
                     str.append(String(self.DayArr[i].prefix(1)))
                 }
             }
             return str.joined(separator: ",")
-        }else if DayTimeViewModel.dayCheck.value[1...5].contains(0) == false {
+        }else if day[1...5].contains(0) == false {
             return "주중"
-        }else if DayTimeViewModel.dayCheck.value[0] == 1 && DayTimeViewModel.dayCheck.value[6] == 1 && DayTimeViewModel.dayCheck.value[1...5].contains(1) == false {
+        }else if day[0] == 1 && day[6] == 1 && day[1...5].contains(1) == false {
             return "주말"
         }else {
             var str = [String]()
             
             for i in 0 ... 6 {
-                if DayTimeViewModel.dayCheck.value[i] == 1 {
+                if day[i] == 1 {
                     str.append(String(self.DayArr[i].prefix(1)))
                 }
             }
             return str.joined(separator: ",").count == 0 ? "노 알림?" : str.joined(separator: ",")
+        }
+    }
+    
+    func sendLocalPushRemind(identifier : String, time : [Int]) {
+        let content = UNMutableNotificationContent()
+        content.title = NSString.localizedUserNotificationString(forKey: "오늘 독서 어때요?", arguments: nil)
+        content.body = NSString.localizedUserNotificationString(forKey: "독서를 하고 마음에 드는 구절을 기록해봐요!", arguments: nil)
+        content.sound = UNNotificationSound.default
+        
+        var dateInfo = DateComponents()
+        dateInfo.calendar = Calendar.current
+        dateInfo.hour = time[2] == 1 ? time[0] + 12 : time[0]
+        dateInfo.minute = time[1]
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateInfo, repeats: true)
+        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+        let center = UNUserNotificationCenter.current()
+        
+        center.add(request) { (error) in
+            if let error = error {
+                print(error)
+            }else {
+                print("send")
+            }
+            
+        }
+    }
+    
+    func sendLocalPushWrite(identifier : String, time : [Int], day : [Int]) {
+        let content = UNMutableNotificationContent()
+        content.title = NSString.localizedUserNotificationString(forKey: "오늘 독서 어때요?", arguments: nil)
+        content.body = NSString.localizedUserNotificationString(forKey: "독서를 하고 마음에 드는 구절을 기록해봐요!", arguments: nil)
+        content.sound = UNNotificationSound.default
+        
+        for i in 0 ... 6 {
+            if day[i] == 0 {
+                continue
+            }
+            var dateInfo = DateComponents()
+            dateInfo.calendar = Calendar.current
+            dateInfo.hour = time[2] == 1 ? time[0] + 12 : time[0]
+            dateInfo.minute = time[1]
+            dateInfo.weekday = i + 1
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateInfo, repeats: true)
+            let request = UNNotificationRequest(identifier: "\(identifier)_\(i)", content: content, trigger: trigger)
+            let center = UNUserNotificationCenter.current()
+            
+            center.add(request) { (error) in
+                if let error = error {
+                    print(error)
+                }else {
+                    print("send")
+                }
+                
+            }
+        }
+    }
+    
+    func removePendingNotification(identifiers: String, time : [Int], on : Bool ){
+        if on == true {
+            if identifiers == "remindTime" {
+                self.sendLocalPushRemind(identifier: identifiers, time: time)
+            }else {
+                self.sendLocalPushWrite(identifier: identifiers, time: time, day: DayTimeViewModel.dayCheck.value)
+            }
+        }else {
+            if identifiers == "remindTime" {
+                UNUserNotificationCenter
+                    .current()
+                    .removePendingNotificationRequests(withIdentifiers: [identifiers])
+            }else {
+                for i in 0 ... 6 {
+                    if DayTimeViewModel.dayCheck.value[i] == 1 {
+                        UNUserNotificationCenter
+                            .current()
+                            .removePendingNotificationRequests(withIdentifiers: ["\(identifiers)_\(i)"])
+                    }
+                }
+            }
         }
     }
 }

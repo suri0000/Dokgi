@@ -120,7 +120,7 @@ extension DaySelectViewController : UITableViewDelegate, UITableViewDataSource {
         cell.selectionStyle = .none
         if viewModel.selectday[indexPath.row] != 0 {
             cell.check.isHidden = false
-            cell.check.image = UIImage(systemName: "checkmark")
+            cell.check.image = UIImage(named: "check2")
         }else {
             cell.check.isHidden = true
         }
