@@ -17,6 +17,7 @@ class AddVerseVC: UIViewController {
         setupViews()
         initLayout()
         setupActions()
+        setupHideKeyboardOnTap()
     }
     
     let scrollView: UIScrollView = {
@@ -83,16 +84,16 @@ class AddVerseVC: UIViewController {
         return label
     }()
     
-    let textViewPlaceHolder = "텍스트를 입력하세요"
     lazy var verseTextField: UITextView = {
         let view = UITextView()
+        view.text = "텍스트를 입력하세요"
         view.layer.borderWidth = 1.0
         view.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.7).cgColor
         view.textContainerInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
-        view.font = .systemFont(ofSize: 18)
-        view.text = textViewPlaceHolder
-        view.textColor = .lightGray
+        view.font = .systemFont(ofSize: 14)
+        view.textColor = .placeholderText
         view.layer.cornerRadius = 8
+        view.delegate = self
         return view
     }()
     
@@ -327,6 +328,16 @@ class AddVerseVC: UIViewController {
         recordButton.addTarget(self, action: #selector(recordButtonButtonTapped(_:)), for: .touchUpInside)
     }
     
+    func setupHideKeyboardOnTap() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func hideKeyboard() {
+        view.endEditing(true)
+    }
+    
     @objc func scanButtonTapped(_ sender: UIButton) {
         // 구절 스캔 버튼이 눌렸을 때 실행될 액션 구현
         print("구절 스캔 버튼이 눌렸습니다.")
@@ -379,5 +390,20 @@ extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 100, height: 40) // 예시로 셀의 크기를 설정
+    }
+}
+
+
+extension AddVerseVC: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        guard textView.textColor == .placeholderText else { return }
+        textView.textColor = .label
+        textView.text = nil
+    }
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "텍스트를 입력하세요"
+            textView.textColor = .placeholderText
+        }
     }
 }
