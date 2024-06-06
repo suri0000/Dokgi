@@ -402,8 +402,11 @@ class AddVerseVC: UIViewController {
                 self?.verseTextView.text = recognizedStrings.joined(separator: "\n")
             }
         }
-        
+        let revision3 = VNRecognizeTextRequestRevision3
+        request.revision = revision3
         request.recognitionLevel = .accurate
+        request.recognitionLanguages = ["ko-KR"]
+        request.usesLanguageCorrection = true
         
         do {
             try requestHandler.perform([request])
