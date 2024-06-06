@@ -7,9 +7,12 @@
 
 import UIKit
 import SnapKit
+import Vision
 import VisionKit
 
 class AddVerseVC: UIViewController {
+    
+    var images: [UIImage] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,7 +88,7 @@ class AddVerseVC: UIViewController {
         return label
     }()
     
-    lazy var verseTextField: UITextView = {
+    lazy var verseTextView: UITextView = {
         let view = UITextView()
         view.text = "텍스트를 입력하세요"
         view.layer.borderWidth = 1.0
@@ -196,7 +199,7 @@ class AddVerseVC: UIViewController {
         infoView.addSubview(imageView)
         infoView.addSubview(titleLabel)
         infoView.addSubview(authorLabel)
-        viewInScroll.addSubview(verseTextField)
+        viewInScroll.addSubview(verseTextView)
         viewInScroll.addSubview(keywordLabel)
         viewInScroll.addSubview(keywordField)
         viewInScroll.addSubview(keywordCollectionView)
@@ -257,7 +260,7 @@ class AddVerseVC: UIViewController {
             make.trailing.equalTo(infoView.snp.trailing).offset(-16)
         }
         
-        verseTextField.snp.makeConstraints { make in
+        verseTextView.snp.makeConstraints { make in
             make.top.equalTo(infoView.snp.bottom).offset(32)
             make.leading.equalTo(viewInScroll.snp.leading).offset(16)
             make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
@@ -265,7 +268,7 @@ class AddVerseVC: UIViewController {
         }
         
         keywordLabel.snp.makeConstraints { make in
-            make.top.equalTo(verseTextField.snp.bottom).offset(32)
+            make.top.equalTo(verseTextView.snp.bottom).offset(32)
             make.leading.equalTo(viewInScroll.snp.leading).offset(16)
             make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
         }
@@ -335,11 +338,19 @@ class AddVerseVC: UIViewController {
         view.addGestureRecognizer(tapGesture)
     }
     
+    func visionKit(){
+        let scan = VNDocumentCameraViewController()
+        scan.delegate = self
+        self.present(scan, animated: true)
+    }
+    
     @objc func hideKeyboard() {
         view.endEditing(true)
     }
     
     @objc func scanButtonTapped(_ sender: UIButton) {
+        images = []
+        visionKit()
         print("구절 스캔 버튼이 눌렸습니다.")
     }
     
@@ -373,6 +384,33 @@ class AddVerseVC: UIViewController {
         
         return attributedString
     }
+    
+    func recognizeText(from image: UIImage) {
+        guard let cgImage = image.cgImage else {
+            fatalError("UIImage에서 CGImage를 얻을 수 없습니다.")
+        }
+        
+        let requestHandler = VNImageRequestHandler(cgImage: cgImage, options: [:])
+        let request = VNRecognizeTextRequest { [weak self] (request, error) in
+            guard let observations = request.results as? [VNRecognizedTextObservation], error == nil else {
+                print("텍스트 인식 오류: \(error?.localizedDescription ?? "알 수 없는 오류")")
+                return
+            }
+            
+            let recognizedStrings = observations.compactMap { $0.topCandidates(1).first?.string }
+            DispatchQueue.main.async {
+                self?.verseTextView.text = recognizedStrings.joined(separator: "\n")
+            }
+        }
+        
+        request.recognitionLevel = .accurate
+        
+        do {
+            try requestHandler.perform([request])
+        } catch {
+            print("텍스트 인식 수행 실패: \(error.localizedDescription)")
+        }
+    }
 }
 
 // MARK: - CollectionView 관련 Extension
@@ -405,5 +443,24 @@ extension AddVerseVC: UITextViewDelegate {
             textView.text = "텍스트를 입력하세요"
             textView.textColor = .placeholderText
         }
+    }
+}
+
+extension AddVerseVC: VNDocumentCameraViewControllerDelegate {
+    func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
+        // 첫 번째 페이지의 이미지를 사용
+        let image = scan.imageOfPage(at: 0)
+        recognizeText(from: image)
+        
+        controller.dismiss(animated: true)
+    }
+
+    func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
+        controller.dismiss(animated: true)
+    }
+
+    func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) {
+        print("문서 스캔 실패: \(error.localizedDescription)")
+        controller.dismiss(animated: true)
     }
 }
