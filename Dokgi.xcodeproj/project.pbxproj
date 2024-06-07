@@ -37,6 +37,7 @@
 		A75908CD2C0FFFB300415D6D /* writeTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908CC2C0FFFB300415D6D /* writeTimeViewController.swift */; };
 		A75908CF2C101A3900415D6D /* DayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908CE2C101A3900415D6D /* DayTableViewCell.swift */; };
 		AB66D3442C0EEFE3000D72DA /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */; };
+		AB66D3472C0F3363000D72DA /* AddVerseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3462C0F3363000D72DA /* AddVerseVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +69,7 @@
 		A75908CC2C0FFFB300415D6D /* writeTimeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = writeTimeViewController.swift; sourceTree = "<group>"; };
 		A75908CE2C101A3900415D6D /* DayTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTableViewCell.swift; sourceTree = "<group>"; };
 		AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
+		AB66D3462C0F3363000D72DA /* AddVerseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVerseVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +155,7 @@
 				A75908C92C0F759D00415D6D /* SettingView */,
 				A74874652C0D7E0700B830EE /* ViewController.swift */,
 				AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */,
+				AB66D3462C0F3363000D72DA /* AddVerseVC.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 				A75908C42C0F6B9600415D6D /* Font.swift in Sources */,
 				A75908CD2C0FFFB300415D6D /* writeTimeViewController.swift in Sources */,
 				A748746C2C0D7E0700B830EE /* Dokgi.xcdatamodeld in Sources */,
+				AB66D3472C0F3363000D72DA /* AddVerseVC.swift in Sources */,
 				A74874662C0D7E0700B830EE /* ViewController.swift in Sources */,
 				A75908C82C0F758900415D6D /* DaySelectViewController.swift in Sources */,
 				A74874622C0D7E0600B830EE /* AppDelegate.swift in Sources */,
