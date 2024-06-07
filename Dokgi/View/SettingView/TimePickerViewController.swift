@@ -58,7 +58,6 @@ class TimePickerViewController: UIViewController {
         let smallId = UISheetPresentationController.Detent.Identifier("small")
         let smallDetent = UISheetPresentationController.Detent.custom(identifier: smallId) { context in
             return 390
-            //390
         }
         if let sheetPresentationController = sheetPresentationController {
             sheetPresentationController.detents = [smallDetent]
@@ -124,7 +123,6 @@ extension TimePickerViewController: UIPickerViewDataSource, UIPickerViewDelegate
             return 0
         }
     }
-    
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch component {

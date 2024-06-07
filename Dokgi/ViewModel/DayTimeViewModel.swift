@@ -112,7 +112,7 @@ class DayTimeViewModel {
         }
     }
     
-    func removePendingNotification(identifiers: String, time: [Int], on: Bool ){
+    func removePendingNotification(identifiers: String, time: [Int], on: Bool ) {
         if on == true {
             if identifiers == "remindTime" {
                 UserDefaults.standard.set(on, forKey: UserDefaultsKeys.remindSwitch.rawValue)

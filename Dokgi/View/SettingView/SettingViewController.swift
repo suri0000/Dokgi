@@ -81,35 +81,40 @@ class SettingViewController: UIViewController{
     
     func buttonTitle() {
         DayTimeViewModel.remindTime.subscribe { [weak self] Time in
-            self?.alarmView.remindTimeBtn.setTitle(Time.timeToString(), for: .normal)
-            if self?.alarmView.remindSwitch.isOn == true {
-                self?.viewModel.sendLocalPushRemind(identifier: "remindTime", time: Time)
-            }
+            guard let self = self else {return}
+            self.updateButtonTitleAndSendNotification(button: self.alarmView.remindTimeBtn, title: Time.timeToString(), switchControl: self.alarmView.remindSwitch.isOn, identifier: "remindTime", time: Time, day: [])
         }.disposed(by: disposeBag)
         
         DayTimeViewModel.writeTime.subscribe { [weak self] Time in
-            self?.alarmView.writeTimeBtn.setTitle(Time.timeToString(), for: .normal)
-            if self?.alarmView.writeSwitch.isOn == true {
-                self?.viewModel.sendLocalPushWrite(identifier: "writeTime", time: Time, day: DayTimeViewModel.dayCheck.value)
-            }
+            guard let self = self else {return}
+            self.updateButtonTitleAndSendNotification(button: self.alarmView.writeTimeBtn, title: Time.timeToString(), switchControl: self.alarmView.writeSwitch.isOn, identifier: "writeTime", time: Time, day: DayTimeViewModel.dayCheck.value)
         }.disposed(by: disposeBag)
         
         DayTimeViewModel.dayCheck.subscribe { [weak self] week in
-            self?.alarmView.weekBtn.setTitle(week.dayToString(), for: .normal)
-            self?.alarmView.writeSwitch.isOn = UserDefaults.standard.bool(forKey: UserDefaultsKeys.writeSwitch.rawValue)
-            if self?.alarmView.writeSwitch.isOn == true {
-                self?.viewModel.sendLocalPushWrite(identifier: "writeTime", time: DayTimeViewModel.writeTime.value, day: week)
-            }
+            guard let self = self else {return}
+            self.alarmView.writeSwitch.isOn = UserDefaults.standard.bool(forKey: UserDefaultsKeys.writeSwitch.rawValue)
+            self.updateButtonTitleAndSendNotification(button: self.alarmView.writeTimeBtn, title: DayTimeViewModel.writeTime.value.timeToString(), switchControl: self.alarmView.writeSwitch.isOn, identifier: "writeTime", time: DayTimeViewModel.writeTime.value, day: week)
         }.disposed(by: disposeBag)
     }
     
     func switchOnOff() {
         alarmView.remindSwitch.rx.isOn.subscribe { [weak self] bool in
-            self?.viewModel.removePendingNotification(identifiers: "remindTime",time: DayTimeViewModel.remindTime.value, on: bool)
+            self?.viewModel.removePendingNotification(identifiers: "remindTime", time: DayTimeViewModel.remindTime.value, on: bool)
         }.disposed(by: disposeBag)
         
         alarmView.writeSwitch.rx.isOn.subscribe { [weak self] bool in
-            self?.viewModel.removePendingNotification(identifiers: "writeTime",time: DayTimeViewModel.remindTime.value, on: bool)
+            self?.viewModel.removePendingNotification(identifiers: "writeTime", time: DayTimeViewModel.remindTime.value, on: bool)
         }.disposed(by: disposeBag)
+    }
+    
+    private func updateButtonTitleAndSendNotification(button: UIButton, title: String, switchControl: Bool, identifier: String, time: [Int], day: [Int]) {
+        button.setTitle(title, for: .normal)
+        if switchControl == true {
+            if identifier == "remindTime" {
+                viewModel.sendLocalPushRemind(identifier: identifier, time: time)
+            } else if identifier == "writeTime" {
+                viewModel.sendLocalPushWrite(identifier: identifier, time: time, day: day)
+            }
+        }
     }
 }

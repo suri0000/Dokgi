@@ -57,7 +57,6 @@ class DaySelectViewController: UIViewController {
         let smallId = UISheetPresentationController.Detent.Identifier("small")
         let smallDetent = UISheetPresentationController.Detent.custom(identifier: smallId) { context in
             return 390
-            //390
         }
         if let sheetPresentationController = sheetPresentationController {
             sheetPresentationController.detents = [smallDetent]
