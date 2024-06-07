@@ -39,6 +39,7 @@
 		A75908D12C12D36100415D6D /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908D02C12D36100415D6D /* UserDefaultsKey.swift */; };
 		A75908D32C12D69300415D6D /* IntArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908D22C12D69300415D6D /* IntArrayExtension.swift */; };
 		AB66D3442C0EEFE3000D72DA /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */; };
+		AB66D3472C0F3363000D72DA /* AddVerseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3462C0F3363000D72DA /* AddVerseVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +73,7 @@
 		A75908D02C12D36100415D6D /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
 		A75908D22C12D69300415D6D /* IntArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntArrayExtension.swift; sourceTree = "<group>"; };
 		AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
+		AB66D3462C0F3363000D72DA /* AddVerseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVerseVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +160,7 @@
 				A75908C92C0F759D00415D6D /* SettingView */,
 				A74874652C0D7E0700B830EE /* ViewController.swift */,
 				AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */,
+				AB66D3462C0F3363000D72DA /* AddVerseVC.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -306,6 +309,7 @@
 				A75908CD2C0FFFB300415D6D /* writeTimeViewController.swift in Sources */,
 				A75908D12C12D36100415D6D /* UserDefaultsKey.swift in Sources */,
 				A748746C2C0D7E0700B830EE /* Dokgi.xcdatamodeld in Sources */,
+				AB66D3472C0F3363000D72DA /* AddVerseVC.swift in Sources */,
 				A74874662C0D7E0700B830EE /* ViewController.swift in Sources */,
 				A75908C82C0F758900415D6D /* DaySelectViewController.swift in Sources */,
 				A75908D32C12D69300415D6D /* IntArrayExtension.swift in Sources */,
