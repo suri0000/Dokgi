@@ -5,6 +5,8 @@
 //  Created by 송정훈 on 6/5/24.
 //
 
+import SnapKit
+import Then
 import UIKit
 
 class DayTableViewCell: UITableViewCell {

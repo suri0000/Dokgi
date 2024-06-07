@@ -6,6 +6,7 @@
 //
 
 import SnapKit
+import Then
 import UIKit
 
 class AlarmView: UIView {
