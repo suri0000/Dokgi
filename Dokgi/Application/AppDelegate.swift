@@ -95,11 +95,4 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // 배너는 배너, 뱃지는 앱 아이콘에 숫자 뜨는것, 사운드는 알림 소리, list는 알림센터에 뜨는거
         completionHandler([.banner, .sound, .list])
     }
-    
-    // 사용자가 알림을 터치하면 이 메서드 호출
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        
-        // apns에 simulator Target Bundle 아래에 추가로 전달될 값(여기선 다루지 않음)
-        // let value = response.notification.request.content.userInfo["key값"]
-    }
 }

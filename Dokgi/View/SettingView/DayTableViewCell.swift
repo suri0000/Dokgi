@@ -13,7 +13,7 @@ class DayTableViewCell: UITableViewCell {
     
     let dayLabel = UILabel().then {
         $0.text = ""
-        $0.font = Pretendard.regular.of(size: 17)
+        $0.font = Pretendard.regular.dynamicFont(size: 17)
     }
     
     let check = UIImageView()

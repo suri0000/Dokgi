@@ -13,10 +13,6 @@ enum Pretendard: String {
     case regular = "Pretendard-Regular"
     case semibold = "Pretendard-SemiBold"
     
-    func of(size: CGFloat) -> UIFont {
-        return UIFont(name: self.rawValue, size: size)!
-    }
-    
     func dynamicFont(size: CGFloat) -> UIFont {
         let customFont = UIFont(name: self.rawValue, size: size)!
         return UIFontMetrics.default.scaledFont(for: customFont)

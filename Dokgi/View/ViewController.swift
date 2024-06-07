@@ -14,6 +14,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
+    let font = Pretendard.bold.dynamicFont(size: 20) //기본값일때 20
 
 }
 

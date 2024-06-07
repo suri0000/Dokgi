@@ -5,9 +5,9 @@
 //  Created by 송정훈 on 6/5/24.
 //
 
-import UIKit
-import RxSwift
 import RxCocoa
+import RxSwift
+import UIKit
 
 class DaySelectViewController : UIViewController {
     
@@ -18,7 +18,7 @@ class DaySelectViewController : UIViewController {
     let cancelBtn = UIButton().then {
         $0.setTitle("취소", for: .normal)
         $0.setTitleColor(UIColor(named: "BrightRed"), for: .normal)
-        $0.titleLabel?.font = Pretendard.regular.of(size: 17)
+        $0.titleLabel?.font = Pretendard.regular.dynamicFont(size: 17)
         $0.snp.makeConstraints {
             $0.width.equalTo(30)
         }
@@ -26,14 +26,14 @@ class DaySelectViewController : UIViewController {
     
     let titleLbl = UILabel().then {
         $0.text = "알림 요일 설정"
-        $0.font = Pretendard.semibold.of(size: 20)
+        $0.font = Pretendard.semibold.dynamicFont(size: 20)
         $0.textAlignment = .center
     }
     
     let saveBtn = UIButton().then {
         $0.setTitle("저장", for: .normal)
         $0.setTitleColor(UIColor(named: "SkyBlue"), for: .normal)
-        $0.titleLabel?.font = Pretendard.regular.of(size: 17)
+        $0.titleLabel?.font = Pretendard.regular.dynamicFont(size: 17)
         $0.snp.makeConstraints {
             $0.width.equalTo(30)
         }
@@ -98,6 +98,12 @@ class DaySelectViewController : UIViewController {
         
         saveBtn.rx.tap.subscribe { [weak self] _ in
             self?.dismiss(animated: true)
+            if self?.viewModel.selectday.contains(1) == false {
+                UserDefaults.standard.set(false, forKey: UserDefaultsKeys.writeSwitch.rawValue)
+                for i in 0...6 {
+                    self?.viewModel.selectday[i] = 1
+                }
+            }
             DayTimeViewModel.dayCheck.accept((self?.viewModel.selectday)!)
         }.disposed(by: disposeBag)
         
