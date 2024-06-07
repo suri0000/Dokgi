@@ -17,15 +17,15 @@ extension Array<Int> {
         return "\(ampm) \(hour) : \(min)"
     }
     
-    func dayToString() -> String{
+    func dayToString() -> String {
         let DayArr = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"]
         
         if self.contains(0) == false || self.contains(1) == false {
             return "매일"
-        } else if self.filter({$0 == 0}).count == 1{
+        } else if self.filter({$0 == 0}).count == 1 {
             var str = [String]()
             
-            for i in 0 ... 6 {
+            for i in 0...6 {
                 if self[i] == 1 {
                     str.append(String(DayArr[i].prefix(1)))
                 }
@@ -38,7 +38,7 @@ extension Array<Int> {
         } else {
             var str = [String]()
             
-            for i in 0 ... 6 {
+            for i in 0...6 {
                 if self[i] == 1 {
                     str.append(String(DayArr[i].prefix(1)))
                 }

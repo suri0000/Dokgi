@@ -12,13 +12,13 @@ import SnapKit
 import Then
 import UIKit
 
-class SettingViewController : UIViewController{
+class SettingViewController: UIViewController{
     let disposeBag = DisposeBag()
     
     let viewModel = DayTimeViewModel()
     let titleLbl = UILabel().then {
         $0.text = "설정"
-        $0.font = Pretendard.bold.dynamicFont(size: 28)
+        $0.font = Pretendard.bold.dynamicFont(style: .title2, size: 28)
     }
     
     let alarmView = AlarmView()
@@ -63,7 +63,9 @@ class SettingViewController : UIViewController{
     
     func buttonTap() {
         alarmView.remindTimeBtn.rx.tap.subscribe { _ in
-            self.present(TimePickerViewController(), animated: true)
+            let remindVC = TimePickerViewController()
+            remindVC.writeBool = false
+            self.present(remindVC, animated: true)
         }.disposed(by: disposeBag)
         
         alarmView.weekBtn.rx.tap.subscribe { _ in
@@ -71,26 +73,28 @@ class SettingViewController : UIViewController{
         }.disposed(by: disposeBag)
         
         alarmView.writeTimeBtn.rx.tap.subscribe { _ in
-            self.present(writeTimeViewController(), animated: true)
+            let writeVC = TimePickerViewController()
+            writeVC.writeBool = true
+            self.present(writeVC, animated: true)
         }.disposed(by: disposeBag)
     }
     
     func buttonTitle() {
-        DayTimeViewModel.remindTime.subscribe {[weak self] Time in
+        DayTimeViewModel.remindTime.subscribe { [weak self] Time in
             self?.alarmView.remindTimeBtn.setTitle(Time.timeToString(), for: .normal)
             if self?.alarmView.remindSwitch.isOn == true {
                 self?.viewModel.sendLocalPushRemind(identifier: "remindTime", time: Time)
             }
         }.disposed(by: disposeBag)
         
-        DayTimeViewModel.writeTime.subscribe {[weak self] Time in
+        DayTimeViewModel.writeTime.subscribe { [weak self] Time in
             self?.alarmView.writeTimeBtn.setTitle(Time.timeToString(), for: .normal)
             if self?.alarmView.writeSwitch.isOn == true {
                 self?.viewModel.sendLocalPushWrite(identifier: "writeTime", time: Time, day: DayTimeViewModel.dayCheck.value)
             }
         }.disposed(by: disposeBag)
         
-        DayTimeViewModel.dayCheck.subscribe {[weak self] week in
+        DayTimeViewModel.dayCheck.subscribe { [weak self] week in
             self?.alarmView.weekBtn.setTitle(week.dayToString(), for: .normal)
             self?.alarmView.writeSwitch.isOn = UserDefaults.standard.bool(forKey: UserDefaultsKeys.writeSwitch.rawValue)
             if self?.alarmView.writeSwitch.isOn == true {

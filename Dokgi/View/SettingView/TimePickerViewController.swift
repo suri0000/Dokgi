@@ -9,16 +9,18 @@ import RxCocoa
 import RxSwift
 import UIKit
 
-class TimePickerViewController : UIViewController {
+class TimePickerViewController: UIViewController {
     
     let disposeBag = DisposeBag()
+    
+    lazy var writeBool = true
     
     private let viewModel = DayTimeViewModel()
     
     let cancelBtn = UIButton().then {
         $0.setTitle("취소", for: .normal)
         $0.setTitleColor(UIColor(named: "BrightRed"), for: .normal)
-        $0.titleLabel?.font = Pretendard.regular.dynamicFont(size: 17)
+        $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .body, size: 17)
         $0.snp.makeConstraints {
             $0.width.equalTo(30)
         }
@@ -26,14 +28,14 @@ class TimePickerViewController : UIViewController {
     
     let titleLbl = UILabel().then {
         $0.text = "알림 시간 설정"
-        $0.font = Pretendard.semibold.dynamicFont(size: 20)
+        $0.font = Pretendard.semibold.dynamicFont(style: .title3, size: 20)
         $0.textAlignment = .center
     }
     
     let saveBtn = UIButton().then {
         $0.setTitle("저장", for: .normal)
         $0.setTitleColor(UIColor(named: "SkyBlue"), for: .normal)
-        $0.titleLabel?.font = Pretendard.regular.dynamicFont(size: 17)
+        $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .body, size: 17)
         $0.snp.makeConstraints {
             $0.width.equalTo(30)
         }
@@ -98,21 +100,21 @@ class TimePickerViewController : UIViewController {
         
         saveBtn.rx.tap.subscribe { [weak self] _ in
             self?.dismiss(animated: true)
-            self?.viewModel.saveTime(write: false)
+            self?.viewModel.saveTime(write: self?.writeBool ?? false)
         }.disposed(by: disposeBag)
     }
 }
 // MARK: - PickerView DataSource, Delegate
-extension TimePickerViewController : UIPickerViewDataSource, UIPickerViewDelegate {
+extension TimePickerViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         3
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch component {
-        case 0 :
+        case 0:
             return viewModel.hourArr.count * 100
-        case 1 :
+        case 1:
             return viewModel.minArr.count * 100
         case 2:
             return viewModel.ampmArr.count
@@ -124,9 +126,9 @@ extension TimePickerViewController : UIPickerViewDataSource, UIPickerViewDelegat
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch component {
-        case 0 :
+        case 0:
             return String(viewModel.hourArr[row % viewModel.hourArr.count])
-        case 1 :
+        case 1:
             return String(viewModel.minArr[row % viewModel.minArr.count])
         case 2:
             return String(viewModel.ampmArr[row])

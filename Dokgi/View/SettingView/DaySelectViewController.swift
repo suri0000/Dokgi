@@ -9,7 +9,7 @@ import RxCocoa
 import RxSwift
 import UIKit
 
-class DaySelectViewController : UIViewController {
+class DaySelectViewController: UIViewController {
     
     let disposeBag = DisposeBag()
     
@@ -18,7 +18,7 @@ class DaySelectViewController : UIViewController {
     let cancelBtn = UIButton().then {
         $0.setTitle("취소", for: .normal)
         $0.setTitleColor(UIColor(named: "BrightRed"), for: .normal)
-        $0.titleLabel?.font = Pretendard.regular.dynamicFont(size: 17)
+        $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .body, size: 17)
         $0.snp.makeConstraints {
             $0.width.equalTo(30)
         }
@@ -26,14 +26,14 @@ class DaySelectViewController : UIViewController {
     
     let titleLbl = UILabel().then {
         $0.text = "알림 요일 설정"
-        $0.font = Pretendard.semibold.dynamicFont(size: 20)
+        $0.font = Pretendard.semibold.dynamicFont(style: .title3, size: 20)
         $0.textAlignment = .center
     }
     
     let saveBtn = UIButton().then {
         $0.setTitle("저장", for: .normal)
         $0.setTitleColor(UIColor(named: "SkyBlue"), for: .normal)
-        $0.titleLabel?.font = Pretendard.regular.dynamicFont(size: 17)
+        $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .body, size: 17)
         $0.snp.makeConstraints {
             $0.width.equalTo(30)
         }
@@ -58,7 +58,7 @@ class DaySelectViewController : UIViewController {
             //390
         }
         if let sheetPresentationController = sheetPresentationController {
-            sheetPresentationController.detents = [smallDetent ]
+            sheetPresentationController.detents = [smallDetent]
             sheetPresentationController.largestUndimmedDetentIdentifier = smallId
         }
         tableView.delegate = self
@@ -114,7 +114,7 @@ class DaySelectViewController : UIViewController {
     }
 }
 
-extension DaySelectViewController : UITableViewDelegate, UITableViewDataSource {
+extension DaySelectViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.DayArr.count
     }
@@ -127,7 +127,7 @@ extension DaySelectViewController : UITableViewDelegate, UITableViewDataSource {
         if viewModel.selectday[indexPath.row] != 0 {
             cell.check.isHidden = false
             cell.check.image = UIImage(named: "check2")
-        }else {
+        } else {
             cell.check.isHidden = true
         }
         cell.dayLabel.text = viewModel.DayArr[indexPath.row]

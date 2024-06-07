@@ -34,7 +34,6 @@
 		A75908C62C0F756800415D6D /* TimePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908C52C0F756800415D6D /* TimePickerViewController.swift */; };
 		A75908C82C0F758900415D6D /* DaySelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908C72C0F758900415D6D /* DaySelectViewController.swift */; };
 		A75908CB2C0FEDEF00415D6D /* DayTimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908CA2C0FEDEF00415D6D /* DayTimeViewModel.swift */; };
-		A75908CD2C0FFFB300415D6D /* writeTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908CC2C0FFFB300415D6D /* writeTimeViewController.swift */; };
 		A75908CF2C101A3900415D6D /* DayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908CE2C101A3900415D6D /* DayTableViewCell.swift */; };
 		A75908D12C12D36100415D6D /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908D02C12D36100415D6D /* UserDefaultsKey.swift */; };
 		A75908D32C12D69300415D6D /* IntArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908D22C12D69300415D6D /* IntArrayExtension.swift */; };
@@ -68,7 +67,6 @@
 		A75908C52C0F756800415D6D /* TimePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerViewController.swift; sourceTree = "<group>"; };
 		A75908C72C0F758900415D6D /* DaySelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectViewController.swift; sourceTree = "<group>"; };
 		A75908CA2C0FEDEF00415D6D /* DayTimeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTimeViewModel.swift; sourceTree = "<group>"; };
-		A75908CC2C0FFFB300415D6D /* writeTimeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = writeTimeViewController.swift; sourceTree = "<group>"; };
 		A75908CE2C101A3900415D6D /* DayTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTableViewCell.swift; sourceTree = "<group>"; };
 		A75908D02C12D36100415D6D /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
 		A75908D22C12D69300415D6D /* IntArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntArrayExtension.swift; sourceTree = "<group>"; };
@@ -211,7 +209,6 @@
 				A75908B82C0F087900415D6D /* AlarmView.swift */,
 				A75908C52C0F756800415D6D /* TimePickerViewController.swift */,
 				A75908C72C0F758900415D6D /* DaySelectViewController.swift */,
-				A75908CC2C0FFFB300415D6D /* writeTimeViewController.swift */,
 				A75908CE2C101A3900415D6D /* DayTableViewCell.swift */,
 			);
 			path = SettingView;
@@ -306,7 +303,6 @@
 				A748747F2C0D7EBF00B830EE /* Model.swift in Sources */,
 				A75908B72C0EF4C000415D6D /* SettingViewController.swift in Sources */,
 				A75908C42C0F6B9600415D6D /* Font.swift in Sources */,
-				A75908CD2C0FFFB300415D6D /* writeTimeViewController.swift in Sources */,
 				A75908D12C12D36100415D6D /* UserDefaultsKey.swift in Sources */,
 				A748746C2C0D7E0700B830EE /* Dokgi.xcdatamodeld in Sources */,
 				AB66D3472C0F3363000D72DA /* AddVerseVC.swift in Sources */,

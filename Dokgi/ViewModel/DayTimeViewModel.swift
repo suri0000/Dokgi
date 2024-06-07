@@ -25,9 +25,9 @@ class DayTimeViewModel {
     
     func setTime(row: Int , component: Int) {
         switch component {
-        case 0 :
+        case 0:
             selectTime[0] = hourArr[row % hourArr.count]
-        case 1 :
+        case 1:
             selectTime[1] = minArr[row % minArr.count]
         case 2:
             selectTime[2] = row % ampmArr.count
@@ -55,7 +55,7 @@ class DayTimeViewModel {
     func sendLocalPushRemind(identifier: String, time: [Int]) {
         let gujur : [String] = ["블랙핑크", "김지수", "제니", "로제", "리사", "안녕 안녕 나는 지수야", "헬륨가스 먹었더니 이렇게 됐지"]
         UserDefaults.standard.set(time, forKey: UserDefaultsKeys.remindTime.rawValue)
-        for i in 1 ... 31 {
+        for i in 1...31 {
             let content = UNMutableNotificationContent()
             content.title = NSString.localizedUserNotificationString(forKey: "오늘의 구절", arguments: nil)
             content.body = NSString.localizedUserNotificationString(forKey: gujur.randomElement() ?? "", arguments: nil)
@@ -76,7 +76,6 @@ class DayTimeViewModel {
                 } else {
                     print("send")
                 }
-                
             }
         }
     }
@@ -88,7 +87,7 @@ class DayTimeViewModel {
         content.sound = UNNotificationSound.default
         UserDefaults.standard.set(day, forKey: UserDefaultsKeys.writeWeek.rawValue)
         UserDefaults.standard.set(time, forKey: UserDefaultsKeys.writeTime.rawValue)
-        for i in 0 ... 6 {
+        for i in 0...6 {
             if day[i] == 0 {
                 UNUserNotificationCenter
                         .current()
@@ -109,7 +108,6 @@ class DayTimeViewModel {
                 } else {
                     print("send")
                 }
-                
             }
         }
     }
@@ -126,13 +124,13 @@ class DayTimeViewModel {
         } else {
             if identifiers == "remindTime" {
                 UserDefaults.standard.set(on, forKey: UserDefaultsKeys.remindSwitch.rawValue)
-                for i in 0 ... 6 {
+                for i in 0...6 {
                     UNUserNotificationCenter
                             .current()
                             .removePendingNotificationRequests(withIdentifiers: ["\(identifiers)_\(i)"])
                 }
             } else {
-                for i in 0 ... 6 {
+                for i in 0...6 {
                     UserDefaults.standard.set(on, forKey: UserDefaultsKeys.writeSwitch.rawValue)
                     if DayTimeViewModel.dayCheck.value[i] == 1 {
                         UNUserNotificationCenter
