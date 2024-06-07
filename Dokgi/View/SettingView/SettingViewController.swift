@@ -92,6 +92,7 @@ class SettingViewController : UIViewController{
         
         DayTimeViewModel.dayCheck.subscribe {[weak self] week in
             self?.alarmView.weekBtn.setTitle(week.dayToString(), for: .normal)
+            self?.alarmView.writeSwitch.isOn = UserDefaults.standard.bool(forKey: UserDefaultsKeys.writeSwitch.rawValue)
             if self?.alarmView.writeSwitch.isOn == true {
                 self?.viewModel.sendLocalPushWrite(identifier: "writeTime", time: DayTimeViewModel.writeTime.value, day: week)
             }
