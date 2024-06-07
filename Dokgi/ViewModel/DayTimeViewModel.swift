@@ -89,27 +89,31 @@ class DayTimeViewModel {
     }
     
     func sendLocalPushRemind(identifier : String, time : [Int]) {
-        let content = UNMutableNotificationContent()
-        content.title = NSString.localizedUserNotificationString(forKey: "오늘 독서 어때요?", arguments: nil)
-        content.body = NSString.localizedUserNotificationString(forKey: "독서를 하고 마음에 드는 구절을 기록해봐요!", arguments: nil)
-        content.sound = UNNotificationSound.default
+        let gujur : [String] = ["블랙핑크", "김지수", "제니", "로제", "리사", "안녕 안녕 나는 지수야", "헬륨가스 먹었더니 이렇게 됐지"]
         
-        var dateInfo = DateComponents()
-        dateInfo.calendar = Calendar.current
-        dateInfo.hour = time[2] == 1 ? time[0] + 12 : time[0]
-        dateInfo.minute = time[1]
-        
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateInfo, repeats: true)
-        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-        let center = UNUserNotificationCenter.current()
-        
-        center.add(request) { (error) in
-            if let error = error {
-                print(error)
-            }else {
-                print("send")
-            }
+        for i in 1 ... 31 {
+            let content = UNMutableNotificationContent()
+            content.title = NSString.localizedUserNotificationString(forKey: "오늘의 구절", arguments: nil)
+            content.body = NSString.localizedUserNotificationString(forKey: gujur.randomElement() ?? "", arguments: nil)
+            content.sound = UNNotificationSound.default
             
+            var dateInfo = DateComponents()
+            dateInfo.calendar = Calendar.current
+            dateInfo.hour = time[2] == 1 ? time[0] + 12 : time[0]
+            dateInfo.minute = time[1]
+            dateInfo.day = i
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateInfo, repeats: true)
+            let request = UNNotificationRequest(identifier: "\(identifier)_\(i)", content: content, trigger: trigger)
+            let center = UNUserNotificationCenter.current()
+            
+            center.add(request) { (error) in
+                if let error = error {
+                    print(error)
+                }else {
+                    print("send")
+                }
+                
+            }
         }
     }
     
@@ -152,9 +156,11 @@ class DayTimeViewModel {
             }
         }else {
             if identifiers == "remindTime" {
-                UNUserNotificationCenter
-                    .current()
-                    .removePendingNotificationRequests(withIdentifiers: [identifiers])
+                for i in 0 ... 6 {
+                    UNUserNotificationCenter
+                            .current()
+                            .removePendingNotificationRequests(withIdentifiers: ["\(identifiers)_\(i)"])
+                }
             }else {
                 for i in 0 ... 6 {
                     if DayTimeViewModel.dayCheck.value[i] == 1 {
