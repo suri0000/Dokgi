@@ -18,7 +18,7 @@ class DaySelectViewController: UIViewController {
     let cancelBtn = UIButton().then {
         $0.setTitle("취소", for: .normal)
         $0.setTitleColor(UIColor(named: "BrightRed"), for: .normal)
-        $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .body, size: 17)
+        $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .body)
         $0.snp.makeConstraints {
             $0.width.equalTo(30)
         }
@@ -26,14 +26,14 @@ class DaySelectViewController: UIViewController {
     
     let titleLbl = UILabel().then {
         $0.text = "알림 요일 설정"
-        $0.font = Pretendard.semibold.dynamicFont(style: .title3, size: 20)
+        $0.font = Pretendard.semibold.dynamicFont(style: .title3)
         $0.textAlignment = .center
     }
     
     let saveBtn = UIButton().then {
         $0.setTitle("저장", for: .normal)
         $0.setTitleColor(UIColor(named: "SkyBlue"), for: .normal)
-        $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .body, size: 17)
+        $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .body)
         $0.snp.makeConstraints {
             $0.width.equalTo(30)
         }

@@ -14,11 +14,11 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-    let font = Pretendard.regular.dynamicFont(style: .body, size: 17) //기본값일때 17
+    let font = Pretendard.regular.dynamicFont(style: .body) //기본값일때 17
 
-//    Pretendard.semibold.dynamicFont(style: .title3, size: 20)
-//    Pretendard.bold.dynamicFont(style: .title2, size: 28)
-//    Pretendard.regular.dynamicFont(style: .footnote, size: 14)
+//    Pretendard.semibold.dynamicFont(style: .title3) 기본값일때 20
+//    Pretendard.bold.dynamicFont(style: .title2) 기본값일때 28
+//    Pretendard.regular.dynamicFont(style: .footnote) 기본값일때 13
 }
 
 
