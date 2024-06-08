@@ -1,5 +1,5 @@
 //
-//  CurrentLengthCell.swift
+//  CurrentLevelCell.swift
 //  Dokgi
 //
 //  Created by IMHYEONJEONG on 6/5/24.
@@ -8,8 +8,8 @@
 import UIKit
 import SnapKit
 
-class CurrentLengthCell: UICollectionViewCell {
-    static let identifier = "CurrentLengthCell"
+class CurrentLevelCell: UICollectionViewCell {
+    static let identifier = "CurrentLevelCell"
     
     let cardView = UIView()
     let textView = UIView()

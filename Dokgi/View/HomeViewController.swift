@@ -20,7 +20,7 @@ class HomeViewController: UIViewController {
         view.showsVerticalScrollIndicator = true
         view.backgroundColor = .clear
         view.clipsToBounds = true
-        view.register(CurrentLengthCell.self, forCellWithReuseIdentifier: CurrentLengthCell.identifier)
+        view.register(CurrentLevelCell.self, forCellWithReuseIdentifier: CurrentLevelCell.identifier)
         view.isPagingEnabled = false
         view.decelerationRate = .fast
         return view
@@ -155,7 +155,7 @@ extension HomeViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CurrentLengthCell.identifier, for: indexPath) as? CurrentLengthCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CurrentLevelCell.identifier, for: indexPath) as? CurrentLevelCell else { return UICollectionViewCell() }
         
         cell.setCellConfig(viewModel.data[indexPath.row])
 
