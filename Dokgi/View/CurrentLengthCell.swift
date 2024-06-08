@@ -40,6 +40,7 @@ class CurrentLengthCell: UICollectionViewCell {
             textView.addSubview($0)
         }
         
+        
         cardView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }

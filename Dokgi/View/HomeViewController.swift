@@ -5,31 +5,15 @@
 //  Created by IMHYEONJEONG on 6/4/24.
 //
 
-import UIKit
 import SnapKit
+import UIKit
 
 class HomeViewController: UIViewController {
     let viewModel = HomeViewModel()
     
-    private enum Const {
-        static let itemSize = CGSize(width: 300, height: 164)
-        static let itemSpacing = 10.0
-        static var insetX: CGFloat {
-            (UIScreen.main.bounds.width - Self.itemSize.width) / 2.0
-        }
-        static var CollectionViewContentInset: UIEdgeInsets {
-            UIEdgeInsets(top: 0, left: Self.insetX, bottom: 0, right: Self.insetX)
-        }
-    }
-    
     let currentLengthLabel = UILabel()
     let currentLengthCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.itemSize = Const.itemSize
-        layout.minimumLineSpacing = Const.itemSpacing
-        layout.minimumInteritemSpacing = 0
-        
+        let layout = CurrentLevelCollectionFlowLayout()
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.isScrollEnabled = true
         view.showsHorizontalScrollIndicator = false
@@ -38,7 +22,6 @@ class HomeViewController: UIViewController {
         view.clipsToBounds = true
         view.register(CurrentLengthCell.self, forCellWithReuseIdentifier: CurrentLengthCell.identifier)
         view.isPagingEnabled = false
-        view.contentInset = Const.CollectionViewContentInset
         view.decelerationRate = .fast
         return view
     }()
@@ -52,12 +35,22 @@ class HomeViewController: UIViewController {
     let progressPosition = UIView()
     
     
+    let test: [String] = ["안녕하세요", "안녕하세요. 누구입니다.", "hello", "안녕하세요", "안녕하세요"]
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         currentLengthCollectionView.dataSource = self
         currentLengthCollectionView.delegate = self
         setupConstraints()
         configureUI()
+        
+        let totalLength = viewModel.getCurrentLength(from: test)
+        print("총 글자 수: \(totalLength)")
+        let currentLevel = viewModel.getCurrentLevel(for: totalLength)
+        print("현재레벨: \(currentLevel)")
+        
+        
     }
     
     func setupConstraints() {
@@ -150,8 +143,9 @@ class HomeViewController: UIViewController {
         nextpositionImage.image = UIImage(named: "goni")
         nextpositionImage.contentMode = .scaleAspectFit
         nextpositionImage.layer.masksToBounds = true
+        
     }
-
+ 
 }
 
 extension HomeViewController: UICollectionViewDataSource {
@@ -162,21 +156,93 @@ extension HomeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CurrentLengthCell.identifier, for: indexPath) as? CurrentLengthCell else { return UICollectionViewCell() }
+        
         cell.setCellConfig(viewModel.data[indexPath.row])
+
+        // 현재 보여지는 셀 크기 : Standard
+        if viewModel.currentSelectedIndex == indexPath.row {
+            cell.transformToStandard()
+        }
         return cell
     }
 }
 
 
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
-  func scrollViewWillEndDragging(
-    _ scrollView: UIScrollView,
-    withVelocity velocity: CGPoint,
-    targetContentOffset: UnsafeMutablePointer<CGPoint>
-  ) {
-    let scrolledOffsetX = targetContentOffset.pointee.x + scrollView.contentInset.left
-    let cellWidth = Const.itemSize.width + Const.itemSpacing
-    let index = round(scrolledOffsetX / cellWidth)
-    targetContentOffset.pointee = CGPoint(x: index * cellWidth - scrollView.contentInset.left, y: scrollView.contentInset.top)
+    // 현재 드래그 되는 셀 작아지게
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        let totalLength = viewModel.getCurrentLength(from: test)
+        let currentIndex = viewModel.getCardIndex(forTotalLength: totalLength)
+        let currentCell = currentLengthCollectionView.cellForItem(at: IndexPath(row: Int(currentIndex), section: 0))
+
+        currentCell?.transformToSmall()
+        
+    }
+    
+  func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+
+      
+      guard scrollView == currentLengthCollectionView else {
+          return
+      }
+      
+      targetContentOffset.pointee = scrollView.contentOffset
+      
+      let flowLayout = currentLengthCollectionView.collectionViewLayout as! CurrentLevelCollectionFlowLayout
+      let cellWidthIncludingSpacing = flowLayout.itemSize.width + flowLayout.minimumLineSpacing
+      let offset = targetContentOffset.pointee
+      let horizontalVelocity = velocity.x
+      
+      var selectedIndex = viewModel.currentSelectedIndex
+      
+      switch horizontalVelocity {
+      // On swiping
+      case _ where horizontalVelocity > 0 :
+          selectedIndex = viewModel.currentSelectedIndex + 1
+      case _ where horizontalVelocity < 0:
+          selectedIndex = viewModel.currentSelectedIndex - 1
+          
+      // On dragging
+      case _ where horizontalVelocity == 0:
+          let index = (offset.x + scrollView.contentInset.left) / cellWidthIncludingSpacing
+          let roundedIndex = round(index)
+          
+          selectedIndex = Int(roundedIndex)
+      default:
+          print("Incorrect velocity for collection view")
+      }
+      
+      let safeIndex = max(0, min(selectedIndex, viewModel.data.count - 1))
+      let selectedIndexPath = IndexPath(row: safeIndex, section: 0)
+      
+      flowLayout.collectionView!.scrollToItem(at: selectedIndexPath, at: .centeredHorizontally, animated: true)
+      
+      let previousSelectedIndex = IndexPath(row: Int(viewModel.currentSelectedIndex), section: 0)
+      let previousSelectedCell = currentLengthCollectionView.cellForItem(at: previousSelectedIndex)
+      let nextSelectedCell = currentLengthCollectionView.cellForItem(at: selectedIndexPath)
+      
+      viewModel.currentSelectedIndex = selectedIndexPath.row
+      previousSelectedCell?.transformToSmall()
+      nextSelectedCell?.transformToStandard()
   }
+    
 }
+
+extension UICollectionViewCell {
+    // 셀이 작아지게 설정
+    func transformToSmall() {
+        UIView.animate(withDuration: 0.2) {
+            self.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        }
+    }
+    
+    // 기본 셀 크기로 지정
+    func transformToStandard() {
+        UIView.animate(withDuration: 0.2) {
+            self.transform = CGAffineTransform.identity
+        }
+    }
+    
+}
+
+
