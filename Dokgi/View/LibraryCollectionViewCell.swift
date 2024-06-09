@@ -4,9 +4,8 @@
 //
 //  Created by t2023-m0095 on 6/5/24.
 //
-
-import UIKit
 import CoreData
+import UIKit
 
 class LibraryCollectionViewCell: UICollectionViewCell {
     
@@ -26,8 +25,7 @@ class LibraryCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         setCell()
-        setConstraint()
-        
+        setConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -35,7 +33,6 @@ class LibraryCollectionViewCell: UICollectionViewCell {
     }
     
     func setCell() {
-       
         self.contentView.layer.cornerRadius = 15
         self.contentView.layer.masksToBounds = true
         
@@ -60,8 +57,7 @@ class LibraryCollectionViewCell: UICollectionViewCell {
         authorNameLabel.layer.masksToBounds = true
     }
     
-    func setConstraint() {
-        
+    func setConstraints() {
         [bookImageView,bookNameLabel, authorNameLabel].forEach {
             contentView.addSubview($0)
         }
@@ -69,12 +65,11 @@ class LibraryCollectionViewCell: UICollectionViewCell {
         
         bookImageView.snp.makeConstraints {
             $0.top.trailing.leading.equalToSuperview()
-//            $0.height.equalTo(190)
-            $0.height.equalTo(bookImageView.snp.width).multipliedBy(1.15)
+            $0.height.equalTo(bookImageView.snp.width).multipliedBy(1.151515)
         }
 
         bookNameLabel.snp.makeConstraints {
-            $0.bottom.equalTo(authorNameLabel.snp.top).offset(-5)
+            $0.top.equalTo(bookImageView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
         }
         
@@ -82,11 +77,6 @@ class LibraryCollectionViewCell: UICollectionViewCell {
             $0.top.equalTo(bookNameLabel.snp.bottom).inset(5)
             $0.bottom.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(14)
         }
-
-
-        
     }
-    
 }

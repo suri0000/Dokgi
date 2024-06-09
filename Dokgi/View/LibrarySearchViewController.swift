@@ -4,20 +4,41 @@
 //
 //  Created by t2023-m0095 on 6/4/24.
 //
-
 import SnapKit
 import UIKit
 
-class LibrarySearchViewController: UIViewController, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate {
+class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
     
+    let libraryLabel = UILabel()
+    let searchBar = UISearchBar()
     let sortButton = UIButton()
+    let sortButtonImageView = UIImageView()
+    let sortButtonTitleLabel = UILabel()
+    
+    let sortMenuView = UIView()
+    let latestFirstButton = UIButton()
+    let oldestFirstButton = UIButton()
+    let checkImageView1 = UIImageView()
+    let checkImageView2 = UIImageView()
+    let latestTextLabel = UILabel()
+    let oldestTextLabel = UILabel()
+    
+    var isLatestFirst: Bool = true
+    var isOldestFirst: Bool = false
     
     lazy var libraryCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 36
-        layout.minimumInteritemSpacing = 0
-        layout.itemSize = .init(width: 165, height: 260)
-        layout.sectionInset = .init(top: 20, left: 20, bottom: 20, right: 20)
+        layout.minimumInteritemSpacing = 10
+        layout.sectionInset = .init(top: 0, left: 20, bottom: 20, right: 20)
+        
+        let spacing: CGFloat = 24
+        let countForLine: CGFloat = 2
+        let deviceWidth = UIScreen.main.bounds.width
+        let inset: CGFloat = 20
+        let cellWidth = (deviceWidth - spacing - inset * 2)/countForLine
+                
+        layout.itemSize = .init(width: cellWidth, height: cellWidth * 1.58)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.delegate = self
@@ -28,48 +49,170 @@ class LibrarySearchViewController: UIViewController, UISearchResultsUpdating, UI
     }()
     
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         view.backgroundColor = .white
         
-        navigationController?.navigationBar.isHidden = false
+        setUI()
+        setConstraints()
         
-        setSearchController()
+        setSearchBar()
         
-        setConstraint()
+        setSortMenuView()
+    }
+    
+    
+    func setUI() {
+        libraryLabel.text = "서재"
+        libraryLabel.font = UIFont.systemFont(ofSize: 28, weight: .bold)
+        libraryLabel.textColor = .black
         
-        setSortButton()
+        sortButton.backgroundColor = .lightGray
+        sortButton.layer.cornerRadius = 15
+        sortButton.clipsToBounds = true
+        sortButton.addTarget(self, action: #selector(showSortMenuView), for: .touchUpInside)
         
+        sortButtonImageView.image = UIImage(named: "fi_chevron-down")
         
+        sortButtonTitleLabel.text = "최신순"
+        sortButtonTitleLabel.font = UIFont.systemFont(ofSize: 13)
+        
+        sortMenuView.backgroundColor = .white
+        sortMenuView.layer.cornerRadius = 10
+        
+        sortMenuView.layer.shadowColor = UIColor.black.cgColor
+        sortMenuView.layer.shadowOpacity = 0.5
+        sortMenuView.layer.shadowOffset = CGSize(width: 1, height: 1)
+        sortMenuView.layer.shadowRadius = 2
+      
+        latestFirstButton.backgroundColor = .white
+        latestFirstButton.addTarget(self, action: #selector(tappedLatestFirst), for: .touchUpInside)
+        latestFirstButton.layer.cornerRadius = 10
+        
+        oldestFirstButton.backgroundColor = .white
+        oldestFirstButton.addTarget(self, action: #selector(tappedOldestFirst), for: .touchUpInside)
+        oldestFirstButton.layer.cornerRadius = 10
+        
+        latestTextLabel.text = "최신순"
+        latestTextLabel.font = UIFont.systemFont(ofSize: 13)
+        latestTextLabel.textColor = .black
+        
+        oldestTextLabel.text = "오래된순"
+        oldestTextLabel.font = UIFont.systemFont(ofSize: 13)
+        oldestTextLabel.textColor = .black
+        
+        checkImageView1.image = UIImage(named: "fi_check")
+        checkImageView2.image = UIImage(named: "fi_check")
+    }
+    
+    
+    func setConstraints() {
+        [libraryLabel, searchBar, sortButton, sortMenuView, libraryCollectionView].forEach {
+            view.addSubview($0)
+        }
+        
+        libraryLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(10)
+            $0.left.equalToSuperview().inset(20)
+            $0.height.equalTo(41)
+        }
+        
+        searchBar.snp.makeConstraints {
+            $0.top.equalTo(libraryLabel.snp.bottom)
+            $0.left.right.equalToSuperview().inset(10)
+        }
+        
+        sortButton.snp.makeConstraints {
+            $0.top.equalTo(searchBar.snp.bottom).offset(10)
+            $0.right.equalToSuperview().inset(20)
+            $0.height.equalTo(29)
+            $0.width.greaterThanOrEqualTo(87)
+        }
+        
+        [sortButtonImageView, sortButtonTitleLabel].forEach {
+            sortButton.addSubview($0)
+        }
+        
+        sortButtonImageView.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().inset(15)
+            $0.width.height.equalTo(18)
+        }
+        
+        sortButtonTitleLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalTo(sortButtonImageView.snp.trailing).offset(5)
+            $0.trailing.equalToSuperview().inset(15)
+        }
+        
+        // 정렬 버튼 클릭 시 - 정렬 옵션 메뉴
+        sortMenuView.snp.makeConstraints {
+            $0.top.equalTo(sortButton.snp.bottom).offset(3)
+            $0.right.equalToSuperview().inset(20)
+            $0.height.equalTo(60)
+            $0.width.equalTo(113)
+        }
+        
+        // 정렬 옵션 메뉴(최신순 버튼, 오래된순 버튼)
+        [latestFirstButton, oldestFirstButton].forEach {
+            sortMenuView.addSubview($0)
+        }
+        
+        latestFirstButton.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(oldestFirstButton.snp.top)
+            $0.height.equalTo(30)
+        }
+        
+        oldestFirstButton.snp.makeConstraints {
+            $0.top.equalTo(latestFirstButton.snp.bottom)
+            $0.bottom.leading.trailing.equalToSuperview()
+            $0.height.equalTo(30)
+        }
+        
+        // 최신순 버튼
+        [checkImageView1, latestTextLabel].forEach {
+            latestFirstButton.addSubview($0)
+        }
+        
+        checkImageView1.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().inset(12)
+            $0.height.width.equalTo(10)
+        }
+        
+        latestTextLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalTo(checkImageView1.snp.trailing).offset(6)
+        }
+        
+        //오래된순
+        [checkImageView2, oldestTextLabel].forEach {
+            oldestFirstButton.addSubview($0)
+        }
+        
+        checkImageView2.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().inset(12)
+            $0.height.width.equalTo(10)
+        }
+        
+        oldestTextLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalTo(checkImageView1.snp.trailing).offset(6)
+        }
+        
+        libraryCollectionView.snp.makeConstraints {
+            $0.top.equalTo(sortButton.snp.bottom).offset(20)
+            $0.bottom.left.right.equalToSuperview().inset(0)
+        }
     }
     
     //MARK: - searchController
     
-    func setSearchController() {
-        
-        let searchController = UISearchController(searchResultsController: nil)
-        let searchBar = searchController.searchBar
-        
-        self.navigationItem.searchController = searchController
-        self.navigationItem.hidesSearchBarWhenScrolling = false
-        
-        searchController.hidesNavigationBarDuringPresentation = false
-        
-        self.navigationItem.title = "서재"
-        self.navigationItem.largeTitleDisplayMode = .always
-        
-        
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 28, weight: .bold)
-        ]
-        
-        searchController.delegate = self
-        searchController.searchResultsUpdater = self
-        
+    func setSearchBar() {
+        searchBar.searchBarStyle = .minimal
         searchBar.placeholder = "기록된 책을 검색해보세요"
         searchBar.searchTextField.borderStyle = .line
         searchBar.searchTextField.layer.borderWidth = 1
@@ -78,79 +221,45 @@ class LibrarySearchViewController: UIViewController, UISearchResultsUpdating, UI
         searchBar.searchTextField.layer.cornerRadius = 20
         searchBar.searchTextField.layer.masksToBounds = true
         searchBar.searchTextField.font = UIFont.systemFont(ofSize: 14)
-        
-        // 돋보기 위치 변경
-        if let leftView = searchBar.searchTextField.leftView as? UIImageView {
-            leftView.frame = leftView.frame.offsetBy(dx: 14.5, dy: 0)
-        }
-        
-        
     }
     
-    func updateSearchResults(for searchController: UISearchController) {
-        dump(searchController.searchBar.text)
+    // MARK: - 설정버튼
+    
+    func setSortMenuView() {
+        sortMenuView.isHidden = true
         
-        guard let text = searchController.searchBar.text?.lowercased() else {
-            return
-        }
-        
+        checkImageView1.isHidden = false
+        checkImageView2.isHidden = true
     }
     
-    
-    func setSortButton() {
-        
-        let resizedImage = UIImage(systemName: "chevron.down")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 10))
-        sortButton.setImage(resizedImage, for: .normal )
-        
-        sortButton.backgroundColor = .lightGray
-        sortButton.layer.cornerRadius = 15
-        
-//        let configuration = UIButton.Configuration.plain()
-//        sortButton.configuration = configuration
-        
-        
-        let seletedPriority = {(action: UIAction)  in
-            
-            if action.title == " 최신순" {
-                
-            } else if action.title == " 오래된순" {
-                
-            }
-        }
-        
-        let latestFirst = UIAction(title: "최신순", state: .on, handler: seletedPriority)
-        let oldestFirst = UIAction(title: "오래된순", state: .off, handler: seletedPriority)
-        
-        self.sortButton.menu = UIMenu(children: [latestFirst,oldestFirst])
-        self.sortButton.showsMenuAsPrimaryAction = true
-        self.sortButton.changesSelectionAsPrimaryAction = true
+    @objc func showSortMenuView() {
+        sortMenuView.isHidden = false
+        view.bringSubviewToFront(sortMenuView)
     }
     
+    @objc func tappedLatestFirst() {
+        sortButtonTitleLabel.text = "최신순"
+        
+        checkImageView1.isHidden = false
+        checkImageView2.isHidden = true
+        
+        sortMenuView.isHidden = true
+    }
     
-    func setConstraint() {
+    @objc func tappedOldestFirst() {
+        sortButtonTitleLabel.text = "오래된순"
         
-        [sortButton, libraryCollectionView].forEach {
-            view.addSubview($0)
-        }
-        sortButton.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(210)
-            $0.right.equalToSuperview().inset(20)
-            $0.height.equalTo(29)
-        }
+        checkImageView1.isHidden = true
+        checkImageView2.isHidden = false
         
-        libraryCollectionView.snp.makeConstraints {
-            $0.top.equalTo(sortButton.snp.bottom)
-            $0.bottom.left.right.equalToSuperview().inset(0)
-        }
-        
-        
+        sortMenuView.isHidden = true
     }
     
 }
 
 
 //MARK: -CollectionView
-extension LibrarySearchViewController : UICollectionViewDelegate, UICollectionViewDataSource {
+extension LibrarySearchViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 100
@@ -161,7 +270,6 @@ extension LibrarySearchViewController : UICollectionViewDelegate, UICollectionVi
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LibraryCollectionViewCell", for: indexPath) as? LibraryCollectionViewCell else {
             return UICollectionViewCell()
         }
-        
         return cell
     }
 }
