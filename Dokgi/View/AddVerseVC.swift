@@ -334,7 +334,7 @@ class AddVerseVC: UIViewController {
         view.addGestureRecognizer(tapGesture)
     }
     
-    func visionKit(){
+    func visionKit() {
         let scan = VNDocumentCameraViewController()
         scan.delegate = self
         self.present(scan, animated: true)
