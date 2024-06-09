@@ -9,13 +9,12 @@ import UIKit
 
 class CurrentLevelCollectionFlowLayout: UICollectionViewFlowLayout {
     
-    private let itemHeight = 164
-    private let itemWidth = 300
+    private let itemWidth: CGFloat = 300
+    private let itemHeight: CGFloat = 164
     
     override init() {
         super.init()
-        self.scrollDirection = .horizontal
-        self.minimumInteritemSpacing = 0
+        setupLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -23,16 +22,23 @@ class CurrentLevelCollectionFlowLayout: UICollectionViewFlowLayout {
     }
     
     override func prepare() {
-        guard let collectionView = collectionView else { return }
-        
-        scrollDirection = .horizontal
-        itemSize = CGSize(width: itemWidth, height: itemHeight)
-        
-        let peekingItemWidth = itemSize.width / 10
-        let horizontalInsets = (collectionView.frame.size.width - itemSize.width) / 2
-        
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: horizontalInsets, bottom: 0, right: horizontalInsets)
-        minimumLineSpacing = horizontalInsets - peekingItemWidth
+        super.prepare()
+        configureInsets()
     }
     
+    private func setupLayout() {
+        scrollDirection = .horizontal
+        minimumInteritemSpacing = 0
+        itemSize = CGSize(width: itemWidth, height: itemHeight)
+    }
+    
+    private func configureInsets() {
+        guard let collectionView = collectionView else { return }
+        
+        let horizontalInsets = (collectionView.frame.size.width - itemSize.width) / 2
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: horizontalInsets, bottom: 0, right: horizontalInsets)
+        minimumLineSpacing = 0
+        // let peekingItemWidth = itemSize.width / 10
+        // minimumLineSpacing = horizontalInsets - peekingItemWidth
+    }
 }

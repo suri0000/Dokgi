@@ -74,7 +74,7 @@ class CurrentLevelCell: UICollectionViewCell {
         }
         
         lengthLabel.snp.makeConstraints {
-            $0.top.equalTo(descrptionLabel.snp.bottom).offset(16)
+            $0.bottom.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
         }
         
