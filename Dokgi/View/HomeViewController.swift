@@ -34,8 +34,11 @@ class HomeViewController: UIViewController {
     let nextpositionImage = UIImageView()
     let progressPosition = UIView()
     
-    
     let test: [String] = ["안녕하세요", "안녕하세요. 누구입니다.", "hello", "안녕하세요", "안녕하세요"]
+    lazy var totalLength = viewModel.getCurrentLength(from: test)
+    lazy var currentLevel = viewModel.getCurrentLevel(for: totalLength)
+    lazy var currentIndex = currentLevel - 1
+    
     
     
     override func viewDidLoad() {
@@ -45,11 +48,11 @@ class HomeViewController: UIViewController {
         setupConstraints()
         configureUI()
         
-        let totalLength = viewModel.getCurrentLength(from: test)
+//        let totalLength = viewModel.getCurrentLength(from: test)
         print("총 글자 수: \(totalLength)")
-        let currentLevel = viewModel.getCurrentLevel(for: totalLength)
+//        let currentLevel = viewModel.getCurrentLevel(for: totalLength)
         print("현재레벨: \(currentLevel)")
-        
+        print("현재인덱스: \(currentIndex)")
         
     }
     
@@ -145,6 +148,8 @@ class HomeViewController: UIViewController {
         nextpositionImage.layer.masksToBounds = true
         
     }
+    
+    
  
 }
 
@@ -171,9 +176,9 @@ extension HomeViewController: UICollectionViewDataSource {
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
     // 현재 드래그 되는 셀 작아지게
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        let totalLength = viewModel.getCurrentLength(from: test)
-        let currentIndex = viewModel.getCardIndex(forTotalLength: totalLength)
-        let currentCell = currentLengthCollectionView.cellForItem(at: IndexPath(row: Int(currentIndex), section: 0))
+//        let totalLength = viewModel.getCurrentLength(from: test)
+//        let currentIndex = viewModel.getCardIndex(forTotalLength: totalLength)
+        let currentCell = currentLengthCollectionView.cellForItem(at: IndexPath(row: Int(self.currentIndex), section: 0))
 
         currentCell?.transformToSmall()
         

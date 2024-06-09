@@ -31,10 +31,10 @@ class HomeViewModel {
         return data.count - 1
     }
     
-    func getCardIndex(forTotalLength totalLength: Int) -> Int {
-        let currentLevel = getCurrentLevel(for: totalLength)
-        return currentLevel
-    }
+//    func getCardIndex(forTotalLength totalLength: Int) -> Int {
+//        let currentLevel = getCurrentLevel(for: totalLength)
+//        return currentLevel
+//    }
     
 
 }
