@@ -220,10 +220,7 @@ class AddVerseVC: UIViewController {
         }
         
         viewInScroll.snp.makeConstraints { make in
-            make.top.equalTo(scrollView.snp.top)
-            make.bottom.equalTo(scrollView.snp.bottom)
-            make.leading.equalTo(scrollView.snp.leading)
-            make.trailing.equalTo(scrollView.snp.trailing)
+            make.edges.equalTo(scrollView.snp.edges)
             make.width.equalTo(scrollView.snp.width)
             make.height.equalTo(1000) // 임시로 1000으로 설정
         }
@@ -237,8 +234,7 @@ class AddVerseVC: UIViewController {
         
         infoView.snp.makeConstraints { make in
             make.centerY.equalTo(viewInScroll.snp.top).offset(170)
-            make.leading.equalTo(viewInScroll.snp.leading).offset(16)
-            make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
+            make.horizontalEdges.equalTo(viewInScroll).inset(16)
             make.height.equalTo(200)
         }
         
