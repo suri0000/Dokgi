@@ -5,8 +5,8 @@
 //  Created by IMHYEONJEONG on 6/5/24.
 //
 
-import UIKit
 import SnapKit
+import UIKit
 
 class CurrentLevelCell: UICollectionViewCell {
     static let identifier = "CurrentLevelCell"
@@ -139,15 +139,5 @@ class CurrentLevelCell: UICollectionViewCell {
             return "\(kmLength) km"
         }
     }
-    
-//    override func prepareForReuse() {
-//        super.prepareForReuse()
-//        
-//        self.prepare(color: nil)
-//      }
-//      
-//      func prepare(color: UIColor?) {
-//        self.myView.backgroundColor = color
-//      }
 }
 
