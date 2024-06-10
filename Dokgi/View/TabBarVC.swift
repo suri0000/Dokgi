@@ -11,6 +11,7 @@ class TabBarVC: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         
 //        // 홈화면 설정
 //        let homePageVC = HomeVC()
