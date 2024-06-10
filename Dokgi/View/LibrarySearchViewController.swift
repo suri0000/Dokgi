@@ -255,7 +255,7 @@ class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
 }
 
 //MARK: -CollectionView
-extension LibrarySearchViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension LibrarySearchViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 100
