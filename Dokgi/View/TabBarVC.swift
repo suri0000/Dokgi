@@ -12,7 +12,7 @@ class TabBarVC: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // 홈화면 설정
+//        // 홈화면 설정
 //        let homePageVC = HomeVC()
 //        homePageVC.tabBarItem = UITabBarItem(title: "홈", image: UIImage(systemName: "house"), tag: 0)
 //

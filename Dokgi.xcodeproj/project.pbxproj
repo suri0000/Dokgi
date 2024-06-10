@@ -30,7 +30,24 @@
 		A748748F2C0D7F3400B830EE /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = A748748E2C0D7F3400B830EE /* RxCocoa */; };
 		A74874912C0D7F3400B830EE /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = A74874902C0D7F3400B830EE /* RxRelay */; };
 		A74874932C0D7F3400B830EE /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A74874922C0D7F3400B830EE /* RxSwift */; };
+		A75908B72C0EF4C000415D6D /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908B62C0EF4C000415D6D /* SettingViewController.swift */; };
+		A75908B92C0F087900415D6D /* AlarmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908B82C0F087900415D6D /* AlarmView.swift */; };
+		A75908BF2C0F6AD100415D6D /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = A75908BB2C0F6AD100415D6D /* Pretendard-Medium.otf */; };
+		A75908C02C0F6AD100415D6D /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = A75908BC2C0F6AD100415D6D /* Pretendard-Bold.otf */; };
+		A75908C12C0F6AD100415D6D /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = A75908BD2C0F6AD100415D6D /* Pretendard-Regular.otf */; };
+		A75908C22C0F6AD100415D6D /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = A75908BE2C0F6AD100415D6D /* Pretendard-SemiBold.otf */; };
+		A75908C42C0F6B9600415D6D /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908C32C0F6B9600415D6D /* Font.swift */; };
+		A75908C62C0F756800415D6D /* TimePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908C52C0F756800415D6D /* TimePickerViewController.swift */; };
+		A75908C82C0F758900415D6D /* DaySelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908C72C0F758900415D6D /* DaySelectViewController.swift */; };
+		A75908CB2C0FEDEF00415D6D /* DayTimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908CA2C0FEDEF00415D6D /* DayTimeViewModel.swift */; };
+		A75908CF2C101A3900415D6D /* DayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908CE2C101A3900415D6D /* DayTableViewCell.swift */; };
+		A75908D12C12D36100415D6D /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908D02C12D36100415D6D /* UserDefaultsKey.swift */; };
+		A75908D32C12D69300415D6D /* IntArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908D22C12D69300415D6D /* IntArrayExtension.swift */; };
+		A7F2DB172C1347C80020B0AA /* ParagrapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB162C1347C80020B0AA /* ParagrapViewController.swift */; };
+		A7F2DB192C134B200020B0AA /* ParagrapContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB182C134B200020B0AA /* ParagrapContainerView.swift */; };
+		A7F2DB1D2C15C6E70020B0AA /* KeywordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB1C2C15C6E70020B0AA /* KeywordCollectionViewCell.swift */; };
 		AB66D3442C0EEFE3000D72DA /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */; };
+		AB66D3472C0F3363000D72DA /* AddVerseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3462C0F3363000D72DA /* AddVerseVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,8 +96,25 @@
 		A748747E2C0D7EBF00B830EE /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		A74874802C0D7EC800B830EE /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		A74874822C0D7ED100B830EE /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		A75908B52C0EF44D00415D6D /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		A75908B62C0EF4C000415D6D /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		A75908B82C0F087900415D6D /* AlarmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmView.swift; sourceTree = "<group>"; };
+		A75908BB2C0F6AD100415D6D /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
+		A75908BC2C0F6AD100415D6D /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
+		A75908BD2C0F6AD100415D6D /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
+		A75908BE2C0F6AD100415D6D /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
+		A75908C32C0F6B9600415D6D /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
+		A75908C52C0F756800415D6D /* TimePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerViewController.swift; sourceTree = "<group>"; };
+		A75908C72C0F758900415D6D /* DaySelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectViewController.swift; sourceTree = "<group>"; };
+		A75908CA2C0FEDEF00415D6D /* DayTimeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTimeViewModel.swift; sourceTree = "<group>"; };
+		A75908CE2C101A3900415D6D /* DayTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTableViewCell.swift; sourceTree = "<group>"; };
+		A75908D02C12D36100415D6D /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
+		A75908D22C12D69300415D6D /* IntArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntArrayExtension.swift; sourceTree = "<group>"; };
+		A7F2DB162C1347C80020B0AA /* ParagrapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParagrapViewController.swift; sourceTree = "<group>"; };
+		A7F2DB182C134B200020B0AA /* ParagrapContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParagrapContainerView.swift; sourceTree = "<group>"; };
+		A7F2DB1C2C15C6E70020B0AA /* KeywordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordCollectionViewCell.swift; sourceTree = "<group>"; };
 		AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
-		AB66D3452C0F2896000D72DA /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		AB66D3462C0F3363000D72DA /* AddVerseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVerseVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,7 +203,8 @@
 				A748746F2C0D7E0800B830EE /* LaunchScreen.storyboard */,
 				A74874722C0D7E0800B830EE /* Info.plist */,
 				A748746A2C0D7E0700B830EE /* Dokgi.xcdatamodeld */,
-				AB66D3452C0F2896000D72DA /* Config.xcconfig */,
+				A75908B52C0EF44D00415D6D /* Config.xcconfig */,
+				A75908C32C0F6B9600415D6D /* Font.swift */,
 			);
 			path = Dokgi;
 			sourceTree = "<group>";
@@ -177,6 +212,7 @@
 		A74874782C0D7E0E00B830EE /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				A75908BA2C0F6A8800415D6D /* Font */,
 				A748746D2C0D7E0800B830EE /* Assets.xcassets */,
 			);
 			path = Resource;
@@ -186,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				A74874822C0D7ED100B830EE /* Extension.swift */,
+				A75908D22C12D69300415D6D /* IntArrayExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -193,8 +230,11 @@
 		A748747A2C0D7E1300B830EE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A7F2DB152C1347840020B0AA /*  ParagraphDetailView */,
+				A75908C92C0F759D00415D6D /* SettingView */,
 				A74874652C0D7E0700B830EE /* ViewController.swift */,
 				AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */,
+				AB66D3462C0F3363000D72DA /* AddVerseVC.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -203,6 +243,7 @@
 			isa = PBXGroup;
 			children = (
 				A74874802C0D7EC800B830EE /* ViewModel.swift */,
+				A75908CA2C0FEDEF00415D6D /* DayTimeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -212,6 +253,7 @@
 			children = (
 				A748747E2C0D7EBF00B830EE /* Model.swift */,
 				3C41815E2C0DBF9800D141FD /* BookModel.swift */,
+				A75908D02C12D36100415D6D /* UserDefaultsKey.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -223,6 +265,39 @@
 				A74874632C0D7E0600B830EE /* SceneDelegate.swift */,
 			);
 			path = Application;
+			sourceTree = "<group>";
+		};
+		A75908BA2C0F6A8800415D6D /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				A75908BC2C0F6AD100415D6D /* Pretendard-Bold.otf */,
+				A75908BB2C0F6AD100415D6D /* Pretendard-Medium.otf */,
+				A75908BD2C0F6AD100415D6D /* Pretendard-Regular.otf */,
+				A75908BE2C0F6AD100415D6D /* Pretendard-SemiBold.otf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		A75908C92C0F759D00415D6D /* SettingView */ = {
+			isa = PBXGroup;
+			children = (
+				A75908B62C0EF4C000415D6D /* SettingViewController.swift */,
+				A75908B82C0F087900415D6D /* AlarmView.swift */,
+				A75908C52C0F756800415D6D /* TimePickerViewController.swift */,
+				A75908C72C0F758900415D6D /* DaySelectViewController.swift */,
+				A75908CE2C101A3900415D6D /* DayTableViewCell.swift */,
+			);
+			path = SettingView;
+			sourceTree = "<group>";
+		};
+		A7F2DB152C1347840020B0AA /*  ParagraphDetailView */ = {
+			isa = PBXGroup;
+			children = (
+				A7F2DB162C1347C80020B0AA /* ParagrapViewController.swift */,
+				A7F2DB182C134B200020B0AA /* ParagrapContainerView.swift */,
+				A7F2DB1C2C15C6E70020B0AA /* KeywordCollectionViewCell.swift */,
+			);
+			path = " ParagraphDetailView";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -327,7 +402,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				A748746E2C0D7E0800B830EE /* Assets.xcassets in Resources */,
+				A75908C02C0F6AD100415D6D /* Pretendard-Bold.otf in Resources */,
+				A75908C12C0F6AD100415D6D /* Pretendard-Regular.otf in Resources */,
+				A75908C22C0F6AD100415D6D /* Pretendard-SemiBold.otf in Resources */,
 				A74874712C0D7E0800B830EE /* Base in Resources */,
+				A75908BF2C0F6AD100415D6D /* Pretendard-Medium.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,15 +427,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				A748747F2C0D7EBF00B830EE /* Model.swift in Sources */,
+				A75908B72C0EF4C000415D6D /* SettingViewController.swift in Sources */,
+				A75908C42C0F6B9600415D6D /* Font.swift in Sources */,
+				A75908D12C12D36100415D6D /* UserDefaultsKey.swift in Sources */,
 				A748746C2C0D7E0700B830EE /* Dokgi.xcdatamodeld in Sources */,
+				AB66D3472C0F3363000D72DA /* AddVerseVC.swift in Sources */,
+				A7F2DB1D2C15C6E70020B0AA /* KeywordCollectionViewCell.swift in Sources */,
 				A74874662C0D7E0700B830EE /* ViewController.swift in Sources */,
+				A75908C82C0F758900415D6D /* DaySelectViewController.swift in Sources */,
+				A75908D32C12D69300415D6D /* IntArrayExtension.swift in Sources */,
 				A74874622C0D7E0600B830EE /* AppDelegate.swift in Sources */,
 				A74874812C0D7EC800B830EE /* ViewModel.swift in Sources */,
+				A7F2DB192C134B200020B0AA /* ParagrapContainerView.swift in Sources */,
 				3C4181632C0DC1E000D141FD /* Network.swift in Sources */,
+				A75908CB2C0FEDEF00415D6D /* DayTimeViewModel.swift in Sources */,
 				A74874832C0D7ED100B830EE /* Extension.swift in Sources */,
 				3C41815F2C0DBF9800D141FD /* BookModel.swift in Sources */,
 				AB66D3442C0EEFE3000D72DA /* TabBarVC.swift in Sources */,
 				3C4181652C0DC4A100D141FD /* BookManager.swift in Sources */,
+				A75908CF2C101A3900415D6D /* DayTableViewCell.swift in Sources */,
+				A7F2DB172C1347C80020B0AA /* ParagrapViewController.swift in Sources */,
+				A75908B92C0F087900415D6D /* AlarmView.swift in Sources */,
+				A75908C62C0F756800415D6D /* TimePickerViewController.swift in Sources */,
 				A74874642C0D7E0600B830EE /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -558,6 +650,7 @@
 		};
 		A74874762C0D7E0800B830EE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A75908B52C0EF44D00415D6D /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -590,6 +683,7 @@
 		};
 		A74874772C0D7E0800B830EE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A75908B52C0EF44D00415D6D /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
