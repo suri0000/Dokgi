@@ -25,7 +25,11 @@ class ParagrapViewController: UIViewController {
     }
     
     lazy var xBtn = UIButton().then {
-        $0.setImage(UIImage(named: "modalClose"), for: .normal)
+        $0.setImage(UIImage(named: "deleteKeyword")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        $0.tintColor = UIColor(named: "ModelxGray")
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 15
+        $0.backgroundColor = UIColor(named: "ModelxBackground")
         $0.snp.makeConstraints {
             $0.width.height.equalTo(30)
         }
@@ -83,7 +87,7 @@ class ParagrapViewController: UIViewController {
         ParagrapScrollView.addSubview(containerView)
         
         titleStack.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(14)
+            $0.top.equalToSuperview().offset(28)
             $0.leading.trailing.equalToSuperview().inset(16)
         }
         

@@ -20,7 +20,6 @@ class ParagrapContainerView: UIView {
         $0.text = "뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. "
         $0.textAlignment = .left
         $0.font = Pretendard.regular.dynamicFont(style: .callout)
-        $0.textColor = UIColor(named: "AlarmSettingText")
         $0.numberOfLines = 20
     }
     
@@ -57,6 +56,7 @@ class ParagrapContainerView: UIView {
     lazy var writeDateDay = UILabel().then {
         $0.text = "2024.6.9"
         $0.font = Pretendard.regular.dynamicFont(style: .body)
+        $0.textColor = UIColor(named: "AlarmSettingText")
     }
     
     lazy var pageStackView = UIStackView().then {
@@ -72,6 +72,7 @@ class ParagrapContainerView: UIView {
     lazy var pageWriteLbl = UILabel().then {
         $0.text = "2000"
         $0.font = Pretendard.regular.dynamicFont(style: .body)
+        $0.textColor = UIColor(named: "AlarmSettingText")
     }
     
     override init(frame: CGRect) {
@@ -94,7 +95,7 @@ class ParagrapContainerView: UIView {
         $0.placeholder = "키워드를 입력해 주세요"
         $0.layer.cornerRadius = 10
         $0.layer.borderWidth = 1
-        $0.layer.borderColor = #colorLiteral(red: 0.9246169925, green: 0.9246169925, blue: 0.9246169925, alpha: 1)
+        $0.layer.borderColor = UIColor(named: "KeywordBorder")?.cgColor
         $0.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 22.0, height: 0.0))
         $0.leftViewMode = .always
         $0.isHidden = true
@@ -126,7 +127,7 @@ class ParagrapContainerView: UIView {
         
         textView.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.horizontalEdges.equalToSuperview().inset(20)
             $0.height.equalTo(256)
         }
         
@@ -147,12 +148,12 @@ class ParagrapContainerView: UIView {
         
         writeStackView.snp.makeConstraints {
             $0.top.equalTo(keywordStackView.snp.bottom).offset(30)
-            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.horizontalEdges.equalToSuperview().inset(20)
         }
         
         pageStackView.snp.makeConstraints {
             $0.top.equalTo(writeStackView.snp.bottom).offset(30)
-            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.horizontalEdges.equalToSuperview().inset(20)
             $0.bottom.equalToSuperview().inset(291)
         }
     }
@@ -161,7 +162,7 @@ class ParagrapContainerView: UIView {
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .estimated(34))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
       
-        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .absolute(32))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .estimated(32))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         group.interItemSpacing = .fixed(7)
         
