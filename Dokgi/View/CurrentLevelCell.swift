@@ -25,6 +25,7 @@ class CurrentLevelCell: UICollectionViewCell {
         configureUI()
         setupConstraints()
         setUpShadow()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -44,6 +45,7 @@ class CurrentLevelCell: UICollectionViewCell {
         cardView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
         
         cardImageView.snp.makeConstraints {
             $0.height.width.equalTo(107)
@@ -116,6 +118,7 @@ class CurrentLevelCell: UICollectionViewCell {
         lengthLabel.text = String(formattedLength)
     }
     
+    // 그림자 설정
     func setUpShadow() {
         layer.shadowOpacity = 0.4
         layer.shadowRadius = 9
@@ -124,6 +127,15 @@ class CurrentLevelCell: UICollectionViewCell {
         contentView.layer.masksToBounds = true
     }
     
+    // 블러 효과
+    func setupBlur() {
+        let blurEffect = UIBlurEffect(style: .regular)
+        let visualEffectView = UIVisualEffectView(effect: blurEffect)
+        visualEffectView.frame = self.contentView.frame
+        self.contentView.addSubview(visualEffectView)
+    }
+
+    // 길이 계산
     func formatLength(length: Int) -> String {
         switch length {
         case 0..<10:

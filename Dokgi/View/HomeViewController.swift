@@ -35,7 +35,6 @@ class HomeViewController: UIViewController {
     let currentLevelImage = UIImageView()
     let nextLevelBubble = UIImageView()
     let nextLevelImage = UIImageView()
-//    let progressPosition = UIView()
     
     var levelCollectionViewSelectedIndex = 0
     
@@ -76,12 +75,6 @@ class HomeViewController: UIViewController {
             $0.top.equalTo(nextLengthLabel.snp.bottom).offset(18)
         }
         
-//        progressPosition.snp.makeConstraints {
-//            $0.centerY.equalTo(lengthSlider.snp.centerY)
-//            $0.leading.equalTo(currentPosition.snp.leading).offset(11)
-//            $0.width.height.equalTo(16)
-//        }
-        
         currentLevelBubble.snp.makeConstraints {
             $0.width.equalTo(38)
             $0.height.equalTo(41)
@@ -120,17 +113,11 @@ class HomeViewController: UIViewController {
         nextLengthLabel.text = "다음까지 남은 길이는?"
         nextLengthLabel.font = .systemFont(ofSize: 14, weight: .regular)
         
-//        lengthProgress.progressViewStyle = .default
-//        lengthProgress.progressTintColor = .deepSkyBlue
-//        lengthSlider.transform = lengthSlider.transform.scaledBy(x: 1, y: 2)
         if let thumbImage = UIImage(named: "currentThum") {
             lengthSlider.setThumbImage(thumbImage, for: .normal)
             lengthSlider.setThumbImage(thumbImage, for: .highlighted)
         }
         lengthSlider.isUserInteractionEnabled = false
-        
-//        progressPosition.layer.cornerRadius = 9
-//        progressPosition.backgroundColor = .deepSkyBlue
         currentLevelBubble.image = UIImage(named: "speechBubble1")
         nextLevelBubble.image = UIImage(named: "speechBubble2")
         currentLevelImage.backgroundColor = .clear
@@ -143,7 +130,6 @@ class HomeViewController: UIViewController {
         nextLevelImage.image = UIImage(named: "goni")
         nextLevelImage.contentMode = .scaleAspectFit
         nextLevelImage.layer.masksToBounds = true
-        
     }
     
     func setupCollectionView() {
@@ -180,13 +166,13 @@ class HomeViewController: UIViewController {
             })
             .disposed(by: disposeBag)
     }
-    
+
     func selectLevel(_ level: Int, animated: Bool = true) {
         print("selectLevel \(level)")
         let index = max(0, min(level - 1, viewModel.levelCards.count - 1))
         let indexPath = IndexPath(item: index, section: 0)
         currentLevelCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
-        
+    
         levelCollectionViewSelectedIndex = index
         
         updateCurrentLevelCollectionViewCell()
@@ -211,14 +197,20 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.levelCards.count
+        let currentLevel = viewModel.currentLevel
+        return min(currentLevel.value + 1, viewModel.levelCards.count)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CurrentLevelCell.identifier, for: indexPath) as? CurrentLevelCell else { return UICollectionViewCell() }
-        
-        cell.setCellConfig(viewModel.levelCards[indexPath.item])
 
+        // 마지막 셀에만 블러 설정
+        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
+            cell.setupBlur()
+        } else {
+            cell.setCellConfig(viewModel.levelCards[indexPath.item])
+        }
+        
         // 현재 보여지는 셀 크기 : Standard
         if levelCollectionViewSelectedIndex == indexPath.item {
             cell.transformToStandard()
@@ -238,15 +230,6 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         currentCell?.transformToSmall()
     }
     
-    // 페이지 인덱스 구하기
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        let x = scrollView.contentOffset.x + scrollView.contentInset.left
-//        let flowLayout = currentLengthCollectionView.collectionViewLayout as! CurrentLevelCollectionFlowLayout
-//        let cellWidthIncludingSpacing = flowLayout.itemSize.width + flowLayout.minimumLineSpacing
-//        let pageIndex = round(x / cellWidthIncludingSpacing)
-//        print("scrollViewDidScroll \(scrollView.contentOffset.x) \(x) \(pageIndex) \(cellWidthIncludingSpacing)")
-//    }
-    
   func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
       guard scrollView == currentLevelCollectionView else { return }
       
@@ -261,13 +244,13 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
       var selectedIndex = levelCollectionViewSelectedIndex
       
       switch horizontalVelocity {
-      // On swiping
+      // 스크롤 시
       case _ where horizontalVelocity > 0 :
           selectedIndex = levelCollectionViewSelectedIndex + 1
       case _ where horizontalVelocity < 0:
           selectedIndex = levelCollectionViewSelectedIndex - 1
           
-      // On dragging
+      // 정지 후에 스크롤 할 떄
       case _ where horizontalVelocity == 0:
           let index = (offset.x + scrollView.contentInset.left) / cellWidthIncludingSpacing
           let roundedIndex = round(index)
@@ -276,7 +259,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
           print("Incorrect velocity for collection view")
       }
       
-      let safeIndex = max(0, min(selectedIndex, viewModel.levelCards.count - 1))
+      let safeIndex = max(0, min(selectedIndex, viewModel.currentLevel.value))
       let selectedIndexPath = IndexPath(item: safeIndex, section: 0)
       currentLevelCollectionView.scrollToItem(at: selectedIndexPath, at: .centeredHorizontally, animated: true)
       
