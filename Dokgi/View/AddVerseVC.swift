@@ -72,7 +72,7 @@ class AddVerseVC: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "책 제목"
-        label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         label.textColor = .black
         return label
     }()
@@ -81,7 +81,7 @@ class AddVerseVC: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "저자"
-        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         label.textColor = UIColor(named: "BookTextGray")
         return label
     }()
@@ -240,18 +240,18 @@ class AddVerseVC: UIViewController {
             $0.leading.equalTo(infoView.snp.leading).offset(16)
             $0.centerY.equalTo(infoView.snp.centerY)
             $0.width.equalTo(100)
-            $0.height.equalTo(100)
+            $0.height.equalTo(140)
         }
         
         titleLabel.snp.makeConstraints {
             $0.leading.equalTo(imageView.snp.trailing).offset(16)
-            $0.top.equalTo(infoView.snp.top).offset(16)
+            $0.centerY.equalTo(infoView.snp.centerY).offset(-16)
             $0.trailing.equalTo(infoView.snp.trailing).offset(-16)
         }
         
         authorLabel.snp.makeConstraints {
             $0.leading.equalTo(imageView.snp.trailing).offset(16)
-            $0.top.equalTo(titleLabel.snp.bottom).offset(8)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(16)
             $0.trailing.equalTo(infoView.snp.trailing).offset(-16)
         }
         
