@@ -53,7 +53,12 @@ class AddVerseVC: UIViewController {
 
     let infoView: UIView = {
         let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 15
+        return view
+    }()
+    
+    let overlayView: UIView = {
+        let view = UIView()
         view.backgroundColor = .lightSkyBlue
         view.layer.cornerRadius = 15
         return view
@@ -61,7 +66,6 @@ class AddVerseVC: UIViewController {
     
     let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "camera")
         imageView.contentMode = .scaleAspectFit
         imageView.backgroundColor = .gray
@@ -70,7 +74,6 @@ class AddVerseVC: UIViewController {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "책 제목"
         label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         label.textColor = .black
@@ -79,7 +82,6 @@ class AddVerseVC: UIViewController {
     
     let authorLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "저자"
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         label.textColor = UIColor(named: "BookTextGray")
@@ -102,7 +104,6 @@ class AddVerseVC: UIViewController {
     
     let keywordLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.attributedText = AddVerseVC.createAttributedString(for: "키워드 (선택)")
         label.textAlignment = .left
         return label
@@ -110,7 +111,6 @@ class AddVerseVC: UIViewController {
     
     let keywordField: UITextField = {
         let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "키워드를 입력해 주세요"
         textField.borderStyle = .roundedRect
         textField.layer.masksToBounds = true
@@ -124,7 +124,6 @@ class AddVerseVC: UIViewController {
         layout.minimumInteritemSpacing = 10
         layout.minimumLineSpacing = 10
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -135,7 +134,6 @@ class AddVerseVC: UIViewController {
     
     let pageLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "페이지"
         label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         label.textColor = .black
@@ -144,7 +142,6 @@ class AddVerseVC: UIViewController {
     
     let pageNumberTextField: UITextField = {
         let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "페이지 수"
         textField.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         textField.borderStyle = .roundedRect
@@ -153,7 +150,6 @@ class AddVerseVC: UIViewController {
     
     let percentageButton: UIButton = {
         let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("%", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
         button.setTitleColor(UIColor(named: "CharcoalBlue"), for: .normal)
@@ -167,7 +163,6 @@ class AddVerseVC: UIViewController {
     
     let pageButton: UIButton = {
         let btn = UIButton()
-        btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitle("Page", for: .normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
         btn.setTitleColor(.black, for: .normal)
@@ -181,7 +176,6 @@ class AddVerseVC: UIViewController {
     
     let recordButton: UIButton = {
         let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("기록 하기", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         button.setTitleColor(.white, for: .normal)
@@ -195,6 +189,7 @@ class AddVerseVC: UIViewController {
         scrollView.addSubview(viewInScroll)
         viewInScroll.addSubview(scanButton)
         viewInScroll.addSubview(infoView)
+        infoView.addSubview(overlayView)
         infoView.addSubview(imageView)
         infoView.addSubview(titleLabel)
         infoView.addSubview(authorLabel)
@@ -236,6 +231,10 @@ class AddVerseVC: UIViewController {
             $0.height.equalTo(200)
         }
         
+        overlayView.snp.makeConstraints {
+            $0.edges.equalTo(infoView)
+        }
+        
         imageView.snp.makeConstraints {
             $0.leading.equalTo(infoView.snp.leading).offset(16)
             $0.centerY.equalTo(infoView.snp.centerY)
@@ -255,7 +254,6 @@ class AddVerseVC: UIViewController {
             $0.trailing.equalTo(infoView.snp.trailing).offset(-16)
         }
         
-
         verseTextView.snp.makeConstraints {
             $0.top.equalTo(infoView.snp.bottom).offset(32)
             $0.leading.equalTo(viewInScroll.snp.leading).offset(16)
