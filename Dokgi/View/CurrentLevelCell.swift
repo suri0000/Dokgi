@@ -18,6 +18,7 @@ class CurrentLevelCell: UICollectionViewCell {
     let descrptionLabel = UILabel()
     let lengthLabel = UILabel()
     let cardImageView = UIImageView()
+    var blurEffectView: UIVisualEffectView?
     
     
     override init(frame: CGRect) {
@@ -128,12 +129,37 @@ class CurrentLevelCell: UICollectionViewCell {
     }
     
     // 블러 효과
+//    func setupBlur(alpha: CGFloat = 0.5) {
+//        let blurEffect = UIBlurEffect(style: .regular)
+//        let visualEffectView = UIVisualEffectView(effect: blurEffect)
+//        visualEffectView.frame = self.contentView.frame
+//        visualEffectView.alpha = alpha
+//        self.contentView.addSubview(visualEffectView)
+//    }
+    
     func setupBlur(alpha: CGFloat = 0.5) {
-        let blurEffect = UIBlurEffect(style: .regular)
-        let visualEffectView = UIVisualEffectView(effect: blurEffect)
-        visualEffectView.frame = self.contentView.frame
-        visualEffectView.alpha = alpha
-        self.contentView.addSubview(visualEffectView)
+        // 블러 효과 생성
+        let blurEffect = UIBlurEffect(style: .light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        
+        // 블러 효과 뷰의 크기와 위치 설정
+        blurEffectView.frame = self.contentView.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurEffectView.backgroundColor = .white
+        
+        // 블러 효과 뷰를 셀의 contentView에 추가
+        self.contentView.addSubview(blurEffectView)
+        
+        // 블러 효과의 알파값 설정
+        blurEffectView.alpha = alpha
+        
+        self.blurEffectView = blurEffectView
+    }
+    
+    func removeBlur() {
+        // 블러 효과 제거
+        blurEffectView?.removeFromSuperview()
+        blurEffectView = nil
     }
     
     // 길이 계산

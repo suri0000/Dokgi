@@ -48,9 +48,12 @@ class HomeViewController: UIViewController {
     }
     
     func setupConstraints() {
-        [currentLengthLabel, currentLevelCollectionView, nextLengthLabel, lengthSlider, currentLevelBubble, currentLevelImage, nextLevelBubble, nextLevelImage].forEach {
+        [currentLengthLabel, currentLevelCollectionView, nextLengthLabel, lengthSlider, currentLevelBubble, nextLevelBubble].forEach {
             view.addSubview($0)
         }
+        currentLevelBubble.addSubview(currentLevelImage)
+        nextLevelBubble.addSubview(nextLevelImage)
+        
         
         currentLengthLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(112)
@@ -83,9 +86,9 @@ class HomeViewController: UIViewController {
         }
         
         currentLevelImage.snp.makeConstraints {
-            $0.width.equalTo(36)
-            $0.height.equalTo(36)
-            $0.top.equalTo(currentLevelBubble.snp.top).offset(4)
+            $0.width.equalTo(28)
+            $0.height.equalTo(28)
+            $0.top.equalTo(currentLevelBubble.snp.top).offset(8)
             $0.centerX.equalTo(currentLevelBubble.snp.centerX)
         }
         
@@ -97,9 +100,9 @@ class HomeViewController: UIViewController {
         }
         
         nextLevelImage.snp.makeConstraints {
-            $0.width.equalTo(36)
-            $0.height.equalTo(36)
-            $0.top.equalTo(nextLevelBubble.snp.top).offset(4)
+            $0.width.equalTo(28)
+            $0.height.equalTo(28)
+            $0.top.equalTo(nextLevelBubble.snp.top).offset(8)
             $0.centerX.equalTo(nextLevelBubble.snp.centerX)
         }
     }
@@ -118,15 +121,17 @@ class HomeViewController: UIViewController {
             lengthSlider.setThumbImage(thumbImage, for: .highlighted)
         }
         lengthSlider.isUserInteractionEnabled = false
+        
         currentLevelBubble.image = UIImage(named: "speechBubble1")
-        nextLevelBubble.image = UIImage(named: "speechBubble2")
+        currentLevelBubble.clipsToBounds = true
         currentLevelImage.backgroundColor = .clear
-        currentLevelImage.layer.cornerRadius = 18
         currentLevelImage.image = UIImage(named: "grape")
         currentLevelImage.layer.masksToBounds = true
         currentLevelImage.contentMode = .scaleAspectFit
+        
+        nextLevelBubble.image = UIImage(named: "speechBubble2")
+        nextLevelBubble.clipsToBounds = true
         nextLevelImage.backgroundColor = .clear
-        nextLevelImage.layer.cornerRadius = 18
         nextLevelImage.image = UIImage(named: "goni")
         nextLevelImage.contentMode = .scaleAspectFit
         nextLevelImage.layer.masksToBounds = true
@@ -203,15 +208,17 @@ extension HomeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CurrentLevelCell.identifier, for: indexPath) as? CurrentLevelCell else { return UICollectionViewCell() }
+        
+        cell.setCellConfig(viewModel.levelCards[indexPath.item])
 
         // 마지막 셀에만 블러 설정
         if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
-            cell.setupBlur(alpha: 0.5)
-            cell.setCellConfig(viewModel.levelCards[indexPath.item])
+            cell.setupBlur(alpha: 0.6)
+            
         } else {
-            cell.setCellConfig(viewModel.levelCards[indexPath.item])
+//            cell.setCellConfig(viewModel.levelCards[indexPath.item])
+            cell.removeBlur()
         }
-        
         
         // 현재 보여지는 셀 크기 : Standard
         if levelCollectionViewSelectedIndex == indexPath.item {

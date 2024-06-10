@@ -63,7 +63,7 @@ class HomeViewModel {
             .disposed(by: disposeBag)
         
         // 테스트 구문추가
-        verses.accept(["안녕하세요","askljdjflkasjdfjsakldlj" ])
+        verses.accept(["안녕하세요","askljdjflkasjdfaskljdjflkasjdfjsakldljaskljdjflkasjdfjsakldljaskljdjflkasjdfjsakldljjsakldlj" ])
 
     }
     // 구절추가 테스트 함수
