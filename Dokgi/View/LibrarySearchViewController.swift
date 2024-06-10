@@ -60,18 +60,19 @@ class LibrarySearchViewController: UIViewController {
         view.backgroundColor = .white
         
         libraryLabel.text = "서재"
-        libraryLabel.font = UIFont.systemFont(ofSize: 28, weight: .bold)
+        libraryLabel.font = Pretendard.bold.dynamicFont(style: .title1)
         libraryLabel.textColor = .black
         
-        sortButton.backgroundColor = .lightGray
+        sortButton.backgroundColor = UIColor(named: "LightSkyBlue")
         sortButton.layer.cornerRadius = 15
         sortButton.clipsToBounds = true
         sortButton.addTarget(self, action: #selector(showSortMenuView), for: .touchUpInside)
         
-        sortButtonImageView.image = UIImage(named: "fi_chevron-down")
+        sortButtonImageView.image = UIImage(named: "down")
         
         sortButtonTitleLabel.text = "최신순"
-        sortButtonTitleLabel.font = UIFont.systemFont(ofSize: 13)
+        sortButtonTitleLabel.font = Pretendard.regular.dynamicFont(style: .footnote)
+        sortButtonTitleLabel.textColor = UIColor(named: "CharcoalBlue")
         
         sortMenuView.backgroundColor = .white
         sortMenuView.layer.cornerRadius = 10
@@ -90,15 +91,15 @@ class LibrarySearchViewController: UIViewController {
         oldestFirstButton.layer.cornerRadius = 10
         
         latestTextLabel.text = "최신순"
-        latestTextLabel.font = UIFont.systemFont(ofSize: 13)
-        latestTextLabel.textColor = .black
+        latestTextLabel.font = Pretendard.regular.dynamicFont(style: .footnote)
+        latestTextLabel.textColor = UIColor(named: "CharcoalBlue")
         
         oldestTextLabel.text = "오래된순"
-        oldestTextLabel.font = UIFont.systemFont(ofSize: 13)
-        oldestTextLabel.textColor = .black
+        oldestTextLabel.font = Pretendard.regular.dynamicFont(style: .footnote)
+        oldestTextLabel.textColor = UIColor(named: "CharcoalBlue")
         
-        latestFirstcheckImageView.image = UIImage(named: "fi_check")
-        oldestFirstcheckImageView.image = UIImage(named: "fi_check")
+        latestFirstcheckImageView.image = UIImage(named: "check")
+        oldestFirstcheckImageView.image = UIImage(named: "check")
     }
     
     func setConstraints() {
@@ -208,11 +209,13 @@ class LibrarySearchViewController: UIViewController {
         searchBar.placeholder = "기록된 책을 검색해보세요"
         searchBar.searchTextField.borderStyle = .line
         searchBar.searchTextField.layer.borderWidth = 1
-        searchBar.searchTextField.layer.borderColor = UIColor.gray.cgColor // 수정필요
+        if let SearchBarLightGray = UIColor(named: "SearchBarLightGray")?.cgColor {
+            searchBar.searchTextField.layer.borderColor = SearchBarLightGray
+        }
         searchBar.searchTextField.layer.backgroundColor = UIColor.white.cgColor
         searchBar.searchTextField.layer.cornerRadius = 20
         searchBar.searchTextField.layer.masksToBounds = true
-        searchBar.searchTextField.font = UIFont.systemFont(ofSize: 14)
+        searchBar.searchTextField.font = Pretendard.regular.dynamicFont(style: .caption2)
     }
     // MARK: - 설정버튼
     func setSortMenuView() {

@@ -31,22 +31,24 @@ class LibraryCollectionViewCell: UICollectionViewCell {
         self.contentView.layer.masksToBounds = true
         
         bookImageView.image = UIImage(named: "book")
-        bookImageView.backgroundColor = .yellow
+        bookImageView.backgroundColor = .white
         bookImageView.layer.cornerRadius = 15
-        bookImageView.layer.borderColor = UIColor.gray.cgColor
+        if let LightGray = UIColor(named: "LightGray")?.cgColor {
+            bookImageView.layer.borderColor = LightGray
+        }
         bookImageView.layer.borderWidth = 1
         bookImageView.contentMode = .scaleAspectFit
   
         bookNameLabel.text = "김태성의 별별 한국사 능력 검정시험"
-        bookNameLabel.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        bookNameLabel.font = Pretendard.bold.dynamicFont(style: .subheadline)
         bookNameLabel.textColor = UIColor.black
         bookNameLabel.textAlignment = .center
         bookNameLabel.numberOfLines = 2
         bookNameLabel.layer.masksToBounds = true
 
         authorNameLabel.text = "김6조"
-        authorNameLabel.font = UIFont.systemFont(ofSize: 12, weight: .regular)
-        authorNameLabel.textColor = UIColor.gray
+        authorNameLabel.font = Pretendard.regular.dynamicFont(style: .caption1)
+        authorNameLabel.textColor = UIColor(named: "AuthorLabelGray")
         authorNameLabel.textAlignment = .center
         authorNameLabel.layer.masksToBounds = true
     }
