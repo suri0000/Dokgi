@@ -25,7 +25,6 @@ class AddVerseVC: UIViewController {
     
     let scrollView: UIScrollView = {
         let sv = UIScrollView()
-        sv.translatesAutoresizingMaskIntoConstraints = false
         sv.showsVerticalScrollIndicator = false
         return sv
     }()
