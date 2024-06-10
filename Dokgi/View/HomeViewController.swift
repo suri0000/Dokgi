@@ -35,6 +35,10 @@ class HomeViewController: UIViewController {
     let currentLevelImage = UIImageView()
     let nextLevelBubble = UIImageView()
     let nextLevelImage = UIImageView()
+//    let blurEffect = UIBlurEffect(style: .regular)
+//    lazy var blurEffectView = UIVisualEffectView(effect: blurEffect)
+    let blurView = UIView()
+            
     
     var levelCollectionViewSelectedIndex = 0
     
@@ -53,6 +57,8 @@ class HomeViewController: UIViewController {
         }
         currentLevelBubble.addSubview(currentLevelImage)
         nextLevelBubble.addSubview(nextLevelImage)
+//        nextLevelBubble.addSubview(blurEffectView)
+        nextLevelBubble.addSubview(blurView)
         
         
         currentLengthLabel.snp.makeConstraints {
@@ -99,10 +105,19 @@ class HomeViewController: UIViewController {
             $0.trailing.equalTo(lengthSlider.snp.trailing).offset(17)
         }
         
+        
+        
         nextLevelImage.snp.makeConstraints {
             $0.width.equalTo(28)
             $0.height.equalTo(28)
             $0.top.equalTo(nextLevelBubble.snp.top).offset(8)
+            $0.centerX.equalTo(nextLevelBubble.snp.centerX)
+        }
+        
+        blurView.snp.makeConstraints {
+            $0.width.equalTo(36)
+            $0.height.equalTo(36)
+            $0.top.equalTo(nextLevelBubble.snp.top).offset(4)
             $0.centerX.equalTo(nextLevelBubble.snp.centerX)
         }
     }
@@ -131,10 +146,24 @@ class HomeViewController: UIViewController {
         
         nextLevelBubble.image = UIImage(named: "speechBubble2")
         nextLevelBubble.clipsToBounds = true
+        nextLevelBubble.layer.masksToBounds = true
+        
+//        blurEffectView.frame = nextLevelImage.bounds
+//        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        blurEffectView.alpha = 0.5
+//        blurEffectView.backgroundColor = .white
+//        blurEffectView.layer.cornerRadius = 18
+        
         nextLevelImage.backgroundColor = .clear
         nextLevelImage.image = UIImage(named: "goni")
         nextLevelImage.contentMode = .scaleAspectFit
         nextLevelImage.layer.masksToBounds = true
+        
+        blurView.backgroundColor = .white
+        blurView.alpha = 0.7
+        blurView.layer.cornerRadius = 18
+        
+
     }
     
     func setupCollectionView() {
@@ -196,8 +225,6 @@ class HomeViewController: UIViewController {
         currCell?.transformToStandard()
         if nextIndex != currIndex { nextCell?.transformToSmall() }
     }
-    
-
 }
 
 extension HomeViewController: UICollectionViewDataSource {
