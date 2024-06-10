@@ -9,10 +9,6 @@ import UIKit
 
 class LibraryCollectionViewCell: UICollectionViewCell {
     
-    var persistentContainer: NSPersistentContainer? {
-        (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
-    }
-    
     static let identifier = "LibraryCollectionViewCell"
     
     let bookImageView = UIImageView()
@@ -62,6 +58,7 @@ class LibraryCollectionViewCell: UICollectionViewCell {
         
         bookImageView.snp.makeConstraints {
             $0.top.trailing.leading.equalToSuperview()
+            // 기기 변경 시 오토레이아웃 깨지지 않게 -> 피그마 기준 이미지 크기 165:190 = 1:1.151515
             $0.height.equalTo(bookImageView.snp.width).multipliedBy(1.151515)
         }
 

@@ -7,7 +7,7 @@
 import SnapKit
 import UIKit
 
-class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
+class LibrarySearchViewController: UIViewController {
     
     let libraryLabel = UILabel()
     let searchBar = UISearchBar()
@@ -18,8 +18,8 @@ class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
     let sortMenuView = UIView()
     let latestFirstButton = UIButton()
     let oldestFirstButton = UIButton()
-    let checkImageView1 = UIImageView()
-    let checkImageView2 = UIImageView()
+    let latestFirstcheckImageView = UIImageView()
+    let oldestFirstcheckImageView = UIImageView()
     let latestTextLabel = UILabel()
     let oldestTextLabel = UILabel()
     
@@ -37,7 +37,7 @@ class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
         let deviceWidth = UIScreen.main.bounds.width
         let inset: CGFloat = 20
         let cellWidth = (deviceWidth - spacing - inset * 2)/countForLine
-                
+        
         layout.itemSize = .init(width: cellWidth, height: cellWidth * 1.58)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -50,18 +50,15 @@ class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        view.backgroundColor = .white
-        
         setUI()
         setConstraints()
-        
         setSearchBar()
-        
         setSortMenuView()
     }
     
     func setUI() {
+        view.backgroundColor = .white
+        
         libraryLabel.text = "서재"
         libraryLabel.font = UIFont.systemFont(ofSize: 28, weight: .bold)
         libraryLabel.textColor = .black
@@ -83,7 +80,7 @@ class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
         sortMenuView.layer.shadowOpacity = 0.5
         sortMenuView.layer.shadowOffset = CGSize(width: 1, height: 1)
         sortMenuView.layer.shadowRadius = 2
-      
+        
         latestFirstButton.backgroundColor = .white
         latestFirstButton.addTarget(self, action: #selector(tappedLatestFirst), for: .touchUpInside)
         latestFirstButton.layer.cornerRadius = 10
@@ -100,8 +97,8 @@ class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
         oldestTextLabel.font = UIFont.systemFont(ofSize: 13)
         oldestTextLabel.textColor = .black
         
-        checkImageView1.image = UIImage(named: "fi_check")
-        checkImageView2.image = UIImage(named: "fi_check")
+        latestFirstcheckImageView.image = UIImage(named: "fi_check")
+        oldestFirstcheckImageView.image = UIImage(named: "fi_check")
     }
     
     func setConstraints() {
@@ -169,11 +166,11 @@ class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
         }
         
         // 최신순 버튼
-        [checkImageView1, latestTextLabel].forEach {
+        [latestFirstcheckImageView, latestTextLabel].forEach {
             latestFirstButton.addSubview($0)
         }
         
-        checkImageView1.snp.makeConstraints {
+        latestFirstcheckImageView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(12)
             $0.height.width.equalTo(10)
@@ -181,15 +178,15 @@ class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
         
         latestTextLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalTo(checkImageView1.snp.trailing).offset(6)
+            $0.leading.equalTo(latestFirstcheckImageView.snp.trailing).offset(6)
         }
         
         //오래된순
-        [checkImageView2, oldestTextLabel].forEach {
+        [oldestFirstcheckImageView, oldestTextLabel].forEach {
             oldestFirstButton.addSubview($0)
         }
         
-        checkImageView2.snp.makeConstraints {
+        oldestFirstcheckImageView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(12)
             $0.height.width.equalTo(10)
@@ -197,7 +194,7 @@ class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
         
         oldestTextLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalTo(checkImageView1.snp.trailing).offset(6)
+            $0.leading.equalTo(latestFirstcheckImageView.snp.trailing).offset(6)
         }
         
         libraryCollectionView.snp.makeConstraints {
@@ -207,7 +204,6 @@ class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
     }
     
     //MARK: - searchController
-    
     func setSearchBar() {
         searchBar.searchBarStyle = .minimal
         searchBar.placeholder = "기록된 책을 검색해보세요"
@@ -219,14 +215,13 @@ class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
         searchBar.searchTextField.layer.masksToBounds = true
         searchBar.searchTextField.font = UIFont.systemFont(ofSize: 14)
     }
-    
+
     // MARK: - 설정버튼
-    
     func setSortMenuView() {
         sortMenuView.isHidden = true
         
-        checkImageView1.isHidden = false
-        checkImageView2.isHidden = true
+        latestFirstcheckImageView.isHidden = false
+        oldestFirstcheckImageView.isHidden = true
     }
     
     @objc func showSortMenuView() {
@@ -237,8 +232,8 @@ class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
     @objc func tappedLatestFirst() {
         sortButtonTitleLabel.text = "최신순"
         
-        checkImageView1.isHidden = false
-        checkImageView2.isHidden = true
+        latestFirstcheckImageView.isHidden = false
+        oldestFirstcheckImageView.isHidden = true
         
         sortMenuView.isHidden = true
     }
@@ -246,24 +241,21 @@ class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
     @objc func tappedOldestFirst() {
         sortButtonTitleLabel.text = "오래된순"
         
-        checkImageView1.isHidden = true
-        checkImageView2.isHidden = false
+        latestFirstcheckImageView.isHidden = true
+        oldestFirstcheckImageView.isHidden = false
         
         sortMenuView.isHidden = true
     }
-    
 }
-
 //MARK: -CollectionView
-extension LibrarySearchViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
+extension LibrarySearchViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 100
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LibraryCollectionViewCell", for: indexPath) as? LibraryCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryCollectionViewCell.identifier, for: indexPath) as? LibraryCollectionViewCell else {
             return UICollectionViewCell()
         }
         return cell

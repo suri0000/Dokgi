@@ -10,7 +10,6 @@
 		3C41815F2C0DBF9800D141FD /* BookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C41815E2C0DBF9800D141FD /* BookModel.swift */; };
 		3C4181632C0DC1E000D141FD /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4181622C0DC1E000D141FD /* Network.swift */; };
 		3C4181652C0DC4A100D141FD /* BookManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4181642C0DC4A100D141FD /* BookManager.swift */; };
-		7BE488A72C0F25B400BDB92A /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE488A62C0F25B400BDB92A /* LibraryViewController.swift */; };
 		7BE488A92C0F267000BDB92A /* LibrarySearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE488A82C0F267000BDB92A /* LibrarySearchViewController.swift */; };
 		7BE488AF2C103E5A00BDB92A /* LibraryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE488AE2C103E5A00BDB92A /* LibraryCollectionViewCell.swift */; };
 		A74874622C0D7E0600B830EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74874612C0D7E0600B830EE /* AppDelegate.swift */; };
@@ -34,7 +33,6 @@
 		3C4181622C0DC1E000D141FD /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		3C4181642C0DC4A100D141FD /* BookManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookManager.swift; sourceTree = "<group>"; };
 		7BE488A52C0EFE9300BDB92A /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
-		7BE488A62C0F25B400BDB92A /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
 		7BE488A82C0F267000BDB92A /* LibrarySearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibrarySearchViewController.swift; sourceTree = "<group>"; };
 		7BE488AE2C103E5A00BDB92A /* LibraryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryCollectionViewCell.swift; sourceTree = "<group>"; };
 		A748745E2C0D7E0600B830EE /* Dokgi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dokgi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,7 +127,6 @@
 			isa = PBXGroup;
 			children = (
 				A74874652C0D7E0700B830EE /* ViewController.swift */,
-				7BE488A62C0F25B400BDB92A /* LibraryViewController.swift */,
 				7BE488AE2C103E5A00BDB92A /* LibraryCollectionViewCell.swift */,
 				7BE488A82C0F267000BDB92A /* LibrarySearchViewController.swift */,
 			);
@@ -245,7 +242,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A748747F2C0D7EBF00B830EE /* Model.swift in Sources */,
-				7BE488A72C0F25B400BDB92A /* LibraryViewController.swift in Sources */,
 				A748746C2C0D7E0700B830EE /* Dokgi.xcdatamodeld in Sources */,
 				A74874662C0D7E0700B830EE /* ViewController.swift in Sources */,
 				A74874622C0D7E0600B830EE /* AppDelegate.swift in Sources */,
