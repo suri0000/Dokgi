@@ -202,8 +202,7 @@ class LibrarySearchViewController: UIViewController {
             $0.bottom.left.right.equalToSuperview().inset(0)
         }
     }
-    
-    //MARK: - searchController
+    //MARK: - searchBar
     func setSearchBar() {
         searchBar.searchBarStyle = .minimal
         searchBar.placeholder = "기록된 책을 검색해보세요"
@@ -215,7 +214,6 @@ class LibrarySearchViewController: UIViewController {
         searchBar.searchTextField.layer.masksToBounds = true
         searchBar.searchTextField.font = UIFont.systemFont(ofSize: 14)
     }
-
     // MARK: - 설정버튼
     func setSortMenuView() {
         sortMenuView.isHidden = true
@@ -249,6 +247,7 @@ class LibrarySearchViewController: UIViewController {
 }
 //MARK: -CollectionView
 extension LibrarySearchViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 100
     }
@@ -261,4 +260,3 @@ extension LibrarySearchViewController: UICollectionViewDelegate, UICollectionVie
         return cell
     }
 }
-
