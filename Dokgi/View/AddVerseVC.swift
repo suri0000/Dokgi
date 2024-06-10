@@ -17,6 +17,7 @@ class AddVerseVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        print("생명주기")
         setupViews()
         initLayout()
         setupActions()
@@ -31,21 +32,16 @@ class AddVerseVC: UIViewController {
     
     let viewInScroll: UIView = {
         let uv = UIView()
-        uv.translatesAutoresizingMaskIntoConstraints = false
         return uv
     }()
     
     let scanButton: UIButton = {
         let btn = UIButton()
-        btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitle("구절 스캔", for: .normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
         btn.setTitleColor(UIColor(named: "CharcoalBlue"), for: .normal)
         btn.backgroundColor = .lightSkyBlue
-        
-        // 이미지 색상 변경
         btn.setImage(UIImage(named: "camera.viewfinder")?.withTintColor(UIColor(named: "CharcoalBlue") ?? .black, renderingMode: .alwaysOriginal), for: .normal)
-        
         btn.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
         btn.layer.cornerRadius = 18
         return btn
@@ -62,6 +58,22 @@ class AddVerseVC: UIViewController {
         view.backgroundColor = .lightSkyBlue
         view.layer.cornerRadius = 15
         return view
+    }()
+    
+    let searchButton: UIButton = {
+        let button = UIButton(type: .system)
+        var config = UIButton.Configuration.filled()
+        config.title = "책 검색"
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        config.baseForegroundColor = .white
+        config.baseBackgroundColor = UIColor(named: "CharcoalBlue")
+        config.image = UIImage(systemName: "magnifyingglass")
+        config.imagePadding = 8
+        config.imagePlacement = .leading
+        button.configuration = config
+        button.layer.cornerRadius = 15
+        button.clipsToBounds = true
+        return button
     }()
     
     let imageView: UIImageView = {
@@ -190,6 +202,7 @@ class AddVerseVC: UIViewController {
         viewInScroll.addSubview(scanButton)
         viewInScroll.addSubview(infoView)
         infoView.addSubview(overlayView)
+        overlayView.addSubview(searchButton)
         infoView.addSubview(imageView)
         infoView.addSubview(titleLabel)
         infoView.addSubview(authorLabel)
@@ -233,6 +246,12 @@ class AddVerseVC: UIViewController {
         
         overlayView.snp.makeConstraints {
             $0.edges.equalTo(infoView)
+        }
+        
+        searchButton.snp.makeConstraints {
+            $0.center.equalToSuperview()
+            $0.height.equalTo(35)
+            $0.horizontalEdges.equalTo(viewInScroll).inset(135)
         }
         
         imageView.snp.makeConstraints {
@@ -348,7 +367,6 @@ class AddVerseVC: UIViewController {
     }
     
     @objc func percentageButtonTapped(_ sender: UIButton) {
-        // 구절 스캔 버튼이 눌렸을 때 실행될 액션 구현
         print("% 버튼이 눌렸습니다.")
     }
     
