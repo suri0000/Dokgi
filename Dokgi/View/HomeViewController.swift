@@ -206,10 +206,12 @@ extension HomeViewController: UICollectionViewDataSource {
 
         // 마지막 셀에만 블러 설정
         if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
-            cell.setupBlur()
+            cell.setupBlur(alpha: 0.5)
+            cell.setCellConfig(viewModel.levelCards[indexPath.item])
         } else {
             cell.setCellConfig(viewModel.levelCards[indexPath.item])
         }
+        
         
         // 현재 보여지는 셀 크기 : Standard
         if levelCollectionViewSelectedIndex == indexPath.item {

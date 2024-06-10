@@ -128,13 +128,14 @@ class CurrentLevelCell: UICollectionViewCell {
     }
     
     // 블러 효과
-    func setupBlur() {
+    func setupBlur(alpha: CGFloat = 0.5) {
         let blurEffect = UIBlurEffect(style: .regular)
         let visualEffectView = UIVisualEffectView(effect: blurEffect)
         visualEffectView.frame = self.contentView.frame
+        visualEffectView.alpha = alpha
         self.contentView.addSubview(visualEffectView)
     }
-
+    
     // 길이 계산
     func formatLength(length: Int) -> String {
         switch length {
