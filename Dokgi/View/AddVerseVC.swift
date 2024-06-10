@@ -158,7 +158,7 @@ class AddVerseVC: UIViewController {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
         button.setTitleColor(UIColor(named: "CharcoalBlue"), for: .normal)
         button.layer.cornerRadius = 15
-        button.layer.borderWidth = 1.0
+        button.layer.borderWidth = 1.0 // 테두리 두께 설정
         if let charcoalBlueColor = UIColor(named: "CharcoalBlue") {
             button.layer.borderColor = charcoalBlueColor.cgColor
         }
@@ -180,14 +180,14 @@ class AddVerseVC: UIViewController {
     }()
     
     let recordButton: UIButton = {
-        let btn = UIButton()
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setTitle("기록 하기", for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        btn.setTitleColor(.white, for: .normal)
-        btn.backgroundColor = UIColor(named: "CharcoalBlue")
-        btn.layer.cornerRadius = 8
-        return btn
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("기록 하기", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = UIColor(named: "CharcoalBlue") // 버튼 배경색 설정
+        button.layer.cornerRadius = 8
+        return button
     }()
     
     func setupViews() {
@@ -256,6 +256,7 @@ class AddVerseVC: UIViewController {
             make.trailing.equalTo(infoView.snp.trailing).offset(-16)
         }
         
+
         verseTextView.snp.makeConstraints { make in
             make.top.equalTo(infoView.snp.bottom).offset(32)
             make.leading.equalTo(viewInScroll.snp.leading).offset(16)
