@@ -9,10 +9,6 @@ import UIKit
 
 class LibraryCollectionViewCell: UICollectionViewCell {
     
-    var persistentContainer: NSPersistentContainer? {
-        (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
-    }
-    
     static let identifier = "LibraryCollectionViewCell"
     
     let bookImageView = UIImageView()
