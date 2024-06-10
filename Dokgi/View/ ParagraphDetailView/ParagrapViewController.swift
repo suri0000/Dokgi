@@ -14,17 +14,17 @@ import UIKit
 class ParagrapViewController: UIViewController {
     let disposeBag = DisposeBag()
     
-    lazy var titleStack = UIStackView().then {
+    let titleStack = UIStackView().then {
         $0.axis = .horizontal
         $0.distribution = .equalSpacing
     }
     
-    lazy var titleLbl = UILabel().then {
+    let titleLbl = UILabel().then {
         $0.text = "눈물의 여왕"
         $0.font = Pretendard.semibold.dynamicFont(style: .title3)
     }
     
-    lazy var xBtn = UIButton().then {
+    let xBtn = UIButton().then {
         $0.setImage(UIImage(named: "deleteKeyword")?.withRenderingMode(.alwaysTemplate), for: .normal)
         $0.tintColor = UIColor(named: "ModelxGray")
         $0.clipsToBounds = true
@@ -35,18 +35,18 @@ class ParagrapViewController: UIViewController {
         }
     }
     
-    lazy var editBtn = UIButton().then {
+    let editBtn = UIButton().then {
         $0.setTitle("수정하기", for: .normal)
         $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
         $0.setTitleColor(.black, for: .normal)
         $0.setImage(UIImage(named: "modalEdit"), for: .normal)
     }
     
-    lazy var ParagrapScrollView = UIScrollView().then {
+    let ParagrapScrollView = UIScrollView().then {
         $0.showsVerticalScrollIndicator = false
     }
     
-    lazy var containerView = ParagrapContainerView()
+    let containerView = ParagrapContainerView()
     
     let smallId = UISheetPresentationController.Detent.Identifier("small")
     lazy var smallDetent = UISheetPresentationController.Detent.custom(identifier: smallId) { context in

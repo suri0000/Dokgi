@@ -10,25 +10,25 @@ import Then
 import UIKit
 
 class ParagrapContainerView: UIView {
-    lazy var textView = UIView().then {
+    let textView = UIView().then {
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 20
         $0.backgroundColor = UIColor(named: "LavenderBlue")
     }
     
-    lazy var paragrapTextLbl = UILabel().then {
+    let paragrapTextLbl = UILabel().then {
         $0.text = "뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. "
         $0.textAlignment = .left
         $0.font = Pretendard.regular.dynamicFont(style: .callout)
         $0.numberOfLines = 20
     }
     
-    lazy var keywordStackView = UIStackView().then {
+    let keywordStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 7
     }
     
-    lazy var keywordLabel = UILabel().then {
+    let keywordLabel = UILabel().then {
         $0.text = "키워드"
         $0.font = Pretendard.semibold.dynamicFont(style: .body)
     }
@@ -43,33 +43,33 @@ class ParagrapContainerView: UIView {
         }
     }
     
-    lazy var writeStackView = UIStackView().then {
+    let writeStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.distribution = .equalSpacing
     }
     
-    lazy var writeDateTitle = UILabel().then {
+    let writeDateTitle = UILabel().then {
         $0.text = "기록날짜"
         $0.font = Pretendard.semibold.dynamicFont(style: .body)
     }
     
-    lazy var writeDateDay = UILabel().then {
+    let writeDateDay = UILabel().then {
         $0.text = "2024.6.9"
         $0.font = Pretendard.regular.dynamicFont(style: .body)
         $0.textColor = UIColor(named: "AlarmSettingText")
     }
     
-    lazy var pageStackView = UIStackView().then {
+    let pageStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.distribution = .equalSpacing
     }
     
-    lazy var pageTitle = UILabel().then {
+    let pageTitle = UILabel().then {
         $0.text = "페이지"
         $0.font = Pretendard.semibold.dynamicFont(style: .body)
     }
     
-    lazy var pageWriteLbl = UILabel().then {
+    let pageWriteLbl = UILabel().then {
         $0.text = "2000"
         $0.font = Pretendard.regular.dynamicFont(style: .body)
         $0.textColor = UIColor(named: "AlarmSettingText")
@@ -80,7 +80,7 @@ class ParagrapContainerView: UIView {
         setupLayout()
     }
     
-    lazy var paragrapTextField = UITextView().then {
+    let paragrapTextField = UITextView().then {
         $0.font = Pretendard.regular.dynamicFont(style: .callout)
         $0.backgroundColor = .clear
         $0.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -89,7 +89,7 @@ class ParagrapContainerView: UIView {
         $0.isHidden = true
     }
     
-    var keywordTextField = UITextField().then {
+    let keywordTextField = UITextField().then {
         $0.font = Pretendard.regular.dynamicFont(style: .callout)
         $0.textColor = UIColor(named: "TextFieldGray")
         $0.placeholder = "키워드를 입력해 주세요"
@@ -162,7 +162,7 @@ class ParagrapContainerView: UIView {
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .estimated(34))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
       
-        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .estimated(32))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .absolute(32))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         group.interItemSpacing = .fixed(7)
         

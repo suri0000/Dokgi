@@ -12,18 +12,18 @@ import UIKit
 class KeywordCollectionViewCell: UICollectionViewCell {
     static let identifier = "KeywordCollectionViewCell"
     
-    lazy var stackView = UIStackView().then {
+    let stackView = UIStackView().then {
         $0.axis = .horizontal
         $0.spacing = 3
     }
     
-    lazy var keywordLbl = UILabel().then {
+    let keywordLbl = UILabel().then {
         $0.text = "dddd"
         $0.font = Pretendard.regular.dynamicFont(style: .callout)
         $0.textColor = UIColor(named: "BrightBlue")
     }
     
-    lazy var xBtn = UIButton().then {
+    let xBtn = UIButton().then {
         $0.setImage(UIImage(named: "deleteKeyword"), for: .normal)
         $0.isHidden = true
     }
