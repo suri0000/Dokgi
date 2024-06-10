@@ -31,11 +31,11 @@ class HomeViewController: UIViewController {
     
     let nextLengthLabel = UILabel()
     let lengthSlider = UISlider()
-    let currentPosition = UIImageView()
-    let currentPositionImage = UIImageView()
-    let nextPosition = UIImageView()
-    let nextpositionImage = UIImageView()
-    let progressPosition = UIView()
+    let currentLevelBubble = UIImageView()
+    let currentLevelImage = UIImageView()
+    let nextLevelBubble = UIImageView()
+    let nextLevelImage = UIImageView()
+//    let progressPosition = UIView()
     
     var levelCollectionViewSelectedIndex = 0
     
@@ -49,7 +49,7 @@ class HomeViewController: UIViewController {
     }
     
     func setupConstraints() {
-        [currentLengthLabel, currentLevelCollectionView, nextLengthLabel, lengthSlider, currentPosition, currentPositionImage, nextPosition, nextpositionImage, progressPosition].forEach {
+        [currentLengthLabel, currentLevelCollectionView, nextLengthLabel, lengthSlider, currentLevelBubble, currentLevelImage, nextLevelBubble, nextLevelImage].forEach {
             view.addSubview($0)
         }
         
@@ -76,38 +76,38 @@ class HomeViewController: UIViewController {
             $0.top.equalTo(nextLengthLabel.snp.bottom).offset(18)
         }
         
-        progressPosition.snp.makeConstraints {
-            $0.centerY.equalTo(lengthSlider.snp.centerY)
-            $0.leading.equalTo(currentPosition.snp.leading).offset(11)
-            $0.width.height.equalTo(16)
-        }
+//        progressPosition.snp.makeConstraints {
+//            $0.centerY.equalTo(lengthSlider.snp.centerY)
+//            $0.leading.equalTo(currentPosition.snp.leading).offset(11)
+//            $0.width.height.equalTo(16)
+//        }
         
-        currentPosition.snp.makeConstraints {
+        currentLevelBubble.snp.makeConstraints {
             $0.width.equalTo(38)
             $0.height.equalTo(41)
-            $0.top.equalTo(lengthSlider.snp.bottom).offset(7)
+            $0.top.equalTo(lengthSlider.snp.bottom)
             $0.leading.equalTo(lengthSlider.snp.leading).offset(-17)
         }
         
-        currentPositionImage.snp.makeConstraints {
+        currentLevelImage.snp.makeConstraints {
             $0.width.equalTo(36)
             $0.height.equalTo(36)
-            $0.top.equalTo(currentPosition.snp.top).offset(4)
-            $0.centerX.equalTo(currentPosition.snp.centerX)
+            $0.top.equalTo(currentLevelBubble.snp.top).offset(4)
+            $0.centerX.equalTo(currentLevelBubble.snp.centerX)
         }
         
-        nextPosition.snp.makeConstraints {
+        nextLevelBubble.snp.makeConstraints {
             $0.width.equalTo(38)
             $0.height.equalTo(41)
-            $0.top.equalTo(lengthSlider.snp.bottom).offset(7)
+            $0.top.equalTo(lengthSlider.snp.bottom)
             $0.trailing.equalTo(lengthSlider.snp.trailing).offset(17)
         }
         
-        nextpositionImage.snp.makeConstraints {
+        nextLevelImage.snp.makeConstraints {
             $0.width.equalTo(36)
             $0.height.equalTo(36)
-            $0.top.equalTo(nextPosition.snp.top).offset(4)
-            $0.centerX.equalTo(nextPosition.snp.centerX)
+            $0.top.equalTo(nextLevelBubble.snp.top).offset(4)
+            $0.centerX.equalTo(nextLevelBubble.snp.centerX)
         }
     }
     
@@ -123,26 +123,26 @@ class HomeViewController: UIViewController {
 //        lengthProgress.progressViewStyle = .default
 //        lengthProgress.progressTintColor = .deepSkyBlue
 //        lengthSlider.transform = lengthSlider.transform.scaledBy(x: 1, y: 2)
-        if let thumbImage = UIImage(named: "speechBubble1") {
+        if let thumbImage = UIImage(named: "currentThum") {
             lengthSlider.setThumbImage(thumbImage, for: .normal)
             lengthSlider.setThumbImage(thumbImage, for: .highlighted)
         }
         lengthSlider.isUserInteractionEnabled = false
         
-        progressPosition.layer.cornerRadius = 9
-        progressPosition.backgroundColor = .deepSkyBlue
-        currentPosition.image = UIImage(named: "speechBubble1")
-        nextPosition.image = UIImage(named: "speechBubble2")
-        currentPositionImage.backgroundColor = .clear
-        currentPositionImage.layer.cornerRadius = 18
-        currentPositionImage.image = UIImage(named: "grape")
-        currentPositionImage.layer.masksToBounds = true
-        currentPositionImage.contentMode = .scaleAspectFit
-        nextpositionImage.backgroundColor = .clear
-        nextpositionImage.layer.cornerRadius = 18
-        nextpositionImage.image = UIImage(named: "goni")
-        nextpositionImage.contentMode = .scaleAspectFit
-        nextpositionImage.layer.masksToBounds = true
+//        progressPosition.layer.cornerRadius = 9
+//        progressPosition.backgroundColor = .deepSkyBlue
+        currentLevelBubble.image = UIImage(named: "speechBubble1")
+        nextLevelBubble.image = UIImage(named: "speechBubble2")
+        currentLevelImage.backgroundColor = .clear
+        currentLevelImage.layer.cornerRadius = 18
+        currentLevelImage.image = UIImage(named: "grape")
+        currentLevelImage.layer.masksToBounds = true
+        currentLevelImage.contentMode = .scaleAspectFit
+        nextLevelImage.backgroundColor = .clear
+        nextLevelImage.layer.cornerRadius = 18
+        nextLevelImage.image = UIImage(named: "goni")
+        nextLevelImage.contentMode = .scaleAspectFit
+        nextLevelImage.layer.masksToBounds = true
         
     }
     
@@ -165,6 +165,18 @@ class HomeViewController: UIViewController {
             .subscribe(onNext: { [weak self] value in
                 print("currentLevelPercent changed \(value)")
                 self?.lengthSlider.value = Float(value)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.currentLevelImage
+            .subscribe(onNext: { [weak self ] image in
+                self?.currentLevelImage.image = image
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.nextLevelImage
+            .subscribe(onNext: { [weak self ] image in
+                self?.nextLevelImage.image = image
             })
             .disposed(by: disposeBag)
     }
@@ -193,6 +205,8 @@ class HomeViewController: UIViewController {
         currCell?.transformToStandard()
         if nextIndex != currIndex { nextCell?.transformToSmall() }
     }
+    
+
 }
 
 extension HomeViewController: UICollectionViewDataSource {

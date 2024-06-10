@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import UIKit
 
 class HomeViewModel {
     let disposeBag = DisposeBag()
@@ -16,6 +17,9 @@ class HomeViewModel {
     let currentLevel = BehaviorRelay<Int>(value: 1)
     let currentLevelPercent = BehaviorRelay<Double>(value: 0)
     let verses = BehaviorRelay<[String]>(value: [])
+    
+    let currentLevelImage = BehaviorRelay<UIImage?>(value: UIImage(named: ""))
+    let nextLevelImage = BehaviorRelay<UIImage?>(value: UIImage(named: ""))
     
     // 구절 길이 계산
     func getVerseLength(from verses: [String]) -> Int {
@@ -43,6 +47,7 @@ class HomeViewModel {
         }
         return 1
     }
+
     
     init() {
         // Rx 방식
@@ -62,9 +67,11 @@ class HomeViewModel {
                 guard let self = self else { return }
                 print("verses changed \(value)")
                 
+                // 현재 구절길이와 레벨
                 let verseLength = self.getVerseLength(from: value)
                 let verseLevel = self.getVerseLevel(for: verseLength)
                 
+                // 현재 레벨 퍼센트
                 let prevLevelCardLength = verseLevel == 1 ? 0 : self.levelCards[verseLevel - 2].length
                 let currentLevelCardLength = self.levelCards[verseLevel - 1].length
                 let currentLevelPercent = Double(verseLength - prevLevelCardLength) / Double(currentLevelCardLength - prevLevelCardLength)
@@ -72,8 +79,16 @@ class HomeViewModel {
                 print("구문 레벨: \(verseLevel)")
                 print("현재 레벨 퍼센티지: \(currentLevelPercent)")
                 
+                // 현재, 다음레벨 이미지 적용
+                let currentLevelImage = self.levelCards[max(0, verseLevel - 1)].cardImage
+                let nextLevelImage = self.levelCards[min(verseLevel, self.levelCards.count - 1)].cardImage
+                print("현재레벨이미지 \(currentLevelImage)")
+                print("다음레벨이미지 \(nextLevelImage)")
+                
                 self.currentLevel.accept(verseLevel)
                 self.currentLevelPercent.accept(currentLevelPercent)
+                self.currentLevelImage.accept(currentLevelImage)
+                self.nextLevelImage.accept(nextLevelImage)
             })
             .disposed(by: disposeBag)
         
@@ -83,22 +98,23 @@ class HomeViewModel {
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
 //            self?.addVerse("askljdjflkasjdfjsakldf kalsjdflkasj dfjkalsd fjklasjdfk lj")
 //        }
-        
+//        
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { [weak self] in
 //            self?.addVerse("askljdjflk")
 //        }
-        
+//        
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 7.0) { [weak self] in
 //            self?.clearVerse()
 //        }
     }
-    
+    // 구절추가 테스트 함수
     func addVerse(_ verse: String) {
         var verseList = verses.value
         verseList.append(verse)
         verses.accept(verseList)
     }
     
+    // 구절 삭제 테스트 함수
     func clearVerse() {
         verses.accept([])
     }
