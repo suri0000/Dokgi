@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import NotificationCenter
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,6 +16,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        UNUserNotificationCenter.current().delegate = self
+                
+                let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound] // 필요한 알림 권한을 설정
+                UNUserNotificationCenter.current().requestAuthorization(
+                    options: authOptions,
+                    completionHandler: { _, _ in }
+                )
         return true
     }
 
@@ -79,3 +87,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    
+    // 앱이 foreground에 있을때 알림이 오면 이 메서드 호출
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        // 푸쉬가 오면 다음을 표시하라는 뜻
+        // 배너는 배너, 뱃지는 앱 아이콘에 숫자 뜨는것, 사운드는 알림 소리, list는 알림센터에 뜨는거
+        completionHandler([.banner, .sound, .list])
+    }
+}

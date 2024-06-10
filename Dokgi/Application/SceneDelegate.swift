@@ -18,15 +18,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        window = UIWindow(windowScene: windowScene)
-        // ⚠️ 여기서 ViewController를 생성하여 window의 rootViewController로 지정해주세요.
-        let main = LibrarySearchViewController()
-        let navigationController = UINavigationController()
-        navigationController.viewControllers = [main]
-        navigationController.navigationBar.isHidden = true
+        let window = UIWindow(windowScene: windowScene)
+        window.rootViewController = SettingViewController()
+        window.makeKeyAndVisible()
         
-        window?.rootViewController = main
-        window?.makeKeyAndVisible()
+        self.window = window
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
