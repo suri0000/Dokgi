@@ -12,6 +12,7 @@
 		3C4181652C0DC4A100D141FD /* BookManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4181642C0DC4A100D141FD /* BookManager.swift */; };
 		7BE488A92C0F267000BDB92A /* LibrarySearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE488A82C0F267000BDB92A /* LibrarySearchViewController.swift */; };
 		7BE488AF2C103E5A00BDB92A /* LibraryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE488AE2C103E5A00BDB92A /* LibraryCollectionViewCell.swift */; };
+		855318BB2C16E56800340ACF /* BookDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855318BA2C16E56800340ACF /* BookDetailViewController.swift */; };
 		85A821CB2C10B24300494313 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A821CA2C10B24300494313 /* WidgetKit.framework */; };
 		85A821CD2C10B24300494313 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A821CC2C10B24300494313 /* SwiftUI.framework */; };
 		85A821D02C10B24300494313 /* DokgiWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A821CF2C10B24300494313 /* DokgiWidgetBundle.swift */; };
@@ -80,9 +81,9 @@
 		3C41815E2C0DBF9800D141FD /* BookModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookModel.swift; sourceTree = "<group>"; };
 		3C4181622C0DC1E000D141FD /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		3C4181642C0DC4A100D141FD /* BookManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookManager.swift; sourceTree = "<group>"; };
-		7BE488A52C0EFE9300BDB92A /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		7BE488A82C0F267000BDB92A /* LibrarySearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibrarySearchViewController.swift; sourceTree = "<group>"; };
 		7BE488AE2C103E5A00BDB92A /* LibraryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryCollectionViewCell.swift; sourceTree = "<group>"; };
+		855318BA2C16E56800340ACF /* BookDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailViewController.swift; sourceTree = "<group>"; };
 		85A821C82C10B24300494313 /* DokgiWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DokgiWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		85A821CA2C10B24300494313 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		85A821CC2C10B24300494313 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -154,6 +155,14 @@
 				3C4181642C0DC4A100D141FD /* BookManager.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		855318B92C16E42500340ACF /* BookDetailView */ = {
+			isa = PBXGroup;
+			children = (
+				855318BA2C16E56800340ACF /* BookDetailViewController.swift */,
+			);
+			path = BookDetailView;
 			sourceTree = "<group>";
 		};
 		85A821C92C10B24300494313 /* Frameworks */ = {
@@ -235,6 +244,7 @@
 		A748747A2C0D7E1300B830EE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				855318B92C16E42500340ACF /* BookDetailView */,
 				A7F2DB152C1347840020B0AA /*  ParagraphDetailView */,
 				A75908C92C0F759D00415D6D /* SettingView */,
 				A74874652C0D7E0700B830EE /* ViewController.swift */,
@@ -456,6 +466,7 @@
 				7BE488A92C0F267000BDB92A /* LibrarySearchViewController.swift in Sources */,
 				A75908CF2C101A3900415D6D /* DayTableViewCell.swift in Sources */,
 				A7F2DB172C1347C80020B0AA /* ParagrapViewController.swift in Sources */,
+				855318BB2C16E56800340ACF /* BookDetailViewController.swift in Sources */,
 				A75908B92C0F087900415D6D /* AlarmView.swift in Sources */,
 				A75908C62C0F756800415D6D /* TimePickerViewController.swift in Sources */,
 				A74874642C0D7E0600B830EE /* SceneDelegate.swift in Sources */,
