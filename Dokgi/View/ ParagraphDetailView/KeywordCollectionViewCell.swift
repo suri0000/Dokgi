@@ -12,6 +12,11 @@ import UIKit
 class KeywordCollectionViewCell: UICollectionViewCell {
     static let identifier = "KeywordCollectionViewCell"
     
+    lazy var stackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.spacing = 3
+    }
+    
     lazy var keywordLbl = UILabel().then {
         $0.text = "dddd"
         $0.font = Pretendard.regular.dynamicFont(style: .callout)
@@ -20,6 +25,7 @@ class KeywordCollectionViewCell: UICollectionViewCell {
     
     lazy var xBtn = UIButton().then {
         $0.setImage(UIImage(named: "deleteKeyword"), for: .normal)
+        $0.isHidden = true
     }
     
     override init(frame: CGRect) {
@@ -36,9 +42,12 @@ class KeywordCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Layout
     func setupLayout() {
-        addSubview(keywordLbl)
+        addSubview(stackView)
+        [keywordLbl, xBtn].forEach {
+            stackView.addArrangedSubview($0)
+        }
         
-        keywordLbl.snp.makeConstraints {
+        stackView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(10)
             $0.verticalEdges.equalToSuperview().inset(5)
         }

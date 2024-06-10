@@ -18,16 +18,10 @@ class ParagrapContainerView: UIView {
     
     lazy var paragrapTextLbl = UILabel().then {
         $0.text = "뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. "
+        $0.textAlignment = .left
         $0.font = Pretendard.regular.dynamicFont(style: .callout)
         $0.textColor = UIColor(named: "AlarmSettingText")
         $0.numberOfLines = 20
-    }
-    
-    lazy var paragrapTextField = UITextView().then {
-        $0.font = Pretendard.regular.dynamicFont(style: .callout)
-        $0.backgroundColor = .clear
-        $0.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        $0.isHidden = true
     }
     
     lazy var keywordStackView = UIStackView().then {
@@ -85,6 +79,29 @@ class ParagrapContainerView: UIView {
         setupLayout()
     }
     
+    lazy var paragrapTextField = UITextView().then {
+        $0.font = Pretendard.regular.dynamicFont(style: .callout)
+        $0.backgroundColor = .clear
+        $0.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        $0.isScrollEnabled = true
+        $0.textContainer.lineBreakMode = .byWordWrapping
+        $0.isHidden = true
+    }
+    
+    var keywordTextField = UITextField().then {
+        $0.font = Pretendard.regular.dynamicFont(style: .callout)
+        $0.textColor = UIColor(named: "TextFieldGray")
+        $0.placeholder = "키워드를 입력해 주세요"
+        $0.layer.cornerRadius = 10
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = #colorLiteral(red: 0.9246169925, green: 0.9246169925, blue: 0.9246169925, alpha: 1)
+        $0.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 22.0, height: 0.0))
+        $0.leftViewMode = .always
+        $0.isHidden = true
+        $0.snp.makeConstraints {
+            $0.height.equalTo(33)
+        }
+    }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -95,7 +112,7 @@ class ParagrapContainerView: UIView {
         textView.addSubview(paragrapTextLbl)
         textView.addSubview(paragrapTextField)
         addSubview(keywordStackView)
-        [keywordLabel, keywordCollectionView].forEach {
+        [keywordLabel, keywordTextField,keywordCollectionView].forEach {
             keywordStackView.addArrangedSubview($0)
         }
         addSubview(writeStackView)
@@ -110,11 +127,12 @@ class ParagrapContainerView: UIView {
         textView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(256)
         }
         
         paragrapTextLbl.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(20)
-            $0.verticalEdges.equalToSuperview().inset(15)
+            $0.top.equalToSuperview().inset(15)
         }
         
         paragrapTextField.snp.makeConstraints {
@@ -123,7 +141,7 @@ class ParagrapContainerView: UIView {
         }
         
         keywordStackView.snp.makeConstraints {
-            $0.top.equalTo(paragrapTextLbl.snp.bottom).offset(32)
+            $0.top.equalTo(textView.snp.bottom).offset(32)
             $0.leading.trailing.equalToSuperview().inset(20)
         }
         
@@ -140,7 +158,7 @@ class ParagrapContainerView: UIView {
     }
     
     func createBasicListLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .fractionalHeight(1.0))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .estimated(34))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
       
         let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .absolute(32))
@@ -159,6 +177,29 @@ class ParagrapContainerView: UIView {
     func editLayout() {
         paragrapTextField.becomeFirstResponder()
         paragrapTextField.isHidden = false
+        paragrapTextField.text = paragrapTextLbl.text
         paragrapTextLbl.isHidden = true
+        keywordTextField.isHidden = false
+    }
+    
+    func editCompleteLayout() {
+        paragrapTextLbl.isHidden = false
+        paragrapTextLbl.text = "keywordTextField.text"
+        paragrapTextField.isHidden = true
+        keywordTextField.isHidden = true
+    }
+    
+    func paragrapTextLimit(_ str : String) {
+        if str.count > 200 {
+            let index = str.index(str.startIndex, offsetBy: 200)
+            self.paragrapTextField.text = String(str[..<index])
+        }
+    }
+    
+    func keywordTextLimit(_ str : String) {
+        if str.count > 20 {
+            let index = str.index(str.startIndex, offsetBy: 20)
+            self.keywordTextField.text = String(str[..<index])
+        }
     }
 }

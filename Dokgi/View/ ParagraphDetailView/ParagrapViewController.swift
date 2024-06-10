@@ -63,7 +63,6 @@ class ParagrapViewController: UIViewController {
         containerView.keywordCollectionView.dataSource = self
         containerView.keywordCollectionView.delegate = self
         containerView.keywordCollectionView.register(KeywordCollectionViewCell.self, forCellWithReuseIdentifier: KeywordCollectionViewCell.identifier)
-        containerView.paragrapTextField.delegate = self
         setupLayout()
         dataBinding()
     }
@@ -108,8 +107,25 @@ class ParagrapViewController: UIViewController {
         
         self.editBtn.rx.tap.subscribe { [weak self] _ in
             guard let self = self else {return}
-            self.containerView.paragrapTextField.text = self.containerView.paragrapTextLbl.text
-            self.containerView.editLayout()
+            if self.editBtn.titleLabel?.text == "수정하기" {
+                self.containerView.keywordCollectionView.reloadData()
+                self.containerView.editLayout()
+                self.editBtn.setTitle("완료", for: .normal)
+            } else {
+                self.containerView.keywordCollectionView.reloadData()
+                self.containerView.editCompleteLayout()
+                self.editBtn.setTitle("수정하기", for: .normal)
+            }
+        }.disposed(by: disposeBag)
+        
+        containerView.paragrapTextField.rx.text.orEmpty.subscribe { [weak self] text in
+            guard let self = self else {return}
+            self.containerView.paragrapTextLimit(text)
+        }.disposed(by: disposeBag)
+        
+        containerView.keywordTextField.rx.text.orEmpty.subscribe { [weak self] text in
+            guard let self = self else {return}
+            self.containerView.keywordTextLimit(text)
         }.disposed(by: disposeBag)
     }
 }
@@ -123,19 +139,11 @@ extension ParagrapViewController: UICollectionViewDelegate, UICollectionViewData
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: KeywordCollectionViewCell.identifier, for: indexPath) as? KeywordCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.xBtn.isHidden = true
-        return cell
-    }
-}
-
-extension ParagrapViewController : UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
-        let size = CGSize(width: view.frame.width, height: .infinity)
-        let estimatedSize = textView.sizeThatFits(size)
-        textView.constraints.forEach{ (constraint) in
-            if constraint.firstAttribute == .height {
-                constraint.constant = estimatedSize.height
-            }
+        if self.editBtn.titleLabel?.text == "수정하기" {
+            cell.xBtn.isHidden = true
+        } else {
+            cell.xBtn.isHidden = false
         }
+        return cell
     }
 }
