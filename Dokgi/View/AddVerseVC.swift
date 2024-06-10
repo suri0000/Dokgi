@@ -211,111 +211,110 @@ class AddVerseVC: UIViewController {
     
     // MARK: - 제약조건
     func initLayout() {
-        scrollView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
-            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
+        scrollView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
         }
         
-        viewInScroll.snp.makeConstraints { make in
-            make.edges.equalTo(scrollView.snp.edges)
-            make.width.equalTo(scrollView.snp.width)
-            make.height.equalTo(1000) // 임시로 1000으로 설정
+        viewInScroll.snp.makeConstraints {
+            $0.edges.equalTo(scrollView.snp.edges)
+            $0.width.equalTo(scrollView.snp.width)
+            $0.height.equalTo(1000) // 임시로 1000으로 설정
         }
         
-        scanButton.snp.makeConstraints { make in
-            make.top.equalTo(viewInScroll.snp.top).offset(10)
-            make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
-            make.width.equalTo(112)
-            make.height.equalTo(35)
+        scanButton.snp.makeConstraints {
+            $0.top.equalTo(viewInScroll.snp.top).offset(10)
+            $0.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
+            $0.width.equalTo(112)
+            $0.height.equalTo(35)
         }
         
-        infoView.snp.makeConstraints { make in
-            make.centerY.equalTo(viewInScroll.snp.top).offset(170)
-            make.horizontalEdges.equalTo(viewInScroll).inset(16)
-            make.height.equalTo(200)
+        infoView.snp.makeConstraints {            $0.centerY.equalTo(viewInScroll.snp.top).offset(170)
+            $0.horizontalEdges.equalTo(viewInScroll).inset(16)
+            $0.height.equalTo(200)
         }
         
-        imageView.snp.makeConstraints { make in
-            make.leading.equalTo(infoView.snp.leading).offset(16)
-            make.centerY.equalTo(infoView.snp.centerY)
-            make.width.equalTo(100)
-            make.height.equalTo(100)
+        imageView.snp.makeConstraints {
+            $0.leading.equalTo(infoView.snp.leading).offset(16)
+            $0.centerY.equalTo(infoView.snp.centerY)
+            $0.width.equalTo(100)
+            $0.height.equalTo(100)
         }
         
-        titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(imageView.snp.trailing).offset(16)
-            make.top.equalTo(infoView.snp.top).offset(16)
-            make.trailing.equalTo(infoView.snp.trailing).offset(-16)
+        titleLabel.snp.makeConstraints {
+            $0.leading.equalTo(imageView.snp.trailing).offset(16)
+            $0.top.equalTo(infoView.snp.top).offset(16)
+            $0.trailing.equalTo(infoView.snp.trailing).offset(-16)
         }
         
-        authorLabel.snp.makeConstraints { make in
-            make.leading.equalTo(imageView.snp.trailing).offset(16)
-            make.top.equalTo(titleLabel.snp.bottom).offset(8)
-            make.trailing.equalTo(infoView.snp.trailing).offset(-16)
+        authorLabel.snp.makeConstraints {
+            $0.leading.equalTo(imageView.snp.trailing).offset(16)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(8)
+            $0.trailing.equalTo(infoView.snp.trailing).offset(-16)
         }
         
 
-        verseTextView.snp.makeConstraints { make in
-            make.top.equalTo(infoView.snp.bottom).offset(32)
-            make.leading.equalTo(viewInScroll.snp.leading).offset(16)
-            make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
-            make.height.equalTo(329)
+        verseTextView.snp.makeConstraints {
+            $0.top.equalTo(infoView.snp.bottom).offset(32)
+            $0.leading.equalTo(viewInScroll.snp.leading).offset(16)
+            $0.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
+            $0.height.equalTo(329)
         }
         
-        keywordLabel.snp.makeConstraints { make in
-            make.top.equalTo(verseTextView.snp.bottom).offset(32)
-            make.leading.equalTo(viewInScroll.snp.leading).offset(16)
-            make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
+        keywordLabel.snp.makeConstraints {
+            $0.top.equalTo(verseTextView.snp.bottom).offset(32)
+            $0.leading.equalTo(viewInScroll.snp.leading).offset(16)
+            $0.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
         }
         
-        keywordField.snp.makeConstraints { make in
-            make.top.equalTo(keywordLabel.snp.bottom).offset(16)
-            make.leading.equalTo(viewInScroll.snp.leading).offset(16)
-            make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
-            make.height.equalTo(33)
+        keywordField.snp.makeConstraints {
+            $0.top.equalTo(keywordLabel.snp.bottom).offset(16)
+            $0.leading.equalTo(viewInScroll.snp.leading).offset(16)
+            $0.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
+            $0.height.equalTo(33)
         }
         
-        keywordCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(keywordField.snp.bottom).offset(16)
-            make.leading.equalTo(viewInScroll.snp.leading).offset(16)
-            make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
-            make.height.equalTo(35)
+        keywordCollectionView.snp.makeConstraints {
+            $0.top.equalTo(keywordField.snp.bottom).offset(16)
+            $0.leading.equalTo(viewInScroll.snp.leading).offset(16)
+            $0.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
+            $0.height.equalTo(35)
         }
         
-        pageLabel.snp.makeConstraints { make in
-            make.top.equalTo(keywordCollectionView.snp.bottom).offset(50)
-            make.leading.equalTo(viewInScroll.snp.leading).offset(16)
+        pageLabel.snp.makeConstraints {
+            $0.top.equalTo(keywordCollectionView.snp.bottom).offset(50)
+            $0.leading.equalTo(viewInScroll.snp.leading).offset(16)
         }
         
-        pageNumberTextField.snp.makeConstraints { make in
-            make.centerY.equalTo(pageLabel.snp.centerY)
-            make.leading.equalTo(pageLabel.snp.trailing).offset(8)
-            make.width.equalTo(55)
-            make.height.equalTo(30)
+        pageNumberTextField.snp.makeConstraints {
+            $0.centerY.equalTo(pageLabel.snp.centerY)
+            $0.leading.equalTo(pageLabel.snp.trailing).offset(8)
+            $0.width.equalTo(55)
+            $0.height.equalTo(30)
         }
         
-        percentageButton.snp.makeConstraints { make in
-            make.centerY.equalTo(pageLabel.snp.centerY)
-            make.trailing.equalTo(pageButton.snp.leading).offset(-8)
-            make.width.equalTo(60)
-            make.height.equalTo(pageLabel.snp.height)
+        percentageButton.snp.makeConstraints {
+            $0.centerY.equalTo(pageLabel.snp.centerY)
+            $0.trailing.equalTo(pageButton.snp.leading).offset(-8)
+            $0.width.equalTo(60)
+            $0.height.equalTo(pageLabel.snp.height)
         }
         
-        pageButton.snp.makeConstraints { make in
-            make.centerY.equalTo(percentageButton.snp.centerY)
-            make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
-            make.width.equalTo(60)
-            make.height.equalTo(percentageButton.snp.height)
+        pageButton.snp.makeConstraints {
+            $0.centerY.equalTo(percentageButton.snp.centerY)
+            $0.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
+            $0.width.equalTo(60)
+            $0.height.equalTo(percentageButton.snp.height)
         }
         
-        recordButton.snp.makeConstraints { make in
-            make.top.equalTo(pageLabel.snp.bottom).offset(60)
-            make.leading.equalTo(viewInScroll.snp.leading).offset(16)
-            make.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
-            make.centerX.equalToSuperview()
-            make.height.equalTo(50)
+        recordButton.snp.makeConstraints {
+            $0.top.equalTo(pageLabel.snp.bottom).offset(60)
+            $0.leading.equalTo(viewInScroll.snp.leading).offset(16)
+            $0.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(50)
         }
         
         scrollView.contentSize = viewInScroll.bounds.size
