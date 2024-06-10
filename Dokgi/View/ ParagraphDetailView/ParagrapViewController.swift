@@ -36,26 +36,31 @@ class ParagrapViewController: UIViewController {
         $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
         $0.setTitleColor(.black, for: .normal)
         $0.setImage(UIImage(named: "modalEdit"), for: .normal)
-        $0.semanticContentAttribute = .forceLeftToRight
     }
     
     lazy var ParagrapScrollView = UIScrollView().then {
-        $0.showsHorizontalScrollIndicator = false
+        $0.showsVerticalScrollIndicator = false
     }
     
     lazy var containerView = ParagrapContainerView()
+    
+    let smallId = UISheetPresentationController.Detent.Identifier("small")
+    lazy var smallDetent = UISheetPresentationController.Detent.custom(identifier: smallId) { context in
+        return UIScreen.main.bounds.size.height - 228
+    }
+    let largeId = UISheetPresentationController.Detent.Identifier("large")
+    lazy var largeDetent = UISheetPresentationController.Detent.custom(identifier: self.largeId) { context in
+        return UIScreen.main.bounds.size.height - 115
+    }
     
     //MARK: - lifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        let smallId = UISheetPresentationController.Detent.Identifier("small")
-        let smallDetent = UISheetPresentationController.Detent.custom(identifier: smallId) { context in
-            return 390
-        }
+        
         if let sheet = sheetPresentationController {
             sheet.detents = [smallDetent]
-            sheet.largestUndimmedDetentIdentifier = smallId
+            sheet.largestUndimmedDetentIdentifier = .medium
             sheet.prefersGrabberVisible = true
             sheet.preferredCornerRadius = 8
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
@@ -110,11 +115,19 @@ class ParagrapViewController: UIViewController {
             if self.editBtn.titleLabel?.text == "수정하기" {
                 self.containerView.keywordCollectionView.reloadData()
                 self.containerView.editLayout()
+                self.sheetPresentationController?.detents = [largeDetent]
                 self.editBtn.setTitle("완료", for: .normal)
+                self.editBtn.titleLabel?.font = Pretendard.semibold.dynamicFont(style: .callout)
+                self.editBtn.setTitleColor(UIColor(named: "SkyBlue"), for: .normal)
+                self.editBtn.setImage(nil, for: .normal)
             } else {
                 self.containerView.keywordCollectionView.reloadData()
                 self.containerView.editCompleteLayout()
+                self.sheetPresentationController?.detents = [smallDetent]
                 self.editBtn.setTitle("수정하기", for: .normal)
+                self.editBtn.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
+                self.editBtn.setTitleColor(.black, for: .normal)
+                self.editBtn.setImage(UIImage(named: "modalEdit"), for: .normal)
             }
         }.disposed(by: disposeBag)
         

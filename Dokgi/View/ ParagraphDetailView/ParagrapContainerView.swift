@@ -153,7 +153,7 @@ class ParagrapContainerView: UIView {
         pageStackView.snp.makeConstraints {
             $0.top.equalTo(writeStackView.snp.bottom).offset(30)
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.bottom.equalToSuperview().inset(50)
+            $0.bottom.equalToSuperview().inset(291)
         }
     }
     
