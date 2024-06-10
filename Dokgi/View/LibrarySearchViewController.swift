@@ -206,8 +206,7 @@ class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
         }
     }
     
-    //MARK: - searchController
-    
+    //MARK: - searchBar
     func setSearchBar() {
         searchBar.searchBarStyle = .minimal
         searchBar.placeholder = "기록된 책을 검색해보세요"
@@ -221,7 +220,6 @@ class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
     }
     
     // MARK: - 설정버튼
-    
     func setSortMenuView() {
         sortMenuView.isHidden = true
         
