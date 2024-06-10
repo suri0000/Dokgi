@@ -5,77 +5,68 @@
 //  Created by 예슬 on 6/5/24.
 //
 
-import WidgetKit
 import SwiftUI
+import WidgetKit
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), emoji: "😀")
+        SimpleEntry(date: Date())
     }
-
+    
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), emoji: "😀")
+        let entry = SimpleEntry(date: Date())
         completion(entry)
     }
-
+    
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [SimpleEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
         let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, emoji: "😀")
-            entries.append(entry)
-        }
-
-        let timeline = Timeline(entries: entries, policy: .atEnd)
+        let midnight = Calendar.current.startOfDay(for: currentDate)
+        let nextDayMidnight = Calendar.current.date(byAdding: .day, value: 1, to: midnight)!
+        let entry = SimpleEntry(date: currentDate)
+        let timeline = Timeline(entries: [entry], policy: .after(nextDayMidnight))
         completion(timeline)
     }
 }
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let emoji: String
 }
 
-struct DokgiWidgetEntryView : View {
+struct DokgiWidgetEntryView: View {
     var entry: Provider.Entry
-
+    var passage: [String] = ["뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다.", "허리수술 2천만원", "누군가를 있는 그대로 존중한다는 것은 그만큼 어려운 일이다.", "본질을 아는 것보다, 본질을 알기 위해 있는 그대로를 보기 위해 노력하는 것이 중요하다고, 그것이 바로 그 대상에 대한 존중이라고.", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+    
     var body: some View {
-        VStack {
-            Text("Time:")
-            Text(entry.date, style: .time)
-
-            Text("Emoji:")
-            Text(entry.emoji)
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(alignment: .top) {
+                Image("doubleQuotationMarks")
+                Spacer()
+            }
+            Text(passage.randomElement() ?? "")
+                .font(.subheadline)
+                .padding(EdgeInsets(top: 7, leading: 15, bottom: 16, trailing: 0))
+            Spacer(minLength: 0)
         }
     }
 }
 
 struct DokgiWidget: Widget {
     let kind: String = "DokgiWidget"
-
+    
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
-            if #available(iOS 17.0, *) {
-                DokgiWidgetEntryView(entry: entry)
-                    .containerBackground(.fill.tertiary, for: .widget)
-            } else {
-                DokgiWidgetEntryView(entry: entry)
-                    .padding()
-                    .background()
-            }
+            DokgiWidgetEntryView(entry: entry)
+                .containerBackground(.white, for: .widget)
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("구절")
+        .description("작성한 구절을 보여줍니다. \n하루에 하나씩 새로운 구절을 만나보세요.")
         .supportedFamilies([.systemMedium])
     }
 }
 
-#Preview(as: .systemSmall) {
+#Preview(as: .systemMedium) {
     DokgiWidget()
 } timeline: {
-    SimpleEntry(date: .now, emoji: "😀")
-    SimpleEntry(date: .now, emoji: "🤩")
+    SimpleEntry(date: .now)
+    SimpleEntry(date: .distantFuture)
 }
