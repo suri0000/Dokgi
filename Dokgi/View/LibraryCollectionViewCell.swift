@@ -19,8 +19,6 @@ class LibraryCollectionViewCell: UICollectionViewCell {
     let bookNameLabel = UILabel()
     let authorNameLabel = UILabel()
     
-    
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -61,7 +59,6 @@ class LibraryCollectionViewCell: UICollectionViewCell {
         [bookImageView,bookNameLabel, authorNameLabel].forEach {
             contentView.addSubview($0)
         }
-        
         
         bookImageView.snp.makeConstraints {
             $0.top.trailing.leading.equalToSuperview()

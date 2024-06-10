@@ -48,7 +48,6 @@ class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
         return collectionView
     }()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
     
@@ -61,7 +60,6 @@ class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
         
         setSortMenuView()
     }
-    
     
     func setUI() {
         libraryLabel.text = "서재"
@@ -105,7 +103,6 @@ class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
         checkImageView1.image = UIImage(named: "fi_check")
         checkImageView2.image = UIImage(named: "fi_check")
     }
-    
     
     func setConstraints() {
         [libraryLabel, searchBar, sortButton, sortMenuView, libraryCollectionView].forEach {
@@ -256,7 +253,6 @@ class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
     }
     
 }
-
 
 //MARK: -CollectionView
 extension LibrarySearchViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
