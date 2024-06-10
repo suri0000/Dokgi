@@ -204,6 +204,8 @@ extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let currentLevel = viewModel.currentLevel
         return min(currentLevel.value + 1, viewModel.levelCards.count)
+        
+//        viewModel.levelCards.count //이미지 확인용
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -216,7 +218,6 @@ extension HomeViewController: UICollectionViewDataSource {
             cell.setupBlur(alpha: 0.6)
             
         } else {
-//            cell.setCellConfig(viewModel.levelCards[indexPath.item])
             cell.removeBlur()
         }
         
@@ -269,6 +270,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
       }
       
       let safeIndex = max(0, min(selectedIndex, viewModel.currentLevel.value))
+//      let safeIndex = max(0, min(selectedIndex, viewModel.levelCards.count)) // 이미지 오류 확인용
       let selectedIndexPath = IndexPath(item: safeIndex, section: 0)
       currentLevelCollectionView.scrollToItem(at: selectedIndexPath, at: .centeredHorizontally, animated: true)
       
