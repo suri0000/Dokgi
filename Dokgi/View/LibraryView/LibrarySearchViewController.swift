@@ -4,6 +4,9 @@
 //
 //  Created by t2023-m0095 on 6/4/24.
 //
+
+import RxCocoa
+import RxSwift
 import SnapKit
 import UIKit
 
@@ -14,6 +17,8 @@ class LibrarySearchViewController: UIViewController {
     private let sortButton = UIButton()
     private let sortButtonImageView = UIImageView()
     private let sortButtonTitleLabel = UILabel()
+
+    let disposeBag = DisposeBag()
     
     private let sortMenuView = UIView()
     private let latestFirstButton = UIButton()
@@ -54,6 +59,21 @@ class LibrarySearchViewController: UIViewController {
         setConstraints()
         setSearchBar()
         setSortMenuView()
+        CoreDataManager.shared.bookData.subscribe(with: self) { (self, bookData) in
+            self.libraryCollectionView.reloadData()
+        }.disposed(by: disposeBag)
+        
+        self.searchBar.rx.text.debounce(.seconds(1), scheduler: MainScheduler.instance).subscribe(with: self) { (self, text) in
+            guard let text = text else { return }
+            if text.isEmpty == true {
+                CoreDataManager.shared.getBookData()
+                print("dd")
+            } else {
+                CoreDataManager.shared.getBookData()
+                CoreDataManager.shared.bookData.accept(CoreDataManager.shared.bookData.value.filter { $0.name.contains(text) })
+                print("ss")
+            }
+        }.disposed(by: disposeBag)
     }
     
     private func setUI() {
@@ -252,7 +272,7 @@ class LibrarySearchViewController: UIViewController {
 extension LibrarySearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 100
+        return CoreDataManager.shared.bookData.value.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -260,6 +280,8 @@ extension LibrarySearchViewController: UICollectionViewDelegate, UICollectionVie
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryCollectionViewCell.identifier, for: indexPath) as? LibraryCollectionViewCell else {
             return UICollectionViewCell()
         }
+        cell.authorNameLabel.text = CoreDataManager.shared.bookData.value[indexPath.row].author
+        cell.bookNameLabel.text = CoreDataManager.shared.bookData.value[indexPath.row].name
         return cell
     }
 }
