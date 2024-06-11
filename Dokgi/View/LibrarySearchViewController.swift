@@ -62,7 +62,7 @@ class LibrarySearchViewController: UIViewController {
         }.disposed(by: disposeBag)
         
         self.searchBar.rx.text.debounce(.seconds(1), scheduler: MainScheduler.instance).subscribe(with: self) { (self, text) in
-            guard let text = text else {return}
+            guard let text = text else { return }
             if text.isEmpty == true {
                 CoreDataManager.shared.getBookData()
                 print("dd")
