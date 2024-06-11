@@ -13,6 +13,8 @@ class MetricUtil {
         switch length {
         case 0..<1000:
             return "\(length) mm"
+            
+        // cm
 //        case 100..<1000:
 //            let cmLength = Double(length) / 10.0
 //            return "\(cmLength) cm"

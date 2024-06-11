@@ -128,16 +128,7 @@ class CurrentLevelCell: UICollectionViewCell {
         contentView.layer.cornerRadius = 10
         contentView.layer.masksToBounds = true
     }
-    
-    // 블러 효과
-//    func setupBlur(alpha: CGFloat = 0.5) {
-//        let blurEffect = UIBlurEffect(style: .regular)
-//        let visualEffectView = UIVisualEffectView(effect: blurEffect)
-//        visualEffectView.frame = self.contentView.frame
-//        visualEffectView.alpha = alpha
-//        self.contentView.addSubview(visualEffectView)
-//    }
-    
+
     func setupBlur(alpha: CGFloat = 0.5) {
         // 블러 효과 생성
         let blurEffect = UIBlurEffect(style: .regular)

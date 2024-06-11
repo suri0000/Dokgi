@@ -86,7 +86,6 @@ class HomeViewController: UIViewController {
         }
         
         lengthSlider.snp.makeConstraints {
-//            $0.leading.trailing.equalTo(nextLengthLabel)
             $0.leading.equalToSuperview().offset(35)
             $0.trailing.equalToSuperview().offset(-35)
             $0.top.equalTo(nextLengthLabel.snp.bottom).offset(18)
@@ -96,7 +95,6 @@ class HomeViewController: UIViewController {
             $0.width.equalTo(38)
             $0.height.equalTo(41)
             $0.top.equalTo(lengthSlider.snp.bottom)
-//            $0.leading.equalTo(lengthSlider.snp.leading).offset(-17)
             $0.centerX.equalTo(lengthSlider.snp.trailing).multipliedBy(1)
         }
         
