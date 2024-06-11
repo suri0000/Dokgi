@@ -10,6 +10,7 @@ import Then
 import UIKit
 
 class BookDetailViewController: UIViewController {
+    var passageCount = 5
     
     private let contentsView = UIView()
     
@@ -85,10 +86,26 @@ class BookDetailViewController: UIViewController {
         $0.textColor = .alarmSettingText
         $0.textAlignment = .right
     }
+    
+    private let passageTitleLabel = UILabel().then {
+        $0.text = "구절"
+        $0.font = Pretendard.semibold.dynamicFont(style: .title3)
+    }
+    
+    private let passageTableView = UITableView().then {
+        $0.rowHeight = UITableView.automaticDimension
+        $0.estimatedRowHeight = 289
+        $0.separatorStyle = .none
+    }
 
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        passageTableView.backgroundColor = .orange
+        passageTableView.dataSource = self
+        passageTableView.delegate = self
+        passageTableView.register(PassageTableViewCell.self, forCellReuseIdentifier: PassageTableViewCell.identifier)
         setConstraints()
     }
     
@@ -96,7 +113,7 @@ class BookDetailViewController: UIViewController {
         super.viewDidAppear(animated)
         blurLayer()
     }
-    
+    // MARK: - UI
     private func setConstraints() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentsView)
@@ -106,28 +123,29 @@ class BookDetailViewController: UIViewController {
          gradientLayerView,
          bookImage,
          bookInfoStackView,
-         firstDateRecordStackView].forEach {
+         firstDateRecordStackView,
+         passageTitleLabel,
+         passageTableView].forEach {
             contentsView.addSubview($0)
         }
         
-        [bookTitleLabel,
-         authorLabel].forEach {
+        [bookTitleLabel, authorLabel].forEach {
             bookInfoStackView.addArrangedSubview($0)
         }
         
-        [firstRecordDateTitleLabel,
-         dateLabel].forEach {
+        [firstRecordDateTitleLabel, dateLabel].forEach {
             firstDateRecordStackView.addArrangedSubview($0)
         }
         
         scrollView.snp.makeConstraints { 
             $0.top.equalToSuperview()
-            $0.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.horizontalEdges.bottom.equalToSuperview()
         }
         
         contentsView.snp.makeConstraints {
-            $0.edges.equalTo(scrollView)
-            $0.width.equalTo(scrollView)
+            $0.edges.width.equalToSuperview()
+            $0.height.equalTo(1400)
+//            $0.height.equalTo(self.view.frame.height + 420)
         }
         
         backgroundBookImage.snp.makeConstraints {
@@ -161,14 +179,38 @@ class BookDetailViewController: UIViewController {
         firstDateRecordStackView.snp.makeConstraints {
             $0.top.equalTo(bookInfoStackView.snp.bottom).offset(40)
             $0.horizontalEdges.equalToSuperview().inset(20)
-            $0.bottom.equalToSuperview().inset(900)
         }
         
+        passageTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(firstDateRecordStackView.snp.bottom).offset(42)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+        }
+        
+        passageTableView.snp.makeConstraints {
+            $0.top.equalTo(passageTitleLabel.snp.bottom).offset(11)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+//            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+//            $0.bottom.equalToSuperview().inset(20)
+            $0.bottom.equalToSuperview()
+//            $0.bottom.equalTo()
+        }
     }
     
     private func blurLayer() {
         gradientLayer.frame = gradientLayerView.bounds
         gradientLayerView.layer.addSublayer(gradientLayer)
+    }
+}
+
+extension BookDetailViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return passageCount
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: PassageTableViewCell.identifier, for: indexPath) as? PassageTableViewCell else { return UITableViewCell() }
+        
+        return cell
     }
 }
 
