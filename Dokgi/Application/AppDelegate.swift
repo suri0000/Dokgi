@@ -10,6 +10,7 @@ import CoreData
 import NotificationCenter
 
 @main
+
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
