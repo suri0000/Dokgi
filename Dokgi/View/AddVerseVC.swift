@@ -101,6 +101,11 @@ class AddVerseVC: UIViewController {
         $0.delegate = self
     }
     
+    let characterCountLabel = UILabel().then {
+        $0.textColor = .gray
+        $0.font = UIFont.systemFont(ofSize: 14)
+    }
+    
     let keywordLabel = UILabel().then {
         $0.attributedText = AddVerseVC.createAttributedString(for: "키워드 (선택)")
         $0.textAlignment = .left
@@ -179,6 +184,7 @@ class AddVerseVC: UIViewController {
         infoView.addSubview(titleLabel)
         infoView.addSubview(authorLabel)
         viewInScroll.addSubview(verseTextView)
+        viewInScroll.addSubview(characterCountLabel)
         viewInScroll.addSubview(keywordLabel)
         viewInScroll.addSubview(keywordField)
         viewInScroll.addSubview(keywordCollectionView)
@@ -251,6 +257,11 @@ class AddVerseVC: UIViewController {
             $0.leading.equalTo(viewInScroll.snp.leading).offset(16)
             $0.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
             $0.height.equalTo(329)
+        }
+        
+        characterCountLabel.snp.makeConstraints {
+            $0.trailing.equalTo(verseTextView.snp.trailing).offset(-16)
+            $0.bottom.equalTo(verseTextView.snp.bottom).offset(-8)
         }
         
         keywordLabel.snp.makeConstraints {
@@ -448,13 +459,26 @@ extension AddVerseVC: UITextViewDelegate {
         textView.textColor = .label
         textView.text = nil
     }
+    
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = "텍스트를 입력하세요"
             textView.textColor = .placeholderText
         }
     }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        let currentCount = textView.text.count
+        characterCountLabel.text = "\(currentCount)/200" // 현재 글자 수 표시
+        
+        // 최대 200자 제한
+        if currentCount > 200 {
+            textView.text = String(textView.text.prefix(200))
+            characterCountLabel.text = "200/200"
+        }
+    }
 }
+
 
 extension AddVerseVC: VNDocumentCameraViewControllerDelegate {
     func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
