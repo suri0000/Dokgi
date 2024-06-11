@@ -51,7 +51,7 @@ class AddVerseVC: UIViewController {
     }
     
     let overlayView = UIView().then {
-        $0.backgroundColor = .lightSkyBlue
+        $0.backgroundColor = UIColor.lightSkyBlue.withAlphaComponent(0.5)
         $0.layer.cornerRadius = 15
     }
     
@@ -70,7 +70,8 @@ class AddVerseVC: UIViewController {
     }
     
     var imageView = UIImageView().then {
-        $0.image = UIImage(named: "camera")
+        $0.image = UIImage(named: "emptyImage")?.withRenderingMode(.alwaysTemplate)
+        $0.tintColor = UIColor(named: "LightGray")
         $0.contentMode = .scaleAspectFit
         $0.layer.cornerRadius = 15
     }
@@ -79,6 +80,7 @@ class AddVerseVC: UIViewController {
         $0.text = "책 제목"
         $0.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         $0.textColor = UIColor(named: "BookTextGray")
+        $0.numberOfLines = 2
     }
     
     var authorLabel = UILabel().then {
@@ -176,11 +178,11 @@ class AddVerseVC: UIViewController {
         scrollView.addSubview(viewInScroll)
         viewInScroll.addSubview(scanButton)
         viewInScroll.addSubview(infoView)
-        infoView.addSubview(overlayView)
-        overlayView.addSubview(searchButton)
         infoView.addSubview(imageView)
         infoView.addSubview(titleLabel)
         infoView.addSubview(authorLabel)
+        infoView.addSubview(overlayView)
+        overlayView.addSubview(searchButton)
         viewInScroll.addSubview(verseTextView)
         viewInScroll.addSubview(characterCountLabel)
         viewInScroll.addSubview(keywordLabel)
