@@ -35,7 +35,7 @@ class ParagraphViewController: UIViewController {
         layout.delegate = self
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.contentInset = UIEdgeInsets(top: 14, left: 14, bottom: 14, right: 14)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 14, bottom: 14, right: 14)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(ParagraphCollectionViewCell.self, forCellWithReuseIdentifier: ParagraphCollectionViewCell.identifier)
@@ -241,7 +241,7 @@ class ParagraphViewController: UIViewController {
         }
         
         paragraphCollectionView.snp.makeConstraints {
-            $0.top.equalTo(sortButton.snp.bottom).offset(0)
+            $0.top.equalTo(sortButton.snp.bottom).offset(14)
             $0.bottom.left.right.equalToSuperview().inset(0)
         }
     }
