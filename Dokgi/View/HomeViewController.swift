@@ -165,14 +165,14 @@ class HomeViewController: UIViewController {
     
     func bindViewModel() {
         viewModel.currentLevel
-            .subscribe(onNext: { [weak self] value in
+            .subscribe(onNext: { [ weak self ] value in
                 print("currentLevel changed \(value)")
                 self?.selectLevel(value, animated: true)
             })
             .disposed(by: disposeBag)
         
         viewModel.currentLevelPercent
-            .subscribe(onNext: { [weak self] value in
+            .subscribe(onNext: { [ weak self ] value in
                 guard let self else { return }
                 print("currentLevelPercent changed \(value)")
                 self.lengthSlider.value = Float(value)
@@ -186,13 +186,13 @@ class HomeViewController: UIViewController {
             .disposed(by: disposeBag)
         
         viewModel.currentLevelImage
-            .subscribe(onNext: { [weak self ] image in
+            .subscribe(onNext: { [ weak self ] image in
                 self?.currentLevelImage.image = image
             })
             .disposed(by: disposeBag)
         
         viewModel.nextLevelImage
-            .subscribe(onNext: { [weak self ] image in
+            .subscribe(onNext: { [ weak self ] image in
                 self?.nextLevelImage.image = image
             })
             .disposed(by: disposeBag)
@@ -283,7 +283,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
       
       switch horizontalVelocity {
       // 스크롤 시
-      case _ where horizontalVelocity > 0 :
+      case _ where horizontalVelocity > 0:
           selectedIndex = levelCollectionViewSelectedIndex + 1
       case _ where horizontalVelocity < 0:
           selectedIndex = levelCollectionViewSelectedIndex - 1
