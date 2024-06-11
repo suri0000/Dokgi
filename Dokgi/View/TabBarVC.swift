@@ -15,12 +15,10 @@ class TabBarVC: UITabBarController {
         button.layer.cornerRadius = 35
         button.backgroundColor = .charcoalBlue
         button.setImage(.plus, for: .normal)
-//        button.setTitle("구절 추가", for: .normal)
         button.tintColor = .white
         button.titleLabel?.font = UIFont(name: "Pretendard-Medium", size: 10)
         
         var config = UIButton.Configuration.plain()
-//        config.imagePlacement = NSDirectionalRectEdge.top
         button.configuration = config
         return button
     }()
