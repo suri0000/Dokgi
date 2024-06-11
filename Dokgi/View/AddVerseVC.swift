@@ -112,7 +112,6 @@ class AddVerseVC: UIViewController {
         $0.layer.masksToBounds = true
     }
     
-    // 컬렉션 뷰 추가
     lazy var keywordCollectionView = UICollectionView(frame: .zero, collectionViewLayout: {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -231,8 +230,8 @@ class AddVerseVC: UIViewController {
         imageView.snp.makeConstraints {
             $0.leading.equalTo(infoView.snp.leading).offset(16)
             $0.centerY.equalTo(infoView.snp.centerY)
-            $0.width.equalTo(100)
-            $0.height.equalTo(150)
+            $0.width.equalTo(120)
+            $0.height.equalTo(170)
         }
         
         titleLabel.snp.makeConstraints {

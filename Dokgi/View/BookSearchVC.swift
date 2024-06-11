@@ -14,6 +14,9 @@ class BookSearchVC: UIViewController {
     
     let bookManager = BookManager.shared
     
+    var searchResults: [Item] = [] // 검색 결과 저장
+    weak var delegate: BookSelectionDelegate?
+    
     let tableView = UITableView().then {
         $0.rowHeight = 150
     }
@@ -21,10 +24,15 @@ class BookSearchVC: UIViewController {
     let searchBar = UISearchBar().then {
         $0.placeholder = "책을 검색해보세요"
         $0.searchBarStyle = .minimal
+        $0.searchTextField.borderStyle = .line
+        $0.searchTextField.layer.borderWidth = 1
+        if let SearchBarLightGray = UIColor(named: "SearchBarLightGray")?.cgColor {
+            $0.searchTextField.layer.borderColor = SearchBarLightGray
+        }
+        $0.searchTextField.layer.backgroundColor = UIColor.white.cgColor
+        $0.searchTextField.layer.cornerRadius = 15
+        $0.searchTextField.layer.masksToBounds = true
     }
-    
-    var searchResults: [Item] = [] // 검색 결과 저장
-    weak var delegate: BookSelectionDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +40,6 @@ class BookSearchVC: UIViewController {
         setupTableView()
     }
     
-    // Setup UI components
     private func setupUI() {
         view.backgroundColor = .white
         searchBar.delegate = self
@@ -41,13 +48,11 @@ class BookSearchVC: UIViewController {
         setupConstraints()
     }
     
-    // Add subviews to the main view
     private func addSubviews() {
         view.addSubview(searchBar)
         view.addSubview(tableView)
     }
     
-    // Setup constraints using SnapKit
     private func setupConstraints() {
         searchBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(16)
@@ -61,7 +66,6 @@ class BookSearchVC: UIViewController {
         }
     }
     
-    // Setup TableView
     private func setupTableView() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -72,24 +76,19 @@ class BookSearchVC: UIViewController {
 // MARK: - UISearchBarDelegate
 extension BookSearchVC: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        // Perform search when the search button is clicked
         if let query = searchBar.text {
             bookManager.fetchBookData(queryValue: query) { result in
                 switch result {
                 case .success(let response):
-                    // Handle success, update UI with response items
                     DispatchQueue.main.async {
                         self.searchResults = response.items
                         self.tableView.reloadData()
                     }
                 case .failure(let error):
-                    // Handle failure
                     print("Error: \(error)")
                 }
             }
         }
-        
-        // Dismiss keyboard
         searchBar.resignFirstResponder()
     }
 }
@@ -118,7 +117,6 @@ extension BookSearchVC: UITableViewDelegate {
         
         let item = searchResults[indexPath.row]
         
-        // 선택된 책 정보를 delegate를 통해 전달
         delegate?.didSelectBook(item)
         dismiss(animated: true, completion: nil)
     }
