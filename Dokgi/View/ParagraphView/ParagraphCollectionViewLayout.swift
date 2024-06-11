@@ -37,7 +37,7 @@ class ParagraphCollectionViewLayout: UICollectionViewFlowLayout {
          guard let collectionView = collectionView, cache.isEmpty else { return }
          
          let numberOfColumns: Int = 2
-         let cellPadding: CGFloat = 12
+         let cellPadding: CGFloat = 6
          let cellWidth: CGFloat = contentWidth / CGFloat(numberOfColumns)
          
          let xOffSet: [CGFloat] = [0, cellWidth]
@@ -48,7 +48,7 @@ class ParagraphCollectionViewLayout: UICollectionViewFlowLayout {
          for item in 0..<collectionView.numberOfItems(inSection: 0) {
              let indexPath = IndexPath(item: item, section: 0)
              
-             let textHeight = delegate?.collectionView(collectionView, heightForTextAtIndexPath: indexPath) ?? 180
+             let textHeight = delegate?.collectionView(collectionView, heightForTextAtIndexPath: indexPath) ?? 0
              let height = cellPadding * 2 + textHeight
              
              let frame = CGRect(x: xOffSet[column],
@@ -61,6 +61,7 @@ class ParagraphCollectionViewLayout: UICollectionViewFlowLayout {
              attributes.frame = insetFrame
              cache.append(attributes)
              
+             print(contentHeight, frame.maxY)
              contentHeight = max(contentHeight, frame.maxY)
              yOffSet[column] = yOffSet[column] + height
              

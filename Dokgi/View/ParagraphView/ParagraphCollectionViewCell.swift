@@ -30,8 +30,8 @@ class ParagraphCollectionViewCell: UICollectionViewCell {
         paragraphLabel.font = Pretendard.regular.dynamicFont(style: .subheadline)
         paragraphLabel.textColor = UIColor.black
         paragraphLabel.numberOfLines = 0  //자동 줄바꿈
-        paragraphLabel.sizeToFit()
-        
+        paragraphLabel.lineBreakMode = .byCharWrapping
+    
         dateLabel.text = "24.05.26"
         dateLabel.font = Pretendard.regular.dynamicFont(style: .caption2)
         dateLabel.textColor = UIColor(named: "AlarmMemoGray")
@@ -45,15 +45,13 @@ class ParagraphCollectionViewCell: UICollectionViewCell {
         
         paragraphLabel.snp.makeConstraints {
             $0.top.trailing.leading.equalToSuperview().inset(15)
-            $0.height.lessThanOrEqualTo(330)
-            // 기기 변경 시 오토레이아웃 깨지지 않게 -> 피그마 기준 이미지 크기 165:190 = 1:1.151515
-//            $0.height.equalTo(paragraphLabel.snp.width).multipliedBy(2.324)
         }
         
         dateLabel.snp.makeConstraints {
             $0.top.equalTo(paragraphLabel.snp.bottom).offset(30)
             $0.trailing.equalToSuperview().inset(15)
             $0.bottom.equalToSuperview().inset(15)
+            $0.height.equalTo(22)
         }
     }
 }

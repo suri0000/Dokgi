@@ -33,11 +33,9 @@ class ParagraphViewController: UIViewController {
     lazy var paragraphCollectionView: UICollectionView = {
         let layout = ParagraphCollectionViewLayout()
         layout.delegate = self
-//        layout.minimumLineSpacing = 12
-//        layout.minimumInteritemSpacing = 10
-//        layout.sectionInset = .init(top: 0, left: 15, bottom: 20, right: 15) // 좌우에 15의 간격
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.contentInset = UIEdgeInsets(top: 14, left: 14, bottom: 14, right: 14)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(ParagraphCollectionViewCell.self, forCellWithReuseIdentifier: ParagraphCollectionViewCell.identifier)
@@ -46,10 +44,14 @@ class ParagraphViewController: UIViewController {
     }()
     
     var sampleTexts = [
-        "짧은 텍스트입니다.",
-        "이 텍스트는 좀 더 길어서 셀의 높이가 달라질 것입니다.",
-        "여기에는 아주 길고 긴 텍스트가 들어갑니다. 이 텍스트는 여러 줄로 분할되어 표시될 것입니다. 이를 통해 셀의 높이가 텍스트 길이에 맞게 조절되는지 확인할 수 있습니다. 더 길게 작성해도 셀의 높이가 제대로 조절되는지 확인할 수 있습니다.",
-        "짧은 텍스트입니다."
+        "짧은 텍스트입니다끝",
+        "짧은 텍스트입니다. 짧은 텍스트입니다. 짧은 텍스트입니다. 짧은 텍스트입니다끝",
+        "뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이끝",
+        "짧은 텍스트입니.짧은 텍스트입니.짧은 텍스트입니끝",
+        "뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다끝",
+        "뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다 끝",
+        "뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다 끝",
+        "뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다 끝"
     ]
     
     override func viewDidLoad() {
@@ -239,7 +241,7 @@ class ParagraphViewController: UIViewController {
         }
         
         paragraphCollectionView.snp.makeConstraints {
-            $0.top.equalTo(sortButton.snp.bottom).offset(20)
+            $0.top.equalTo(sortButton.snp.bottom).offset(0)
             $0.bottom.left.right.equalToSuperview().inset(0)
         }
     }
@@ -295,7 +297,7 @@ class ParagraphViewController: UIViewController {
     }
 }
 //MARK: -CollectionView
-extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ParagraphCollectionViewLayoutDelegate {
+extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDataSource, ParagraphCollectionViewLayoutDelegate {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
@@ -320,24 +322,30 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
         cell.layer.cornerRadius = 20
         cell.layer.masksToBounds = true
         
-        
         return cell
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, heightForTextAtIndexPath indexPath: IndexPath) -> CGFloat {
-        
         let width = (collectionView.bounds.width - (collectionView.contentInset.left + collectionView.contentInset.right)) / 2 - 4
         let text = sampleTexts[indexPath.item]
         let paragraphLabelHeight = heightForText(text, width: width)
-        let dataLabelHeight : CGFloat = 22
-        return paragraphLabelHeight + dataLabelHeight + 150
+        let paragraphDateSpacing: CGFloat = 30
+        let dataLabelHeight: CGFloat = 22
+        let topBottomPadding: CGFloat = 12 * 2
+        
+        return paragraphLabelHeight + paragraphDateSpacing + dataLabelHeight + topBottomPadding
     }
     
     private func heightForText(_ text: String, width: CGFloat) -> CGFloat {
-        let font = Pretendard.regular.dynamicFont(style: .subheadline)
-        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
-        let boundingBox = text.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font: font], context: nil)
-        return ceil(boundingBox.height)
+        let label = UILabel()
+        label.text = text
+        label.numberOfLines = 0  // 멀티라인
+        label.preferredMaxLayoutWidth = width
+
+        // UILabel에 맞는 사이즈 계산
+        let constraintSize = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let size = label.sizeThatFits(constraintSize)
+        
+        return size.height
     }
 }
