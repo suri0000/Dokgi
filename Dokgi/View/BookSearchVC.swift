@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class BookSearchVC: UIViewController {
     
@@ -14,7 +15,7 @@ class BookSearchVC: UIViewController {
     
     let tableView: UITableView = {
         let tableView = UITableView()
-        tableView.rowHeight = 80 // 테이블 셀 높이 설정
+        tableView.rowHeight = 150
         return tableView
     }()
     
@@ -26,6 +27,7 @@ class BookSearchVC: UIViewController {
     }()
     
     var searchResults: [Item] = [] // 검색 결과 저장
+    weak var delegate: BookSelectionDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -116,6 +118,11 @@ extension BookSearchVC: UITableViewDataSource {
 extension BookSearchVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        // Handle cell selection
+        
+        let item = searchResults[indexPath.row]
+        
+        // 선택된 책 정보를 delegate를 통해 전달
+        delegate?.didSelectBook(item)
+        dismiss(animated: true, completion: nil)
     }
 }

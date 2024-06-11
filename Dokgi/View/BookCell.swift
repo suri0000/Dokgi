@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import Kingfisher
 
 class BookCell: UITableViewCell {
-    internal let bookImageView = UIImageView() // Renamed imageView to bookImageView
+    internal let bookImageView = UIImageView()
     private let titleLabel = UILabel()
     private let authorLabel = UILabel()
     
@@ -22,14 +23,19 @@ class BookCell: UITableViewCell {
     }
     
     private func setupUI() {
-        contentView.addSubview(bookImageView) // Updated to add bookImageView
+        contentView.addSubview(bookImageView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(authorLabel)
+        
+        titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        authorLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        authorLabel.textColor = UIColor(named: "AuthorLabelGray")
         
         bookImageView.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(16)
             $0.centerY.equalToSuperview()
-            $0.width.height.equalTo(50)
+            $0.width.equalTo(100)
+            $0.height.equalTo(140)
         }
         
         titleLabel.snp.makeConstraints {
@@ -48,6 +54,10 @@ class BookCell: UITableViewCell {
     func configure(with item: Item) {
         titleLabel.text = item.title
         authorLabel.text = item.author
-        // 이미지 로드 및 설정
+        
+        if let url = URL(string: item.image) {
+            bookImageView.kf.setImage(with: url)
+        }
     }
 }
+

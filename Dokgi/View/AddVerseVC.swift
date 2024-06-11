@@ -10,9 +10,16 @@ import UIKit
 import Vision
 import VisionKit
 
+protocol BookSelectionDelegate: AnyObject {
+    func didSelectBook(_ book: Item)
+}
+
 class AddVerseVC: UIViewController {
     
+    var selectedBook: Item?
+    
     var images: [UIImage] = []
+    weak var delegate: BookSelectionDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,7 +83,7 @@ class AddVerseVC: UIViewController {
         return button
     }()
     
-    let imageView: UIImageView = {
+    var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "camera")
         imageView.contentMode = .scaleAspectFit
@@ -84,7 +91,7 @@ class AddVerseVC: UIViewController {
         return imageView
     }()
     
-    let titleLabel: UILabel = {
+    var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "책 제목"
         label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
@@ -92,7 +99,7 @@ class AddVerseVC: UIViewController {
         return label
     }()
     
-    let authorLabel: UILabel = {
+    var authorLabel: UILabel = {
         let label = UILabel()
         label.text = "저자"
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
@@ -370,6 +377,7 @@ class AddVerseVC: UIViewController {
     @objc func searchButtonTapped(_ sender: UIButton) {
         print("검색버튼이 눌렸습니다.")
         let bookSearchVC = BookSearchVC()
+        bookSearchVC.delegate = self
         present(bookSearchVC, animated: true, completion: nil)
     }
     
@@ -401,6 +409,16 @@ class AddVerseVC: UIViewController {
         attributedString.addAttribute(.foregroundColor, value: UIColor.gray, range: selectionRange)
         
         return attributedString
+    }
+    
+    private func displayBookInfo() {
+        if let book = selectedBook {
+            titleLabel.text = book.title
+            authorLabel.text = book.author
+            if let url = URL(string: book.image) {
+                imageView.kf.setImage(with: url)
+            }
+        }
     }
     
     func recognizeText(from image: UIImage) {
@@ -481,5 +499,12 @@ extension AddVerseVC: VNDocumentCameraViewControllerDelegate {
     func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) {
         print("문서 스캔 실패: \(error.localizedDescription)")
         controller.dismiss(animated: true)
+    }
+}
+
+extension AddVerseVC: BookSelectionDelegate {
+    func didSelectBook(_ book: Item) {
+        self.selectedBook = book
+        displayBookInfo()
     }
 }
