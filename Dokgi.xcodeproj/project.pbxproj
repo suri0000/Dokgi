@@ -48,6 +48,8 @@
 		A7F2DB172C1347C80020B0AA /* ParagrapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB162C1347C80020B0AA /* ParagrapViewController.swift */; };
 		A7F2DB192C134B200020B0AA /* ParagrapContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB182C134B200020B0AA /* ParagrapContainerView.swift */; };
 		A7F2DB1D2C15C6E70020B0AA /* KeywordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB1C2C15C6E70020B0AA /* KeywordCollectionViewCell.swift */; };
+		AB355D552C180C9700B3DE16 /* BookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB355D542C180C9700B3DE16 /* BookCell.swift */; };
+		AB355D582C180D8F00B3DE16 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = AB355D572C180D8F00B3DE16 /* Kingfisher */; };
 		AB66D3442C0EEFE3000D72DA /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */; };
 		AB66D3472C0F3363000D72DA /* AddVerseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3462C0F3363000D72DA /* AddVerseVC.swift */; };
 		AB66D3692C17688C000D72DA /* BookSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3682C17688C000D72DA /* BookSearchVC.swift */; };
@@ -118,6 +120,7 @@
 		A7F2DB162C1347C80020B0AA /* ParagrapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParagrapViewController.swift; sourceTree = "<group>"; };
 		A7F2DB182C134B200020B0AA /* ParagrapContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParagrapContainerView.swift; sourceTree = "<group>"; };
 		A7F2DB1C2C15C6E70020B0AA /* KeywordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordCollectionViewCell.swift; sourceTree = "<group>"; };
+		AB355D542C180C9700B3DE16 /* BookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCell.swift; sourceTree = "<group>"; };
 		AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
 		AB66D3462C0F3363000D72DA /* AddVerseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVerseVC.swift; sourceTree = "<group>"; };
 		AB66D3682C17688C000D72DA /* BookSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearchVC.swift; sourceTree = "<group>"; };
@@ -137,6 +140,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB355D582C180D8F00B3DE16 /* Kingfisher in Frameworks */,
 				A74874932C0D7F3400B830EE /* RxSwift in Frameworks */,
 				A74874912C0D7F3400B830EE /* RxRelay in Frameworks */,
 				A74874872C0D7F1700B830EE /* SnapKit in Frameworks */,
@@ -244,6 +248,7 @@
 				AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */,
 				AB66D3462C0F3363000D72DA /* AddVerseVC.swift */,
 				AB66D3682C17688C000D72DA /* BookSearchVC.swift */,
+				AB355D542C180C9700B3DE16 /* BookCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -350,6 +355,7 @@
 				A748748E2C0D7F3400B830EE /* RxCocoa */,
 				A74874902C0D7F3400B830EE /* RxRelay */,
 				A74874922C0D7F3400B830EE /* RxSwift */,
+				AB355D572C180D8F00B3DE16 /* Kingfisher */,
 			);
 			productName = Dokgi;
 			productReference = A748745E2C0D7E0600B830EE /* Dokgi.app */;
@@ -386,6 +392,7 @@
 				A74874852C0D7F1700B830EE /* XCRemoteSwiftPackageReference "SnapKit" */,
 				A748748A2C0D7F2100B830EE /* XCRemoteSwiftPackageReference "Then" */,
 				A748748D2C0D7F3400B830EE /* XCRemoteSwiftPackageReference "RxSwift" */,
+				AB355D562C180D8F00B3DE16 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = A748745F2C0D7E0600B830EE /* Products */;
 			projectDirPath = "";
@@ -451,6 +458,7 @@
 				3C4181632C0DC1E000D141FD /* Network.swift in Sources */,
 				A75908CB2C0FEDEF00415D6D /* DayTimeViewModel.swift in Sources */,
 				AB66D3692C17688C000D72DA /* BookSearchVC.swift in Sources */,
+				AB355D552C180C9700B3DE16 /* BookCell.swift in Sources */,
 				A74874832C0D7ED100B830EE /* Extension.swift in Sources */,
 				7BE488AF2C103E5A00BDB92A /* LibraryCollectionViewCell.swift in Sources */,
 				3C41815F2C0DBF9800D141FD /* BookModel.swift in Sources */,
@@ -785,6 +793,14 @@
 				minimumVersion = 6.7.1;
 			};
 		};
+		AB355D562C180D8F00B3DE16 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.12.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -812,6 +828,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A748748D2C0D7F3400B830EE /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
+		};
+		AB355D572C180D8F00B3DE16 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB355D562C180D8F00B3DE16 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 

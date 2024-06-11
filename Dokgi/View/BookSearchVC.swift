@@ -9,55 +9,64 @@ import UIKit
 import SnapKit
 
 class BookSearchVC: UIViewController {
-    // Create an instance of BookManager
+    
     let bookManager = BookManager.shared
     
-    // Create a label to display search results
-    let searchResultLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.numberOfLines = 0
-        return label
+    let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.rowHeight = 80 // 테이블 셀 높이 설정
+        return tableView
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
-        
-        // 검색 바 생성
+    let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.placeholder = "책을 검색해보세요"
         searchBar.searchBarStyle = .minimal
+        return searchBar
+    }()
+    
+    var searchResults: [Item] = [] // 검색 결과 저장
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        setupTableView()
+    }
+    
+    // Setup UI components
+    private func setupUI() {
+        view.backgroundColor = .white
+        searchBar.delegate = self
         
-        // 라벨 생성
-        let label = UILabel()
-        label.text = "검색화면 입니다."
-        label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        
+        addSubviews()
+        setupConstraints()
+    }
+    
+    // Add subviews to the main view
+    private func addSubviews() {
         view.addSubview(searchBar)
-        view.addSubview(label)
-        view.addSubview(searchResultLabel) // Add searchResultLabel to the view
-        
+        view.addSubview(tableView)
+    }
+    
+    // Setup constraints using SnapKit
+    private func setupConstraints() {
         searchBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(16)
             $0.leading.equalToSuperview().inset(16)
             $0.trailing.equalToSuperview().inset(16)
         }
         
-        label.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
+        tableView.snp.makeConstraints {
+            $0.top.equalTo(searchBar.snp.bottom).offset(16)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
-        
-        searchResultLabel.snp.makeConstraints {
-            $0.top.equalTo(searchBar.snp.bottom).offset(16) // Position below the search bar
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
-        }
-        
-        // Setup search bar delegate
-        searchBar.delegate = self
+    }
+    
+    // Setup TableView
+    private func setupTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(BookCell.self, forCellReuseIdentifier: "BookCell")
     }
 }
 
@@ -71,8 +80,8 @@ extension BookSearchVC: UISearchBarDelegate {
                 case .success(let response):
                     // Handle success, update UI with response items
                     DispatchQueue.main.async {
-                        // Update the label's text with search results
-                        self.searchResultLabel.text = self.formatSearchResults(response.items)
+                        self.searchResults = response.items
+                        self.tableView.reloadData()
                     }
                 case .failure(let error):
                     // Handle failure
@@ -84,19 +93,29 @@ extension BookSearchVC: UISearchBarDelegate {
         // Dismiss keyboard
         searchBar.resignFirstResponder()
     }
+}
+
+// MARK: - UITableViewDataSource
+extension BookSearchVC: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return searchResults.count
+    }
     
-    // Helper method to format search results
-    private func formatSearchResults(_ items: [Item]) -> String {
-        var resultText = ""
-        for item in items {
-            resultText += "Title: \(item.title)\n"
-            resultText += "Author: \(item.author)\n"
-            resultText += "Publisher: \(item.publisher)\n"
-            resultText += "\n"
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "BookCell", for: indexPath) as? BookCell else {
+            return UITableViewCell()
         }
-        return resultText
+        
+        let item = searchResults[indexPath.row]
+        cell.configure(with: item)
+        return cell
     }
 }
 
-
-
+// MARK: - UITableViewDelegate
+extension BookSearchVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        // Handle cell selection
+    }
+}
