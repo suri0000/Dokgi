@@ -18,13 +18,10 @@ class HomeViewController: UIViewController {
     let currentLevelCollectionView: UICollectionView = {
         let layout = CurrentLevelCollectionFlowLayout()
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        view.isScrollEnabled = true
         view.showsHorizontalScrollIndicator = false
-        view.showsVerticalScrollIndicator = true
         view.backgroundColor = .clear
         view.clipsToBounds = true
         view.register(CurrentLevelCell.self, forCellWithReuseIdentifier: CurrentLevelCell.identifier)
-        view.isPagingEnabled = false
         view.decelerationRate = .fast
         return view
     }()

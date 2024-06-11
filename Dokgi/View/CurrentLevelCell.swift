@@ -89,17 +89,14 @@ class CurrentLevelCell: UICollectionViewCell {
         levelView.backgroundColor = .lightSkyBlue
         levelView.layer.cornerRadius = 10
         
-        levelLabel.text = "LEVEL 0"
         levelLabel.textColor = .mediumSkyBlue
-        levelLabel.font = .systemFont(ofSize: 12, weight: .heavy)
+        levelLabel.font = Pretendard.bold.dynamicFont(style: .caption1)
         
-        descrptionLabel.text = "고니가 잰 길이만큼 (3cm)"
-        descrptionLabel.font = .monospacedDigitSystemFont(ofSize: 14, weight: .medium)
+        descrptionLabel.font = Pretendard.regular.dynamicFont(style: .footnote)
         descrptionLabel.numberOfLines = 2
         
-        lengthLabel.text = "00mm"
         lengthLabel.textColor = .mediumSkyBlue
-        lengthLabel.font = .monospacedDigitSystemFont(ofSize: 30, weight: .heavy)
+        lengthLabel.font = Pretendard.bold.dynamicFont(style: .largeTitle)
     }
     
     func setCellConfig(_ cardData: Card) {
