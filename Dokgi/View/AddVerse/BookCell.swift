@@ -9,7 +9,7 @@ import UIKit
 import Kingfisher
 
 class BookCell: UITableViewCell {
-    internal let bookImageView = UIImageView()
+    private let bookImageView = UIImageView()
     private let titleLabel = UILabel()
     private let authorLabel = UILabel()
     
