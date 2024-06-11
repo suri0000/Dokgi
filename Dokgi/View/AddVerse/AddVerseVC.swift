@@ -24,6 +24,7 @@ class AddVerseVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        keywordCollectionView.register(KeywordCell.self, forCellWithReuseIdentifier: KeywordCell.reuseIdentifier)
         setupViews()
         initLayout()
         setupActions()
@@ -435,7 +436,7 @@ extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "KeywordCell", for: indexPath)
         cell.backgroundColor = UIColor(named: "LightSkyBlue")
         return cell
     }
