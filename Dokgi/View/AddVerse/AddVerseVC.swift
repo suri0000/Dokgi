@@ -38,7 +38,7 @@ class AddVerseVC: UIViewController {
     
     let scanButton = UIButton().then {
         $0.setTitle("구절 스캔", for: .normal)
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        $0.titleLabel?.font = Pretendard.bold.dynamicFont(style: .subheadline)
         $0.setTitleColor(UIColor(named: "CharcoalBlue"), for: .normal)
         $0.backgroundColor = .lightSkyBlue
         $0.setImage(UIImage(named: "camera.viewfinder")?.withTintColor(UIColor(named: "CharcoalBlue") ?? .black, renderingMode: .alwaysOriginal), for: .normal)
@@ -58,7 +58,7 @@ class AddVerseVC: UIViewController {
     let searchButton = UIButton(type: .system).then {
         var config = UIButton.Configuration.filled()
         config.title = "책 검색"
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        $0.titleLabel?.font = Pretendard.bold.dynamicFont(style: .headline)
         config.baseForegroundColor = .white
         config.baseBackgroundColor = UIColor(named: "CharcoalBlue")
         config.image = UIImage(systemName: "magnifyingglass")
@@ -78,14 +78,14 @@ class AddVerseVC: UIViewController {
     
     var titleLabel = UILabel().then {
         $0.text = "책 제목"
-        $0.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        $0.font = Pretendard.bold.dynamicFont(style: .body)
         $0.textColor = UIColor(named: "BookTextGray")
         $0.numberOfLines = 2
     }
     
     var authorLabel = UILabel().then {
         $0.text = "저자"
-        $0.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        $0.font = Pretendard.bold.dynamicFont(style: .body)
         $0.textColor = UIColor(named: "BookTextGray")
     }
     
@@ -94,7 +94,7 @@ class AddVerseVC: UIViewController {
         $0.layer.borderWidth = 1.0
         $0.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.7).cgColor
         $0.textContainerInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
-        $0.font = .systemFont(ofSize: 14)
+        $0.font = Pretendard.bold.dynamicFont(style: .footnote)
         $0.textColor = .placeholderText
         $0.layer.cornerRadius = 8
         $0.showsVerticalScrollIndicator = false
@@ -103,7 +103,7 @@ class AddVerseVC: UIViewController {
     
     let characterCountLabel = UILabel().then {
         $0.textColor = .gray
-        $0.font = UIFont.systemFont(ofSize: 14)
+        $0.font = Pretendard.bold.dynamicFont(style: .footnote)
     }
     
     let keywordLabel = UILabel().then {
@@ -133,19 +133,19 @@ class AddVerseVC: UIViewController {
     
     let pageLabel = UILabel().then {
         $0.text = "페이지"
-        $0.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        $0.font = Pretendard.bold.dynamicFont(style: .headline)
         $0.textColor = .black
     }
     
     let pageNumberTextField = UITextField().then {
         $0.placeholder = "페이지 수"
-        $0.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        $0.font = Pretendard.bold.dynamicFont(style: .subheadline)
         $0.borderStyle = .roundedRect
     }
     
     let percentageButton = UIButton().then {
         $0.setTitle("%", for: .normal)
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
+        $0.titleLabel?.font = Pretendard.bold.dynamicFont(style: .footnote)
         $0.setTitleColor(UIColor(named: "CharcoalBlue"), for: .normal)
         $0.layer.cornerRadius = 15
         $0.layer.borderWidth = 1.0 // 테두리 두께 설정
@@ -156,7 +156,7 @@ class AddVerseVC: UIViewController {
 
     let pageButton = UIButton().then {
         $0.setTitle("Page", for: .normal)
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
+        $0.titleLabel?.font = Pretendard.bold.dynamicFont(style: .footnote)
         $0.setTitleColor(.black, for: .normal)
         $0.layer.cornerRadius = 15
         $0.layer.borderWidth = 1.0
@@ -167,7 +167,7 @@ class AddVerseVC: UIViewController {
     
     let recordButton = UIButton().then {
         $0.setTitle("기록 하기", for: .normal)
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        $0.titleLabel?.font = Pretendard.bold.dynamicFont(style: .headline)
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = UIColor(named: "CharcoalBlue")
         $0.layer.cornerRadius = 8
