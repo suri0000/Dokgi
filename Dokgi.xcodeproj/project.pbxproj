@@ -59,8 +59,12 @@
 		A7F2DB1D2C15C6E70020B0AA /* KeywordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB1C2C15C6E70020B0AA /* KeywordCollectionViewCell.swift */; };
 		A7F2DB212C16FF860020B0AA /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB202C16FF860020B0AA /* CoreDataManager.swift */; };
 		A7F2DB602C17F98E0020B0AA /* CoreDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB5F2C17F98E0020B0AA /* CoreDataModel.swift */; };
+		AB23869D2C18849E00E6FACE /* AddVerseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB23869C2C18849E00E6FACE /* AddVerseVC.swift */; };
+		AB355D552C180C9700B3DE16 /* BookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB355D542C180C9700B3DE16 /* BookCell.swift */; };
+		AB355D582C180D8F00B3DE16 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = AB355D572C180D8F00B3DE16 /* Kingfisher */; };
+		AB355D5B2C18725400B3DE16 /* KeywordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB355D5A2C18725400B3DE16 /* KeywordCell.swift */; };
 		AB66D3442C0EEFE3000D72DA /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */; };
-		AB66D3472C0F3363000D72DA /* AddVerseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3462C0F3363000D72DA /* AddVerseVC.swift */; };
+		AB66D3692C17688C000D72DA /* BookSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3682C17688C000D72DA /* BookSearchVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -139,8 +143,11 @@
 		A7F2DB1C2C15C6E70020B0AA /* KeywordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordCollectionViewCell.swift; sourceTree = "<group>"; };
 		A7F2DB202C16FF860020B0AA /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		A7F2DB5F2C17F98E0020B0AA /* CoreDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataModel.swift; sourceTree = "<group>"; };
+		AB23869C2C18849E00E6FACE /* AddVerseVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddVerseVC.swift; sourceTree = "<group>"; };
+		AB355D542C180C9700B3DE16 /* BookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCell.swift; sourceTree = "<group>"; };
+		AB355D5A2C18725400B3DE16 /* KeywordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordCell.swift; sourceTree = "<group>"; };
 		AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
-		AB66D3462C0F3363000D72DA /* AddVerseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVerseVC.swift; sourceTree = "<group>"; };
+		AB66D3682C17688C000D72DA /* BookSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearchVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +164,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB355D582C180D8F00B3DE16 /* Kingfisher in Frameworks */,
 				A74874932C0D7F3400B830EE /* RxSwift in Frameworks */,
 				A74874912C0D7F3400B830EE /* RxRelay in Frameworks */,
 				A74874872C0D7F1700B830EE /* SnapKit in Frameworks */,
@@ -279,12 +287,12 @@
 				7BE488B12C16E24800BDB92A /* ParagraphView */,
 				A7F2DB152C1347840020B0AA /*  ParagraphDetailView */,
 				A75908C92C0F759D00415D6D /* SettingView */,
+				AB355D592C1871E900B3DE16 /* AddVerse */,
 				A74874652C0D7E0700B830EE /* ViewController.swift */,
 				AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */,
 				3C208EAB2C0F378000CED104 /* HomeViewController.swift */,
 				3C627A432C143B2000513292 /* CurrentLevelCollectionFlowLayout.swift */,
 				3C208EAD2C0F63DF00CED104 /* CurrentLevelCell.swift */,
-				AB66D3462C0F3363000D72DA /* AddVerseVC.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -355,6 +363,17 @@
 			path = " ParagraphDetailView";
 			sourceTree = "<group>";
 		};
+		AB355D592C1871E900B3DE16 /* AddVerse */ = {
+			isa = PBXGroup;
+			children = (
+				AB66D3682C17688C000D72DA /* BookSearchVC.swift */,
+				AB355D542C180C9700B3DE16 /* BookCell.swift */,
+				AB355D5A2C18725400B3DE16 /* KeywordCell.swift */,
+				AB23869C2C18849E00E6FACE /* AddVerseVC.swift */,
+			);
+			path = AddVerse;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -396,6 +415,7 @@
 				A748748E2C0D7F3400B830EE /* RxCocoa */,
 				A74874902C0D7F3400B830EE /* RxRelay */,
 				A74874922C0D7F3400B830EE /* RxSwift */,
+				AB355D572C180D8F00B3DE16 /* Kingfisher */,
 			);
 			productName = Dokgi;
 			productReference = A748745E2C0D7E0600B830EE /* Dokgi.app */;
@@ -432,6 +452,7 @@
 				A74874852C0D7F1700B830EE /* XCRemoteSwiftPackageReference "SnapKit" */,
 				A748748A2C0D7F2100B830EE /* XCRemoteSwiftPackageReference "Then" */,
 				A748748D2C0D7F3400B830EE /* XCRemoteSwiftPackageReference "RxSwift" */,
+				AB355D562C180D8F00B3DE16 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = A748745F2C0D7E0600B830EE /* Products */;
 			projectDirPath = "";
@@ -486,7 +507,7 @@
 				A75908C42C0F6B9600415D6D /* Font.swift in Sources */,
 				A75908D12C12D36100415D6D /* UserDefaultsKey.swift in Sources */,
 				A748746C2C0D7E0700B830EE /* Dokgi.xcdatamodeld in Sources */,
-				AB66D3472C0F3363000D72DA /* AddVerseVC.swift in Sources */,
+				AB355D5B2C18725400B3DE16 /* KeywordCell.swift in Sources */,
 				A7F2DB602C17F98E0020B0AA /* CoreDataModel.swift in Sources */,
 				A7F2DB1D2C15C6E70020B0AA /* KeywordCollectionViewCell.swift in Sources */,
 				A74874662C0D7E0700B830EE /* ViewController.swift in Sources */,
@@ -499,6 +520,9 @@
 				7BE488B72C171BC500BDB92A /* ParagraphCollectionViewLayout.swift in Sources */,
 				3C4181632C0DC1E000D141FD /* Network.swift in Sources */,
 				A75908CB2C0FEDEF00415D6D /* DayTimeViewModel.swift in Sources */,
+				AB23869D2C18849E00E6FACE /* AddVerseVC.swift in Sources */,
+				AB66D3692C17688C000D72DA /* BookSearchVC.swift in Sources */,
+				AB355D552C180C9700B3DE16 /* BookCell.swift in Sources */,
 				A74874832C0D7ED100B830EE /* Extension.swift in Sources */,
 				7BE488AF2C103E5A00BDB92A /* LibraryCollectionViewCell.swift in Sources */,
 				3C41815F2C0DBF9800D141FD /* BookModel.swift in Sources */,
@@ -841,6 +865,14 @@
 				minimumVersion = 6.7.1;
 			};
 		};
+		AB355D562C180D8F00B3DE16 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.12.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -868,6 +900,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A748748D2C0D7F3400B830EE /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
+		};
+		AB355D572C180D8F00B3DE16 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB355D562C180D8F00B3DE16 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 
