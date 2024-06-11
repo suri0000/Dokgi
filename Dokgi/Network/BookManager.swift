@@ -12,8 +12,8 @@ class BookManager {
     private init() {}
 
     private let url = "https://openapi.naver.com/v1/search/book.json"
-    private let clientID = "ZhymPJXIPco2dZ2xDma2"  // 직접 입력한 클라이언트 ID
-    private let clientKEY = "kNGk9K_N84" // 직접 입력한 클라이언트 Key
+    private let clientID = Bundle.main.object(forInfoDictionaryKey: "API_ID") as? String
+    private let clientKEY = Bundle.main.object(forInfoDictionaryKey: "API_KEY") as? String
     
     func fetchBookData(queryValue: String, completion: @escaping (Result<SearchBookResponse, Error>) -> Void) {
         
