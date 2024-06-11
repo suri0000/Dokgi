@@ -4,31 +4,31 @@
 //
 //  Created by t2023-m0095 on 6/10/24.
 //
-
+import SnapKit
 import UIKit
 
 class ParagraphViewController: UIViewController {
     
-    let paragraphLabel = UILabel()
-    let selectionButton = UIButton()
-    let selectionButtonImageView = UIImageView()
-    let selectionButtonLabel = UILabel()
-    let searchBar = UISearchBar()
+    private let paragraphLabel = UILabel()
+    private let selectionButton = UIButton()
+    private let selectionButtonImageView = UIImageView()
+    private let selectionButtonLabel = UILabel()
+    private let searchBar = UISearchBar()
     
-    let sortButton = UIButton()
-    let sortButtonImageView = UIImageView()
-    let sortButtonTitleLabel = UILabel()
+    private let sortButton = UIButton()
+    private let sortButtonImageView = UIImageView()
+    private let sortButtonTitleLabel = UILabel()
     
-    let sortMenuView = UIView()
-    let latestFirstButton = UIButton()
-    let oldestFirstButton = UIButton()
-    let latestFirstcheckImageView = UIImageView()
-    let oldestFirstcheckImageView = UIImageView()
-    let latestTextLabel = UILabel()
-    let oldestTextLabel = UILabel()
+    private let sortMenuView = UIView()
+    private let latestFirstButton = UIButton()
+    private let oldestFirstButton = UIButton()
+    private let latestFirstcheckImageView = UIImageView()
+    private let oldestFirstcheckImageView = UIImageView()
+    private let latestTextLabel = UILabel()
+    private let oldestTextLabel = UILabel()
     
-    var isLatestFirst: Bool = true
-    var isOldestFirst: Bool = false
+    private var isLatestFirst: Bool = true
+    private var isOldestFirst: Bool = false
     
     lazy var paragraphCollectionView: UICollectionView = {
         let layout = ParagraphCollectionViewLayout()
@@ -63,10 +63,10 @@ class ParagraphViewController: UIViewController {
         setSortMenuView()
     }
     
-    func setUI() {
+    private func setUI() {
         view.backgroundColor = .white
         
-        paragraphLabel.text = "서재"
+        paragraphLabel.text = "구절"
         paragraphLabel.font = Pretendard.bold.dynamicFont(style: .title1)
         paragraphLabel.textColor = .black
         
@@ -118,7 +118,7 @@ class ParagraphViewController: UIViewController {
         oldestFirstcheckImageView.image = UIImage(named: "check")
     }
     
-    func setConstraints() {
+    private func setConstraints() {
         [paragraphLabel, selectionButton, searchBar, sortButton, sortMenuView, paragraphCollectionView].forEach {
             view.addSubview($0)
         }
@@ -142,27 +142,25 @@ class ParagraphViewController: UIViewController {
         }
         
         selectionButtonImageView.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview()
+            $0.centerY.leading.equalToSuperview()
             $0.width.equalTo(14.67)
             $0.height.equalTo(13.2)
         }
         
         selectionButtonLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
+            $0.centerY.trailing.equalToSuperview()
             $0.leading.equalTo(selectionButtonImageView.snp.trailing).offset(5)
-            $0.trailing.equalToSuperview()
         }
         
         searchBar.snp.makeConstraints {
             $0.top.equalTo(paragraphLabel.snp.bottom)
-            $0.left.right.equalToSuperview().inset(10)
+            $0.leading.trailing.equalToSuperview().inset(10)
         }
         
         //정렬 버튼
         sortButton.snp.makeConstraints {
             $0.top.equalTo(searchBar.snp.bottom).offset(10)
-            $0.right.equalToSuperview().inset(20)
+            $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(29)
             $0.width.greaterThanOrEqualTo(87)
         }
@@ -186,7 +184,7 @@ class ParagraphViewController: UIViewController {
         // 정렬 버튼 클릭 시 - 정렬 옵션 메뉴
         sortMenuView.snp.makeConstraints {
             $0.top.equalTo(sortButton.snp.bottom).offset(3)
-            $0.right.equalToSuperview().inset(20)
+            $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(60)
             $0.width.equalTo(113)
         }
@@ -242,38 +240,38 @@ class ParagraphViewController: UIViewController {
         
         paragraphCollectionView.snp.makeConstraints {
             $0.top.equalTo(sortButton.snp.bottom).offset(14)
-            $0.bottom.left.right.equalToSuperview().inset(0)
+            $0.bottom.leading.trailing.equalToSuperview().inset(0)
         }
     }
     
     //MARK: - searchBar
-    func setSearchBar() {
+    private func setSearchBar() {
         searchBar.searchBarStyle = .minimal
+        searchBar.setPositionAdjustment(UIOffset(horizontal: 8, vertical: 0), for: .search)
+        searchBar.setPositionAdjustment(UIOffset(horizontal: -8, vertical: 0), for: .clear)
         searchBar.placeholder = "기록한 구절을 검색해보세요"
         searchBar.searchTextField.borderStyle = .line
         searchBar.searchTextField.layer.borderWidth = 1
-        if let SearchBarLightGray = UIColor(named: "SearchBarLightGray")?.cgColor {
-            searchBar.searchTextField.layer.borderColor = SearchBarLightGray
-        }
+        searchBar.searchTextField.layer.borderColor = UIColor(named: "SearchBarLightGray")?.cgColor
         searchBar.searchTextField.layer.backgroundColor = UIColor.white.cgColor
-        searchBar.searchTextField.layer.cornerRadius = 20
+        searchBar.searchTextField.layer.cornerRadius = 17
         searchBar.searchTextField.layer.masksToBounds = true
         searchBar.searchTextField.font = Pretendard.regular.dynamicFont(style: .caption2)
     }
     // MARK: - 설정버튼
-    func setSortMenuView() {
+    private func setSortMenuView() {
         sortMenuView.isHidden = true
         
         latestFirstcheckImageView.isHidden = false
         oldestFirstcheckImageView.isHidden = true
     }
     
-    @objc func showSortMenuView() {
+    @objc private func showSortMenuView() {
         sortMenuView.isHidden = false
         view.bringSubviewToFront(sortMenuView)
     }
     
-    @objc func tappedLatestFirst() {
+    @objc private func tappedLatestFirst() {
         sortButtonTitleLabel.text = "최신순"
         
         latestFirstcheckImageView.isHidden = false
@@ -282,7 +280,7 @@ class ParagraphViewController: UIViewController {
         sortMenuView.isHidden = true
     }
     
-    @objc func tappedOldestFirst() {
+    @objc private func tappedOldestFirst() {
         sortButtonTitleLabel.text = "오래된순"
         
         latestFirstcheckImageView.isHidden = true
@@ -291,7 +289,7 @@ class ParagraphViewController: UIViewController {
         sortMenuView.isHidden = true
     }
     
-    @objc func tappedSelectionButton() {
+    @objc private func tappedSelectionButton() {
         sortMenuView.isHidden = true
         selectionButtonImageView.isHidden = true
     }
