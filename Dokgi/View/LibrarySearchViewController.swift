@@ -57,18 +57,18 @@ class LibrarySearchViewController: UIViewController {
         setConstraints()
         setSearchBar()
         setSortMenuView()
-        CoreDataManager.shared.bookData.subscribe(with: self){ (self, bookData) in
+        CoreDataManager.shared.bookData.subscribe(with: self) { (self, bookData) in
             self.libraryCollectionView.reloadData()
         }.disposed(by: disposeBag)
         
-        self.searchBar.rx.text.debounce(.seconds(1), scheduler: MainScheduler.instance).subscribe(with: self) {(self, text) in
+        self.searchBar.rx.text.debounce(.seconds(1), scheduler: MainScheduler.instance).subscribe(with: self) { (self, text) in
             guard let text = text else {return}
             if text.isEmpty == true {
                 CoreDataManager.shared.getBookData()
                 print("dd")
-            }else {
+            } else {
                 CoreDataManager.shared.getBookData()
-                CoreDataManager.shared.bookData.accept(CoreDataManager.shared.bookData.value.filter{$0.name.contains(text)})
+                CoreDataManager.shared.bookData.accept(CoreDataManager.shared.bookData.value.filter { $0.name.contains(text) })
                 print("ss")
             }
         }.disposed(by: disposeBag)

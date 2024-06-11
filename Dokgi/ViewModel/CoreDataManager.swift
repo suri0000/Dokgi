@@ -4,9 +4,9 @@
 //
 //  Created by 송정훈 on 6/10/24.
 //
+import CoreData
 import RxCocoa
 import RxSwift
-import CoreData
 import UIKit
 
 class CoreDataManager {
@@ -14,12 +14,12 @@ class CoreDataManager {
     
     var bookData = BehaviorRelay<[Book]>(value: [])
     var paragraphData = BehaviorRelay<[Paragraph]>(value: [])
-    var persistent : NSPersistentContainer? {
+    var persistent: NSPersistentContainer? {
         (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
     }
     
     func saveData(paragraph: Paragraph, bookImage: String) {
-        guard let context = self.persistent?.viewContext else {return}
+        guard let context = self.persistent?.viewContext else { return }
         
         let fetchRequest: NSFetchRequest<BookEntity> = BookEntity.fetchRequest()
         let namePredicate = NSPredicate(format: "name == %@", paragraph.bookName)
@@ -65,7 +65,7 @@ class CoreDataManager {
     }
     
     func getParagraphData() {
-        guard let context = self.persistent?.viewContext else {return}
+        guard let context = self.persistent?.viewContext else { return }
         let requestParagraph = NSFetchRequest<ParagraphEntity>(entityName: "ParagraphEntity")
         let requestKeyword = NSFetchRequest<KeywordEntity>(entityName: "KeywordEntity")
         
@@ -91,7 +91,7 @@ class CoreDataManager {
     }
     
     func getBookData() {
-        guard let context = self.persistent?.viewContext else {return}
+        guard let context = self.persistent?.viewContext else { return }
         let requestBook = NSFetchRequest<BookEntity>(entityName: "BookEntity")
         let requestParagraph = NSFetchRequest<ParagraphEntity>(entityName: "ParagraphEntity")
         let requestKeyword = NSFetchRequest<KeywordEntity>(entityName: "KeywordEntity")
@@ -125,7 +125,7 @@ class CoreDataManager {
     }
     
     func deleteKeyword(paragraph: Paragraph, keyword: String) {
-        guard let context = self.persistent?.viewContext else {return}
+        guard let context = self.persistent?.viewContext else { return }
         let fetchRequest: NSFetchRequest<BookEntity> = BookEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %d", paragraph.bookId)
         
@@ -149,7 +149,7 @@ class CoreDataManager {
     }
     
     func deleteParagraph(paragraph: Paragraph) {
-        guard let context = self.persistent?.viewContext else {return}
+        guard let context = self.persistent?.viewContext else { return }
         let fetchRequest: NSFetchRequest<BookEntity> = BookEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %d", paragraph.bookId)
         
@@ -170,7 +170,7 @@ class CoreDataManager {
     }
     
     func deleteBook(book: Book) {
-        guard let context = self.persistent?.viewContext else {return}
+        guard let context = self.persistent?.viewContext else { return }
         let fetchRequest: NSFetchRequest<BookEntity> = BookEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %d", book.id)
         
@@ -186,7 +186,7 @@ class CoreDataManager {
     }
     
     func updateParagraph(paragraph: Paragraph) {
-        guard let context = self.persistent?.viewContext else {return}
+        guard let context = self.persistent?.viewContext else { return }
         let fetchRequest: NSFetchRequest<BookEntity> = BookEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %d", paragraph.bookId)
         
