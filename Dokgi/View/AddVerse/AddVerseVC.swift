@@ -18,14 +18,12 @@ protocol BookSelectionDelegate: AnyObject {
 class AddVerseVC: UIViewController {
     
     var selectedBook: Item?
-    
     var images: [UIImage] = []
     weak var delegate: BookSelectionDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        print("생명주기")
         setupViews()
         initLayout()
         setupActions()
@@ -348,11 +346,9 @@ class AddVerseVC: UIViewController {
     @objc func scanButtonTapped(_ sender: UIButton) {
         images = []
         visionKit()
-        print("구절 스캔 버튼이 눌렸습니다.")
     }
     
     @objc func searchButtonTapped(_ sender: UIButton) {
-        print("검색버튼이 눌렸습니다.")
         let bookSearchVC = BookSearchVC()
         bookSearchVC.delegate = self
         present(bookSearchVC, animated: true, completion: nil)
@@ -469,7 +465,7 @@ extension AddVerseVC: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         let currentCount = textView.text.count
-        characterCountLabel.text = "\(currentCount)/200" // 현재 글자 수 표시
+        characterCountLabel.text = "\(currentCount)/200"
         
         // 최대 200자 제한
         if currentCount > 200 {

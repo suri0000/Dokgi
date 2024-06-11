@@ -242,13 +242,11 @@
 			children = (
 				A7F2DB152C1347840020B0AA /*  ParagraphDetailView */,
 				A75908C92C0F759D00415D6D /* SettingView */,
+				AB355D592C1871E900B3DE16 /* AddVerse */,
 				A74874652C0D7E0700B830EE /* ViewController.swift */,
 				7BE488AE2C103E5A00BDB92A /* LibraryCollectionViewCell.swift */,
 				7BE488A82C0F267000BDB92A /* LibrarySearchViewController.swift */,
 				AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */,
-				AB66D3462C0F3363000D72DA /* AddVerseVC.swift */,
-				AB66D3682C17688C000D72DA /* BookSearchVC.swift */,
-				AB355D542C180C9700B3DE16 /* BookCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -312,6 +310,16 @@
 				A7F2DB1C2C15C6E70020B0AA /* KeywordCollectionViewCell.swift */,
 			);
 			path = " ParagraphDetailView";
+			sourceTree = "<group>";
+		};
+		AB355D592C1871E900B3DE16 /* AddVerse */ = {
+			isa = PBXGroup;
+			children = (
+				AB66D3462C0F3363000D72DA /* AddVerseVC.swift */,
+				AB66D3682C17688C000D72DA /* BookSearchVC.swift */,
+				AB355D542C180C9700B3DE16 /* BookCell.swift */,
+			);
+			path = AddVerse;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
