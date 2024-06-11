@@ -419,6 +419,8 @@ class AddVerseVC: UIViewController {
                 imageView.kf.setImage(with: url)
             }
         }
+        overlayView.isHidden = true // Hide the overlayView
+        searchButton.isHidden = true
     }
     
     func recognizeText(from image: UIImage) {
