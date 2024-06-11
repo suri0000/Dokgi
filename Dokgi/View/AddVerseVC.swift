@@ -251,7 +251,7 @@ class AddVerseVC: UIViewController {
         searchButton.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.height.equalTo(35)
-            $0.horizontalEdges.equalTo(viewInScroll).inset(135)
+            $0.horizontalEdges.equalTo(viewInScroll).inset(140)
         }
         
         imageView.snp.makeConstraints {
@@ -339,9 +339,10 @@ class AddVerseVC: UIViewController {
     
     func setupActions() {
         scanButton.addTarget(self, action: #selector(scanButtonTapped(_:)), for: .touchUpInside)
+        searchButton.addTarget(self, action: #selector(searchButtonTapped(_:)), for: .touchUpInside)
         percentageButton.addTarget(self, action: #selector(percentageButtonTapped(_:)), for: .touchUpInside)
-        pageButton.addTarget(self, action: #selector(pageButtonButtonTapped(_:)), for: .touchUpInside)
-        recordButton.addTarget(self, action: #selector(recordButtonButtonTapped(_:)), for: .touchUpInside)
+        pageButton.addTarget(self, action: #selector(pageButtonTapped(_:)), for: .touchUpInside)
+        recordButton.addTarget(self, action: #selector(recordButtonTapped(_:)), for: .touchUpInside)
     }
     
     func setupHideKeyboardOnTap() {
@@ -366,16 +367,22 @@ class AddVerseVC: UIViewController {
         print("구절 스캔 버튼이 눌렸습니다.")
     }
     
+    @objc func searchButtonTapped(_ sender: UIButton) {
+        print("검색버튼이 눌렸습니다.")
+        let bookSearchVC = BookSearchVC()
+        present(bookSearchVC, animated: true, completion: nil)
+    }
+    
     @objc func percentageButtonTapped(_ sender: UIButton) {
         print("% 버튼이 눌렸습니다.")
     }
     
-    @objc func pageButtonButtonTapped(_ sender: UIButton) {
+    @objc func pageButtonTapped(_ sender: UIButton) {
         // 구절 스캔 버튼이 눌렸을 때 실행될 액션 구현
         print("page 버튼이 눌렸습니다.")
     }
     
-    @objc func recordButtonButtonTapped(_ sender: UIButton) {
+    @objc func recordButtonTapped(_ sender: UIButton) {
         // 구절 스캔 버튼이 눌렸을 때 실행될 액션 구현
         print("기록하기 버튼이 눌렸습니다.")
     }
@@ -431,7 +438,7 @@ class AddVerseVC: UIViewController {
 extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10 // 예시로 10개의 아이템을 반환
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

@@ -12,10 +12,10 @@ class BookManager {
     private init() {}
 
     private let url = "https://openapi.naver.com/v1/search/book.json"
-    private let clientID = Bundle.main.object(forInfoDictionaryKey: "API_KEY") as? String
-    private let clientKEY =  Bundle.main.object(forInfoDictionaryKey: "API_ID") as? String
+    private let clientID = "ZhymPJXIPco2dZ2xDma2"  // 직접 입력한 클라이언트 ID
+    private let clientKEY = "kNGk9K_N84" // 직접 입력한 클라이언트 Key
     
-    func fetchBookData(queryValue: String, completion: @escaping (Result<SearchBookResponse,Error>) -> Void) {
+    func fetchBookData(queryValue: String, completion: @escaping (Result<SearchBookResponse, Error>) -> Void) {
         
         guard var urlComponents = URLComponents(string: url) else {
             print("Invalid URL")
@@ -29,7 +29,7 @@ class BookManager {
         urlComponents.queryItems = queryItems
         
         guard let url = urlComponents.url else {
-            print("Incalid URL")
+            print("Invalid URL")
             return
         }
         
@@ -39,26 +39,33 @@ class BookManager {
         request.setValue(clientKEY, forHTTPHeaderField: "X-Naver-Client-Secret")
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            //에러처리
+            // 에러 처리
             if let error = error {
                 print("Error \(error)")
                 return
             }
             guard let data = data else {
-                print("data")
+                print("No data")
                 return
             }
             
             do {
+                // JSON 응답 출력
+                if let json = try? JSONSerialization.jsonObject(with: data, options: []) {
+                    print("Raw JSON response: \(json)")
+                }
+                
                 let response = try JSONDecoder().decode(SearchBookResponse.self, from: data)
                 print("response: \(response)")
                 completion(.success(response))
             } catch {
-                print("decoding error")
+                print("Decoding error: \(error)")
                 completion(.failure(error))
             }
         }
         task.resume()
     }
 }
+
+
 
