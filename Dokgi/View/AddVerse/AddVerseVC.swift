@@ -254,8 +254,7 @@ class AddVerseVC: UIViewController {
         
         verseTextView.snp.makeConstraints {
             $0.top.equalTo(infoView.snp.bottom).offset(32)
-            $0.leading.equalTo(viewInScroll.snp.leading).offset(16)
-            $0.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
+            $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(329)
         }
         
@@ -266,21 +265,18 @@ class AddVerseVC: UIViewController {
         
         keywordLabel.snp.makeConstraints {
             $0.top.equalTo(verseTextView.snp.bottom).offset(32)
-            $0.leading.equalTo(viewInScroll.snp.leading).offset(16)
-            $0.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
+            $0.horizontalEdges.equalToSuperview().inset(16)
         }
         
         keywordField.snp.makeConstraints {
             $0.top.equalTo(keywordLabel.snp.bottom).offset(16)
-            $0.leading.equalTo(viewInScroll.snp.leading).offset(16)
-            $0.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
+            $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(33)
         }
         
         keywordCollectionView.snp.makeConstraints {
             $0.top.equalTo(keywordField.snp.bottom).offset(16)
-            $0.leading.equalTo(viewInScroll.snp.leading).offset(16)
-            $0.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
+            $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(35)
         }
         
@@ -312,8 +308,7 @@ class AddVerseVC: UIViewController {
         
         recordButton.snp.makeConstraints {
             $0.top.equalTo(pageLabel.snp.bottom).offset(60)
-            $0.leading.equalTo(viewInScroll.snp.leading).offset(16)
-            $0.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
+            $0.horizontalEdges.equalToSuperview().inset(16)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(50)
         }
