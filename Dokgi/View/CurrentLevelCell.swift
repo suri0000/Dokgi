@@ -18,7 +18,7 @@ class CurrentLevelCell: UICollectionViewCell {
     let descrptionLabel = UILabel()
     let lengthLabel = UILabel()
     let cardImageView = UIImageView()
-    var blurEffectView: UIVisualEffectView?
+    var blurEffectView = UIVisualEffectView()
     
     
     override init(frame: CGRect) {
@@ -26,6 +26,7 @@ class CurrentLevelCell: UICollectionViewCell {
         configureUI()
         setupConstraints()
         setUpShadow()
+        setupBlur(alpha: 0.8)
         
     }
     
@@ -113,7 +114,7 @@ class CurrentLevelCell: UICollectionViewCell {
             cardImageView.image = cardImage
         }
         
-        let formattedLength = formatLength(length: cardData.length)
+        let formattedLength = MetricUtil.formatLength(length: cardData.length)
         levelLabel.text = "LEVEL " + String(cardData.level)
         descrptionLabel.text = "\(cardData.descrption) 만큼 (\(formattedLength))"
         lengthLabel.text = String(formattedLength)
@@ -139,13 +140,13 @@ class CurrentLevelCell: UICollectionViewCell {
     
     func setupBlur(alpha: CGFloat = 0.5) {
         // 블러 효과 생성
-        let blurEffect = UIBlurEffect(style: .light)
+        let blurEffect = UIBlurEffect(style: .regular)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         
         // 블러 효과 뷰의 크기와 위치 설정
         blurEffectView.frame = self.contentView.bounds
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        blurEffectView.backgroundColor = .white
+        blurEffectView.backgroundColor = .white.withAlphaComponent(0.5)
         
         // 블러 효과 뷰를 셀의 contentView에 추가
         self.contentView.addSubview(blurEffectView)
@@ -158,25 +159,9 @@ class CurrentLevelCell: UICollectionViewCell {
     
     func removeBlur() {
         // 블러 효과 제거
-        blurEffectView?.removeFromSuperview()
-        blurEffectView = nil
+        blurEffectView.removeFromSuperview()
     }
     
-    // 길이 계산
-    func formatLength(length: Int) -> String {
-        switch length {
-        case 0..<10:
-            return "\(length) mm"
-        case 10..<1000:
-            let cmLength = Double(length) / 10.0
-            return "\(cmLength) cm"
-        case 1000..<1000000:
-            let mLength = Double(length) / 1000.0
-            return "\(mLength) m"
-        default:
-            let kmLength = Double(length) / 1000000.0
-            return "\(kmLength) km"
-        }
-    }
+
 }
 

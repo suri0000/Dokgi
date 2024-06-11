@@ -35,9 +35,8 @@ class HomeViewController: UIViewController {
     let currentLevelImage = UIImageView()
     let nextLevelBubble = UIImageView()
     let nextLevelImage = UIImageView()
-//    let blurEffect = UIBlurEffect(style: .regular)
-//    lazy var blurEffectView = UIVisualEffectView(effect: blurEffect)
-    let blurView = UIView()
+    let blurEffect = UIBlurEffect(style: .regular)
+    lazy var blurEffectView = UIVisualEffectView(effect: blurEffect)
             
     
     var levelCollectionViewSelectedIndex = 0
@@ -51,14 +50,21 @@ class HomeViewController: UIViewController {
         bindViewModel()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        currentLevelBubble.snp.makeConstraints {
+            $0.centerX.equalTo(self.lengthSlider.snp.leading).offset(self.lengthSlider.frame.width * CGFloat(lengthSlider.value))
+            print("lengthSlider.value \(lengthSlider.value), lengthSlider.frame.width \(lengthSlider.frame.width)")
+        }
+    }
+    
     func setupConstraints() {
         [currentLengthLabel, currentLevelCollectionView, nextLengthLabel, lengthSlider, currentLevelBubble, nextLevelBubble].forEach {
             view.addSubview($0)
         }
         currentLevelBubble.addSubview(currentLevelImage)
         nextLevelBubble.addSubview(nextLevelImage)
-//        nextLevelBubble.addSubview(blurEffectView)
-        nextLevelBubble.addSubview(blurView)
+        nextLevelBubble.addSubview(blurEffectView)
         
         
         currentLengthLabel.snp.makeConstraints {
@@ -80,7 +86,9 @@ class HomeViewController: UIViewController {
         }
         
         lengthSlider.snp.makeConstraints {
-            $0.leading.trailing.equalTo(nextLengthLabel)
+//            $0.leading.trailing.equalTo(nextLengthLabel)
+            $0.leading.equalToSuperview().offset(35)
+            $0.trailing.equalToSuperview().offset(-35)
             $0.top.equalTo(nextLengthLabel.snp.bottom).offset(18)
         }
         
@@ -88,7 +96,8 @@ class HomeViewController: UIViewController {
             $0.width.equalTo(38)
             $0.height.equalTo(41)
             $0.top.equalTo(lengthSlider.snp.bottom)
-            $0.leading.equalTo(lengthSlider.snp.leading).offset(-17)
+//            $0.leading.equalTo(lengthSlider.snp.leading).offset(-17)
+            $0.centerX.equalTo(lengthSlider.snp.trailing).multipliedBy(1)
         }
         
         currentLevelImage.snp.makeConstraints {
@@ -114,7 +123,7 @@ class HomeViewController: UIViewController {
             $0.centerX.equalTo(nextLevelBubble.snp.centerX)
         }
         
-        blurView.snp.makeConstraints {
+        blurEffectView.snp.makeConstraints {
             $0.width.equalTo(36)
             $0.height.equalTo(36)
             $0.top.equalTo(nextLevelBubble.snp.top).offset(4)
@@ -128,7 +137,7 @@ class HomeViewController: UIViewController {
         currentLengthLabel.text = "현재 구절 길이"
         currentLengthLabel.font = .systemFont(ofSize: 20, weight: .semibold)
         
-        nextLengthLabel.text = "다음까지 남은 길이는?"
+        nextLengthLabel.text = "다음 레벨까지 \(Int(Float(viewModel.currentLevelPercent.value) * 100)) % 달성했습니다!"
         nextLengthLabel.font = .systemFont(ofSize: 14, weight: .regular)
         
         if let thumbImage = UIImage(named: "currentThum") {
@@ -136,6 +145,7 @@ class HomeViewController: UIViewController {
             lengthSlider.setThumbImage(thumbImage, for: .highlighted)
         }
         lengthSlider.isUserInteractionEnabled = false
+        
         
         currentLevelBubble.image = UIImage(named: "speechBubble1")
         currentLevelBubble.clipsToBounds = true
@@ -148,20 +158,18 @@ class HomeViewController: UIViewController {
         nextLevelBubble.clipsToBounds = true
         nextLevelBubble.layer.masksToBounds = true
         
-//        blurEffectView.frame = nextLevelImage.bounds
-//        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//        blurEffectView.alpha = 0.5
-//        blurEffectView.backgroundColor = .white
-//        blurEffectView.layer.cornerRadius = 18
+        blurEffectView.frame = nextLevelImage.bounds
+        blurEffectView.alpha = 0.7
+        blurEffectView.backgroundColor = .white.withAlphaComponent(0.6)
+        blurEffectView.layer.cornerRadius = 18
+        blurEffectView.layer.masksToBounds = true
         
         nextLevelImage.backgroundColor = .clear
         nextLevelImage.image = UIImage(named: "goni")
         nextLevelImage.contentMode = .scaleAspectFit
         nextLevelImage.layer.masksToBounds = true
         
-        blurView.backgroundColor = .white
-        blurView.alpha = 0.7
-        blurView.layer.cornerRadius = 18
+        
         
 
     }
@@ -183,8 +191,15 @@ class HomeViewController: UIViewController {
         
         viewModel.currentLevelPercent
             .subscribe(onNext: { [weak self] value in
+                guard let self else { return }
                 print("currentLevelPercent changed \(value)")
-                self?.lengthSlider.value = Float(value)
+                self.lengthSlider.value = Float(value)
+                self.currentLevelBubble.snp.remakeConstraints {
+                    $0.width.equalTo(38)
+                    $0.height.equalTo(41)
+                    $0.top.equalTo(self.lengthSlider.snp.bottom)
+                    
+                }
             })
             .disposed(by: disposeBag)
         
@@ -242,11 +257,18 @@ extension HomeViewController: UICollectionViewDataSource {
 
         // 마지막 셀에만 블러 설정
         if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
-            cell.setupBlur(alpha: 0.6)
+            cell.blurEffectView.isHidden = false
             
         } else {
-            cell.removeBlur()
+            cell.blurEffectView.isHidden = true
         }
+        
+        
+        if indexPath.item + 1 == viewModel.currentLevel.value {
+            let length = viewModel.getVerseLength(from: viewModel.verses.value)
+            cell.lengthLabel.text = MetricUtil.formatLength(length: length)
+        }
+        
         
         // 현재 보여지는 셀 크기 : Standard
         if levelCollectionViewSelectedIndex == indexPath.item {
@@ -257,6 +279,7 @@ extension HomeViewController: UICollectionViewDataSource {
         }
         return cell
     }
+    
 }
 
 
