@@ -6,6 +6,7 @@
 //
 
 import SnapKit
+import Then
 import UIKit
 import Vision
 import VisionKit
@@ -31,177 +32,142 @@ class AddVerseVC: UIViewController {
         setupHideKeyboardOnTap()
     }
     
-    let scrollView: UIScrollView = {
-        let sv = UIScrollView()
-        sv.showsVerticalScrollIndicator = false
-        return sv
-    }()
+    let scrollView = UIScrollView().then {
+        $0.showsVerticalScrollIndicator = false
+    }
     
-    let viewInScroll: UIView = {
-        let uv = UIView()
-        return uv
-    }()
+    let viewInScroll = UIView()
     
-    let scanButton: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("구절 스캔", for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
-        btn.setTitleColor(UIColor(named: "CharcoalBlue"), for: .normal)
-        btn.backgroundColor = .lightSkyBlue
-        btn.setImage(UIImage(named: "camera.viewfinder")?.withTintColor(UIColor(named: "CharcoalBlue") ?? .black, renderingMode: .alwaysOriginal), for: .normal)
-        btn.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
-        btn.layer.cornerRadius = 18
-        return btn
-    }()
+    let scanButton = UIButton().then {
+        $0.setTitle("구절 스캔", for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        $0.setTitleColor(UIColor(named: "CharcoalBlue"), for: .normal)
+        $0.backgroundColor = .lightSkyBlue
+        $0.setImage(UIImage(named: "camera.viewfinder")?.withTintColor(UIColor(named: "CharcoalBlue") ?? .black, renderingMode: .alwaysOriginal), for: .normal)
+        $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
+        $0.layer.cornerRadius = 18
+    }
 
-    let infoView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 15
-        return view
-    }()
+    let infoView = UIView().then {
+        $0.layer.cornerRadius = 15
+    }
     
-    let overlayView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .lightSkyBlue
-        view.layer.cornerRadius = 15
-        return view
-    }()
+    let overlayView = UIView().then {
+        $0.backgroundColor = .lightSkyBlue
+        $0.layer.cornerRadius = 15
+    }
     
-    let searchButton: UIButton = {
-        let button = UIButton(type: .system)
+    let searchButton = UIButton(type: .system).then {
         var config = UIButton.Configuration.filled()
         config.title = "책 검색"
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         config.baseForegroundColor = .white
         config.baseBackgroundColor = UIColor(named: "CharcoalBlue")
         config.image = UIImage(systemName: "magnifyingglass")
         config.imagePadding = 8
         config.imagePlacement = .leading
-        button.configuration = config
-        button.layer.cornerRadius = 15
-        button.clipsToBounds = true
-        return button
-    }()
+        $0.configuration = config
+        $0.layer.cornerRadius = 15
+        $0.clipsToBounds = true
+    }
     
-    var imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "camera")
-        imageView.contentMode = .scaleAspectFit
-        imageView.backgroundColor = .gray
-        return imageView
-    }()
+    var imageView = UIImageView().then {
+        $0.image = UIImage(named: "camera")
+        $0.contentMode = .scaleAspectFit
+        $0.layer.cornerRadius = 15
+    }
     
-    var titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "책 제목"
-        label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        label.textColor = .black
-        return label
-    }()
+    var titleLabel = UILabel().then {
+        $0.text = "책 제목"
+        $0.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        $0.textColor = UIColor(named: "BookTextGray")
+    }
     
-    var authorLabel: UILabel = {
-        let label = UILabel()
-        label.text = "저자"
-        label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        label.textColor = UIColor(named: "BookTextGray")
-        return label
-    }()
+    var authorLabel = UILabel().then {
+        $0.text = "저자"
+        $0.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        $0.textColor = UIColor(named: "BookTextGray")
+    }
     
-    lazy var verseTextView: UITextView = {
-        let view = UITextView()
-        view.text = "텍스트를 입력하세요"
-        view.layer.borderWidth = 1.0
-        view.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.7).cgColor
-        view.textContainerInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
-        view.font = .systemFont(ofSize: 14)
-        view.textColor = .placeholderText
-        view.layer.cornerRadius = 8
-        view.showsVerticalScrollIndicator = false
-        view.delegate = self
-        return view
-    }()
+    lazy var verseTextView = UITextView().then {
+        $0.text = "텍스트를 입력하세요"
+        $0.layer.borderWidth = 1.0
+        $0.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.7).cgColor
+        $0.textContainerInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
+        $0.font = .systemFont(ofSize: 14)
+        $0.textColor = .placeholderText
+        $0.layer.cornerRadius = 8
+        $0.showsVerticalScrollIndicator = false
+        $0.delegate = self
+    }
     
-    let keywordLabel: UILabel = {
-        let label = UILabel()
-        label.attributedText = AddVerseVC.createAttributedString(for: "키워드 (선택)")
-        label.textAlignment = .left
-        return label
-    }()
+    let keywordLabel = UILabel().then {
+        $0.attributedText = AddVerseVC.createAttributedString(for: "키워드 (선택)")
+        $0.textAlignment = .left
+    }
     
-    let keywordField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "키워드를 입력해 주세요"
-        textField.borderStyle = .roundedRect
-        textField.layer.masksToBounds = true
-        return textField
-    }()
+    let keywordField = UITextField().then {
+        $0.placeholder = "키워드를 입력해 주세요"
+        $0.borderStyle = .roundedRect
+        $0.layer.masksToBounds = true
+    }
     
     // 컬렉션 뷰 추가
-    lazy var keywordCollectionView: UICollectionView = {
+    lazy var keywordCollectionView = UICollectionView(frame: .zero, collectionViewLayout: {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 10
         layout.minimumLineSpacing = 10
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .clear
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        collectionView.showsHorizontalScrollIndicator = false
-        return collectionView
-    }()
+        return layout
+    }()).then {
+        $0.backgroundColor = .clear
+        $0.delegate = self
+        $0.dataSource = self
+        $0.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        $0.showsHorizontalScrollIndicator = false
+    }
     
-    let pageLabel: UILabel = {
-        let label = UILabel()
-        label.text = "페이지"
-        label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        label.textColor = .black
-        return label
-    }()
+    let pageLabel = UILabel().then {
+        $0.text = "페이지"
+        $0.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        $0.textColor = .black
+    }
     
-    let pageNumberTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "페이지 수"
-        textField.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        textField.borderStyle = .roundedRect
-        return textField
-    }()
+    let pageNumberTextField = UITextField().then {
+        $0.placeholder = "페이지 수"
+        $0.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        $0.borderStyle = .roundedRect
+    }
     
-    let percentageButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("%", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
-        button.setTitleColor(UIColor(named: "CharcoalBlue"), for: .normal)
-        button.layer.cornerRadius = 15
-        button.layer.borderWidth = 1.0 // 테두리 두께 설정
+    let percentageButton = UIButton().then {
+        $0.setTitle("%", for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
+        $0.setTitleColor(UIColor(named: "CharcoalBlue"), for: .normal)
+        $0.layer.cornerRadius = 15
+        $0.layer.borderWidth = 1.0 // 테두리 두께 설정
         if let charcoalBlueColor = UIColor(named: "CharcoalBlue") {
-            button.layer.borderColor = charcoalBlueColor.cgColor
+            $0.layer.borderColor = charcoalBlueColor.cgColor
         }
-        return button
-    }()
-    
-    let pageButton: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("Page", for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
-        btn.setTitleColor(.black, for: .normal)
-        btn.layer.cornerRadius = 15
-        btn.layer.borderWidth = 1.0
+    }
+
+    let pageButton = UIButton().then {
+        $0.setTitle("Page", for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
+        $0.setTitleColor(.black, for: .normal)
+        $0.layer.cornerRadius = 15
+        $0.layer.borderWidth = 1.0
         if let charcoalBlueColor = UIColor(named: "CharcoalBlue") {
-            btn.layer.borderColor = charcoalBlueColor.cgColor
+            $0.layer.borderColor = charcoalBlueColor.cgColor
         }
-        return btn
-    }()
+    }
     
-    let recordButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("기록 하기", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor(named: "CharcoalBlue") // 버튼 배경색 설정
-        button.layer.cornerRadius = 8
-        return button
-    }()
+    let recordButton = UIButton().then {
+        $0.setTitle("기록 하기", for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        $0.setTitleColor(.white, for: .normal)
+        $0.backgroundColor = UIColor(named: "CharcoalBlue")
+        $0.layer.cornerRadius = 8
+    }
     
     func setupViews() {
         view.addSubview(scrollView)
@@ -246,7 +212,8 @@ class AddVerseVC: UIViewController {
             $0.height.equalTo(35)
         }
         
-        infoView.snp.makeConstraints {            $0.centerY.equalTo(viewInScroll.snp.top).offset(170)
+        infoView.snp.makeConstraints {            
+            $0.centerY.equalTo(viewInScroll.snp.top).offset(170)
             $0.horizontalEdges.equalTo(viewInScroll).inset(16)
             $0.height.equalTo(200)
         }
@@ -265,7 +232,7 @@ class AddVerseVC: UIViewController {
             $0.leading.equalTo(infoView.snp.leading).offset(16)
             $0.centerY.equalTo(infoView.snp.centerY)
             $0.width.equalTo(100)
-            $0.height.equalTo(140)
+            $0.height.equalTo(150)
         }
         
         titleLabel.snp.makeConstraints {
@@ -414,12 +381,15 @@ class AddVerseVC: UIViewController {
     private func displayBookInfo() {
         if let book = selectedBook {
             titleLabel.text = book.title
+            titleLabel.textColor = .black
+            titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
             authorLabel.text = book.author
             if let url = URL(string: book.image) {
                 imageView.kf.setImage(with: url)
+                imageView.layer.cornerRadius = 15
             }
         }
-        overlayView.isHidden = true // Hide the overlayView
+        overlayView.isHidden = true
         searchButton.isHidden = true
     }
     

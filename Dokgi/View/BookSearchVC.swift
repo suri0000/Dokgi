@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Then
 import SnapKit
 import Kingfisher
 
@@ -13,18 +14,14 @@ class BookSearchVC: UIViewController {
     
     let bookManager = BookManager.shared
     
-    let tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.rowHeight = 150
-        return tableView
-    }()
+    let tableView = UITableView().then {
+        $0.rowHeight = 150
+    }
     
-    let searchBar: UISearchBar = {
-        let searchBar = UISearchBar()
-        searchBar.placeholder = "책을 검색해보세요"
-        searchBar.searchBarStyle = .minimal
-        return searchBar
-    }()
+    let searchBar = UISearchBar().then {
+        $0.placeholder = "책을 검색해보세요"
+        $0.searchBarStyle = .minimal
+    }
     
     var searchResults: [Item] = [] // 검색 결과 저장
     weak var delegate: BookSelectionDelegate?
