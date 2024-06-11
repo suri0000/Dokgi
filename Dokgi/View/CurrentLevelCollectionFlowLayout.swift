@@ -38,7 +38,5 @@ class CurrentLevelCollectionFlowLayout: UICollectionViewFlowLayout {
         let horizontalInsets = (collectionView.frame.size.width - itemSize.width) / 2
         collectionView.contentInset = UIEdgeInsets(top: 0, left: horizontalInsets, bottom: 0, right: horizontalInsets)
         minimumLineSpacing = 0
-        // let peekingItemWidth = itemSize.width / 10
-        // minimumLineSpacing = horizontalInsets - peekingItemWidth
     }
 }

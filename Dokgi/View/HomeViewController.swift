@@ -38,7 +38,6 @@ class HomeViewController: UIViewController {
     let blurEffect = UIBlurEffect(style: .regular)
     lazy var blurEffectView = UIVisualEffectView(effect: blurEffect)
             
-    
     var levelCollectionViewSelectedIndex = 0
     
     override func viewDidLoad() {
@@ -63,9 +62,9 @@ class HomeViewController: UIViewController {
             view.addSubview($0)
         }
         currentLevelBubble.addSubview(currentLevelImage)
-        nextLevelBubble.addSubview(nextLevelImage)
-        nextLevelBubble.addSubview(blurEffectView)
-        
+        [nextLevelImage, blurEffectView].forEach {
+            nextLevelBubble.addSubview($0)
+        }
         
         currentLengthLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(112)
@@ -81,13 +80,11 @@ class HomeViewController: UIViewController {
         
         nextLengthLabel.snp.makeConstraints {
             $0.top.equalTo(currentLevelCollectionView.snp.bottom).offset(20)
-            $0.leading.equalToSuperview().offset(35)
-            $0.trailing.equalToSuperview().offset(-35)
+            $0.horizontalEdges.equalToSuperview().inset(35)
         }
         
         lengthSlider.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(35)
-            $0.trailing.equalToSuperview().offset(-35)
+            $0.horizontalEdges.equalToSuperview().inset(35)
             $0.top.equalTo(nextLengthLabel.snp.bottom).offset(18)
         }
         
@@ -99,8 +96,7 @@ class HomeViewController: UIViewController {
         }
         
         currentLevelImage.snp.makeConstraints {
-            $0.width.equalTo(28)
-            $0.height.equalTo(28)
+            $0.width.height.equalTo(28)
             $0.top.equalTo(currentLevelBubble.snp.top).offset(8)
             $0.centerX.equalTo(currentLevelBubble.snp.centerX)
         }
@@ -112,18 +108,14 @@ class HomeViewController: UIViewController {
             $0.trailing.equalTo(lengthSlider.snp.trailing).offset(17)
         }
         
-        
-        
         nextLevelImage.snp.makeConstraints {
-            $0.width.equalTo(28)
-            $0.height.equalTo(28)
+            $0.width.height.equalTo(28)
             $0.top.equalTo(nextLevelBubble.snp.top).offset(8)
             $0.centerX.equalTo(nextLevelBubble.snp.centerX)
         }
         
         blurEffectView.snp.makeConstraints {
-            $0.width.equalTo(36)
-            $0.height.equalTo(36)
+            $0.width.height.equalTo(36)
             $0.top.equalTo(nextLevelBubble.snp.top).offset(4)
             $0.centerX.equalTo(nextLevelBubble.snp.centerX)
         }
@@ -143,7 +135,6 @@ class HomeViewController: UIViewController {
             lengthSlider.setThumbImage(thumbImage, for: .highlighted)
         }
         lengthSlider.isUserInteractionEnabled = false
-        
         
         currentLevelBubble.image = UIImage(named: "speechBubble1")
         currentLevelBubble.clipsToBounds = true
@@ -166,10 +157,6 @@ class HomeViewController: UIViewController {
         nextLevelImage.image = UIImage(named: "goni")
         nextLevelImage.contentMode = .scaleAspectFit
         nextLevelImage.layer.masksToBounds = true
-        
-        
-        
-
     }
     
     func setupCollectionView() {
@@ -261,12 +248,10 @@ extension HomeViewController: UICollectionViewDataSource {
             cell.blurEffectView.isHidden = true
         }
         
-        
         if indexPath.item + 1 == viewModel.currentLevel.value {
             let length = viewModel.getVerseLength(from: viewModel.verses.value)
             cell.lengthLabel.text = MetricUtil.formatLength(length: length)
         }
-        
         
         // 현재 보여지는 셀 크기 : Standard
         if levelCollectionViewSelectedIndex == indexPath.item {
@@ -277,9 +262,7 @@ extension HomeViewController: UICollectionViewDataSource {
         }
         return cell
     }
-    
 }
-
 
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
     // 현재 드래그 되는 셀 작아지게
@@ -323,10 +306,9 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
       currentLevelCollectionView.scrollToItem(at: selectedIndexPath, at: .centeredHorizontally, animated: true)
       
       levelCollectionViewSelectedIndex = selectedIndexPath.item
-      
+
       updateCurrentLevelCollectionViewCell()
   }
-    
 }
 
 extension UICollectionViewCell {

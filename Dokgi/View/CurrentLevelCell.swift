@@ -20,14 +20,12 @@ class CurrentLevelCell: UICollectionViewCell {
     let cardImageView = UIImageView()
     var blurEffectView = UIVisualEffectView()
     
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
         setupConstraints()
         setUpShadow()
         setupBlur(alpha: 0.8)
-        
     }
     
     required init?(coder: NSCoder) {
@@ -43,11 +41,9 @@ class CurrentLevelCell: UICollectionViewCell {
             textView.addSubview($0)
         }
         
-        
         cardView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
         
         cardImageView.snp.makeConstraints {
             $0.height.width.equalTo(107)
@@ -56,8 +52,7 @@ class CurrentLevelCell: UICollectionViewCell {
         }
         
         textView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(32.5)
-            $0.bottom.equalToSuperview().offset(-32.5)
+            $0.verticalEdges.equalToSuperview().inset(32.5)
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalTo(cardImageView.snp.leading)
         }
@@ -81,13 +76,11 @@ class CurrentLevelCell: UICollectionViewCell {
             $0.bottom.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
         }
-        
     }
     
     func configureUI() {
         contentView.layer.cornerRadius = 8
         cardView.backgroundColor = .white
-        
         
         cardImageView.backgroundColor = .clear
         cardImageView.contentMode = .scaleAspectFit
@@ -147,12 +140,5 @@ class CurrentLevelCell: UICollectionViewCell {
         
         self.blurEffectView = blurEffectView
     }
-    
-    func removeBlur() {
-        // 블러 효과 제거
-        blurEffectView.removeFromSuperview()
-    }
-    
-
 }
 

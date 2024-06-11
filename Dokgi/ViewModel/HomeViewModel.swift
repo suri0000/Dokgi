@@ -63,9 +63,9 @@ class HomeViewModel {
             .disposed(by: disposeBag)
         
         // 테스트 구문추가
-        verses.accept(["안녕하세요","askljdjflk" ])
-
+        verses.accept(["안녕하세요","askljdjek d cwkenwoiejfpaqegkengldnfwngrvnwghnalkjsffkljdjek d cwkenwoiejfpaqegkengldnfwngrvnwghnakljdjek d cwkenwoiejfpaqegkengldnfwngrvnwghnanrogijepfkjasbdveoinklsnvawrpgekdglflk" ])
     }
+    
     // 구절추가 테스트 함수
     func addVerse(_ verse: String) {
         var verseList = verses.value
