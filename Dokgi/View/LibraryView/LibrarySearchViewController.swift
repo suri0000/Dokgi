@@ -11,23 +11,25 @@ import SnapKit
 import UIKit
 
 class LibrarySearchViewController: UIViewController {
+    
+    private let libraryLabel = UILabel()
+    private let searchBar = UISearchBar()
+    private let sortButton = UIButton()
+    private let sortButtonImageView = UIImageView()
+    private let sortButtonTitleLabel = UILabel()
+
     let disposeBag = DisposeBag()
-    let libraryLabel = UILabel()
-    let searchBar = UISearchBar()
-    let sortButton = UIButton()
-    let sortButtonImageView = UIImageView()
-    let sortButtonTitleLabel = UILabel()
     
-    let sortMenuView = UIView()
-    let latestFirstButton = UIButton()
-    let oldestFirstButton = UIButton()
-    let latestFirstcheckImageView = UIImageView()
-    let oldestFirstcheckImageView = UIImageView()
-    let latestTextLabel = UILabel()
-    let oldestTextLabel = UILabel()
+    private let sortMenuView = UIView()
+    private let latestFirstButton = UIButton()
+    private let oldestFirstButton = UIButton()
+    private let latestFirstcheckImageView = UIImageView()
+    private let oldestFirstcheckImageView = UIImageView()
+    private let latestTextLabel = UILabel()
+    private let oldestTextLabel = UILabel()
     
-    var isLatestFirst: Bool = true
-    var isOldestFirst: Bool = false
+    private var isLatestFirst: Bool = true
+    private var isOldestFirst: Bool = false
     
     lazy var libraryCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -74,7 +76,7 @@ class LibrarySearchViewController: UIViewController {
         }.disposed(by: disposeBag)
     }
     
-    func setUI() {
+    private func setUI() {
         view.backgroundColor = .white
         
         libraryLabel.text = "서재"
@@ -120,7 +122,7 @@ class LibrarySearchViewController: UIViewController {
         oldestFirstcheckImageView.image = UIImage(named: "check")
     }
     
-    func setConstraints() {
+    private func setConstraints() {
         [libraryLabel, searchBar, sortButton, sortMenuView, libraryCollectionView].forEach {
             view.addSubview($0)
         }
@@ -133,12 +135,12 @@ class LibrarySearchViewController: UIViewController {
         
         searchBar.snp.makeConstraints {
             $0.top.equalTo(libraryLabel.snp.bottom)
-            $0.left.right.equalToSuperview().inset(10)
+            $0.left.trailing.equalToSuperview().inset(10)
         }
         
         sortButton.snp.makeConstraints {
             $0.top.equalTo(searchBar.snp.bottom).offset(10)
-            $0.right.equalToSuperview().inset(20)
+            $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(29)
             $0.width.greaterThanOrEqualTo(87)
         }
@@ -162,7 +164,7 @@ class LibrarySearchViewController: UIViewController {
         // 정렬 버튼 클릭 시 - 정렬 옵션 메뉴
         sortMenuView.snp.makeConstraints {
             $0.top.equalTo(sortButton.snp.bottom).offset(3)
-            $0.right.equalToSuperview().inset(20)
+            $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(60)
             $0.width.equalTo(113)
         }
@@ -218,37 +220,37 @@ class LibrarySearchViewController: UIViewController {
         
         libraryCollectionView.snp.makeConstraints {
             $0.top.equalTo(sortButton.snp.bottom).offset(20)
-            $0.bottom.left.right.equalToSuperview().inset(0)
+            $0.bottom.leading.trailing.equalToSuperview().inset(0)
         }
     }
     //MARK: - searchBar
-    func setSearchBar() {
+    private func setSearchBar() {
         searchBar.searchBarStyle = .minimal
+        searchBar.setPositionAdjustment(UIOffset(horizontal: 8, vertical: 0), for: .search)
+        searchBar.setPositionAdjustment(UIOffset(horizontal: -8, vertical: 0), for: .clear)
         searchBar.placeholder = "기록된 책을 검색해보세요"
         searchBar.searchTextField.borderStyle = .line
         searchBar.searchTextField.layer.borderWidth = 1
-        if let SearchBarLightGray = UIColor(named: "SearchBarLightGray")?.cgColor {
-            searchBar.searchTextField.layer.borderColor = SearchBarLightGray
-        }
+        searchBar.searchTextField.layer.borderColor = UIColor(named: "SearchBarLightGray")?.cgColor
         searchBar.searchTextField.layer.backgroundColor = UIColor.white.cgColor
-        searchBar.searchTextField.layer.cornerRadius = 20
+        searchBar.searchTextField.layer.cornerRadius = 17
         searchBar.searchTextField.layer.masksToBounds = true
         searchBar.searchTextField.font = Pretendard.regular.dynamicFont(style: .caption2)
     }
     // MARK: - 설정버튼
-    func setSortMenuView() {
+    private func setSortMenuView() {
         sortMenuView.isHidden = true
         
         latestFirstcheckImageView.isHidden = false
         oldestFirstcheckImageView.isHidden = true
     }
     
-    @objc func showSortMenuView() {
+    @objc private func showSortMenuView() {
         sortMenuView.isHidden = false
         view.bringSubviewToFront(sortMenuView)
     }
     
-    @objc func tappedLatestFirst() {
+    @objc private func tappedLatestFirst() {
         sortButtonTitleLabel.text = "최신순"
         
         latestFirstcheckImageView.isHidden = false
@@ -257,7 +259,7 @@ class LibrarySearchViewController: UIViewController {
         sortMenuView.isHidden = true
     }
     
-    @objc func tappedOldestFirst() {
+    @objc private func tappedOldestFirst() {
         sortButtonTitleLabel.text = "오래된순"
         
         latestFirstcheckImageView.isHidden = true
@@ -267,7 +269,7 @@ class LibrarySearchViewController: UIViewController {
     }
 }
 //MARK: -CollectionView
-extension LibrarySearchViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension LibrarySearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return CoreDataManager.shared.bookData.value.count
