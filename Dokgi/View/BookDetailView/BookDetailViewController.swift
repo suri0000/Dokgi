@@ -10,9 +10,14 @@ import Then
 import UIKit
 
 class BookDetailViewController: UIViewController {
+    
     var passageCount = 5
     
     private let contentsView = UIView()
+    private let gradientLayerView = UIView()
+    private let buttonBackgroundView = UIView()
+    private let buttonBackgroundLayer = CAGradientLayer()
+    private let gradientLayer = CAGradientLayer()
     
     private let scrollView = UIScrollView().then {
         $0.showsVerticalScrollIndicator = false
@@ -21,6 +26,7 @@ class BookDetailViewController: UIViewController {
     private let backgroundBookImage = UIImageView().then {
         $0.image = UIImage(named: "testImage")
         $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
     }
     
     private let blurView = UIVisualEffectView().then {
@@ -29,24 +35,11 @@ class BookDetailViewController: UIViewController {
         $0.alpha = 0.8
     }
     
-    private let gradientLayerView = UIView()
-    
-    private lazy var gradientLayer = CAGradientLayer().then {
-        let colors: [CGColor] = [
-            UIColor(white: 1.0, alpha: 0.0).cgColor,
-            UIColor(white: 1.0, alpha: 1.0).cgColor
-        ]
-        
-        $0.type = .axial
-        $0.frame = gradientLayerView.bounds
-        $0.colors = colors
-        $0.startPoint = CGPoint(x: 0.5, y: 0.0)
-        $0.endPoint = CGPoint(x: 0.5, y: 0.8)
-    }
-    
     private let bookImage = UIImageView().then {
         $0.image = UIImage(named: "testImage")
-        $0.contentMode = .scaleAspectFill
+        $0.contentMode = .scaleAspectFit
+        $0.isUserInteractionEnabled = false
+        $0.clipsToBounds = true
     }
     
     private let bookInfoStackView = UIStackView().then {
@@ -96,13 +89,24 @@ class BookDetailViewController: UIViewController {
         $0.rowHeight = UITableView.automaticDimension
         $0.estimatedRowHeight = 289
         $0.separatorStyle = .none
+        $0.isScrollEnabled = false
     }
-
+    
+    private let addPassageButton = UIButton().then {
+        $0.backgroundColor = .charcoalBlue
+        $0.layer.cornerRadius = 15
+        $0.clipsToBounds = true
+    }
+    
+    private let buttonLabel = UILabel().then {
+        $0.text = "구절 추가하기"
+        $0.font = Pretendard.semibold.dynamicFont(style: .headline)
+        $0.textColor = .white
+    }
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        passageTableView.backgroundColor = .orange
         passageTableView.dataSource = self
         passageTableView.delegate = self
         passageTableView.register(PassageTableViewCell.self, forCellReuseIdentifier: PassageTableViewCell.identifier)
@@ -111,12 +115,14 @@ class BookDetailViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        blurLayer()
+        blurLayer(layer: gradientLayer, view: gradientLayerView)
+        blurLayer(layer: buttonBackgroundLayer, view: buttonBackgroundView)
     }
     // MARK: - UI
     private func setConstraints() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentsView)
+        addPassageButton.addSubview(buttonLabel)
         
         [backgroundBookImage,
          blurView,
@@ -125,7 +131,9 @@ class BookDetailViewController: UIViewController {
          bookInfoStackView,
          firstDateRecordStackView,
          passageTitleLabel,
-         passageTableView].forEach {
+         passageTableView,
+         buttonBackgroundView,
+         addPassageButton].forEach {
             contentsView.addSubview($0)
         }
         
@@ -138,24 +146,28 @@ class BookDetailViewController: UIViewController {
         }
         
         scrollView.snp.makeConstraints { 
-            $0.top.equalToSuperview()
-            $0.horizontalEdges.bottom.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
         
         contentsView.snp.makeConstraints {
             $0.edges.width.equalToSuperview()
-            $0.height.equalTo(1400)
-//            $0.height.equalTo(self.view.frame.height + 420)
+        }
+        
+        passageTableView.snp.makeConstraints {
+            $0.top.equalTo(passageTitleLabel.snp.bottom).offset(11)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.height.equalTo(96 * passageCount)
+            $0.bottom.equalToSuperview().inset(100)
         }
         
         backgroundBookImage.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(-290)
+            $0.top.equalTo(self.view)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalTo(bookInfoStackView.snp.top)
         }
         
         blurView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(-200)
+            $0.top.equalTo(self.view)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalTo(bookInfoStackView.snp.top)
         }
@@ -169,10 +181,11 @@ class BookDetailViewController: UIViewController {
         bookImage.snp.makeConstraints {
             $0.top.equalToSuperview().inset(26)
             $0.horizontalEdges.equalToSuperview().inset(135)
+            $0.height.equalTo(bookImage.snp.width).multipliedBy(1.4)
         }
         
         bookInfoStackView.snp.makeConstraints {
-            $0.top.equalTo(bookImage.snp.bottom).inset(-50)
+            $0.top.equalTo(bookImage.snp.bottom).offset(50)
             $0.horizontalEdges.equalToSuperview().inset(20)
         }
         
@@ -181,34 +194,55 @@ class BookDetailViewController: UIViewController {
             $0.horizontalEdges.equalToSuperview().inset(20)
         }
         
+        firstRecordDateTitleLabel.setContentHuggingPriority(.init(rawValue: 251), for: .horizontal)
+        
         passageTitleLabel.snp.makeConstraints {
             $0.top.equalTo(firstDateRecordStackView.snp.bottom).offset(42)
             $0.horizontalEdges.equalToSuperview().inset(20)
         }
         
-        passageTableView.snp.makeConstraints {
-            $0.top.equalTo(passageTitleLabel.snp.bottom).offset(11)
-            $0.horizontalEdges.equalToSuperview().inset(20)
-//            $0.bottom.equalTo(view.safeAreaLayoutGuide)
-//            $0.bottom.equalToSuperview().inset(20)
-            $0.bottom.equalToSuperview()
-//            $0.bottom.equalTo()
+        addPassageButton.snp.makeConstraints {
+            $0.bottom.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
+            $0.centerX.equalTo(buttonBackgroundView)
+        }
+        
+        buttonLabel.snp.makeConstraints {
+            $0.centerY.centerX.equalToSuperview()
+            $0.verticalEdges.equalToSuperview().inset(15)
+        }
+        
+        buttonBackgroundView.snp.makeConstraints {
+            $0.centerY.equalTo(addPassageButton)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(view.safeAreaLayoutGuide).multipliedBy(0.2)
         }
     }
     
-    private func blurLayer() {
-        gradientLayer.frame = gradientLayerView.bounds
-        gradientLayerView.layer.addSublayer(gradientLayer)
+    private func blurLayer(layer: CAGradientLayer, view: UIView) {
+        let colors: [CGColor] = [
+            UIColor(white: 1.0, alpha: 0.0).cgColor,
+            UIColor(white: 1.0, alpha: 1.0).cgColor
+        ]
+        
+        layer.type = .axial
+        layer.frame = view.bounds
+        layer.colors = colors
+        layer.startPoint = CGPoint(x: 0.5, y: 0.0)
+        layer.endPoint = CGPoint(x: 0.5, y: 0.8)
+        view.layer.addSublayer(layer)
     }
 }
 
 extension BookDetailViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return passageCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PassageTableViewCell.identifier, for: indexPath) as? PassageTableViewCell else { return UITableViewCell() }
+        
+        cell.selectionStyle = .none
         
         return cell
     }

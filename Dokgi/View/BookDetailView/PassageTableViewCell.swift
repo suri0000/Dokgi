@@ -35,7 +35,7 @@ class PassageTableViewCell: UITableViewCell {
         $0.backgroundColor = .lightPastelBlue
         $0.layer.cornerRadius = 20
         $0.clipsToBounds = true
-        $0.numberOfLines = 3
+        $0.numberOfLines = 4
         $0.text = "뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다."
     }
     
@@ -62,19 +62,19 @@ class PassageTableViewCell: UITableViewCell {
         lineView.snp.makeConstraints {
             $0.centerX.equalTo(circleView)
             $0.width.equalTo(1)
-            $0.height.equalToSuperview()
+            $0.verticalEdges.equalToSuperview()
         }
         
         pageLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().inset(38)
-            $0.trailing.lessThanOrEqualTo(passageLabel.snp.leading).offset(-10)
+            $0.leading.equalTo(circleView.snp.trailing).offset(11)
+            $0.width.equalTo(contentView.snp.width).multipliedBy(0.1)
         }
         
         passageLabel.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(6)
+            $0.verticalEdges.equalToSuperview().inset(6)
+            $0.leading.equalTo(pageLabel.snp.trailing).offset(10)
             $0.trailing.equalToSuperview()
-            $0.width.lessThanOrEqualTo(277)
         }
     }
 }
