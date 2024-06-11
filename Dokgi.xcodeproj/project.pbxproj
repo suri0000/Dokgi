@@ -50,6 +50,7 @@
 		A7F2DB1D2C15C6E70020B0AA /* KeywordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB1C2C15C6E70020B0AA /* KeywordCollectionViewCell.swift */; };
 		AB355D552C180C9700B3DE16 /* BookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB355D542C180C9700B3DE16 /* BookCell.swift */; };
 		AB355D582C180D8F00B3DE16 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = AB355D572C180D8F00B3DE16 /* Kingfisher */; };
+		AB355D5B2C18725400B3DE16 /* KeywordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB355D5A2C18725400B3DE16 /* KeywordCell.swift */; };
 		AB66D3442C0EEFE3000D72DA /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */; };
 		AB66D3472C0F3363000D72DA /* AddVerseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3462C0F3363000D72DA /* AddVerseVC.swift */; };
 		AB66D3692C17688C000D72DA /* BookSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3682C17688C000D72DA /* BookSearchVC.swift */; };
@@ -121,6 +122,7 @@
 		A7F2DB182C134B200020B0AA /* ParagrapContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParagrapContainerView.swift; sourceTree = "<group>"; };
 		A7F2DB1C2C15C6E70020B0AA /* KeywordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordCollectionViewCell.swift; sourceTree = "<group>"; };
 		AB355D542C180C9700B3DE16 /* BookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCell.swift; sourceTree = "<group>"; };
+		AB355D5A2C18725400B3DE16 /* KeywordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordCell.swift; sourceTree = "<group>"; };
 		AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
 		AB66D3462C0F3363000D72DA /* AddVerseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVerseVC.swift; sourceTree = "<group>"; };
 		AB66D3682C17688C000D72DA /* BookSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearchVC.swift; sourceTree = "<group>"; };
@@ -318,6 +320,7 @@
 				AB66D3462C0F3363000D72DA /* AddVerseVC.swift */,
 				AB66D3682C17688C000D72DA /* BookSearchVC.swift */,
 				AB355D542C180C9700B3DE16 /* BookCell.swift */,
+				AB355D5A2C18725400B3DE16 /* KeywordCell.swift */,
 			);
 			path = AddVerse;
 			sourceTree = "<group>";
@@ -456,6 +459,7 @@
 				A75908D12C12D36100415D6D /* UserDefaultsKey.swift in Sources */,
 				A748746C2C0D7E0700B830EE /* Dokgi.xcdatamodeld in Sources */,
 				AB66D3472C0F3363000D72DA /* AddVerseVC.swift in Sources */,
+				AB355D5B2C18725400B3DE16 /* KeywordCell.swift in Sources */,
 				A7F2DB1D2C15C6E70020B0AA /* KeywordCollectionViewCell.swift in Sources */,
 				A74874662C0D7E0700B830EE /* ViewController.swift in Sources */,
 				A75908C82C0F758900415D6D /* DaySelectViewController.swift in Sources */,
