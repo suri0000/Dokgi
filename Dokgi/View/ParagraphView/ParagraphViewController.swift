@@ -54,9 +54,9 @@ class ParagraphViewController: UIViewController {
         ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이끝", "24.06.09"),
         ("짧은 텍스트입니.짧은 텍스트입니.짧은 텍스트입니끝", "24.06.08"),
         ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다끝", "24.06.07"),
-        ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다 끝", "24.06.06"),
+        ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다.끝", "24.06.06"),
         ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다 끝", "24.06.05"),
-        ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다 끝", "24.06.04")
+        ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다 끝", "24.06.04")
     ]
     
     override func viewDidLoad() {
@@ -317,7 +317,12 @@ class ParagraphViewController: UIViewController {
         sortMenuView.isHidden = true
         
         paragraphData.sort { $0.1 > $1.1 }
-        paragraphCollectionView.reloadData()
+        
+        if let layout = paragraphCollectionView.collectionViewLayout as? ParagraphCollectionViewLayout {
+                layout.invalidateCache()
+            }
+        
+        self.paragraphCollectionView.reloadData()
     }
     
     @objc private func tappedOldestFirst() {
@@ -329,21 +334,28 @@ class ParagraphViewController: UIViewController {
         sortMenuView.isHidden = true
         
         paragraphData.sort { $0.1 < $1.1 }
-        paragraphCollectionView.reloadData()
+        
+        if let layout = paragraphCollectionView.collectionViewLayout as? ParagraphCollectionViewLayout {
+                layout.invalidateCache()
+            }
+        
+        self.paragraphCollectionView.reloadData()
     }
     
     @objc private func tappedSelectionButton() {
         isEditingMode = true
         selectionButton.isHidden = true
         doneButton.isHidden = false
-        paragraphCollectionView.reloadData()
+        
+        self.paragraphCollectionView.reloadData()
     }
     
     @objc private func tappedDoneButton() {
         isEditingMode = false
         selectionButton.isHidden = false
         doneButton.isHidden = true
-        paragraphCollectionView.reloadData()
+        
+        self.paragraphCollectionView.reloadData()
     }
 }
 //MARK: -CollectionView
