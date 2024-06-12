@@ -26,9 +26,7 @@ class BookSearchVC: UIViewController {
         $0.searchBarStyle = .minimal
         $0.searchTextField.borderStyle = .line
         $0.searchTextField.layer.borderWidth = 1
-        if let SearchBarLightGray = UIColor(named: "SearchBarLightGray")?.cgColor {
-            $0.searchTextField.layer.borderColor = SearchBarLightGray
-        }
+        $0.searchTextField.layer.borderColor = UIColor(named: "SearchBarLightGray")?.cgColor
         $0.searchTextField.layer.backgroundColor = UIColor.white.cgColor
         $0.searchTextField.layer.cornerRadius = 15
         $0.searchTextField.layer.masksToBounds = true

@@ -19,11 +19,14 @@ class AddVerseVC: UIViewController {
     
     var selectedBook: Item?
     var images: [UIImage] = []
+    var keywords: [String] = []
     weak var delegate: BookSelectionDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        keywordCollectionView.register(KeywordCell.self, forCellWithReuseIdentifier: KeywordCell.reuseIdentifier)
+        keywordField.delegate = self
         setupViews()
         initLayout()
         setupActions()
@@ -36,13 +39,21 @@ class AddVerseVC: UIViewController {
     
     let viewInScroll = UIView()
     
-    let scanButton = UIButton().then {
-        $0.setTitle("구절 스캔", for: .normal)
-        $0.titleLabel?.font = Pretendard.bold.dynamicFont(style: .subheadline)
-        $0.setTitleColor(UIColor(named: "CharcoalBlue"), for: .normal)
-        $0.backgroundColor = .lightSkyBlue
-        $0.setImage(UIImage(named: "camera.viewfinder")?.withTintColor(UIColor(named: "CharcoalBlue") ?? .black, renderingMode: .alwaysOriginal), for: .normal)
-        $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
+    let scanButton = UIButton(configuration: .filled(), primaryAction: nil).then {
+        $0.configurationUpdateHandler = { button in
+            var configuration = button.configuration
+            configuration?.title = "구절 스캔"
+            configuration?.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+                var outgoing = incoming
+                outgoing.font = Pretendard.bold.dynamicFont(style: .subheadline)
+                return outgoing
+            }
+            configuration?.baseForegroundColor = UIColor(named: "CharcoalBlue")
+            configuration?.baseBackgroundColor = .lightSkyBlue
+            configuration?.image = UIImage(named: "camera.viewfinder")?.withTintColor(UIColor(named: "CharcoalBlue") ?? .black, renderingMode: .alwaysOriginal)
+            configuration?.imagePadding = 10
+            button.configuration = configuration
+        }
         $0.layer.cornerRadius = 18
     }
 
@@ -94,7 +105,7 @@ class AddVerseVC: UIViewController {
         $0.layer.borderWidth = 1.0
         $0.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.7).cgColor
         $0.textContainerInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
-        $0.font = Pretendard.bold.dynamicFont(style: .footnote)
+        $0.font = Pretendard.regular.dynamicFont(style: .footnote)
         $0.textColor = .placeholderText
         $0.layer.cornerRadius = 8
         $0.showsVerticalScrollIndicator = false
@@ -104,6 +115,11 @@ class AddVerseVC: UIViewController {
     let characterCountLabel = UILabel().then {
         $0.textColor = .gray
         $0.font = Pretendard.bold.dynamicFont(style: .footnote)
+    }
+    
+    private let pencilImageView = UIImageView().then {
+        $0.image = UIImage(named: "pencil")
+        $0.contentMode = .scaleAspectFit
     }
     
     let keywordLabel = UILabel().then {
@@ -127,42 +143,40 @@ class AddVerseVC: UIViewController {
         $0.backgroundColor = .clear
         $0.delegate = self
         $0.dataSource = self
-        $0.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         $0.showsHorizontalScrollIndicator = false
     }
     
     let pageLabel = UILabel().then {
         $0.text = "페이지"
-        $0.font = Pretendard.bold.dynamicFont(style: .headline)
+        $0.font = Pretendard.semibold.dynamicFont(style: .headline)
         $0.textColor = .black
     }
     
     let pageNumberTextField = UITextField().then {
         $0.placeholder = "페이지 수"
-        $0.font = Pretendard.bold.dynamicFont(style: .subheadline)
+        $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
         $0.borderStyle = .roundedRect
     }
     
-    let percentageButton = UIButton().then {
-        $0.setTitle("%", for: .normal)
-        $0.titleLabel?.font = Pretendard.bold.dynamicFont(style: .footnote)
-        $0.setTitleColor(UIColor(named: "CharcoalBlue"), for: .normal)
-        $0.layer.cornerRadius = 15
-        $0.layer.borderWidth = 1.0 // 테두리 두께 설정
-        if let charcoalBlueColor = UIColor(named: "CharcoalBlue") {
-            $0.layer.borderColor = charcoalBlueColor.cgColor
-        }
-    }
-
-    let pageButton = UIButton().then {
-        $0.setTitle("Page", for: .normal)
-        $0.titleLabel?.font = Pretendard.bold.dynamicFont(style: .footnote)
-        $0.setTitleColor(.black, for: .normal)
-        $0.layer.cornerRadius = 15
-        $0.layer.borderWidth = 1.0
-        if let charcoalBlueColor = UIColor(named: "CharcoalBlue") {
-            $0.layer.borderColor = charcoalBlueColor.cgColor
-        }
+    let segmentedControl = UISegmentedControl(items: ["%", "Page"]).then {
+        $0.selectedSegmentIndex = 0 // 초기 선택 세그먼트 인덱스
+        // 선택되지 않은 상태의 폰트 및 색상 설정
+        $0.setTitleTextAttributes([
+            .font: Pretendard.bold.dynamicFont(style: .footnote),
+            .foregroundColor: UIColor(named: "CharcoalBlue") ?? .black
+        ], for: .normal)
+        
+        // 선택된 상태의 폰트 및 색상 설정
+        $0.setTitleTextAttributes([
+            .font: Pretendard.bold.dynamicFont(style: .footnote),
+            .foregroundColor: UIColor.white
+        ], for: .selected)
+        
+        $0.selectedSegmentTintColor = UIColor(named: "CharcoalBlue")
+        $0.layer.cornerRadius = 20
+        $0.layer.borderWidth = 0.7
+        $0.layer.borderColor = UIColor(named: "CharcoalBlue")?.cgColor
+        $0.clipsToBounds = true
     }
     
     let recordButton = UIButton().then {
@@ -185,13 +199,13 @@ class AddVerseVC: UIViewController {
         overlayView.addSubview(searchButton)
         viewInScroll.addSubview(verseTextView)
         viewInScroll.addSubview(characterCountLabel)
+        viewInScroll.addSubview(pencilImageView)
         viewInScroll.addSubview(keywordLabel)
         viewInScroll.addSubview(keywordField)
         viewInScroll.addSubview(keywordCollectionView)
         viewInScroll.addSubview(pageLabel)
         viewInScroll.addSubview(pageNumberTextField)
-        viewInScroll.addSubview(percentageButton)
-        viewInScroll.addSubview(pageButton)
+        viewInScroll.addSubview(segmentedControl)
         viewInScroll.addSubview(recordButton)
     }
     
@@ -260,7 +274,12 @@ class AddVerseVC: UIViewController {
         
         characterCountLabel.snp.makeConstraints {
             $0.trailing.equalTo(verseTextView.snp.trailing).offset(-16)
+            $0.bottom.equalTo(verseTextView.snp.bottom).offset(-16)
+        }
+        
+        pencilImageView.snp.makeConstraints {
             $0.bottom.equalTo(verseTextView.snp.bottom).offset(-8)
+            $0.leading.equalTo(verseTextView.snp.leading).offset(8)
         }
         
         keywordLabel.snp.makeConstraints {
@@ -292,18 +311,11 @@ class AddVerseVC: UIViewController {
             $0.height.equalTo(30)
         }
         
-        percentageButton.snp.makeConstraints {
+        segmentedControl.snp.makeConstraints {
             $0.centerY.equalTo(pageLabel.snp.centerY)
-            $0.trailing.equalTo(pageButton.snp.leading).offset(-8)
-            $0.width.equalTo(60)
-            $0.height.equalTo(pageLabel.snp.height)
-        }
-        
-        pageButton.snp.makeConstraints {
-            $0.centerY.equalTo(percentageButton.snp.centerY)
             $0.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
-            $0.width.equalTo(60)
-            $0.height.equalTo(percentageButton.snp.height)
+            $0.height.equalTo(30)
+            $0.width.equalTo(120)
         }
         
         recordButton.snp.makeConstraints {
@@ -319,8 +331,6 @@ class AddVerseVC: UIViewController {
     func setupActions() {
         scanButton.addTarget(self, action: #selector(scanButtonTapped(_:)), for: .touchUpInside)
         searchButton.addTarget(self, action: #selector(searchButtonTapped(_:)), for: .touchUpInside)
-        percentageButton.addTarget(self, action: #selector(percentageButtonTapped(_:)), for: .touchUpInside)
-        pageButton.addTarget(self, action: #selector(pageButtonTapped(_:)), for: .touchUpInside)
         recordButton.addTarget(self, action: #selector(recordButtonTapped(_:)), for: .touchUpInside)
     }
     
@@ -351,18 +361,59 @@ class AddVerseVC: UIViewController {
         present(bookSearchVC, animated: true, completion: nil)
     }
     
-    @objc func percentageButtonTapped(_ sender: UIButton) {
-        print("% 버튼이 눌렸습니다.")
-    }
-    
-    @objc func pageButtonTapped(_ sender: UIButton) {
-        // 구절 스캔 버튼이 눌렸을 때 실행될 액션 구현
-        print("page 버튼이 눌렸습니다.")
-    }
-    
     @objc func recordButtonTapped(_ sender: UIButton) {
-        // 구절 스캔 버튼이 눌렸을 때 실행될 액션 구현
         print("기록하기 버튼이 눌렸습니다.")
+        if searchButton.isHidden == false {
+            showAlert(title: "책 정보 기록", message: "책 검색을 눌러 책 정보를 기록해주세요")
+            return
+        }
+        
+        if verseTextView.text.isEmpty || verseTextView.text == "텍스트를 입력하세요" {
+            showAlert(title: "구절 입력", message: "구절을 입력해 주세요")
+            return
+        }
+        
+        if pageNumberTextField.text?.isEmpty == true {
+            showAlert(title: "페이지", message: "페이지를 입력해 주세요")
+            return
+        }
+        
+        guard let book = selectedBook,
+              let pageNumberText = pageNumberTextField.text,
+              let pageNumber = Int(pageNumberText),
+              !verseTextView.text.isEmpty,
+              verseTextView.text != "텍스트를 입력하세요" else {
+            showAlert(title: "경고", message: "모든 필수 정보를 입력해주세요.")
+            return
+        }
+        
+        let pageType: String
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            pageType = "%"
+        case 1:
+            pageType = "Page"
+        default:
+            pageType = "Page"
+        }
+        
+        // 현재 날짜 정보 가져오기
+        let currentDate = Date()
+
+        // Verse 인스턴스 생성
+        let verse = Verse(book: book, text: verseTextView.text, pageNumber: pageNumber, pageType: pageType, keywords: keywords, date: currentDate)
+        
+        // TODO: 생성된 Verse 인스턴스를 어딘가에 저장하기
+        print(verse)
+        // 저장이 완료되었다는 메시지
+        showAlert(title: "저장 완료", message: "구절이 성공적으로 저장되었습니다.")
+    }
+    
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
     }
     
     // 텍스트 속성을 설정하는 함수
@@ -371,11 +422,11 @@ class AddVerseVC: UIViewController {
         
         // "키워드" 부분에 대한 속성 설정
         let keywordRange = (text as NSString).range(of: "키워드")
-        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 16, weight: .semibold), range: keywordRange)
+        attributedString.addAttribute(.font, value: Pretendard.semibold.dynamicFont(style: .callout), range: keywordRange)
         
         // "선택" 부분에 대한 속성 설정
         let selectionRange = (text as NSString).range(of: "(선택)")
-        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 16, weight: .regular), range: selectionRange)
+        attributedString.addAttribute(.font, value: Pretendard.regular.dynamicFont(style: .callout), range: selectionRange)
         attributedString.addAttribute(.foregroundColor, value: UIColor.gray, range: selectionRange)
         
         return attributedString
@@ -385,7 +436,7 @@ class AddVerseVC: UIViewController {
         if let book = selectedBook {
             titleLabel.text = book.title
             titleLabel.textColor = .black
-            titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+            titleLabel.font = Pretendard.semibold.dynamicFont(style: .headline)
             authorLabel.text = book.author
             if let url = URL(string: book.image) {
                 imageView.kf.setImage(with: url)
@@ -425,27 +476,57 @@ class AddVerseVC: UIViewController {
             print("텍스트 인식 수행 실패: \(error.localizedDescription)")
         }
     }
+    func removeKeyword(at indexPath: IndexPath) {
+        keywords.remove(at: indexPath.item)
+        keywordCollectionView.deleteItems(at: [indexPath])
+    }
+}
+// MARK: - UITextFieldDelegate
+extension AddVerseVC: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if let keyword = textField.text, !keyword.isEmpty {
+            keywords.append(keyword)
+            keywordCollectionView.reloadData()
+            textField.text = ""
+        }
+        textField.resignFirstResponder()
+        return true
+    }
 }
 
-// MARK: - CollectionView 관련
+// MARK: - CollectionView
 extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return keywords.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "KeywordCell", for: indexPath) as? KeywordCell else {
+            return UICollectionViewCell()
+        }
+        cell.configure(with: keywords[indexPath.item])
         cell.backgroundColor = UIColor(named: "LightSkyBlue")
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 100, height: 40)
-    }
+            // 특정 indexPath에 해당하는 키워드의 문자열을 가져옵니다.
+            let keyword = keywords[indexPath.item]
+            
+            // 문자열의 크기를 계산합니다.
+            let font = Pretendard.regular.dynamicFont(style: .callout)
+            let attributes = [NSAttributedString.Key.font: font]
+            let textSize = (keyword as NSString).size(withAttributes: attributes)
+            
+            // 셀의 너비를 계산하고 반환합니다. 좌우 여백을 추가하여 보다 깔끔하게 보이도록 합니다.
+            let cellWidth = textSize.width + 35
+            let cellHeight: CGFloat = 34 // 셀의 높이
+            return CGSize(width: cellWidth, height: cellHeight)
+        }
 }
 
-// MARK: - 텍스트뷰 placeholder 관련
+// MARK: - 텍스트뷰 placeholder
 extension AddVerseVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         guard textView.textColor == .placeholderText else { return }
@@ -472,7 +553,7 @@ extension AddVerseVC: UITextViewDelegate {
     }
 }
 
-
+// MARK: - 스캔
 extension AddVerseVC: VNDocumentCameraViewControllerDelegate {
     func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
         let image = scan.imageOfPage(at: 0)
