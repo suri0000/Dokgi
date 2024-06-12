@@ -31,6 +31,8 @@ class LibrarySearchViewController: UIViewController {
     private var isLatestFirst: Bool = true
     private var isOldestFirst: Bool = false
     
+    private let emptyMessageLabel = UILabel()
+        
     lazy var libraryCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 36
@@ -120,10 +122,22 @@ class LibrarySearchViewController: UIViewController {
         
         latestFirstcheckImageView.image = UIImage(named: "check")
         oldestFirstcheckImageView.image = UIImage(named: "check")
+        
+        emptyMessageLabel.font = Pretendard.regular.dynamicFont(style: .subheadline)
+        emptyMessageLabel.textColor = .black
+        emptyMessageLabel.textAlignment = .center
+        emptyMessageLabel.isHidden = true
+        emptyMessageLabel.text = "기록한 책이 없어요\n구절을 등록해 보세요"
+        emptyMessageLabel.numberOfLines = 0
+        let attrString = NSMutableAttributedString(string: emptyMessageLabel.text!)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 4
+        attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attrString.length))
+        emptyMessageLabel.attributedText = attrString
     }
     
     private func setConstraints() {
-        [libraryLabel, searchBar, sortButton, sortMenuView, libraryCollectionView].forEach {
+        [libraryLabel, searchBar, sortButton, sortMenuView, libraryCollectionView, emptyMessageLabel].forEach {
             view.addSubview($0)
         }
         
@@ -222,6 +236,10 @@ class LibrarySearchViewController: UIViewController {
             $0.top.equalTo(sortButton.snp.bottom).offset(20)
             $0.bottom.leading.trailing.equalToSuperview().inset(0)
         }
+        
+        emptyMessageLabel.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+        }
     }
     //MARK: - searchBar
     private func setSearchBar() {
@@ -272,7 +290,11 @@ class LibrarySearchViewController: UIViewController {
 extension LibrarySearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return CoreDataManager.shared.bookData.value.count
+        
+        let cellCount = CoreDataManager.shared.bookData.value.count
+        
+        emptyMessageLabel.isHidden = cellCount > 0
+        return cellCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
