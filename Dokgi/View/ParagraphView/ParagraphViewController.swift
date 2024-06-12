@@ -51,7 +51,7 @@ class ParagraphViewController: UIViewController {
     var paragraphData = [
         ("짧은 텍스트입니다끝", "24.05.26"),
         ("짧은 텍스트입니다. 짧은 텍스트입니다. 짧은 텍스트입니다. 짧은 텍스트입니다끝", "24.05.27"),
-        ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이끝", "24.05.28"),
+        ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이끝", "24.06.12"),
         ("짧은 텍스트입니.짧은 텍스트입니.짧은 텍스트입니끝", "24.05.29"),
         ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다끝", "24.05.30"),
         ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다 끝", "24.06.06"),
@@ -75,7 +75,7 @@ class ParagraphViewController: UIViewController {
         paragraphLabel.font = Pretendard.bold.dynamicFont(style: .title1)
         paragraphLabel.textColor = .black
         
-        selectionButton.backgroundColor = .yellow
+        selectionButton.backgroundColor = .white
         selectionButton.addTarget(self, action: #selector(tappedSelectionButton), for: .touchUpInside)
         
         selectionButtonImageView.image = UIImage(named: "Filter")
@@ -85,7 +85,7 @@ class ParagraphViewController: UIViewController {
         selectionButtonLabel.textColor = UIColor(named: "CharcoalBlue")
         selectionButton.sizeToFit()
         
-        doneButton.backgroundColor = .yellow
+        doneButton.backgroundColor = .white
         doneButton.isHidden = true
         doneButton.addTarget(self, action: #selector(tappedDoneButton), for: .touchUpInside)
         doneButton.titleLabel?.font = Pretendard.medium.dynamicFont(style: .subheadline)
@@ -130,14 +130,14 @@ class ParagraphViewController: UIViewController {
         latestFirstcheckImageView.image = UIImage(named: "check")
         oldestFirstcheckImageView.image = UIImage(named: "check")
         
+        emptyMessageLabel.text = "기록한 구절이 없어요\n구절을 등록해 보세요"
         emptyMessageLabel.font = Pretendard.regular.dynamicFont(style: .subheadline)
         emptyMessageLabel.textColor = .black
-        emptyMessageLabel.textAlignment = .center
         emptyMessageLabel.isHidden = true
-        emptyMessageLabel.text = "기록한 구절이 없어요\n구절을 등록해 보세요"
         emptyMessageLabel.numberOfLines = 0
         let attrString = NSMutableAttributedString(string: emptyMessageLabel.text!)
         let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
         paragraphStyle.lineSpacing = 4
         attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attrString.length))
         emptyMessageLabel.attributedText = attrString
@@ -315,6 +315,9 @@ class ParagraphViewController: UIViewController {
         oldestFirstcheckImageView.isHidden = true
         
         sortMenuView.isHidden = true
+        
+        paragraphData.sort { $0.1 > $1.1 }
+        paragraphCollectionView.reloadData()
     }
     
     @objc private func tappedOldestFirst() {
@@ -324,6 +327,9 @@ class ParagraphViewController: UIViewController {
         oldestFirstcheckImageView.isHidden = false
         
         sortMenuView.isHidden = true
+        
+        paragraphData.sort { $0.1 < $1.1 }
+        paragraphCollectionView.reloadData()
     }
     
     @objc private func tappedSelectionButton() {

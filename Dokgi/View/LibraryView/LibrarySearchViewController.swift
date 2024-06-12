@@ -17,7 +17,7 @@ class LibrarySearchViewController: UIViewController {
     private let sortButton = UIButton()
     private let sortButtonImageView = UIImageView()
     private let sortButtonTitleLabel = UILabel()
-
+    
     let disposeBag = DisposeBag()
     
     private let sortMenuView = UIView()
@@ -32,7 +32,7 @@ class LibrarySearchViewController: UIViewController {
     private var isOldestFirst: Bool = false
     
     private let emptyMessageLabel = UILabel()
-        
+    
     lazy var libraryCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 36
@@ -123,14 +123,14 @@ class LibrarySearchViewController: UIViewController {
         latestFirstcheckImageView.image = UIImage(named: "check")
         oldestFirstcheckImageView.image = UIImage(named: "check")
         
+        emptyMessageLabel.text = "기록한 책이 없어요\n구절을 등록해 보세요"
         emptyMessageLabel.font = Pretendard.regular.dynamicFont(style: .subheadline)
         emptyMessageLabel.textColor = .black
-        emptyMessageLabel.textAlignment = .center
         emptyMessageLabel.isHidden = true
-        emptyMessageLabel.text = "기록한 책이 없어요\n구절을 등록해 보세요"
         emptyMessageLabel.numberOfLines = 0
         let attrString = NSMutableAttributedString(string: emptyMessageLabel.text!)
         let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
         paragraphStyle.lineSpacing = 4
         attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attrString.length))
         emptyMessageLabel.attributedText = attrString
@@ -288,7 +288,7 @@ class LibrarySearchViewController: UIViewController {
 }
 //MARK: -CollectionView
 extension LibrarySearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         let cellCount = CoreDataManager.shared.bookData.value.count
