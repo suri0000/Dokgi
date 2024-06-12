@@ -33,9 +33,26 @@ class HomeViewController: UIViewController {
     let nextLevelBubble = UIImageView()
     let nextLevelImage = UIImageView()
     let blurEffect = UIBlurEffect(style: .regular)
+    
+    let todayVersesLabel = UILabel()
+    let todayVersesColletionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 0
+        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.showsHorizontalScrollIndicator = false
+        view.backgroundColor = .clear
+        view.isPagingEnabled = true
+//        view.isUserInteractionEnabled = true
+        view.register(TodayVersesCell.self, forCellWithReuseIdentifier: TodayVersesCell.identifier)
+        return view
+    }()
+    
     lazy var blurEffectView = UIVisualEffectView(effect: blurEffect)
             
     var levelCollectionViewSelectedIndex = 0
+    var nowPage: Int = 0
+    var indicatorDots = UIPageControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +61,7 @@ class HomeViewController: UIViewController {
         configureUI()
         setupCollectionView()
         bindViewModel()
+        bannerTimer()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -55,9 +73,18 @@ class HomeViewController: UIViewController {
     }
     
     func setupConstraints() {
-        [currentLengthLabel, currentLevelCollectionView, nextLengthLabel, lengthSlider, currentLevelBubble, nextLevelBubble].forEach {
+        [currentLengthLabel, 
+         currentLevelCollectionView,
+         nextLengthLabel,
+         lengthSlider,
+         currentLevelBubble,
+         nextLevelBubble,
+         todayVersesLabel,
+         todayVersesColletionView,
+        indicatorDots].forEach {
             view.addSubview($0)
         }
+        
         currentLevelBubble.addSubview(currentLevelImage)
         [nextLevelImage, blurEffectView].forEach {
             nextLevelBubble.addSubview($0)
@@ -116,13 +143,31 @@ class HomeViewController: UIViewController {
             $0.top.equalTo(nextLevelBubble.snp.top).offset(4)
             $0.centerX.equalTo(nextLevelBubble.snp.centerX)
         }
+        
+        todayVersesLabel.snp.makeConstraints {
+            $0.top.equalTo(currentLevelBubble.snp.bottom).offset(53)
+            $0.leading.equalTo(currentLengthLabel.snp.leading)
+        }
+        
+        todayVersesColletionView.snp.makeConstraints {
+            $0.top.equalTo(todayVersesLabel.snp.bottom).offset(14)
+            $0.bottom.equalToSuperview().offset(-139)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(158)
+        }
+        
+        indicatorDots.snp.makeConstraints {
+            $0.centerX.equalTo(todayVersesColletionView.snp.centerX)
+            $0.bottom.equalTo(todayVersesColletionView.snp.bottom).offset(-8)
+        }
     }
     
     func configureUI() {
         view.backgroundColor = .white
         
         currentLengthLabel.text = "현재 구절 길이"
-        currentLengthLabel.font = .systemFont(ofSize: 20, weight: .semibold)
+        currentLengthLabel.font = Pretendard.semibold.dynamicFont(style: .title3)
         
         nextLengthLabel.text = "다음 레벨까지 \(Int(Float(viewModel.currentLevelPercent.value) * 100)) % 달성했습니다!"
         nextLengthLabel.font = .systemFont(ofSize: 14, weight: .regular)
@@ -154,11 +199,21 @@ class HomeViewController: UIViewController {
         nextLevelImage.image = UIImage(named: "goni")
         nextLevelImage.contentMode = .scaleAspectFit
         nextLevelImage.layer.masksToBounds = true
+        
+        todayVersesLabel.text = "오늘의 구절"
+        todayVersesLabel.font = Pretendard.semibold.dynamicFont(style: .title3)
+        
+        todayVersesColletionView.layer.cornerRadius = 10
+        
+        indicatorDots.pageIndicatorTintColor = UIColor(.dotGray)
+        indicatorDots.currentPageIndicatorTintColor = UIColor(.dotBlue)
     }
     
     func setupCollectionView() {
         currentLevelCollectionView.dataSource = self
         currentLevelCollectionView.delegate = self
+        todayVersesColletionView.dataSource = self
+        todayVersesColletionView.delegate = self
         currentLevelCollectionView.layoutIfNeeded() // 레이아웃 새로고침
         currentLevelCollectionView.reloadData()
     }
@@ -222,42 +277,87 @@ class HomeViewController: UIViewController {
         currCell?.transformToStandard()
         if nextIndex != currIndex { nextCell?.transformToSmall() }
     }
+    
+    // 오늘의 구절 자동 넘기기
+    func bannerTimer() {
+        let _: Timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { (Timer) in
+            self.bannerMove()
+        }
+    }
+    // 배너 움직이는 매서드
+    func bannerMove() {
+        // 현재페이지가 마지막 페이지일 경우
+        if nowPage == viewModel.verses.value.count-1 {
+        // 맨 처음 페이지로 돌아감
+            todayVersesColletionView.scrollToItem(at: NSIndexPath(item: 0, section: 0) as IndexPath, at: .right, animated: true)
+            nowPage = 0
+            return
+        }
+        // 다음 페이지로 전환
+        nowPage += 1
+        todayVersesColletionView.scrollToItem(at: NSIndexPath(item: nowPage, section: 0) as IndexPath, at: .right, animated: true)
+    }
 }
 
 extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let currentLevel = viewModel.currentLevel
-        return min(currentLevel.value + 1, viewModel.levelCards.count)
-        
-//        viewModel.levelCards.count //이미지 확인용
+        if collectionView == currentLevelCollectionView {
+            let currentLevel = viewModel.currentLevel
+            return min(currentLevel.value + 1, viewModel.levelCards.count)
+            //        viewModel.levelCards.count //이미지 확인용
+        } else {
+//            let randomVerses = viewModel.verses.value.shuffled().prefix(5)
+//            return randomVerses.count
+            let count = viewModel.verses.value.count
+            indicatorDots.numberOfPages = count
+            return count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CurrentLevelCell.identifier, for: indexPath) as? CurrentLevelCell else { return UICollectionViewCell() }
-        
-        cell.setCellConfig(viewModel.levelCards[indexPath.item])
-
-        // 마지막 셀에만 블러 설정
-        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
-            cell.blurEffectView.isHidden = false
+        if collectionView == currentLevelCollectionView {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CurrentLevelCell.identifier, for: indexPath) as? CurrentLevelCell else { return UICollectionViewCell() }
+            
+            cell.setCellConfig(viewModel.levelCards[indexPath.item])
+            
+            // 마지막 셀에만 블러 설정
+            if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
+                cell.blurEffectView.isHidden = false
+                
+            } else {
+                cell.blurEffectView.isHidden = true
+            }
+            
+            if indexPath.item + 1 == viewModel.currentLevel.value {
+                let length = viewModel.getVerseLength(from: viewModel.verses.value)
+                cell.lengthLabel.text = MetricUtil.formatLength(length: length)
+            }
+            
+            // 현재 보여지는 셀 크기 : Standard
+            if levelCollectionViewSelectedIndex == indexPath.item {
+                cell.transformToStandard()
+            }
+            else {
+                cell.transformToSmall()
+            }
+            return cell
             
         } else {
-            cell.blurEffectView.isHidden = true
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayVersesCell.identifier, for: indexPath) as? TodayVersesCell else { return UICollectionViewCell() }
+            cell.verse.text = viewModel.verses.value[indexPath.item]
+            return cell
         }
-        
-        if indexPath.item + 1 == viewModel.currentLevel.value {
-            let length = viewModel.getVerseLength(from: viewModel.verses.value)
-            cell.lengthLabel.text = MetricUtil.formatLength(length: length)
+    }
+}
+
+extension HomeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        // 컬렉션 뷰의 크기에 맞게 셀 크기 설정
+        if collectionView == todayVersesColletionView {
+            return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+        } else {
+            return CGSize(width: 300, height: 164)
         }
-        
-        // 현재 보여지는 셀 크기 : Standard
-        if levelCollectionViewSelectedIndex == indexPath.item {
-            cell.transformToStandard()
-        }
-        else {
-            cell.transformToSmall()
-        }
-        return cell
     }
 }
 
@@ -306,6 +406,11 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 
       updateCurrentLevelCollectionViewCell()
   }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        indicatorDots.currentPage =
+//        Int((todayVersesColletionView.contentOffset.x / todayVersesColletionView.frame.width).rounded(.toNearestOrAwayFromZero))
+    }
 }
 
 extension UICollectionViewCell {
