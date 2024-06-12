@@ -111,7 +111,7 @@ class ParagraphDetailViewController: UIViewController {
     }
     
     func dataBinding() {
-        ParagraphDetailViewModel.detailParagraph.subscribe(with: self) { (self, data) in
+        viewModel.detailParagraph.subscribe(with: self) { (self, data) in
             self.viewModel.paragraph = data
             self.viewModel.previous = data.paragraph
             self.titleLbl.text = data.bookName

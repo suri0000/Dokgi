@@ -10,7 +10,7 @@ import RxSwift
 import Foundation
 
 class ParagraphDetailViewModel {
-    static var detailParagraph = PublishRelay<Paragraph>()
+    var detailParagraph = PublishSubject<Paragraph>()
     let disposeBag = DisposeBag()
     
     var paragraph : Paragraph?
@@ -28,7 +28,7 @@ class ParagraphDetailViewModel {
         guard var paragraph = self.paragraph else { return }
         
         paragraph.paragraph = str
-        ParagraphDetailViewModel.detailParagraph.accept(paragraph)
+        self.detailParagraph.onNext(paragraph)
         CoreDataManager.shared.updateParagraph(paragraph: paragraph, text: self.previous)
     }
 }
