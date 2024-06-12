@@ -7,7 +7,6 @@
 
 import RxCocoa
 import RxSwift
-import Foundation
 
 class ParagraphDetailViewModel {
     var detailParagraph = PublishSubject<Verse>()
