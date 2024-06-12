@@ -175,9 +175,7 @@ class AddVerseVC: UIViewController {
         $0.selectedSegmentTintColor = UIColor(named: "CharcoalBlue")
         $0.layer.cornerRadius = 20
         $0.layer.borderWidth = 0.7
-        if let charcoalBlueColor = UIColor(named: "CharcoalBlue") {
-            $0.layer.borderColor = charcoalBlueColor.cgColor
-        }
+        $0.layer.borderColor = UIColor(named: "CharcoalBlue")?.cgColor
         $0.clipsToBounds = true
     }
     
@@ -403,8 +401,15 @@ class AddVerseVC: UIViewController {
             return
         }
         
+        // 현재 날짜 정보 가져오기
+        let currentDate = Date()
+        let calendar = Calendar.current
+        let year = calendar.component(.year, from: currentDate)
+        let month = calendar.component(.month, from: currentDate)
+        let day = calendar.component(.day, from: currentDate)
+        
         // Verse 인스턴스 생성
-        let verse = Verse(book: book, text: verseTextView.text, pageNumber: pageNumber, pageType: .page, keywords: keywords)
+        let verse = Verse(book: book, text: verseTextView.text, pageNumber: pageNumber, pageType: .page, keywords: keywords, year: year, month: month, day: day)
         
         // TODO: 생성된 Verse 인스턴스를 어딘가에 저장하기
         print(verse)
@@ -487,9 +492,7 @@ class AddVerseVC: UIViewController {
 // MARK: - UITextFieldDelegate
 extension AddVerseVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print("Return key pressed") // 로그 추가
         if let keyword = textField.text, !keyword.isEmpty {
-            print("Keyword: \(keyword)") // 로그 추가
             keywords.append(keyword)
             keywordCollectionView.reloadData()
             textField.text = ""
@@ -525,7 +528,7 @@ extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
             let textSize = (keyword as NSString).size(withAttributes: attributes)
             
             // 셀의 너비를 계산하고 반환합니다. 좌우 여백을 추가하여 보다 깔끔하게 보이도록 합니다.
-            let cellWidth = textSize.width + 35 // 좌우 여백 10씩 추가
+            let cellWidth = textSize.width + 35
             let cellHeight: CGFloat = 34 // 셀의 높이
             return CGSize(width: cellWidth, height: cellHeight)
         }
