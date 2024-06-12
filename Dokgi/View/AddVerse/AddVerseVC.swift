@@ -19,6 +19,7 @@ class AddVerseVC: UIViewController {
     
     var selectedBook: Item?
     var images: [UIImage] = []
+    var keywords: [String] = ["Example1", "Example2", "Example3", "Example4", "Example5"]
     weak var delegate: BookSelectionDelegate?
     
     override func viewDidLoad() {
@@ -426,17 +427,24 @@ class AddVerseVC: UIViewController {
             print("텍스트 인식 수행 실패: \(error.localizedDescription)")
         }
     }
+    func removeKeyword(at indexPath: IndexPath) {
+        keywords.remove(at: indexPath.item)
+        keywordCollectionView.deleteItems(at: [indexPath])
+    }
 }
 
 // MARK: - CollectionView 관련
 extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return keywords.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "KeywordCell", for: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "KeywordCell", for: indexPath) as? KeywordCell else {
+            return UICollectionViewCell()
+        }
+        cell.configure(with: keywords[indexPath.item])
         cell.backgroundColor = UIColor(named: "LightSkyBlue")
         return cell
     }

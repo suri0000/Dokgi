@@ -19,8 +19,8 @@ class KeywordCell: UICollectionViewCell {
     }
     
     private let deleteButton = UIButton().then {
-        $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-        $0.tintColor = .red
+        $0.setTitle("x", for: .normal)
+        $0.setTitleColor(UIColor(named: "BrightBlue"), for: .normal)
     }
     
     override init(frame: CGRect) {
@@ -52,12 +52,13 @@ class KeywordCell: UICollectionViewCell {
     }
     
     @objc private func deleteButtonTapped() {
-        // 부모 뷰로부터 collectionView 가져오기
         guard let collectionView = superview as? UICollectionView else { return }
-        // 해당 셀의 indexPath 가져오기
         guard let indexPath = collectionView.indexPath(for: self) else { return }
-        // collectionView에서 해당 indexPath의 셀을 삭제
-        collectionView.deleteItems(at: [indexPath])
+        (collectionView.delegate as? AddVerseVC)?.removeKeyword(at: indexPath)
+    }
+    
+    func configure(with text: String) {
+        label.text = text
     }
 }
 
