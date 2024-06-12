@@ -405,4 +405,12 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
         
         paragraphCollectionView.reloadData()
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+           let selectedData = paragraphData[indexPath.item]
+           
+           let modalVC = ParagrapViewController()
+           
+           present(modalVC, animated: true, completion: nil)
+       }
 }
