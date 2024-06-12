@@ -79,6 +79,8 @@ class HomeViewController: UIViewController {
         bannerTimer()
     }
     
+
+    
     func setupConstraints() {
         [currentLengthLabel, 
          currentLevelCollectionView,

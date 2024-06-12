@@ -14,7 +14,8 @@ class TabBarVC: UITabBarController {
         view.backgroundColor = .white
         
         // 홈화면 설정
-        let homePageVC = HomeViewController()
+//        let homePageVC = HomeViewController()
+        let homePageVC = UINavigationController(rootViewController: HomeViewController())
         homePageVC.tabBarItem = UITabBarItem(title: "홈", image: UIImage(named: "tabBarHome"), tag: 0)
 
         // 구절화면 설정
@@ -38,6 +39,24 @@ class TabBarVC: UITabBarController {
         tabBar.addSubview(lineView)
         
         tabBar.barTintColor = UIColor.red
+        
+        configureNavigationBar(homePageVC)
+    }
+    
+    // 홈 상단에 설정 페이지 이동
+    private func configureNavigationBar(_ navigationController: UINavigationController) {
+        let rightBarButton = UIBarButtonItem(image: UIImage(named: "setting"), style: .plain, target: self, action: #selector(didTapSetting))
+        navigationController.topViewController?.navigationItem.rightBarButtonItem = rightBarButton
+    }
+    
+    @objc func didTapSetting() {
+        let settingVC = SettingViewController()
+//        settingVC.modalPresentationStyle = .fullScreen
+//        self.navigationController?.pushViewController(settingVC, animated: true)
+//        present(settingVC, animated: true)
+        let navController = UINavigationController(rootViewController: settingVC)
+        navController.modalPresentationStyle = .fullScreen
+        self.present(navController, animated: true, completion: nil)
     }
 
 }
