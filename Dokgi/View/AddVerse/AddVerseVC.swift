@@ -401,7 +401,7 @@ class AddVerseVC: UIViewController {
         let currentDate = Date()
 
         // Verse 인스턴스 생성
-        let verse = Verse(book: book, text: verseTextView.text, pageNumber: pageNumber, pageType: pageType, keywords: keywords, date: currentDate)
+        let verse = Verse(name: book.title, author: book.author, image: book.image, text: verseTextView.text, pageNumber: pageNumber, pageType: pageType, keywords: keywords, date: currentDate)
         
         // TODO: 생성된 Verse 인스턴스를 어딘가에 저장하기
         print(verse)
