@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="BookEntity" representedClassName="BookEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="author" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="image" optional="YES" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <relationship name="paragraph" toMany="YES" deletionRule="Cascade" destinationEntity="ParagraphEntity" inverseName="book" inverseEntity="ParagraphEntity"/>
+    </entity>
+    <entity name="KeywordEntity" representedClassName="KeywordEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="keyword" optional="YES" attributeType="String"/>
+        <relationship name="paragraph" maxCount="1" deletionRule="Nullify" destinationEntity="ParagraphEntity" inverseName="keyword" inverseEntity="ParagraphEntity"/>
+    </entity>
+    <entity name="ParagraphEntity" representedClassName="ParagraphEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="page" attributeType="String"/>
+        <attribute name="paragraph" attributeType="String"/>
+        <relationship name="book" maxCount="1" deletionRule="Nullify" destinationEntity="BookEntity" inverseName="paragraph" inverseEntity="BookEntity"/>
+        <relationship name="keyword" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="KeywordEntity" inverseName="paragraph" inverseEntity="KeywordEntity"/>
+    </entity>
 </model>
