@@ -15,7 +15,7 @@ protocol BookSelectionDelegate: AnyObject {
     func didSelectBook(_ book: Item)
 }
 
-class AddVerseVC: UIViewController {
+class AddVerseVC: UIViewController, UITextFieldDelegate {
     
     var selectedBook: Item?
     var images: [UIImage] = []
@@ -26,6 +26,7 @@ class AddVerseVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         keywordCollectionView.register(KeywordCell.self, forCellWithReuseIdentifier: KeywordCell.reuseIdentifier)
+        keywordField.delegate = self
         setupViews()
         initLayout()
         setupActions()
@@ -129,7 +130,6 @@ class AddVerseVC: UIViewController {
         $0.backgroundColor = .clear
         $0.delegate = self
         $0.dataSource = self
-        $0.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         $0.showsHorizontalScrollIndicator = false
     }
     
@@ -431,6 +431,18 @@ class AddVerseVC: UIViewController {
         keywords.remove(at: indexPath.item)
         keywordCollectionView.deleteItems(at: [indexPath])
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        print("Return key pressed") // 로그 추가
+        if let keyword = textField.text, !keyword.isEmpty {
+            print("Keyword: \(keyword)") // 로그 추가
+            keywords.append(keyword) // 키워드를 배열에 추가
+            keywordCollectionView.reloadData() // 컬렉션 뷰 업데이트
+            textField.text = "" // 텍스트 필드 비우기
+        }
+        textField.resignFirstResponder() // 키보드 내리기
+        return true
+    }
 }
 
 // MARK: - CollectionView 관련
@@ -450,7 +462,7 @@ extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 100, height: 40)
+        return CGSize(width: 120, height: 40)
     }
 }
 
