@@ -76,7 +76,6 @@ class ParagraphDetailViewController: UIViewController {
         containerView.keywordCollectionView.register(KeywordCollectionViewCell.self, forCellWithReuseIdentifier: KeywordCollectionViewCell.identifier)
         setupLayout()
         dataBinding()
-        ParagraphDetailViewModel.detailParagraph.accept(Paragraph(bookId: 0, bookName: "논어", bookAuthor: "공자", paragraph: "군자는 화합을 잘하지만 같아지기를 바라지않고", page: "200", date: Date(), keyword: ["군자", "화합", "good"]))
     }
     
     // MARK: - Layout
@@ -121,17 +120,15 @@ class ParagraphDetailViewController: UIViewController {
             self.containerView.writeDateDay.text = data.date.formatted()
         }.disposed(by: disposeBag)
         
-        self.xBtn.rx.tap.subscribe { [weak self] _ in
-            guard let self = self else {return}
+        self.xBtn.rx.tap.subscribe(with: self) { (self, _) in
             self.dismiss(animated: true)
         }.disposed(by: disposeBag)
         
-        self.editBtn.rx.tap.subscribe { [weak self] _ in
-            guard let self = self else {return}
+        self.editBtn.rx.tap.subscribe(with: self) { (self, _) in
             if self.editBtn.titleLabel?.text == "수정하기" {
                 self.containerView.keywordCollectionView.reloadData()
                 self.containerView.editLayout()
-                self.sheetPresentationController?.detents = [largeDetent]
+                self.sheetPresentationController?.detents = [self.largeDetent]
                 self.editBtn.setTitle("완료", for: .normal)
                 self.editBtn.titleLabel?.font = Pretendard.semibold.dynamicFont(style: .callout)
                 self.editBtn.setTitleColor(UIColor(named: "SkyBlue"), for: .normal)
@@ -139,7 +136,7 @@ class ParagraphDetailViewController: UIViewController {
             } else {
                 self.containerView.keywordCollectionView.reloadData()
                 self.containerView.editCompleteLayout()
-                self.sheetPresentationController?.detents = [smallDetent]
+                self.sheetPresentationController?.detents = [self.smallDetent]
                 self.editBtn.setTitle("수정하기", for: .normal)
                 self.editBtn.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
                 self.editBtn.setTitleColor(.black, for: .normal)
@@ -148,13 +145,11 @@ class ParagraphDetailViewController: UIViewController {
             }
         }.disposed(by: disposeBag)
         
-        containerView.paragrapTextField.rx.text.orEmpty.subscribe { [weak self] text in
-            guard let self = self else {return}
+        containerView.paragrapTextField.rx.text.orEmpty.subscribe(with: self) { (self, text) in
             self.containerView.paragrapTextLimit(text)
         }.disposed(by: disposeBag)
         
-        containerView.keywordTextField.rx.text.orEmpty.subscribe { [weak self] text in
-            guard let self = self else {return}
+        containerView.keywordTextField.rx.text.orEmpty.subscribe(with: self) { (self, text) in
             self.containerView.keywordTextLimit(text)
         }.disposed(by: disposeBag)
         
