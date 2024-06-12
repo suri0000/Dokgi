@@ -11,26 +11,18 @@ struct Verse {
     let book: Item
     let text: String
     let pageNumber: Int
-    let pageType: PageType
+    let pageType: String
     let keywords: [String]
-    let year: Int
-    let month: Int
-    let day: Int
+    let date: Date
 
-    enum PageType {
-        case percent
-        case page
+    init(book: Item, text: String, pageNumber: Int, pageType: String, keywords: [String], date: Date) {
+        self.book = book
+        self.text = text
+        self.pageNumber = pageNumber
+        self.pageType = pageType
+        self.keywords = keywords
+        self.date = date
     }
-
-    init(book: Item, text: String, pageNumber: Int, pageType: PageType, keywords: [String], year: Int, month: Int, day: Int) {
-            self.book = book
-            self.text = text
-            self.pageNumber = pageNumber
-            self.pageType = pageType
-            self.keywords = keywords
-            self.year = year
-            self.month = month
-            self.day = day
-        }
 }
+
 

@@ -401,15 +401,21 @@ class AddVerseVC: UIViewController {
             return
         }
         
+        let pageType: String
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            pageType = "%"
+        case 1:
+            pageType = "Page"
+        default:
+            pageType = "Page"
+        }
+        
         // 현재 날짜 정보 가져오기
         let currentDate = Date()
-        let calendar = Calendar.current
-        let year = calendar.component(.year, from: currentDate)
-        let month = calendar.component(.month, from: currentDate)
-        let day = calendar.component(.day, from: currentDate)
-        
+
         // Verse 인스턴스 생성
-        let verse = Verse(book: book, text: verseTextView.text, pageNumber: pageNumber, pageType: .page, keywords: keywords, year: year, month: month, day: day)
+        let verse = Verse(book: book, text: verseTextView.text, pageNumber: pageNumber, pageType: pageType, keywords: keywords, date: currentDate)
         
         // TODO: 생성된 Verse 인스턴스를 어딘가에 저장하기
         print(verse)
