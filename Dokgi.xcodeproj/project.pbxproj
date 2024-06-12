@@ -37,7 +37,6 @@
 		A74874712C0D7E0800B830EE /* Base in Resources */ = {isa = PBXBuildFile; fileRef = A74874702C0D7E0800B830EE /* Base */; };
 		A748747F2C0D7EBF00B830EE /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = A748747E2C0D7EBF00B830EE /* Model.swift */; };
 		A74874812C0D7EC800B830EE /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74874802C0D7EC800B830EE /* ViewModel.swift */; };
-		A74874832C0D7ED100B830EE /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74874822C0D7ED100B830EE /* PaddingLabel.swift */; };
 		A74874872C0D7F1700B830EE /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A74874862C0D7F1700B830EE /* SnapKit */; };
 		A748748C2C0D7F2100B830EE /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = A748748B2C0D7F2100B830EE /* Then */; };
 		A748748F2C0D7F3400B830EE /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = A748748E2C0D7F3400B830EE /* RxCocoa */; };
@@ -56,7 +55,8 @@
 		A75908CF2C101A3900415D6D /* DayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908CE2C101A3900415D6D /* DayTableViewCell.swift */; };
 		A75908D12C12D36100415D6D /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908D02C12D36100415D6D /* UserDefaultsKey.swift */; };
 		A75908D32C12D69300415D6D /* IntArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908D22C12D69300415D6D /* IntArrayExtension.swift */; };
-		A7F2DB172C1347C80020B0AA /* ParagraphDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB162C1347C80020B0AA /* ParagraphDetailViewController.swift */; };
+		A75D3D722C1A11C4006C2EB3 /* ParagraphDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB162C1347C80020B0AA /* ParagraphDetailViewController.swift */; };
+		A75D3D732C1A11C7006C2EB3 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74874822C0D7ED100B830EE /* PaddingLabel.swift */; };
 		A7F2DB192C134B200020B0AA /* ParagraphDetailContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB182C134B200020B0AA /* ParagraphDetailContainerView.swift */; };
 		A7F2DB1D2C15C6E70020B0AA /* KeywordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB1C2C15C6E70020B0AA /* KeywordCollectionViewCell.swift */; };
 		A7F2DB212C16FF860020B0AA /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB202C16FF860020B0AA /* CoreDataManager.swift */; };
@@ -527,6 +527,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A75D3D732C1A11C7006C2EB3 /* PaddingLabel.swift in Sources */,
+				A75D3D722C1A11C4006C2EB3 /* ParagraphDetailViewController.swift in Sources */,
 				855318C12C17FAD800340ACF /* PassageTableViewCell.swift in Sources */,
 				A748747F2C0D7EBF00B830EE /* Model.swift in Sources */,
 				A75908B72C0EF4C000415D6D /* SettingViewController.swift in Sources */,
@@ -547,11 +549,9 @@
 				7BE488B72C171BC500BDB92A /* ParagraphCollectionViewLayout.swift in Sources */,
 				3C4181632C0DC1E000D141FD /* Network.swift in Sources */,
 				A75908CB2C0FEDEF00415D6D /* DayTimeViewModel.swift in Sources */,
-				A74874832C0D7ED100B830EE /* PaddingLabel.swift in Sources */,
 				AB23869D2C18849E00E6FACE /* AddVerseVC.swift in Sources */,
 				AB66D3692C17688C000D72DA /* BookSearchVC.swift in Sources */,
 				AB355D552C180C9700B3DE16 /* BookCell.swift in Sources */,
-				A74874832C0D7ED100B830EE /* PaddingLabel.swift in Sources */,
 				7BE488AF2C103E5A00BDB92A /* LibraryCollectionViewCell.swift in Sources */,
 				3C41815F2C0DBF9800D141FD /* BookModel.swift in Sources */,
 				AB66D3442C0EEFE3000D72DA /* TabBarVC.swift in Sources */,
@@ -562,8 +562,6 @@
 				3C208EAE2C0F63DF00CED104 /* CurrentLevelCell.swift in Sources */,
 				7BE488A92C0F267000BDB92A /* LibrarySearchViewController.swift in Sources */,
 				A75908CF2C101A3900415D6D /* DayTableViewCell.swift in Sources */,
-				A7F2DB172C1347C80020B0AA /* ParagraphDetailViewController.swift in Sources */,
-				A7F2DB172C1347C80020B0AA /* ParagraphDetailViewController.swift in Sources */,
 				855318BB2C16E56800340ACF /* BookDetailViewController.swift in Sources */,
 				A75908B92C0F087900415D6D /* AlarmView.swift in Sources */,
 				A75908C62C0F756800415D6D /* TimePickerViewController.swift in Sources */,

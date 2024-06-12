@@ -20,10 +20,8 @@ class CoreDataManager {
     
     func saveData(verse: Verse) {
         guard let context = self.persistent?.viewContext else { return }
-        let fetchRequest: NSFetchRequest<ParagraphEntity> = ParagraphEntity.fetchRequest()
         
         do {
-            let books = try context.fetch(fetchRequest)
             let newVerse = ParagraphEntity(context: context)
             newVerse.name = verse.name
             newVerse.author = verse.author
