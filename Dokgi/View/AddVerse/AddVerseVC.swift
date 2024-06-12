@@ -69,7 +69,7 @@ class AddVerseVC: UIViewController {
     let searchButton = UIButton(type: .system).then {
         var config = UIButton.Configuration.filled()
         config.title = "책 검색"
-        $0.titleLabel?.font = Pretendard.bold.dynamicFont(style: .headline)
+        $0.titleLabel?.font = Pretendard.semibold.dynamicFont(style: .headline)
         config.baseForegroundColor = .white
         config.baseBackgroundColor = UIColor(named: "CharcoalBlue")
         config.image = UIImage(systemName: "magnifyingglass")
@@ -175,9 +175,9 @@ class AddVerseVC: UIViewController {
         
         $0.selectedSegmentTintColor = UIColor(named: "CharcoalBlue")
         $0.layer.cornerRadius = 20
+        $0.layer.masksToBounds = true
         $0.layer.borderWidth = 0.7
         $0.layer.borderColor = UIColor(named: "CharcoalBlue")?.cgColor
-        $0.clipsToBounds = true
     }
     
     let recordButton = UIButton().then {
