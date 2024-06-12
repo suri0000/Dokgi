@@ -14,8 +14,8 @@ class KeywordCell: UICollectionViewCell {
     static let reuseIdentifier = "KeywordCell"
     
     private let label = UILabel().then {
-        $0.textColor = .black
-        $0.font = UIFont.systemFont(ofSize: 16)
+        $0.textColor = UIColor(named: "BrightBlue")
+        $0.font = Pretendard.regular.dynamicFont(style: .callout)
     }
     
     private let deleteButton = UIButton().then {
@@ -39,6 +39,7 @@ class KeywordCell: UICollectionViewCell {
         label.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(8)
             $0.top.equalToSuperview().offset(8)
+            $0.centerY.equalToSuperview()
             $0.bottom.equalToSuperview().offset(-8)
         }
         

@@ -135,13 +135,13 @@ class AddVerseVC: UIViewController {
     
     let pageLabel = UILabel().then {
         $0.text = "페이지"
-        $0.font = Pretendard.bold.dynamicFont(style: .headline)
+        $0.font = Pretendard.semibold.dynamicFont(style: .headline)
         $0.textColor = .black
     }
     
     let pageNumberTextField = UITextField().then {
         $0.placeholder = "페이지 수"
-        $0.font = Pretendard.bold.dynamicFont(style: .subheadline)
+        $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
         $0.borderStyle = .roundedRect
     }
     
@@ -393,11 +393,11 @@ class AddVerseVC: UIViewController {
         
         // "키워드" 부분에 대한 속성 설정
         let keywordRange = (text as NSString).range(of: "키워드")
-        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 16, weight: .semibold), range: keywordRange)
+        attributedString.addAttribute(.font, value: Pretendard.semibold.dynamicFont(style: .callout), range: keywordRange)
         
         // "선택" 부분에 대한 속성 설정
         let selectionRange = (text as NSString).range(of: "(선택)")
-        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 16, weight: .regular), range: selectionRange)
+        attributedString.addAttribute(.font, value: Pretendard.regular.dynamicFont(style: .callout), range: selectionRange)
         attributedString.addAttribute(.foregroundColor, value: UIColor.gray, range: selectionRange)
         
         return attributedString
@@ -407,7 +407,7 @@ class AddVerseVC: UIViewController {
         if let book = selectedBook {
             titleLabel.text = book.title
             titleLabel.textColor = .black
-            titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+            titleLabel.font = Pretendard.semibold.dynamicFont(style: .headline)
             authorLabel.text = book.author
             if let url = URL(string: book.image) {
                 imageView.kf.setImage(with: url)
@@ -488,12 +488,12 @@ extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
             let keyword = keywords[indexPath.item]
             
             // 문자열의 크기를 계산합니다.
-            let font = UIFont.systemFont(ofSize: 16, weight: .regular) // 키워드의 폰트 설정
+            let font = Pretendard.regular.dynamicFont(style: .callout)
             let attributes = [NSAttributedString.Key.font: font]
             let textSize = (keyword as NSString).size(withAttributes: attributes)
             
             // 셀의 너비를 계산하고 반환합니다. 좌우 여백을 추가하여 보다 깔끔하게 보이도록 합니다.
-            let cellWidth = textSize.width + 40 // 좌우 여백 10씩 추가
+            let cellWidth = textSize.width + 35 // 좌우 여백 10씩 추가
             let cellHeight: CGFloat = 34 // 셀의 높이
             return CGSize(width: cellWidth, height: cellHeight)
         }
