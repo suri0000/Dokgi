@@ -79,4 +79,9 @@ class ParagraphCollectionViewLayout: UICollectionViewFlowLayout {
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         return cache[indexPath.item]
     }
+    
+    func invalidateCache() {
+            cache.removeAll()
+            contentHeight = 0
+        }
 }

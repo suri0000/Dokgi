@@ -49,14 +49,14 @@ class ParagraphViewController: UIViewController {
     }()
     
     var paragraphData = [
-        ("짧은 텍스트입니다끝", "24.05.26"),
-        ("짧은 텍스트입니다. 짧은 텍스트입니다. 짧은 텍스트입니다. 짧은 텍스트입니다끝", "24.05.27"),
-        ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이끝", "24.06.12"),
-        ("짧은 텍스트입니.짧은 텍스트입니.짧은 텍스트입니끝", "24.05.29"),
-        ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다끝", "24.05.30"),
+        ("짧은 텍스트입니다끝", "24.06.11"),
+        ("짧은 텍스트입니다. 짧은 텍스트입니다. 짧은 텍스트입니다. 짧은 텍스트입니다끝", "24.06.10"),
+        ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이끝", "24.06.09"),
+        ("짧은 텍스트입니.짧은 텍스트입니.짧은 텍스트입니끝", "24.06.08"),
+        ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다끝", "24.06.07"),
         ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다 끝", "24.06.06"),
-        ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다 끝", "24.06.08"),
-        ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다 끝", "24.06.10")
+        ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다 끝", "24.06.05"),
+        ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다 끝", "24.06.04")
     ]
     
     override func viewDidLoad() {
@@ -377,17 +377,12 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, heightForTextAtIndexPath indexPath: IndexPath) -> CGFloat {
-        let width = (collectionView.bounds.width - (collectionView.contentInset.left + collectionView.contentInset.right)) / 2 - 4
         let text = paragraphData[indexPath.item].0
-        let paragraphLabelHeight = heightForText(text, width: width)
-        let paragraphDateSpacing: CGFloat = 30
-        let dataLabelHeight: CGFloat = 22
-        let topBottomPadding: CGFloat = 12 * 2
-        
-        return paragraphLabelHeight + paragraphDateSpacing + dataLabelHeight + topBottomPadding
+        return calculateCellHeight(for: text, in: collectionView)
     }
     
-    private func heightForText(_ text: String, width: CGFloat) -> CGFloat {
+    
+    func heightForText(_ text: String, width: CGFloat) -> CGFloat {
         let label = UILabel()
         label.text = text
         label.numberOfLines = 0  // 멀티라인
@@ -399,18 +394,32 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
         return size.height
     }
     
+    func calculateCellHeight(for text: String, in collectionView: UICollectionView) -> CGFloat {
+        let width = (collectionView.bounds.width - (collectionView.contentInset.left + collectionView.contentInset.right)) / 2 - 4
+        let paragraphLabelHeight = heightForText(text, width: width)
+        let paragraphDateSpacing: CGFloat = 30
+        let dataLabelHeight: CGFloat = 22
+        let topBottomPadding: CGFloat = 12 * 2
+        
+        return paragraphLabelHeight + paragraphDateSpacing + dataLabelHeight + topBottomPadding
+    }
+    
     func tappedDeleteButton(in cell: ParagraphCollectionViewCell) {
         guard let indexPath = paragraphCollectionView.indexPath(for: cell) else { return }
         paragraphData.remove(at: indexPath.item)
         
-        paragraphCollectionView.reloadData()
+        if let layout = paragraphCollectionView.collectionViewLayout as? ParagraphCollectionViewLayout {
+                layout.invalidateCache()
+            }
+        
+        self.paragraphCollectionView.reloadData()
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-           let selectedData = paragraphData[indexPath.item]
-           
-           let modalVC = ParagrapViewController()
-           
-           present(modalVC, animated: true, completion: nil)
-       }
+        _ = paragraphData[indexPath.item]
+        
+        let modalVC = ParagrapViewController()
+        
+        present(modalVC, animated: true, completion: nil)
+    }
 }
