@@ -393,6 +393,23 @@ class AddVerseVC: UIViewController {
             showAlert(title: "페이지", message: "페이지를 입력해 주세요")
             return
         }
+        
+        guard let book = selectedBook,
+              let pageNumberText = pageNumberTextField.text,
+              let pageNumber = Int(pageNumberText),
+              !verseTextView.text.isEmpty,
+              verseTextView.text != "텍스트를 입력하세요" else {
+            showAlert(title: "경고", message: "모든 필수 정보를 입력해주세요.")
+            return
+        }
+        
+        // Verse 인스턴스 생성
+        let verse = Verse(book: book, text: verseTextView.text, pageNumber: pageNumber, pageType: .page, keywords: keywords)
+        
+        // TODO: 생성된 Verse 인스턴스를 어딘가에 저장하기
+        print(verse)
+        // 저장이 완료되었다는 메시지
+        showAlert(title: "저장 완료", message: "구절이 성공적으로 저장되었습니다.")
     }
     
     func showAlert(title: String, message: String) {
