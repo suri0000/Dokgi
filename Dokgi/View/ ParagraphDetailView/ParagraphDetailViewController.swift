@@ -22,7 +22,7 @@ class ParagraphDetailViewController: UIViewController {
     }
     
     lazy var titleLbl = UILabel().then {
-        $0.text = self.viewModel.paragraph?.bookName
+        $0.text = self.viewModel.paragraph?.name
         $0.font = Pretendard.semibold.dynamicFont(style: .title3)
     }
     
@@ -112,11 +112,11 @@ class ParagraphDetailViewController: UIViewController {
     
     func dataBinding() {
         viewModel.detailParagraph.subscribe(with: self) { (self, data) in
-            self.viewModel.paragraph = data
-            self.viewModel.previous = data.paragraph
-            self.titleLbl.text = data.bookName
-            self.containerView.paragrapTextLbl.text = data.paragraph
-            self.containerView.pageWriteLbl.text = data.page
+            self.viewModel.paragraph? = data
+            self.viewModel.previous = data.text
+            self.titleLbl.text = data.name
+            self.containerView.paragrapTextLbl.text = data.text
+            self.containerView.pageWriteLbl.text = "\(data.pageNumber) \(data.pageType)"
             self.containerView.writeDateDay.text = data.date.formatted()
         }.disposed(by: disposeBag)
         
@@ -164,14 +164,14 @@ class ParagraphDetailViewController: UIViewController {
 
 extension ParagraphDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.paragraph?.keyword.count ?? 0
+        return viewModel.paragraph?.keywords.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: KeywordCollectionViewCell.identifier, for: indexPath) as? KeywordCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.keywordLbl.text = viewModel.paragraph?.keyword[indexPath.row]
+        cell.keywordLbl.text = viewModel.paragraph?.keywords[indexPath.row]
         cell.xBtn.rx.tap.subscribe(with: self) { (self, data) in
             self.viewModel.deleteDetailKeyword(keyword: indexPath.row)
             self.containerView.keywordCollectionView.reloadData()
