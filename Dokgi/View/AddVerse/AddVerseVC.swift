@@ -97,7 +97,7 @@ class AddVerseVC: UIViewController {
         $0.layer.borderWidth = 1.0
         $0.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.7).cgColor
         $0.textContainerInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
-        $0.font = Pretendard.bold.dynamicFont(style: .footnote)
+        $0.font = Pretendard.regular.dynamicFont(style: .footnote)
         $0.textColor = .placeholderText
         $0.layer.cornerRadius = 8
         $0.showsVerticalScrollIndicator = false
@@ -145,26 +145,27 @@ class AddVerseVC: UIViewController {
         $0.borderStyle = .roundedRect
     }
     
-    let percentageButton = UIButton().then {
-        $0.setTitle("%", for: .normal)
-        $0.titleLabel?.font = Pretendard.bold.dynamicFont(style: .footnote)
-        $0.setTitleColor(UIColor(named: "CharcoalBlue"), for: .normal)
-        $0.layer.cornerRadius = 15
-        $0.layer.borderWidth = 1.0 // 테두리 두께 설정
+    let segmentedControl = UISegmentedControl(items: ["%", "Page"]).then {
+        $0.selectedSegmentIndex = 0 // 초기 선택 세그먼트 인덱스
+        // 선택되지 않은 상태의 폰트 및 색상 설정
+        $0.setTitleTextAttributes([
+            .font: Pretendard.bold.dynamicFont(style: .footnote),
+            .foregroundColor: UIColor(named: "CharcoalBlue") ?? .black
+        ], for: .normal)
+        
+        // 선택된 상태의 폰트 및 색상 설정
+        $0.setTitleTextAttributes([
+            .font: Pretendard.bold.dynamicFont(style: .footnote),
+            .foregroundColor: UIColor.white
+        ], for: .selected)
+        
+        $0.selectedSegmentTintColor = UIColor(named: "CharcoalBlue")
+        $0.layer.cornerRadius = 20
+        $0.layer.borderWidth = 0.7
         if let charcoalBlueColor = UIColor(named: "CharcoalBlue") {
             $0.layer.borderColor = charcoalBlueColor.cgColor
         }
-    }
-
-    let pageButton = UIButton().then {
-        $0.setTitle("Page", for: .normal)
-        $0.titleLabel?.font = Pretendard.bold.dynamicFont(style: .footnote)
-        $0.setTitleColor(.black, for: .normal)
-        $0.layer.cornerRadius = 15
-        $0.layer.borderWidth = 1.0
-        if let charcoalBlueColor = UIColor(named: "CharcoalBlue") {
-            $0.layer.borderColor = charcoalBlueColor.cgColor
-        }
+        $0.clipsToBounds = true
     }
     
     let recordButton = UIButton().then {
@@ -192,8 +193,7 @@ class AddVerseVC: UIViewController {
         viewInScroll.addSubview(keywordCollectionView)
         viewInScroll.addSubview(pageLabel)
         viewInScroll.addSubview(pageNumberTextField)
-        viewInScroll.addSubview(percentageButton)
-        viewInScroll.addSubview(pageButton)
+        viewInScroll.addSubview(segmentedControl)
         viewInScroll.addSubview(recordButton)
     }
     
@@ -294,18 +294,11 @@ class AddVerseVC: UIViewController {
             $0.height.equalTo(30)
         }
         
-        percentageButton.snp.makeConstraints {
+        segmentedControl.snp.makeConstraints {
             $0.centerY.equalTo(pageLabel.snp.centerY)
-            $0.trailing.equalTo(pageButton.snp.leading).offset(-8)
-            $0.width.equalTo(60)
-            $0.height.equalTo(pageLabel.snp.height)
-        }
-        
-        pageButton.snp.makeConstraints {
-            $0.centerY.equalTo(percentageButton.snp.centerY)
             $0.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
-            $0.width.equalTo(60)
-            $0.height.equalTo(percentageButton.snp.height)
+            $0.height.equalTo(30)
+            $0.width.equalTo(120)
         }
         
         recordButton.snp.makeConstraints {
@@ -321,8 +314,7 @@ class AddVerseVC: UIViewController {
     func setupActions() {
         scanButton.addTarget(self, action: #selector(scanButtonTapped(_:)), for: .touchUpInside)
         searchButton.addTarget(self, action: #selector(searchButtonTapped(_:)), for: .touchUpInside)
-        percentageButton.addTarget(self, action: #selector(percentageButtonTapped(_:)), for: .touchUpInside)
-        pageButton.addTarget(self, action: #selector(pageButtonTapped(_:)), for: .touchUpInside)
+        segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
         recordButton.addTarget(self, action: #selector(recordButtonTapped(_:)), for: .touchUpInside)
     }
     
@@ -353,13 +345,17 @@ class AddVerseVC: UIViewController {
         present(bookSearchVC, animated: true, completion: nil)
     }
     
-    @objc func percentageButtonTapped(_ sender: UIButton) {
-        print("% 버튼이 눌렸습니다.")
-    }
-    
-    @objc func pageButtonTapped(_ sender: UIButton) {
-        // 구절 스캔 버튼이 눌렸을 때 실행될 액션 구현
-        print("page 버튼이 눌렸습니다.")
+    @objc func segmentedControlValueChanged(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0: // "%"
+            // "%"가 선택되었을 때 수행할 동작
+            print("%가 선택되었습니다.")
+        case 1: // "Page"
+            // "Page"가 선택되었을 때 수행할 동작
+            print("Page가 선택되었습니다.")
+        default:
+            break
+        }
     }
     
     @objc func recordButtonTapped(_ sender: UIButton) {
