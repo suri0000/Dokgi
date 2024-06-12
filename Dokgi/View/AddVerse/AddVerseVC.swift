@@ -15,11 +15,11 @@ protocol BookSelectionDelegate: AnyObject {
     func didSelectBook(_ book: Item)
 }
 
-class AddVerseVC: UIViewController, UITextFieldDelegate {
+class AddVerseVC: UIViewController {
     
     var selectedBook: Item?
     var images: [UIImage] = []
-    var keywords: [String] = ["Example1", "Example2", "Example3", "Example4", "Example5"]
+    var keywords: [String] = []
     weak var delegate: BookSelectionDelegate?
     
     override func viewDidLoad() {
@@ -431,21 +431,23 @@ class AddVerseVC: UIViewController, UITextFieldDelegate {
         keywords.remove(at: indexPath.item)
         keywordCollectionView.deleteItems(at: [indexPath])
     }
-    
+}
+// MARK: - UITextFieldDelegate
+extension AddVerseVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         print("Return key pressed") // 로그 추가
         if let keyword = textField.text, !keyword.isEmpty {
             print("Keyword: \(keyword)") // 로그 추가
-            keywords.append(keyword) // 키워드를 배열에 추가
-            keywordCollectionView.reloadData() // 컬렉션 뷰 업데이트
-            textField.text = "" // 텍스트 필드 비우기
+            keywords.append(keyword)
+            keywordCollectionView.reloadData()
+            textField.text = ""
         }
-        textField.resignFirstResponder() // 키보드 내리기
+        textField.resignFirstResponder()
         return true
     }
 }
 
-// MARK: - CollectionView 관련
+// MARK: - CollectionView
 extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -466,7 +468,7 @@ extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     }
 }
 
-// MARK: - 텍스트뷰 placeholder 관련
+// MARK: - 텍스트뷰 placeholder
 extension AddVerseVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         guard textView.textColor == .placeholderText else { return }
@@ -493,7 +495,7 @@ extension AddVerseVC: UITextViewDelegate {
     }
 }
 
-
+// MARK: - 스캔
 extension AddVerseVC: VNDocumentCameraViewControllerDelegate {
     func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
         let image = scan.imageOfPage(at: 0)
