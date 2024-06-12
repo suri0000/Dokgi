@@ -39,13 +39,21 @@ class AddVerseVC: UIViewController {
     
     let viewInScroll = UIView()
     
-    let scanButton = UIButton().then {
-        $0.setTitle("구절 스캔", for: .normal)
-        $0.titleLabel?.font = Pretendard.bold.dynamicFont(style: .subheadline)
-        $0.setTitleColor(UIColor(named: "CharcoalBlue"), for: .normal)
-        $0.backgroundColor = .lightSkyBlue
-        $0.setImage(UIImage(named: "camera.viewfinder")?.withTintColor(UIColor(named: "CharcoalBlue") ?? .black, renderingMode: .alwaysOriginal), for: .normal)
-        $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
+    let scanButton = UIButton(configuration: .filled(), primaryAction: nil).then {
+        $0.configurationUpdateHandler = { button in
+            var configuration = button.configuration
+            configuration?.title = "구절 스캔"
+            configuration?.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+                var outgoing = incoming
+                outgoing.font = Pretendard.bold.dynamicFont(style: .subheadline)
+                return outgoing
+            }
+            configuration?.baseForegroundColor = UIColor(named: "CharcoalBlue")
+            configuration?.baseBackgroundColor = .lightSkyBlue
+            configuration?.image = UIImage(named: "camera.viewfinder")?.withTintColor(UIColor(named: "CharcoalBlue") ?? .black, renderingMode: .alwaysOriginal)
+            configuration?.imagePadding = 10
+            button.configuration = configuration
+        }
         $0.layer.cornerRadius = 18
     }
 
