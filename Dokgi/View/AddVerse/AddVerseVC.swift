@@ -571,6 +571,7 @@ extension AddVerseVC: VNDocumentCameraViewControllerDelegate {
     }
 }
 
+// MARK: - 스캔
 extension AddVerseVC: BookSelectionDelegate {
     func didSelectBook(_ book: Item) {
         self.selectedBook = book
