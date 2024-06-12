@@ -245,7 +245,7 @@ class AddVerseVC: UIViewController {
         searchButton.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.height.equalTo(35)
-            $0.horizontalEdges.equalTo(viewInScroll).inset(140)
+            $0.width.equalTo(112)
         }
         
         imageView.snp.makeConstraints {
