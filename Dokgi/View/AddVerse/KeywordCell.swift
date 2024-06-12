@@ -48,6 +48,8 @@ class KeywordCell: UICollectionViewCell {
             $0.width.height.equalTo(20)
         }
         
+        layer.cornerRadius = 10
+        
         deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
     }
     
