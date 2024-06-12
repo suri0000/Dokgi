@@ -50,13 +50,10 @@ class BookManager {
             }
             
             do {
-                // JSON 응답 출력
                 if let json = try? JSONSerialization.jsonObject(with: data, options: []) {
-                    print("Raw JSON response: \(json)")
                 }
                 
                 let response = try JSONDecoder().decode(SearchBookResponse.self, from: data)
-                print("response: \(response)")
                 completion(.success(response))
             } catch {
                 print("Decoding error: \(error)")

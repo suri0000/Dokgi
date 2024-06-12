@@ -83,8 +83,8 @@ class AddVerseVC: UIViewController {
     var imageView = UIImageView().then {
         $0.image = UIImage(named: "emptyImage")?.withRenderingMode(.alwaysTemplate)
         $0.tintColor = UIColor(named: "LightGray")
-        $0.contentMode = .scaleAspectFit
         $0.layer.cornerRadius = 15
+        $0.backgroundColor = .gray
     }
     
     var titleLabel = UILabel().then {
@@ -98,6 +98,7 @@ class AddVerseVC: UIViewController {
         $0.text = "저자"
         $0.font = Pretendard.bold.dynamicFont(style: .body)
         $0.textColor = UIColor(named: "BookTextGray")
+        $0.numberOfLines = 2
     }
     
     lazy var verseTextView = UITextView().then {
@@ -225,7 +226,7 @@ class AddVerseVC: UIViewController {
         }
         
         scanButton.snp.makeConstraints {
-            $0.top.equalTo(viewInScroll.snp.top).offset(10)
+            $0.top.equalTo(viewInScroll.snp.top).offset(16)
             $0.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
             $0.width.equalTo(112)
             $0.height.equalTo(35)
@@ -248,10 +249,10 @@ class AddVerseVC: UIViewController {
         }
         
         imageView.snp.makeConstraints {
-            $0.leading.equalTo(infoView.snp.leading).offset(16)
+            $0.leading.equalTo(infoView.snp.leading)
             $0.centerY.equalTo(infoView.snp.centerY)
-            $0.width.equalTo(120)
-            $0.height.equalTo(170)
+            $0.width.equalTo(103)
+            $0.height.equalTo(146)
         }
         
         titleLabel.snp.makeConstraints {
@@ -440,7 +441,6 @@ class AddVerseVC: UIViewController {
             authorLabel.text = book.author
             if let url = URL(string: book.image) {
                 imageView.kf.setImage(with: url)
-                imageView.layer.cornerRadius = 15
             }
         }
         overlayView.isHidden = true
