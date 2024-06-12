@@ -43,7 +43,6 @@ class HomeViewController: UIViewController {
         view.showsHorizontalScrollIndicator = false
         view.backgroundColor = .clear
         view.isPagingEnabled = true
-//        view.isUserInteractionEnabled = true
         view.register(TodayVersesCell.self, forCellWithReuseIdentifier: TodayVersesCell.identifier)
         return view
     }()
@@ -58,7 +57,6 @@ class HomeViewController: UIViewController {
         }
     }
     var indicatorDots = UIPageControl()
-   
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,6 +65,7 @@ class HomeViewController: UIViewController {
         configureUI()
         setupCollectionView()
         bindViewModel()
+        configureNavigationBar()
         
     }
     
@@ -308,6 +307,18 @@ class HomeViewController: UIViewController {
             nowPage += 1
             todayVersesColletionView.scrollToItem(at: NSIndexPath(item: nowPage, section: 0) as IndexPath, at: .right, animated: true)
         }
+    }
+    
+    // 홈 상단에 설정 페이지 이동
+    private func configureNavigationBar() {
+        let rightBarButton = UIBarButtonItem(image: UIImage(named: "setting"), style: .plain, target: self, action: #selector(didTapSetting))
+        rightBarButton.tintColor = .charcoalBlue
+        self.navigationItem.rightBarButtonItem = rightBarButton
+    }
+    
+    @objc func didTapSetting() {
+        let settingVC = SettingViewController()
+        self.navigationController?.pushViewController(settingVC, animated: true)
     }
 }
 
