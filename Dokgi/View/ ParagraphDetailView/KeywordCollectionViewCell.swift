@@ -33,7 +33,7 @@ class KeywordCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor(named: "LavenderBlue")
+        self.backgroundColor = UIColor(named: "LightSkyBlue")
         self.layer.cornerRadius = 10
         self.clipsToBounds = true
         setupLayout()

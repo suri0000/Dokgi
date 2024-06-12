@@ -73,14 +73,14 @@ class CoreDataManager {
             let paragraphs = try context.fetch(requestParagraph)
             let keywords = try context.fetch(requestKeyword)
             var tmpParagraph = [Paragraph]()
-            var tmpKeyword = [String]()
+            var tmpKeyword = [String:[String]]()
             
             for keyword in keywords {
-                tmpKeyword.append(keyword.keyword!)
+                tmpKeyword[(keyword.paragraph?.paragraph)!]?.append(keyword.keyword!)
             }
             
             for paragraph in paragraphs {
-                tmpParagraph.append(Paragraph(bookId: (paragraph.book?.id)!, bookName: (paragraph.book?.name)!, bookAuthor: (paragraph.book?.author)!, paragraph: paragraph.paragraph!, page: paragraph.page!, date: paragraph.date!, keyword: tmpKeyword))
+                tmpParagraph.append(Paragraph(bookId: (paragraph.book?.id)!, bookName: (paragraph.book?.name)!, bookAuthor: (paragraph.book?.author)!, paragraph: paragraph.paragraph!, page: paragraph.page!, date: paragraph.date!, keyword: tmpKeyword[paragraph.paragraph!] ?? []))
             }
             
             CoreDataManager.shared.paragraphData.accept(tmpParagraph)
@@ -103,14 +103,14 @@ class CoreDataManager {
             
             var tmpBook = [Book]()
             var tmpParagraph = [Paragraph]()
-            var tmpKeyword = [String]()
+            var tmpKeyword = [String:[String]]()
             
             for keyword in keywords {
-                tmpKeyword.append(keyword.keyword!)
+                tmpKeyword[(keyword.paragraph?.paragraph)!]?.append(keyword.keyword!)
             }
             
             for paragraph in paragraphs {
-                tmpParagraph.append(Paragraph(bookId: (paragraph.book?.id)!, bookName: (paragraph.book?.name)!, bookAuthor: (paragraph.book?.author)!, paragraph: paragraph.paragraph!, page: paragraph.page!, date: paragraph.date!, keyword: tmpKeyword))
+                tmpParagraph.append(Paragraph(bookId: (paragraph.book?.id)!, bookName: (paragraph.book?.name)!, bookAuthor: (paragraph.book?.author)!, paragraph: paragraph.paragraph!, page: paragraph.page!, date: paragraph.date!, keyword: tmpKeyword[paragraph.paragraph!] ?? []))
             }
             
             for book in books {

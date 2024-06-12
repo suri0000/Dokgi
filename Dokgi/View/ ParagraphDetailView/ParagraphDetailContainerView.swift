@@ -13,7 +13,7 @@ class ParagraphDetailContainerView: UIView {
     let textView = UIView().then {
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 20
-        $0.backgroundColor = UIColor(named: "LavenderBlue")
+        $0.backgroundColor = UIColor(named: "LightPastelBlue")
     }
     
     lazy var paragrapTextLbl = UILabel().then {
@@ -91,7 +91,6 @@ class ParagraphDetailContainerView: UIView {
     
     let keywordTextField = UITextField().then {
         $0.font = Pretendard.regular.dynamicFont(style: .callout)
-        $0.textColor = UIColor(named: "TextFieldGray")
         $0.placeholder = "키워드를 입력해 주세요"
         $0.layer.cornerRadius = 10
         $0.layer.borderWidth = 1
