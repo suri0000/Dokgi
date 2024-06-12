@@ -19,8 +19,11 @@ class KeywordCell: UICollectionViewCell {
     }
     
     private let deleteButton = UIButton().then {
-        $0.setTitle("x", for: .normal)
-        $0.setTitleColor(UIColor(named: "BrightBlue"), for: .normal)
+        if let image = UIImage(named: "deleteRecentSearche") {
+            let templateImage = image.withRenderingMode(.alwaysTemplate)
+            $0.setImage(templateImage, for: .normal)
+        }
+        $0.tintColor = UIColor(named: "BrightBlue")
     }
     
     override init(frame: CGRect) {
