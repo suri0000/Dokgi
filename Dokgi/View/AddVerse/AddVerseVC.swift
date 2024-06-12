@@ -331,7 +331,6 @@ class AddVerseVC: UIViewController {
     func setupActions() {
         scanButton.addTarget(self, action: #selector(scanButtonTapped(_:)), for: .touchUpInside)
         searchButton.addTarget(self, action: #selector(searchButtonTapped(_:)), for: .touchUpInside)
-        segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
         recordButton.addTarget(self, action: #selector(recordButtonTapped(_:)), for: .touchUpInside)
     }
     
@@ -360,19 +359,6 @@ class AddVerseVC: UIViewController {
         let bookSearchVC = BookSearchVC()
         bookSearchVC.delegate = self
         present(bookSearchVC, animated: true, completion: nil)
-    }
-    
-    @objc func segmentedControlValueChanged(_ sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case 0: // "%"
-            // "%"가 선택되었을 때 수행할 동작
-            print("%가 선택되었습니다.")
-        case 1: // "Page"
-            // "Page"가 선택되었을 때 수행할 동작
-            print("Page가 선택되었습니다.")
-        default:
-            break
-        }
     }
     
     @objc func recordButtonTapped(_ sender: UIButton) {
