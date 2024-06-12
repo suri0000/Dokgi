@@ -5,12 +5,15 @@
 //  Created by 송정훈 on 6/9/24.
 //
 
+import RxCocoa
+import RxSwift
 import SnapKit
 import Then
 import UIKit
 
 class KeywordCollectionViewCell: UICollectionViewCell {
     static let identifier = "KeywordCollectionViewCell"
+    var disposeBag = DisposeBag()
     
     let stackView = UIStackView().then {
         $0.axis = .horizontal
@@ -51,5 +54,10 @@ class KeywordCollectionViewCell: UICollectionViewCell {
             $0.horizontalEdges.equalToSuperview().inset(10)
             $0.verticalEdges.equalToSuperview().inset(5)
         }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
     }
 }

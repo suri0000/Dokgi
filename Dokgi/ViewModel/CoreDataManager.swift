@@ -185,7 +185,7 @@ class CoreDataManager {
         }
     }
     
-    func updateParagraph(paragraph: Paragraph) {
+    func updateParagraph(paragraph: Paragraph, text: String) {
         guard let context = self.persistent?.viewContext else { return }
         let fetchRequest: NSFetchRequest<BookEntity> = BookEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %d", paragraph.bookId)
@@ -194,7 +194,7 @@ class CoreDataManager {
             let books = try context.fetch(fetchRequest)
             if books.first != nil {
                 let request: NSFetchRequest<ParagraphEntity> = ParagraphEntity.fetchRequest()
-                request.predicate = NSPredicate(format: "paragraph == %@", paragraph.paragraph)
+                request.predicate = NSPredicate(format: "paragraph == %@", text)
                 let paragraphRequest = try context.fetch(request)
                 if let paragraphFirst = paragraphRequest.first {
                     paragraphFirst.paragraph = paragraph.paragraph

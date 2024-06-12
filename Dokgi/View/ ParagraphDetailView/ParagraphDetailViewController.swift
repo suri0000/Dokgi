@@ -11,16 +11,18 @@ import SnapKit
 import Then
 import UIKit
 
-class ParagrapViewController: UIViewController {
+class ParagraphDetailViewController: UIViewController {
     let disposeBag = DisposeBag()
+    
+    let viewModel = ParagraphDetailViewModel()
     
     let titleStack = UIStackView().then {
         $0.axis = .horizontal
         $0.distribution = .equalSpacing
     }
     
-    let titleLbl = UILabel().then {
-        $0.text = "눈물의 여왕"
+    lazy var titleLbl = UILabel().then {
+        $0.text = self.viewModel.paragraph?.bookName
         $0.font = Pretendard.semibold.dynamicFont(style: .title3)
     }
     
@@ -46,7 +48,7 @@ class ParagrapViewController: UIViewController {
         $0.showsVerticalScrollIndicator = false
     }
     
-    let containerView = ParagrapContainerView()
+    lazy var containerView = ParagraphDetailContainerView()
     
     let smallId = UISheetPresentationController.Detent.Identifier("small")
     lazy var smallDetent = UISheetPresentationController.Detent.custom(identifier: smallId) { context in
@@ -74,6 +76,7 @@ class ParagrapViewController: UIViewController {
         containerView.keywordCollectionView.register(KeywordCollectionViewCell.self, forCellWithReuseIdentifier: KeywordCollectionViewCell.identifier)
         setupLayout()
         dataBinding()
+        ParagraphDetailViewModel.detailParagraph.accept(Paragraph(bookId: 0, bookName: "논어", bookAuthor: "공자", paragraph: "군자는 화합을 잘하지만 같아지기를 바라지않고", page: "200", date: Date(), keyword: ["군자", "화합", "good"]))
     }
     
     // MARK: - Layout
@@ -109,6 +112,15 @@ class ParagrapViewController: UIViewController {
     }
     
     func dataBinding() {
+        ParagraphDetailViewModel.detailParagraph.subscribe(with: self) { (self, data) in
+            self.viewModel.paragraph = data
+            self.viewModel.previous = data.paragraph
+            self.titleLbl.text = data.bookName
+            self.containerView.paragrapTextLbl.text = data.paragraph
+            self.containerView.pageWriteLbl.text = data.page
+            self.containerView.writeDateDay.text = data.date.formatted()
+        }.disposed(by: disposeBag)
+        
         self.xBtn.rx.tap.subscribe { [weak self] _ in
             guard let self = self else {return}
             self.dismiss(animated: true)
@@ -132,6 +144,7 @@ class ParagrapViewController: UIViewController {
                 self.editBtn.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
                 self.editBtn.setTitleColor(.black, for: .normal)
                 self.editBtn.setImage(UIImage(named: "modalEdit"), for: .normal)
+                self.viewModel.saveDetail(str: self.containerView.paragrapTextField.text)
             }
         }.disposed(by: disposeBag)
         
@@ -144,18 +157,30 @@ class ParagrapViewController: UIViewController {
             guard let self = self else {return}
             self.containerView.keywordTextLimit(text)
         }.disposed(by: disposeBag)
+        
+        containerView.keywordTextField.rx.controlEvent(.editingDidEnd).subscribe(with: self) { (self, _) in
+            if let text = self.containerView.keywordTextField.text {
+                self.viewModel.addDetailKeyword(keyword: text)
+                self.containerView.keywordCollectionView.reloadData()
+            }
+        }.disposed(by: disposeBag)
     }
 }
 
-extension ParagrapViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension ParagraphDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return viewModel.paragraph?.keyword.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: KeywordCollectionViewCell.identifier, for: indexPath) as? KeywordCollectionViewCell else {
             return UICollectionViewCell()
         }
+        cell.keywordLbl.text = viewModel.paragraph?.keyword[indexPath.row]
+        cell.xBtn.rx.tap.subscribe(with: self) { (self, data) in
+            self.viewModel.deleteDetailKeyword(keyword: indexPath.row)
+            self.containerView.keywordCollectionView.reloadData()
+        }.disposed(by: cell.disposeBag)
         if self.editBtn.titleLabel?.text == "수정하기" {
             cell.xBtn.isHidden = true
         } else {
