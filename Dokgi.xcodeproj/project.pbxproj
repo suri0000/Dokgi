@@ -185,6 +185,16 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
+		3C73E2972C1889F6004B1BF8 /* HomeView */ = {
+			isa = PBXGroup;
+			children = (
+				3C208EAB2C0F378000CED104 /* HomeViewController.swift */,
+				3C627A432C143B2000513292 /* CurrentLevelCollectionFlowLayout.swift */,
+				3C208EAD2C0F63DF00CED104 /* CurrentLevelCell.swift */,
+			);
+			path = HomeView;
+			sourceTree = "<group>";
+		};
 		7BE488B02C16E21E00BDB92A /* LibraryView */ = {
 			isa = PBXGroup;
 			children = (
@@ -290,9 +300,7 @@
 				AB355D592C1871E900B3DE16 /* AddVerse */,
 				A74874652C0D7E0700B830EE /* ViewController.swift */,
 				AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */,
-				3C208EAB2C0F378000CED104 /* HomeViewController.swift */,
-				3C627A432C143B2000513292 /* CurrentLevelCollectionFlowLayout.swift */,
-				3C208EAD2C0F63DF00CED104 /* CurrentLevelCell.swift */,
+				3C73E2972C1889F6004B1BF8 /* HomeView */,
 			);
 			path = View;
 			sourceTree = "<group>";
