@@ -363,8 +363,28 @@ class AddVerseVC: UIViewController {
     }
     
     @objc func recordButtonTapped(_ sender: UIButton) {
-        // 구절 스캔 버튼이 눌렸을 때 실행될 액션 구현
         print("기록하기 버튼이 눌렸습니다.")
+        if searchButton.isHidden == false {
+            showAlert(title: "책 정보 기록", message: "책 검색을 눌러 책 정보를 기록해주세요")
+            return
+        }
+        
+        if verseTextView.text.isEmpty || verseTextView.text == "텍스트를 입력하세요" {
+            showAlert(title: "구절 입력", message: "구절을 입력해 주세요")
+            return
+        }
+        
+        if pageNumberTextField.text?.isEmpty == true {
+            showAlert(title: "페이지", message: "페이지를 입력해 주세요")
+            return
+        }
+    }
+    
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
     }
     
     // 텍스트 속성을 설정하는 함수
@@ -462,10 +482,6 @@ extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         cell.backgroundColor = UIColor(named: "LightSkyBlue")
         return cell
     }
-    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: 120, height: 40)
-//    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
             // 특정 indexPath에 해당하는 키워드의 문자열을 가져옵니다.
