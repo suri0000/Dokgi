@@ -117,6 +117,11 @@ class AddVerseVC: UIViewController {
         $0.font = Pretendard.bold.dynamicFont(style: .footnote)
     }
     
+    private let pencilImageView = UIImageView().then {
+        $0.image = UIImage(named: "pencil")
+        $0.contentMode = .scaleAspectFit
+    }
+    
     let keywordLabel = UILabel().then {
         $0.attributedText = AddVerseVC.createAttributedString(for: "키워드 (선택)")
         $0.textAlignment = .left
@@ -196,6 +201,7 @@ class AddVerseVC: UIViewController {
         overlayView.addSubview(searchButton)
         viewInScroll.addSubview(verseTextView)
         viewInScroll.addSubview(characterCountLabel)
+        viewInScroll.addSubview(pencilImageView)
         viewInScroll.addSubview(keywordLabel)
         viewInScroll.addSubview(keywordField)
         viewInScroll.addSubview(keywordCollectionView)
@@ -270,7 +276,12 @@ class AddVerseVC: UIViewController {
         
         characterCountLabel.snp.makeConstraints {
             $0.trailing.equalTo(verseTextView.snp.trailing).offset(-16)
+            $0.bottom.equalTo(verseTextView.snp.bottom).offset(-16)
+        }
+        
+        pencilImageView.snp.makeConstraints {
             $0.bottom.equalTo(verseTextView.snp.bottom).offset(-8)
+            $0.leading.equalTo(verseTextView.snp.leading).offset(8)
         }
         
         keywordLabel.snp.makeConstraints {
