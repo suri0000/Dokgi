@@ -12,6 +12,7 @@ enum Pretendard: String {
     case medium = "Pretendard-Medium"
     case regular = "Pretendard-Regular"
     case semibold = "Pretendard-SemiBold"
+    case extrabold = "Pretendard-ExtraBold"
     
     func dynamicFont(style: UIFont.TextStyle) -> UIFont {
         let desc = UIFontDescriptor.preferredFontDescriptor(withTextStyle: style)

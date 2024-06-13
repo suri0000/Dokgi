@@ -17,7 +17,7 @@ class LibrarySearchViewController: UIViewController {
     private let sortButton = UIButton()
     private let sortButtonImageView = UIImageView()
     private let sortButtonTitleLabel = UILabel()
-
+    
     let disposeBag = DisposeBag()
     
     private let sortMenuView = UIView()
@@ -30,6 +30,8 @@ class LibrarySearchViewController: UIViewController {
     
     private var isLatestFirst: Bool = true
     private var isOldestFirst: Bool = false
+    
+    private let emptyMessageLabel = UILabel()
     
     lazy var libraryCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -66,12 +68,10 @@ class LibrarySearchViewController: UIViewController {
         self.searchBar.rx.text.debounce(.seconds(1), scheduler: MainScheduler.instance).subscribe(with: self) { (self, text) in
             guard let text = text else { return }
             if text.isEmpty == true {
-                CoreDataManager.shared.getBookData()
-                print("dd")
+                CoreDataManager.shared.readData()
             } else {
-                CoreDataManager.shared.getBookData()
+                CoreDataManager.shared.readData()
                 CoreDataManager.shared.bookData.accept(CoreDataManager.shared.bookData.value.filter { $0.name.contains(text) })
-                print("ss")
             }
         }.disposed(by: disposeBag)
     }
@@ -120,10 +120,22 @@ class LibrarySearchViewController: UIViewController {
         
         latestFirstcheckImageView.image = UIImage(named: "check")
         oldestFirstcheckImageView.image = UIImage(named: "check")
+        
+        emptyMessageLabel.text = "기록한 책이 없어요\n구절을 등록해 보세요"
+        emptyMessageLabel.font = Pretendard.regular.dynamicFont(style: .subheadline)
+        emptyMessageLabel.textColor = .black
+        emptyMessageLabel.isHidden = true
+        emptyMessageLabel.numberOfLines = 0
+        let attrString = NSMutableAttributedString(string: emptyMessageLabel.text!)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+        paragraphStyle.lineSpacing = 4
+        attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attrString.length))
+        emptyMessageLabel.attributedText = attrString
     }
     
     private func setConstraints() {
-        [libraryLabel, searchBar, sortButton, sortMenuView, libraryCollectionView].forEach {
+        [libraryLabel, searchBar, sortButton, sortMenuView, libraryCollectionView, emptyMessageLabel].forEach {
             view.addSubview($0)
         }
         
@@ -220,7 +232,11 @@ class LibrarySearchViewController: UIViewController {
         
         libraryCollectionView.snp.makeConstraints {
             $0.top.equalTo(sortButton.snp.bottom).offset(20)
-            $0.bottom.leading.trailing.equalToSuperview().inset(0)
+            $0.bottom.leading.trailing.equalToSuperview()
+        }
+        
+        emptyMessageLabel.snp.makeConstraints {
+            $0.center.equalToSuperview()
         }
     }
     //MARK: - searchBar
@@ -270,9 +286,13 @@ class LibrarySearchViewController: UIViewController {
 }
 //MARK: -CollectionView
 extension LibrarySearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return CoreDataManager.shared.bookData.value.count
+        
+        let cellCount = CoreDataManager.shared.bookData.value.count
+        
+        emptyMessageLabel.isHidden = cellCount > 0
+        return cellCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

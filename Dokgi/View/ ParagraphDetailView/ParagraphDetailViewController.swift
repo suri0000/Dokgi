@@ -11,16 +11,17 @@ import SnapKit
 import Then
 import UIKit
 
-class ParagrapViewController: UIViewController {
+class ParagraphDetailViewController: UIViewController {
     let disposeBag = DisposeBag()
+    
+    let viewModel = ParagraphDetailViewModel()
     
     let titleStack = UIStackView().then {
         $0.axis = .horizontal
         $0.distribution = .equalSpacing
     }
     
-    let titleLbl = UILabel().then {
-        $0.text = "눈물의 여왕"
+    lazy var titleLbl = UILabel().then {
         $0.font = Pretendard.semibold.dynamicFont(style: .title3)
     }
     
@@ -46,7 +47,7 @@ class ParagrapViewController: UIViewController {
         $0.showsVerticalScrollIndicator = false
     }
     
-    let containerView = ParagrapContainerView()
+    lazy var containerView = ParagraphDetailContainerView()
     
     let smallId = UISheetPresentationController.Detent.Identifier("small")
     lazy var smallDetent = UISheetPresentationController.Detent.custom(identifier: smallId) { context in
@@ -69,8 +70,6 @@ class ParagrapViewController: UIViewController {
             sheet.preferredCornerRadius = 8
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
         }
-        containerView.keywordCollectionView.dataSource = self
-        containerView.keywordCollectionView.delegate = self
         containerView.keywordCollectionView.register(KeywordCollectionViewCell.self, forCellWithReuseIdentifier: KeywordCollectionViewCell.identifier)
         setupLayout()
         dataBinding()
@@ -109,58 +108,63 @@ class ParagrapViewController: UIViewController {
     }
     
     func dataBinding() {
-        self.xBtn.rx.tap.subscribe { [weak self] _ in
-            guard let self = self else {return}
+        viewModel.detailParagraph.subscribe(with: self) { (self, data) in
+            self.titleLbl.text = data.name
+            self.containerView.paragrapTextLbl.text = data.text
+            self.containerView.pageWriteLbl.text = "\(data.pageNumber) \(data.pageType)"
+            self.containerView.writeDateDay.text = data.date.formatted()
+        }.disposed(by: disposeBag)
+        
+        self.xBtn.rx.tap.subscribe(with: self) { (self, _) in
             self.dismiss(animated: true)
         }.disposed(by: disposeBag)
         
-        self.editBtn.rx.tap.subscribe { [weak self] _ in
-            guard let self = self else {return}
+        self.editBtn.rx.tap.subscribe(with: self) { (self, _) in
             if self.editBtn.titleLabel?.text == "수정하기" {
-                self.containerView.keywordCollectionView.reloadData()
                 self.containerView.editLayout()
-                self.sheetPresentationController?.detents = [largeDetent]
+                self.sheetPresentationController?.detents = [self.largeDetent]
                 self.editBtn.setTitle("완료", for: .normal)
                 self.editBtn.titleLabel?.font = Pretendard.semibold.dynamicFont(style: .callout)
                 self.editBtn.setTitleColor(UIColor(named: "SkyBlue"), for: .normal)
                 self.editBtn.setImage(nil, for: .normal)
             } else {
-                self.containerView.keywordCollectionView.reloadData()
                 self.containerView.editCompleteLayout()
-                self.sheetPresentationController?.detents = [smallDetent]
+                self.sheetPresentationController?.detents = [self.smallDetent]
                 self.editBtn.setTitle("수정하기", for: .normal)
                 self.editBtn.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
                 self.editBtn.setTitleColor(.black, for: .normal)
                 self.editBtn.setImage(UIImage(named: "modalEdit"), for: .normal)
+                self.viewModel.saveDetail(paragraph: self.containerView.paragrapTextField.text)
             }
         }.disposed(by: disposeBag)
         
-        containerView.paragrapTextField.rx.text.orEmpty.subscribe { [weak self] text in
-            guard let self = self else {return}
+        containerView.paragrapTextField.rx.text.orEmpty.subscribe(with: self) { (self, text) in
             self.containerView.paragrapTextLimit(text)
         }.disposed(by: disposeBag)
         
-        containerView.keywordTextField.rx.text.orEmpty.subscribe { [weak self] text in
-            guard let self = self else {return}
+        containerView.keywordTextField.rx.text.orEmpty.subscribe(with: self) { (self, text) in
             self.containerView.keywordTextLimit(text)
         }.disposed(by: disposeBag)
-    }
-}
-
-extension ParagrapViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: KeywordCollectionViewCell.identifier, for: indexPath) as? KeywordCollectionViewCell else {
-            return UICollectionViewCell()
-        }
-        if self.editBtn.titleLabel?.text == "수정하기" {
-            cell.xBtn.isHidden = true
-        } else {
-            cell.xBtn.isHidden = false
-        }
-        return cell
+        
+        containerView.keywordTextField.rx.controlEvent(.editingDidEnd).subscribe(with: self) { (self, _) in
+            if let text = self.containerView.keywordTextField.text {
+                self.viewModel.addDetailKeyword(keyword: text)
+                self.containerView.keywordTextField.text = ""
+            }
+        }.disposed(by: disposeBag)
+        
+        viewModel.detailParagraph.map{ $0.keywords }.bind(to: containerView.keywordCollectionView.rx.items(cellIdentifier: KeywordCollectionViewCell.identifier,
+                   cellType: KeywordCollectionViewCell.self)) { row, data, cell in
+            cell.keywordLbl.text = data
+            cell.xBtn.rx.tap.subscribe(with: self) { (self, data) in
+                self.viewModel.deleteDetailKeyword(keyword: row)
+            }.disposed(by: cell.disposeBag) // TODO: 혼나기..
+            
+            if self.editBtn.titleLabel?.text == "수정하기" {
+                cell.xBtn.isHidden = true
+            } else {
+                cell.xBtn.isHidden = false
+            }
+        }.disposed(by: disposeBag)
     }
 }

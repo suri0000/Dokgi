@@ -26,7 +26,7 @@ class TabBarVC: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        tabBar.backgroundColor = .white
         
         view.addSubview(floatButton)
         floatButton.addTarget(self, action: #selector(didTabButton), for: .touchUpInside)
@@ -44,10 +44,11 @@ class TabBarVC: UITabBarController {
         myLibraryVC.tabBarItem = UITabBarItem(title: "내 서재", image: UIImage(named: "tabBarMyLibrary"), tag: 2)
 
         // 탭바 컨트롤러에 뷰 컨트롤러 설정
-        viewControllers = [homePageVC, verseVC, myLibraryVC]
+        let controllers = [homePageVC, verseVC, myLibraryVC]
+        setViewControllers(controllers, animated: true)
 
         // 탭 바의 색상 설정
-        UITabBar.appearance().tintColor = UIColor.black // 선택된 아이템
+        UITabBar.appearance().tintColor = UIColor.charcoalBlue // 선택된 아이템
         UITabBar.appearance().unselectedItemTintColor = .tabBarGray// 선택되지 않은 아이템
         
         // 탭바 상단 경계선

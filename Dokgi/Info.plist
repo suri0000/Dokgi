@@ -8,6 +8,7 @@
 		<string>Pretendard-Medium.otf</string>
 		<string>Pretendard-Regular.otf</string>
 		<string>Pretendard-SemiBold.otf</string>
+		<string>Pretendard-ExtraBold.otf</string>
 	</array>
 	<key>API_ID</key>
 	<string>$(naverClientID)</string>
@@ -30,7 +31,7 @@
 			</array>
 		</dict>
 	</dict>
-    <key>NSCameraUsageDescription</key>
-    <string>이 앱은 문서 스캔을 위해 카메라를 사용합니다.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>이 앱은 문서 스캔을 위해 카메라를 사용합니다.</string>
 </dict>
 </plist>

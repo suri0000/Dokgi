@@ -90,13 +90,13 @@ class CurrentLevelCell: UICollectionViewCell {
         levelView.layer.cornerRadius = 10
         
         levelLabel.textColor = .mediumSkyBlue
-        levelLabel.font = Pretendard.bold.dynamicFont(style: .caption1)
+        levelLabel.font = Pretendard.extrabold.dynamicFont(style: .caption1)
         
-        descrptionLabel.font = Pretendard.regular.dynamicFont(style: .footnote)
+        descrptionLabel.font = Pretendard.regular.dynamicFont(style: .callout)
         descrptionLabel.numberOfLines = 2
         
         lengthLabel.textColor = .mediumSkyBlue
-        lengthLabel.font = Pretendard.bold.dynamicFont(style: .largeTitle)
+        lengthLabel.font = Pretendard.extrabold.dynamicFont(style: .title1)
     }
     
     func setCellConfig(_ cardData: Card) {
