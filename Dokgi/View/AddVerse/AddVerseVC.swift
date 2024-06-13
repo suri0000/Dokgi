@@ -39,6 +39,7 @@ class AddVerseVC: UIViewController {
         setupActions()
         setupHideKeyboardOnTap()
         updateCharacterCountLabel()
+        setUserInfoTextField()
     }
     
     let scrollView = UIScrollView().then {
@@ -138,11 +139,14 @@ class AddVerseVC: UIViewController {
     }
     
     let keywordField = UITextField().then {
-        $0.placeholder = "키워드를 입력해 주세요"
-        $0.borderStyle = .roundedRect
-        $0.layer.masksToBounds = true
+        let placeholder = "키워드를 입력해 주세요"
+        $0.placeholder = placeholder
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 10
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = UIColor.lightGray.cgColor
     }
-    
+
     lazy var keywordCollectionView = UICollectionView(frame: .zero, collectionViewLayout: {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -444,6 +448,18 @@ class AddVerseVC: UIViewController {
         let okAction = UIAlertAction(title: "확인", style: .default)
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
+    }
+    
+    func setUserInfoTextField() {
+        keywordField.backgroundColor = .white
+        
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: keywordField.frame.height))
+        
+        keywordField.leftView = paddingView
+        keywordField.leftViewMode = .always
+        
+        keywordField.rightView = paddingView
+        keywordField.rightViewMode = .always
     }
     
     // 초기 텍스트뷰 글자 수 설정
