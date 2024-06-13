@@ -249,7 +249,7 @@ class AddVerseVC: UIViewController {
             $0.height.equalTo(35)
         }
         
-        infoView.snp.makeConstraints {            
+        infoView.snp.makeConstraints {
             $0.centerY.equalTo(viewInScroll.snp.top).offset(170)
             $0.horizontalEdges.equalTo(viewInScroll).inset(16)
             $0.height.equalTo(200)
@@ -520,11 +520,10 @@ class AddVerseVC: UIViewController {
 extension AddVerseVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let keyword = textField.text, !keyword.isEmpty {
-            keywords.append("")
-            keywords[keywords.count - 2] = keyword
+            keywords[keywords.count - 1] = keyword
             keywordCollectionView.reloadData()
-            textField.text = ""
         }
+        textField.text = ""
         textField.resignFirstResponder()
         return true
     }
@@ -543,6 +542,13 @@ extension AddVerseVC: UITextFieldDelegate {
         keywordCollectionView.reloadData()
         
         return true
+    }
+
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if let text = textField.text, text.isEmpty {
+            keywords.append("")
+            keywordCollectionView.reloadData()
+        }
     }
 }
 
@@ -623,7 +629,7 @@ extension AddVerseVC: VNDocumentCameraViewControllerDelegate {
     }
 }
 
-// MARK: - 스캔
+// MARK: - 데이터 전달
 extension AddVerseVC: BookSelectionDelegate {
     func didSelectBook(_ book: Item) {
         self.selectedBook = book
