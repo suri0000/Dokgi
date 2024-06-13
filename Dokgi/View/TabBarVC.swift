@@ -38,6 +38,6 @@ class TabBarVC: UITabBarController {
         lineView.backgroundColor = .tabBarGray
         tabBar.addSubview(lineView)
         
-        tabBar.barTintColor = UIColor.red
+        tabBar.barTintColor = UIColor.white
     }
 }

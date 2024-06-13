@@ -40,7 +40,7 @@ class TodayVersesCell: UICollectionViewCell {
         verse.snp.makeConstraints {
             $0.top.equalToSuperview().offset(28)
             $0.leading.equalToSuperview().offset(26)
-            $0.trailing.equalTo(bookImage.snp.leading).offset(-28)
+            $0.trailing.equalTo(bookImage.snp.leading).offset(-28).priority(.low)
             $0.bottom.equalToSuperview().inset(35)
             $0.width.equalTo(186)
             $0.height.equalTo(95)

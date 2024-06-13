@@ -14,6 +14,8 @@ class HomeViewController: UIViewController {
     let disposeBag = DisposeBag()
     let viewModel = HomeViewModel()
     
+    let scrollView = UIScrollView()
+    let contentView = UIView()
     let currentLengthLabel = UILabel()
     let currentLevelCollectionView: UICollectionView = {
         let layout = CurrentLevelCollectionFlowLayout()
@@ -52,11 +54,11 @@ class HomeViewController: UIViewController {
     var levelCollectionViewSelectedIndex = 0
     var nowPage: Int = 0 {
         didSet {
-//            print("현재페이지 \(nowPage), \(indicatorDots.currentPage)")
             self.indicatorDots.currentPage = nowPage
         }
     }
     var indicatorDots = UIPageControl()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,7 +68,7 @@ class HomeViewController: UIViewController {
         setupCollectionView()
         bindViewModel()
         configureNavigationBar()
-        
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -78,10 +80,10 @@ class HomeViewController: UIViewController {
         bannerTimer()
     }
     
-
-    
     func setupConstraints() {
-        [currentLengthLabel, 
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        [currentLengthLabel,
          currentLevelCollectionView,
          nextLengthLabel,
          lengthSlider,
@@ -90,7 +92,7 @@ class HomeViewController: UIViewController {
          todayVersesLabel,
          todayVersesColletionView,
         indicatorDots].forEach {
-            view.addSubview($0)
+            contentView.addSubview($0)
         }
         
         currentLevelBubble.addSubview(currentLevelImage)
@@ -98,8 +100,17 @@ class HomeViewController: UIViewController {
             nextLevelBubble.addSubview($0)
         }
         
+        scrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        contentView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.width.equalToSuperview()
+        }
+        
         currentLengthLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(112)
+            $0.top.equalToSuperview().offset(58 - 44)
             $0.leading.equalToSuperview().offset(29)
         }
         
@@ -159,7 +170,7 @@ class HomeViewController: UIViewController {
         
         todayVersesColletionView.snp.makeConstraints {
             $0.top.equalTo(todayVersesLabel.snp.bottom).offset(14)
-            $0.bottom.equalToSuperview().offset(-139)
+            $0.bottom.equalToSuperview().offset(-63)
             $0.horizontalEdges.equalToSuperview().inset(20)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(158)
@@ -173,47 +184,37 @@ class HomeViewController: UIViewController {
     
     func configureUI() {
         view.backgroundColor = .white
-        
         currentLengthLabel.text = "현재 구절 길이"
         currentLengthLabel.font = Pretendard.semibold.dynamicFont(style: .title3)
-        
         nextLengthLabel.text = "다음 레벨까지 \(Int(Float(viewModel.currentLevelPercent.value) * 100)) % 달성했습니다!"
-        nextLengthLabel.font = .systemFont(ofSize: 14, weight: .regular)
-        
+        nextLengthLabel.font = Pretendard.regular.dynamicFont(style: .subheadline)
         if let thumbImage = UIImage(named: "currentThum") {
             lengthSlider.setThumbImage(thumbImage, for: .normal)
             lengthSlider.setThumbImage(thumbImage, for: .highlighted)
         }
         lengthSlider.isUserInteractionEnabled = false
-        
         currentLevelBubble.image = UIImage(named: "speechBubble1")
         currentLevelBubble.clipsToBounds = true
         currentLevelImage.backgroundColor = .clear
         currentLevelImage.image = UIImage(named: "grape")
         currentLevelImage.layer.masksToBounds = true
         currentLevelImage.contentMode = .scaleAspectFit
-        
         nextLevelBubble.image = UIImage(named: "speechBubble2")
         nextLevelBubble.clipsToBounds = true
         nextLevelBubble.layer.masksToBounds = true
-        
         blurEffectView.frame = nextLevelImage.bounds
         blurEffectView.alpha = 0.7
         blurEffectView.backgroundColor = .white.withAlphaComponent(0.6)
         blurEffectView.layer.cornerRadius = 18
         blurEffectView.layer.masksToBounds = true
-        
         nextLevelImage.backgroundColor = .clear
         nextLevelImage.image = UIImage(named: "goni")
         nextLevelImage.contentMode = .scaleAspectFit
         nextLevelImage.layer.masksToBounds = true
-        
         todayVersesLabel.text = "오늘의 구절"
         todayVersesLabel.font = Pretendard.semibold.dynamicFont(style: .title3)
-        
         todayVersesColletionView.layer.cornerRadius = 10
-        
-        indicatorDots.pageIndicatorTintColor = UIColor(.dotGray)
+        indicatorDots.pageIndicatorTintColor = UIColor(.dotGray).withAlphaComponent(0.3)
         indicatorDots.currentPageIndicatorTintColor = UIColor(.dotBlue)
         indicatorDots.numberOfPages = 5
     }
@@ -244,7 +245,6 @@ class HomeViewController: UIViewController {
                     $0.width.equalTo(38)
                     $0.height.equalTo(41)
                     $0.top.equalTo(self.lengthSlider.snp.bottom)
-                    
                 }
             })
             .disposed(by: disposeBag)
@@ -427,16 +427,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
           levelCollectionViewSelectedIndex = selectedIndexPath.item
 
           updateCurrentLevelCollectionViewCell()
-        
   }
-    
-    // 오늘의 구절 자동 스크롤시 indicator
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        let page = Int(todayVersesColletionView.contentOffset.x / currentLevelCollectionView.frame.width)
-////        print("\(Int(todayVersesColletionView.contentOffset.x / currentLevelCollectionView.frame.width))")
-//        print("\(todayVersesColletionView.contentOffset.x), \(currentLevelCollectionView.frame.width), \(Int(todayVersesColletionView.contentOffset.x / currentLevelCollectionView.frame.width))")
-//        self.indicatorDots.currentPage = page
-    }
 }
 
 extension UICollectionViewCell {
