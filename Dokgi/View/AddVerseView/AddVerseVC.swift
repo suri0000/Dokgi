@@ -189,7 +189,7 @@ class AddVerseVC: UIViewController {
                 .backgroundColor(.white)
             ]
         )
-        
+
         // 초기 세그먼트 인덱스 설정
         segmentedControl.setIndex(0, animated: false, shouldSendValueChangedEvent: false)
         
@@ -490,7 +490,6 @@ class AddVerseVC: UIViewController {
     private func displayBookInfo() {
         if let book = selectedBook {
             titleLabel.text = book.title
-            titleLabel.textColor = .black
             titleLabel.font = Pretendard.semibold.dynamicFont(style: .headline)
             authorLabel.text = book.author
             if let url = URL(string: book.image) {
