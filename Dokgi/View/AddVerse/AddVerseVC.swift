@@ -48,13 +48,14 @@ class AddVerseVC: UIViewController {
                 outgoing.font = Pretendard.bold.dynamicFont(style: .subheadline)
                 return outgoing
             }
-            configuration?.baseForegroundColor = UIColor(named: "CharcoalBlue")
+            configuration?.baseForegroundColor = .charcoalBlue
             configuration?.baseBackgroundColor = .lightSkyBlue
-            configuration?.image = UIImage(named: "camera.viewfinder")?.withTintColor(UIColor(named: "CharcoalBlue") ?? .black, renderingMode: .alwaysOriginal)
+            configuration?.image = UIImage(resource: .camera).withTintColor(UIColor(resource: .charcoalBlue), renderingMode: .alwaysOriginal)
             configuration?.imagePadding = 10
             button.configuration = configuration
         }
-        $0.layer.cornerRadius = 18
+        $0.layer.cornerRadius = 17
+        $0.clipsToBounds = true
     }
 
     let infoView = UIView().then {
@@ -71,18 +72,18 @@ class AddVerseVC: UIViewController {
         config.title = "책 검색"
         $0.titleLabel?.font = Pretendard.bold.dynamicFont(style: .headline)
         config.baseForegroundColor = .white
-        config.baseBackgroundColor = UIColor(named: "CharcoalBlue")
-        config.image = UIImage(systemName: "magnifyingglass")
+        config.baseBackgroundColor = .charcoalBlue
+        config.image = .magnifyingglass
         config.imagePadding = 8
         config.imagePlacement = .leading
         $0.configuration = config
-        $0.layer.cornerRadius = 15
+        $0.layer.cornerRadius = 22
         $0.clipsToBounds = true
     }
     
     var imageView = UIImageView().then {
-        $0.image = UIImage(named: "emptyImage")?.withRenderingMode(.alwaysTemplate)
-        $0.tintColor = UIColor(named: "LightGray")
+        $0.image = UIImage(resource: .empty).withRenderingMode(.alwaysTemplate)
+        $0.tintColor = .buttonLightGray
         $0.contentMode = .scaleAspectFit
         $0.layer.cornerRadius = 15
     }
@@ -90,14 +91,14 @@ class AddVerseVC: UIViewController {
     var titleLabel = UILabel().then {
         $0.text = "책 제목"
         $0.font = Pretendard.bold.dynamicFont(style: .body)
-        $0.textColor = UIColor(named: "BookTextGray")
+        $0.textColor = .bookTextGray
         $0.numberOfLines = 2
     }
     
     var authorLabel = UILabel().then {
         $0.text = "저자"
         $0.font = Pretendard.bold.dynamicFont(style: .body)
-        $0.textColor = UIColor(named: "BookTextGray")
+        $0.textColor = .bookTextGray
     }
     
     lazy var verseTextView = UITextView().then {
@@ -105,7 +106,7 @@ class AddVerseVC: UIViewController {
         $0.layer.borderWidth = 1.0
         $0.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.7).cgColor
         $0.textContainerInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
-        $0.font = Pretendard.regular.dynamicFont(style: .footnote)
+        $0.font = Pretendard.regular.dynamicFont(style: .callout)
         $0.textColor = .placeholderText
         $0.layer.cornerRadius = 8
         $0.showsVerticalScrollIndicator = false
@@ -129,6 +130,9 @@ class AddVerseVC: UIViewController {
     
     let keywordField = UITextField().then {
         $0.placeholder = "키워드를 입력해 주세요"
+        $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
+        $0.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 22.0, height: 0.0))
+        $0.leftViewMode = .always
         $0.borderStyle = .roundedRect
         $0.layer.masksToBounds = true
     }
@@ -175,7 +179,7 @@ class AddVerseVC: UIViewController {
         $0.selectedSegmentTintColor = UIColor(named: "CharcoalBlue")
         $0.layer.cornerRadius = 20
         $0.layer.borderWidth = 0.7
-        $0.layer.borderColor = UIColor(named: "CharcoalBlue")?.cgColor
+        $0.layer.borderColor = UIColor(resource: .charcoalBlue).cgColor
         $0.clipsToBounds = true
     }
     
@@ -183,7 +187,7 @@ class AddVerseVC: UIViewController {
         $0.setTitle("기록 하기", for: .normal)
         $0.titleLabel?.font = Pretendard.bold.dynamicFont(style: .headline)
         $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = UIColor(named: "CharcoalBlue")
+        $0.backgroundColor = .charcoalBlue
         $0.layer.cornerRadius = 8
     }
     
@@ -227,8 +231,6 @@ class AddVerseVC: UIViewController {
         scanButton.snp.makeConstraints {
             $0.top.equalTo(viewInScroll.snp.top).offset(10)
             $0.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
-            $0.width.equalTo(112)
-            $0.height.equalTo(35)
         }
         
         infoView.snp.makeConstraints {            
@@ -243,8 +245,6 @@ class AddVerseVC: UIViewController {
         
         searchButton.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.height.equalTo(35)
-            $0.horizontalEdges.equalTo(viewInScroll).inset(140)
         }
         
         imageView.snp.makeConstraints {

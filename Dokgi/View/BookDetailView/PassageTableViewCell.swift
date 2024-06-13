@@ -27,6 +27,7 @@ class PassageTableViewCell: UITableViewCell {
         let unit = "P"
         $0.font = Pretendard.regular.dynamicFont(style: .caption1)
         $0.text = "306 \(unit)"
+        $0.setContentCompressionResistancePriority(.init(751), for: .horizontal)
     }
     
     private let passageLabel = PaddingLabel().then {
@@ -68,7 +69,6 @@ class PassageTableViewCell: UITableViewCell {
         pageLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalTo(circleView.snp.trailing).offset(11)
-            $0.width.equalTo(contentView.snp.width).multipliedBy(0.1)
         }
         
         passageLabel.snp.makeConstraints {

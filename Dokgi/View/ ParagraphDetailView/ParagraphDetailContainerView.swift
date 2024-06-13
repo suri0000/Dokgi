@@ -39,7 +39,7 @@ class ParagraphDetailContainerView: UIView {
         $0.alwaysBounceVertical = false
         $0.isScrollEnabled = true
         $0.snp.makeConstraints {
-            $0.height.equalTo(42)
+            $0.height.equalTo(52)
         }
     }
     
@@ -56,7 +56,7 @@ class ParagraphDetailContainerView: UIView {
     lazy var writeDateDay = UILabel().then {
         $0.text = "2024.6.9"
         $0.font = Pretendard.regular.dynamicFont(style: .body)
-        $0.textColor = UIColor(named: "AlarmSettingText")
+        $0.textColor = .alarmSettingText
     }
     
     let pageStackView = UIStackView().then {
@@ -72,7 +72,7 @@ class ParagraphDetailContainerView: UIView {
     lazy var pageWriteLbl = UILabel().then {
         $0.text = "2000"
         $0.font = Pretendard.regular.dynamicFont(style: .body)
-        $0.textColor = UIColor(named: "AlarmSettingText")
+        $0.textColor = .alarmSettingText
     }
     
     override init(frame: CGRect) {
@@ -94,7 +94,7 @@ class ParagraphDetailContainerView: UIView {
         $0.placeholder = "키워드를 입력해 주세요"
         $0.layer.cornerRadius = 10
         $0.layer.borderWidth = 1
-        $0.layer.borderColor = UIColor(named: "KeywordBorder")?.cgColor
+        $0.layer.borderColor = UIColor(resource: .keywordBorder).cgColor
         $0.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 22.0, height: 0.0))
         $0.leftViewMode = .always
         $0.isHidden = true
@@ -146,7 +146,7 @@ class ParagraphDetailContainerView: UIView {
         }
         
         writeStackView.snp.makeConstraints {
-            $0.top.equalTo(keywordStackView.snp.bottom).offset(30)
+            $0.top.equalTo(keywordStackView.snp.bottom).offset(20)
             $0.horizontalEdges.equalToSuperview().inset(20)
         }
         

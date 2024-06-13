@@ -27,9 +27,9 @@ class BookCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(authorLabel)
         
-        titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        authorLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        authorLabel.textColor = UIColor(named: "AuthorLabelGray")
+        titleLabel.font = Pretendard.semibold.dynamicFont(style: .body)
+        authorLabel.font = Pretendard.semibold.dynamicFont(style: .body)
+        authorLabel.textColor = .authorLabelGray
         
         bookImageView.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(16)

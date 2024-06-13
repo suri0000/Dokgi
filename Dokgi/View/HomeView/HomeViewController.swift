@@ -202,13 +202,13 @@ class HomeViewController: UIViewController {
             lengthSlider.setThumbImage(thumbImage, for: .highlighted)
         }
         lengthSlider.isUserInteractionEnabled = false
-        currentLevelBubble.image = UIImage(named: "speechBubble1")
+        currentLevelBubble.image = .speechBubble1
         currentLevelBubble.clipsToBounds = true
         currentLevelImage.backgroundColor = .clear
-        currentLevelImage.image = UIImage(named: "grape")
+        currentLevelImage.image = .grape
         currentLevelImage.layer.masksToBounds = true
         currentLevelImage.contentMode = .scaleAspectFit
-        nextLevelBubble.image = UIImage(named: "speechBubble2")
+        nextLevelBubble.image = .speechBubble2
         nextLevelBubble.clipsToBounds = true
         nextLevelBubble.layer.masksToBounds = true
         blurEffectView.frame = nextLevelImage.bounds
@@ -217,7 +217,7 @@ class HomeViewController: UIViewController {
         blurEffectView.layer.cornerRadius = 18
         blurEffectView.layer.masksToBounds = true
         nextLevelImage.backgroundColor = .clear
-        nextLevelImage.image = UIImage(named: "goni")
+        nextLevelImage.image = .goni
         nextLevelImage.contentMode = .scaleAspectFit
         nextLevelImage.layer.masksToBounds = true
         todayVersesLabel.text = "오늘의 구절"

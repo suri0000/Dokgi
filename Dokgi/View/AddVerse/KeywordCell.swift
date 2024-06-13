@@ -14,12 +14,12 @@ class KeywordCell: UICollectionViewCell {
     static let reuseIdentifier = "KeywordCell"
     
     private let label = UILabel().then {
-        $0.textColor = UIColor(named: "BrightBlue")
+        $0.textColor = .brightRed
         $0.font = Pretendard.regular.dynamicFont(style: .callout)
     }
     
     private let deleteButton = UIButton().then {
-        $0.setImage(UIImage(named: "deleteKeyword"), for: .normal)
+        $0.setImage(.deleteKeyword, for: .normal)
     }
     
     override init(frame: CGRect) {

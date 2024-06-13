@@ -91,16 +91,15 @@ class ParagraphViewController: UIViewController {
         
         paragraphLabel.text = "구절"
         paragraphLabel.font = Pretendard.bold.dynamicFont(style: .title1)
-        paragraphLabel.textColor = .black
         
         selectionButton.backgroundColor = .white
         selectionButton.addTarget(self, action: #selector(tappedSelectionButton), for: .touchUpInside)
         
-        selectionButtonImageView.image = UIImage(named: "Filter")
+        selectionButtonImageView.image = .filter
         
         selectionButtonLabel.text = "선택"
         selectionButtonLabel.font = Pretendard.medium.dynamicFont(style: .subheadline)
-        selectionButtonLabel.textColor = UIColor(named: "CharcoalBlue")
+        selectionButtonLabel.textColor = .charcoalBlue
         selectionButton.sizeToFit()
         
         doneButton.backgroundColor = .white
@@ -108,18 +107,17 @@ class ParagraphViewController: UIViewController {
         doneButton.addTarget(self, action: #selector(tappedDoneButton), for: .touchUpInside)
         doneButton.titleLabel?.font = Pretendard.medium.dynamicFont(style: .subheadline)
         doneButton.setTitle("완료", for: .normal)
-        doneButton.setTitleColor(UIColor(named: "BrightRed"), for: .normal)
+        doneButton.setTitleColor(.brightRed, for: .normal)
         
-        sortButton.backgroundColor = UIColor(named: "LightSkyBlue")
+        sortButton.backgroundColor = .lightSkyBlue
         sortButton.layer.cornerRadius = 15
         sortButton.clipsToBounds = true
         sortButton.addTarget(self, action: #selector(showSortMenuView), for: .touchUpInside)
         
-        sortButtonImageView.image = UIImage(named: "down")
-        
+        sortButtonImageView.image = .down
         sortButtonTitleLabel.text = "최신순"
         sortButtonTitleLabel.font = Pretendard.regular.dynamicFont(style: .footnote)
-        sortButtonTitleLabel.textColor = UIColor(named: "CharcoalBlue")
+        sortButtonTitleLabel.textColor = .charcoalBlue
         
         sortMenuView.backgroundColor = .white
         sortMenuView.layer.cornerRadius = 10
@@ -139,18 +137,17 @@ class ParagraphViewController: UIViewController {
         
         latestTextLabel.text = "최신순"
         latestTextLabel.font = Pretendard.regular.dynamicFont(style: .footnote)
-        latestTextLabel.textColor = UIColor(named: "CharcoalBlue")
+        latestTextLabel.textColor = .charcoalBlue
         
         oldestTextLabel.text = "오래된순"
         oldestTextLabel.font = Pretendard.regular.dynamicFont(style: .footnote)
-        oldestTextLabel.textColor = UIColor(named: "CharcoalBlue")
+        oldestTextLabel.textColor = .charcoalBlue
         
-        latestFirstcheckImageView.image = UIImage(named: "check")
-        oldestFirstcheckImageView.image = UIImage(named: "check")
+        latestFirstcheckImageView.image = .check
+        oldestFirstcheckImageView.image = .check
         
         emptyMessageLabel.text = "기록한 구절이 없어요\n구절을 등록해 보세요"
         emptyMessageLabel.font = Pretendard.regular.dynamicFont(style: .subheadline)
-        emptyMessageLabel.textColor = .black
         emptyMessageLabel.isHidden = true
         emptyMessageLabel.numberOfLines = 0
         let attrString = NSMutableAttributedString(string: emptyMessageLabel.text!)
@@ -176,8 +173,6 @@ class ParagraphViewController: UIViewController {
         selectionButton.snp.makeConstraints {
             $0.centerY.equalTo(paragraphLabel.snp.centerY)
             $0.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(22)
-            $0.width.equalTo(53)
         }
         
         [selectionButtonImageView, selectionButtonLabel].forEach {
@@ -199,8 +194,6 @@ class ParagraphViewController: UIViewController {
         doneButton.snp.makeConstraints {
             $0.centerY.equalTo(paragraphLabel.snp.centerY)
             $0.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(24)
-            $0.width.equalTo(30)
         }
         
         searchBar.snp.makeConstraints {
@@ -307,7 +300,7 @@ class ParagraphViewController: UIViewController {
         searchBar.placeholder = "기록한 구절을 검색해보세요"
         searchBar.searchTextField.borderStyle = .line
         searchBar.searchTextField.layer.borderWidth = 1
-        searchBar.searchTextField.layer.borderColor = UIColor(named: "SearchBarLightGray")?.cgColor
+        searchBar.searchTextField.layer.borderColor = UIColor(resource: .searchBarLightGray).cgColor
         searchBar.searchTextField.layer.backgroundColor = UIColor.white.cgColor
         searchBar.searchTextField.layer.cornerRadius = 17
         searchBar.searchTextField.layer.masksToBounds = true
@@ -492,4 +485,3 @@ extension ParagraphViewController: UISearchBarDelegate {
         self.searchResultItems = []
     }
 }
-
