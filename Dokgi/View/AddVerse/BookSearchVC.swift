@@ -64,6 +64,7 @@ class BookSearchVC: UIViewController {
     }
     
     private func setupTableView() {
+        tableView.separatorStyle = .none
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(BookCell.self, forCellReuseIdentifier: "BookCell")

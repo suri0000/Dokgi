@@ -31,6 +31,7 @@ class AddVerseVC: UIViewController {
         initLayout()
         setupActions()
         setupHideKeyboardOnTap()
+        updateCharacterCountLabel()
     }
     
     let scrollView = UIScrollView().then {
@@ -84,6 +85,8 @@ class AddVerseVC: UIViewController {
         $0.image = UIImage(named: "emptyImage")?.withRenderingMode(.alwaysTemplate)
         $0.tintColor = UIColor(named: "LightGray")
         $0.layer.cornerRadius = 15
+        $0.clipsToBounds = true
+        $0.contentMode = .scaleAspectFit
         $0.backgroundColor = .gray
     }
     
@@ -173,11 +176,11 @@ class AddVerseVC: UIViewController {
             .foregroundColor: UIColor.white
         ], for: .selected)
         
-        $0.selectedSegmentTintColor = UIColor(named: "CharcoalBlue")
         $0.layer.cornerRadius = 20
-        $0.layer.masksToBounds = true
-        $0.layer.borderWidth = 0.7
         $0.layer.borderColor = UIColor(named: "CharcoalBlue")?.cgColor
+        $0.layer.borderWidth = 0.7
+        $0.layer.masksToBounds = true
+        $0.selectedSegmentTintColor = UIColor(named: "CharcoalBlue")
     }
     
     let recordButton = UIButton().then {
@@ -417,6 +420,12 @@ class AddVerseVC: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    // 초기 텍스트뷰 글자 수 설정
+    func updateCharacterCountLabel() {
+        let currentCount = verseTextView.text == "텍스트를 입력하세요" ? 0 : verseTextView.text.count
+        characterCountLabel.text = "\(currentCount)/200"
+    }
+    
     // 텍스트 속성을 설정하는 함수
     private static func createAttributedString(for text: String) -> NSAttributedString {
         let attributedString = NSMutableAttributedString(string: text)
@@ -441,6 +450,7 @@ class AddVerseVC: UIViewController {
             authorLabel.text = book.author
             if let url = URL(string: book.image) {
                 imageView.kf.setImage(with: url)
+                imageView.contentMode = .scaleAspectFill
             }
         }
         overlayView.isHidden = true
@@ -539,6 +549,7 @@ extension AddVerseVC: UITextViewDelegate {
             textView.text = "텍스트를 입력하세요"
             textView.textColor = .placeholderText
         }
+        updateCharacterCountLabel()
     }
     
     func textViewDidChange(_ textView: UITextView) {
@@ -549,6 +560,8 @@ extension AddVerseVC: UITextViewDelegate {
         if currentCount > 200 {
             textView.text = String(textView.text.prefix(200))
             characterCountLabel.text = "200/200"
+        } else {
+            characterCountLabel.text = "\(currentCount)/200"
         }
     }
 }
