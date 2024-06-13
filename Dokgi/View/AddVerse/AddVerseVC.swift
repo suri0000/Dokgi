@@ -64,7 +64,7 @@ class AddVerseVC: UIViewController {
         }
         $0.layer.cornerRadius = 18
     }
-
+    
     let infoView = UIView().then {
         $0.layer.cornerRadius = 15
     }
@@ -428,7 +428,7 @@ class AddVerseVC: UIViewController {
         
         // 현재 날짜 정보 가져오기
         let currentDate = Date()
-
+        
         // Verse 인스턴스 생성
         let verse = Verse(name: book.title, author: book.author, image: book.image, text: verseTextView.text, pageNumber: pageNumber, pageType: pageType, keywords: keywords, date: currentDate)
         
@@ -520,11 +520,28 @@ class AddVerseVC: UIViewController {
 extension AddVerseVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let keyword = textField.text, !keyword.isEmpty {
-            keywords.append(keyword)
+            keywords.append("")
+            keywords[keywords.count - 2] = keyword
             keywordCollectionView.reloadData()
             textField.text = ""
         }
         textField.resignFirstResponder()
+        return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentText = textField.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        
+        if keywords.isEmpty {
+            keywords.append(updatedText)
+        } else {
+            keywords[keywords.count - 1] = updatedText
+        }
+        
+        keywordCollectionView.reloadData()
+        
         return true
     }
 }
@@ -546,19 +563,16 @@ extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            // 특정 indexPath에 해당하는 키워드의 문자열을 가져옵니다.
-            let keyword = keywords[indexPath.item]
-            
-            // 문자열의 크기를 계산합니다.
-            let font = Pretendard.regular.dynamicFont(style: .callout)
-            let attributes = [NSAttributedString.Key.font: font]
-            let textSize = (keyword as NSString).size(withAttributes: attributes)
-            
-            // 셀의 너비를 계산하고 반환합니다. 좌우 여백을 추가하여 보다 깔끔하게 보이도록 합니다.
-            let cellWidth = textSize.width + 35
-            let cellHeight: CGFloat = 34 // 셀의 높이
-            return CGSize(width: cellWidth, height: cellHeight)
-        }
+        let keyword = keywords[indexPath.item]
+        
+        let font = Pretendard.regular.dynamicFont(style: .callout)
+        let attributes = [NSAttributedString.Key.font: font]
+        let textSize = (keyword as NSString).size(withAttributes: attributes)
+        
+        let cellWidth = textSize.width + 35
+        let cellHeight: CGFloat = 34
+        return CGSize(width: cellWidth, height: cellHeight)
+    }
 }
 
 // MARK: - 텍스트뷰 placeholder
@@ -598,11 +612,11 @@ extension AddVerseVC: VNDocumentCameraViewControllerDelegate {
         recognizeText(from: image)
         controller.dismiss(animated: true)
     }
-
+    
     func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
         controller.dismiss(animated: true)
     }
-
+    
     func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) {
         print("문서 스캔 실패: \(error.localizedDescription)")
         controller.dismiss(animated: true)
