@@ -63,13 +63,14 @@ class AddVerseVC: UIViewController {
                 outgoing.font = Pretendard.bold.dynamicFont(style: .subheadline)
                 return outgoing
             }
-            configuration?.baseForegroundColor = UIColor(named: "CharcoalBlue")
+            configuration?.baseForegroundColor = .charcoalBlue
             configuration?.baseBackgroundColor = .lightSkyBlue
-            configuration?.image = UIImage(named: "camera.viewfinder")?.withTintColor(UIColor(named: "CharcoalBlue") ?? .black, renderingMode: .alwaysOriginal)
+            configuration?.image = UIImage(resource: .camera).withTintColor(UIColor(resource: .charcoalBlue), renderingMode: .alwaysOriginal)
             configuration?.imagePadding = 10
             button.configuration = configuration
         }
-        $0.layer.cornerRadius = 18
+        $0.layer.cornerRadius = 17
+        $0.clipsToBounds = true
     }
     
     let infoView = UIView().then {
@@ -86,18 +87,18 @@ class AddVerseVC: UIViewController {
         config.title = "책 검색"
         $0.titleLabel?.font = Pretendard.semibold.dynamicFont(style: .headline)
         config.baseForegroundColor = .white
-        config.baseBackgroundColor = UIColor(named: "CharcoalBlue")
-        config.image = UIImage(systemName: "magnifyingglass")
+        config.baseBackgroundColor = .charcoalBlue
+        config.image = .magnifyingglass
         config.imagePadding = 8
         config.imagePlacement = .leading
         $0.configuration = config
-        $0.layer.cornerRadius = 15
+        $0.layer.cornerRadius = 22
         $0.clipsToBounds = true
     }
     
     var imageView = UIImageView().then {
-        $0.image = UIImage(named: "emptyImage")?.withRenderingMode(.alwaysTemplate)
-        $0.tintColor = UIColor(named: "LightGray")
+        $0.image = UIImage(resource: .empty).withRenderingMode(.alwaysTemplate)
+        $0.tintColor = .buttonLightGray
         $0.layer.cornerRadius = 15
         $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFit
@@ -106,14 +107,14 @@ class AddVerseVC: UIViewController {
     var titleLabel = UILabel().then {
         $0.text = "책 제목"
         $0.font = Pretendard.bold.dynamicFont(style: .body)
-        $0.textColor = UIColor(named: "BookTextGray")
+        $0.textColor = .bookTextGray
         $0.numberOfLines = 2
     }
     
     var authorLabel = UILabel().then {
         $0.text = "저자"
         $0.font = Pretendard.bold.dynamicFont(style: .body)
-        $0.textColor = UIColor(named: "BookTextGray")
+        $0.textColor = .bookTextGray
         $0.numberOfLines = 2
     }
     
@@ -122,7 +123,7 @@ class AddVerseVC: UIViewController {
         $0.layer.borderWidth = 1.0
         $0.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.7).cgColor
         $0.textContainerInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
-        $0.font = Pretendard.regular.dynamicFont(style: .footnote)
+        $0.font = Pretendard.regular.dynamicFont(style: .callout)
         $0.textColor = .placeholderText
         $0.layer.cornerRadius = 8
         $0.clipsToBounds = true
@@ -213,7 +214,7 @@ class AddVerseVC: UIViewController {
         $0.setTitle("기록 하기", for: .normal)
         $0.titleLabel?.font = Pretendard.bold.dynamicFont(style: .headline)
         $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = UIColor(named: "CharcoalBlue")
+        $0.backgroundColor = .charcoalBlue
         $0.layer.cornerRadius = 8
     }
     
@@ -258,8 +259,6 @@ class AddVerseVC: UIViewController {
         scanButton.snp.makeConstraints {
             $0.top.equalTo(viewInScroll.snp.top).offset(16)
             $0.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
-            $0.width.equalTo(112)
-            $0.height.equalTo(35)
         }
         
         infoView.snp.makeConstraints {

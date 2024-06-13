@@ -214,7 +214,7 @@ class BookDetailViewController: UIViewController {
         buttonBackgroundView.snp.makeConstraints {
             $0.centerY.equalTo(addPassageButton)
             $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(view.safeAreaLayoutGuide).multipliedBy(0.2)
+            $0.height.equalTo(view.safeAreaLayoutGuide).multipliedBy(0.3)
         }
     }
     
@@ -228,7 +228,11 @@ class BookDetailViewController: UIViewController {
         layer.frame = view.bounds
         layer.colors = colors
         layer.startPoint = CGPoint(x: 0.5, y: 0.0)
-        layer.endPoint = CGPoint(x: 0.5, y: 0.8)
+        if view == self.buttonBackgroundView {
+            layer.endPoint = CGPoint(x: 0.5, y: 0.5)
+        } else {
+            layer.endPoint = CGPoint(x: 0.5, y: 0.8)
+        }
         view.layer.addSublayer(layer)
     }
 }

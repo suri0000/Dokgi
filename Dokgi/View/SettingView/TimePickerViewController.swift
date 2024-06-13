@@ -21,11 +21,8 @@ class TimePickerViewController: UIViewController {
     
     let cancelBtn = UIButton().then {
         $0.setTitle("취소", for: .normal)
-        $0.setTitleColor(UIColor(named: "BrightRed"), for: .normal)
+        $0.setTitleColor(.brightRed, for: .normal)
         $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .body)
-        $0.snp.makeConstraints {
-            $0.width.equalTo(30)
-        }
     }
     
     let titleLbl = UILabel().then {
@@ -36,15 +33,13 @@ class TimePickerViewController: UIViewController {
     
     let saveBtn = UIButton().then {
         $0.setTitle("저장", for: .normal)
-        $0.setTitleColor(UIColor(named: "SkyBlue"), for: .normal)
+        $0.setTitleColor(.skyBlue, for: .normal)
         $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .body)
-        $0.snp.makeConstraints {
-            $0.width.equalTo(30)
-        }
     }
     
     let titleStack = UIStackView().then {
         $0.axis = .horizontal
+        $0.distribution = .equalSpacing
     }
     
     let timePicker = UIPickerView().then {
@@ -57,11 +52,14 @@ class TimePickerViewController: UIViewController {
         viewModel.selectTime = DayTimeViewModel.remindTime.value
         let smallId = UISheetPresentationController.Detent.Identifier("small")
         let smallDetent = UISheetPresentationController.Detent.custom(identifier: smallId) { context in
-            return 390
+            return UIScreen.main.bounds.size.height - 450
         }
-        if let sheetPresentationController = sheetPresentationController {
-            sheetPresentationController.detents = [smallDetent]
-            sheetPresentationController.largestUndimmedDetentIdentifier = smallId
+        if let sheet = sheetPresentationController {
+            sheet.detents = [smallDetent]
+            sheet.largestUndimmedDetentIdentifier = smallId
+            sheet.prefersGrabberVisible = true
+            sheet.preferredCornerRadius = 8
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
         }
         timePicker.delegate = self
         timePicker.dataSource = self
@@ -81,13 +79,12 @@ class TimePickerViewController: UIViewController {
         titleStack.snp.makeConstraints {
             $0.top.equalToSuperview().offset(25)
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(20)
         }
         
         timePicker.snp.makeConstraints {
-            $0.top.equalTo(titleStack.snp.bottom).offset(20)
+            $0.top.equalTo(titleStack.snp.bottom).offset(40)
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.bottom.equalToSuperview().inset(40)
+            $0.bottom.equalToSuperview().inset(95)
         }
         timePicker.selectRow((DayTimeViewModel.remindTime.value[0] - 1) + 12 * 50, inComponent: 0, animated: false)
         timePicker.selectRow(DayTimeViewModel.remindTime.value[1] + 60 * 50, inComponent: 1, animated: false)

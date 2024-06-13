@@ -60,6 +60,8 @@
 		A75908D32C12D69300415D6D /* IntArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908D22C12D69300415D6D /* IntArrayExtension.swift */; };
 		A75D3D722C1A11C4006C2EB3 /* ParagraphDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB162C1347C80020B0AA /* ParagraphDetailViewController.swift */; };
 		A75D3D732C1A11C7006C2EB3 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74874822C0D7ED100B830EE /* PaddingLabel.swift */; };
+		A75D3D752C1B47D1006C2EB3 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75D3D742C1B47D1006C2EB3 /* StringExtension.swift */; };
+		A75D3D772C1B493F006C2EB3 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75D3D762C1B493F006C2EB3 /* DateExtension.swift */; };
 		A7F2DB192C134B200020B0AA /* ParagraphDetailContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB182C134B200020B0AA /* ParagraphDetailContainerView.swift */; };
 		A7F2DB1D2C15C6E70020B0AA /* KeywordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB1C2C15C6E70020B0AA /* KeywordCollectionViewCell.swift */; };
 		A7F2DB212C16FF860020B0AA /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB202C16FF860020B0AA /* CoreDataManager.swift */; };
@@ -151,6 +153,8 @@
 		A75908CE2C101A3900415D6D /* DayTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTableViewCell.swift; sourceTree = "<group>"; };
 		A75908D02C12D36100415D6D /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
 		A75908D22C12D69300415D6D /* IntArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntArrayExtension.swift; sourceTree = "<group>"; };
+		A75D3D742C1B47D1006C2EB3 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		A75D3D762C1B493F006C2EB3 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		A7F2DB162C1347C80020B0AA /* ParagraphDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParagraphDetailViewController.swift; sourceTree = "<group>"; };
 		A7F2DB182C134B200020B0AA /* ParagraphDetailContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParagraphDetailContainerView.swift; sourceTree = "<group>"; };
 		A7F2DB1C2C15C6E70020B0AA /* KeywordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -312,6 +316,8 @@
 			children = (
 				A74874822C0D7ED100B830EE /* PaddingLabel.swift */,
 				A75908D22C12D69300415D6D /* IntArrayExtension.swift */,
+				A75D3D742C1B47D1006C2EB3 /* StringExtension.swift */,
+				A75D3D762C1B493F006C2EB3 /* DateExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -319,6 +325,7 @@
 		A748747A2C0D7E1300B830EE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3C73E2972C1889F6004B1BF8 /* HomeView */,
 				855318B92C16E42500340ACF /* BookDetailView */,
 				7BE488B02C16E21E00BDB92A /* LibraryView */,
 				7BE488B12C16E24800BDB92A /* ParagraphView */,
@@ -328,7 +335,6 @@
 				A74874652C0D7E0700B830EE /* ViewController.swift */,
 				3C73E2A22C1B03AC004B1BF8 /* FloatButton.swift */,
 				AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */,
-				3C73E2972C1889F6004B1BF8 /* HomeView */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -578,10 +584,12 @@
 				3C73E2A32C1B03AD004B1BF8 /* FloatButton.swift in Sources */,
 				7BE488B52C16E4CF00BDB92A /* ParagraphCollectionViewCell.swift in Sources */,
 				7BE488B32C16E29C00BDB92A /* ParagraphViewController.swift in Sources */,
+				A75D3D752C1B47D1006C2EB3 /* StringExtension.swift in Sources */,
 				3C4181652C0DC4A100D141FD /* BookManager.swift in Sources */,
 				3C73E2992C1937C2004B1BF8 /* TodayVersesCell.swift in Sources */,
 				3C73E2962C17D8B8004B1BF8 /* MetricUtil.swift in Sources */,
 				3C73E2A02C1AB164004B1BF8 /* CurrentLevelCollectionFlowLayout.swift in Sources */,
+				A75D3D772C1B493F006C2EB3 /* DateExtension.swift in Sources */,
 				7BE488A92C0F267000BDB92A /* LibrarySearchViewController.swift in Sources */,
 				A75908CF2C101A3900415D6D /* DayTableViewCell.swift in Sources */,
 				855318BB2C16E56800340ACF /* BookDetailViewController.swift in Sources */,

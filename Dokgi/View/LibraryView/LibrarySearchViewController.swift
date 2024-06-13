@@ -78,6 +78,12 @@ class LibrarySearchViewController: UIViewController {
         }.disposed(by: disposeBag)
     }
     
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        sortMenuView.isHidden = true
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
@@ -89,18 +95,16 @@ class LibrarySearchViewController: UIViewController {
         
         libraryLabel.text = "서재"
         libraryLabel.font = Pretendard.bold.dynamicFont(style: .title1)
-        libraryLabel.textColor = .black
         
-        sortButton.backgroundColor = UIColor(named: "LightSkyBlue")
+        sortButton.backgroundColor = .lightSkyBlue
         sortButton.layer.cornerRadius = 15
         sortButton.clipsToBounds = true
         sortButton.addTarget(self, action: #selector(showSortMenuView), for: .touchUpInside)
         
-        sortButtonImageView.image = UIImage(named: "down")
-        
+        sortButtonImageView.image = .down
         sortButtonTitleLabel.text = "최신순"
         sortButtonTitleLabel.font = Pretendard.regular.dynamicFont(style: .footnote)
-        sortButtonTitleLabel.textColor = UIColor(named: "CharcoalBlue")
+        sortButtonTitleLabel.textColor = .charcoalBlue
         
         sortMenuView.backgroundColor = .white
         sortMenuView.layer.cornerRadius = 10
@@ -120,18 +124,17 @@ class LibrarySearchViewController: UIViewController {
         
         latestTextLabel.text = "최신순"
         latestTextLabel.font = Pretendard.regular.dynamicFont(style: .footnote)
-        latestTextLabel.textColor = UIColor(named: "CharcoalBlue")
+        latestTextLabel.textColor = .charcoalBlue
         
         oldestTextLabel.text = "오래된순"
         oldestTextLabel.font = Pretendard.regular.dynamicFont(style: .footnote)
-        oldestTextLabel.textColor = UIColor(named: "CharcoalBlue")
+        oldestTextLabel.textColor = .charcoalBlue
         
-        latestFirstcheckImageView.image = UIImage(named: "check")
-        oldestFirstcheckImageView.image = UIImage(named: "check")
+        latestFirstcheckImageView.image = .check
+        oldestFirstcheckImageView.image = .check // 체크 고민
         
         emptyMessageLabel.text = "기록한 책이 없어요\n구절을 등록해 보세요"
         emptyMessageLabel.font = Pretendard.regular.dynamicFont(style: .subheadline)
-        emptyMessageLabel.textColor = .black
         emptyMessageLabel.isHidden = true
         emptyMessageLabel.numberOfLines = 0
         let attrString = NSMutableAttributedString(string: emptyMessageLabel.text!)
@@ -185,8 +188,6 @@ class LibrarySearchViewController: UIViewController {
         sortMenuView.snp.makeConstraints {
             $0.top.equalTo(sortButton.snp.bottom).offset(3)
             $0.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(60)
-            $0.width.equalTo(113)
         }
         
         // 정렬 옵션 메뉴(최신순 버튼, 오래된순 버튼)
@@ -197,13 +198,11 @@ class LibrarySearchViewController: UIViewController {
         latestFirstButton.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(oldestFirstButton.snp.top)
-            $0.height.equalTo(30)
         }
         
         oldestFirstButton.snp.makeConstraints {
             $0.top.equalTo(latestFirstButton.snp.bottom)
             $0.bottom.leading.trailing.equalToSuperview()
-            $0.height.equalTo(30)
         }
         
         // 최신순 버튼
@@ -236,6 +235,7 @@ class LibrarySearchViewController: UIViewController {
         oldestTextLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalTo(latestFirstcheckImageView.snp.trailing).offset(6)
+            $0.trailing.equalToSuperview().inset(5)
         }
         
         libraryCollectionView.snp.makeConstraints {
@@ -255,7 +255,7 @@ class LibrarySearchViewController: UIViewController {
         searchBar.placeholder = "기록된 책을 검색해보세요"
         searchBar.searchTextField.borderStyle = .line
         searchBar.searchTextField.layer.borderWidth = 1
-        searchBar.searchTextField.layer.borderColor = UIColor(named: "SearchBarLightGray")?.cgColor
+        searchBar.searchTextField.layer.borderColor = UIColor(resource: .searchBarLightGray).cgColor
         searchBar.searchTextField.layer.backgroundColor = UIColor.white.cgColor
         searchBar.searchTextField.layer.cornerRadius = 17
         searchBar.searchTextField.layer.masksToBounds = true
