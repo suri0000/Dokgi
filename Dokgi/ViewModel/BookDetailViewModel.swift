@@ -6,12 +6,12 @@
 //
 
 import Foundation
-import RxSwift
 
 class BookDetailViewModel {
-    static let shared = BookDetailViewModel()
     
+    static let shared = BookDetailViewModel()
     var bookInfo: Verse?
+    var passagesData: [Passage] = []
     
     func recordDateFormat() -> String {
         let dateFormatter = DateFormatter()
@@ -20,4 +20,26 @@ class BookDetailViewModel {
         
         return recordDate
     }
+    
+    func makePassageDateOfBook() {
+        let sameTitleBook =  CoreDataManager.shared.bookData.value.filter { $0.name == bookInfo?.name }
+        
+        passagesData = sameTitleBook.map { book in
+            Passage(text: book.text, pageType: book.pageType, pageNumber: book.pageNumber)
+        }
+    }
+    
+    func pageTypeToP(_ pageType: String) -> String {
+        if pageType == "page" {
+            return "P"
+        }
+        
+        return pageType
+    }
+}
+
+struct Passage {
+    var text: String
+    var pageType: String
+    var pageNumber: Int
 }
