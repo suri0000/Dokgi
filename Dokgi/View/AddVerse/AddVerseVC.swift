@@ -358,6 +358,7 @@ class AddVerseVC: UIViewController {
         searchButton.addTarget(self, action: #selector(searchButtonTapped(_:)), for: .touchUpInside)
         recordButton.addTarget(self, action: #selector(recordButtonTapped(_:)), for: .touchUpInside)
         betterSegmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
+        keywordField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
     
     func setupHideKeyboardOnTap() {
@@ -528,25 +529,20 @@ extension AddVerseVC: UITextFieldDelegate {
         return true
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let currentText = textField.text ?? ""
-        guard let stringRange = Range(range, in: currentText) else { return false }
-        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
-        
-        if keywords.isEmpty {
-            keywords.append(updatedText)
-        } else {
-            keywords[keywords.count - 1] = updatedText
-        }
-        
-        keywordCollectionView.reloadData()
-        
-        return true
-    }
-
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if let text = textField.text, text.isEmpty {
             keywords.append("")
+            keywordCollectionView.reloadData()
+        }
+    }
+    
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        if let text = textField.text {
+            if keywords.isEmpty {
+                keywords.append(text)
+            } else {
+                keywords[keywords.count - 1] = text
+            }
             keywordCollectionView.reloadData()
         }
     }
