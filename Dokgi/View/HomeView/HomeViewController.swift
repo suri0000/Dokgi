@@ -70,7 +70,6 @@ class HomeViewController: UIViewController {
         configureUI()
         setupCollectionView()
         bindViewModel()
-//        configureNavigationBar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
