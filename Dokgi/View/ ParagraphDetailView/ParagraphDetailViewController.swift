@@ -22,7 +22,6 @@ class ParagraphDetailViewController: UIViewController {
     }
     
     lazy var titleLbl = UILabel().then {
-        $0.text = self.viewModel.paragraph?.name
         $0.font = Pretendard.semibold.dynamicFont(style: .title3)
     }
     
@@ -71,8 +70,6 @@ class ParagraphDetailViewController: UIViewController {
             sheet.preferredCornerRadius = 8
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
         }
-        containerView.keywordCollectionView.dataSource = self
-        containerView.keywordCollectionView.delegate = self
         containerView.keywordCollectionView.register(KeywordCollectionViewCell.self, forCellWithReuseIdentifier: KeywordCollectionViewCell.identifier)
         setupLayout()
         dataBinding()
@@ -112,8 +109,6 @@ class ParagraphDetailViewController: UIViewController {
     
     func dataBinding() {
         viewModel.detailParagraph.subscribe(with: self) { (self, data) in
-            self.viewModel.paragraph? = data
-            self.viewModel.previous = data.text
             self.titleLbl.text = data.name
             self.containerView.paragrapTextLbl.text = data.text
             self.containerView.pageWriteLbl.text = "\(data.pageNumber) \(data.pageType)"
@@ -126,7 +121,6 @@ class ParagraphDetailViewController: UIViewController {
         
         self.editBtn.rx.tap.subscribe(with: self) { (self, _) in
             if self.editBtn.titleLabel?.text == "수정하기" {
-                self.containerView.keywordCollectionView.reloadData()
                 self.containerView.editLayout()
                 self.sheetPresentationController?.detents = [self.largeDetent]
                 self.editBtn.setTitle("완료", for: .normal)
@@ -134,14 +128,13 @@ class ParagraphDetailViewController: UIViewController {
                 self.editBtn.setTitleColor(UIColor(named: "SkyBlue"), for: .normal)
                 self.editBtn.setImage(nil, for: .normal)
             } else {
-                self.containerView.keywordCollectionView.reloadData()
                 self.containerView.editCompleteLayout()
                 self.sheetPresentationController?.detents = [self.smallDetent]
                 self.editBtn.setTitle("수정하기", for: .normal)
                 self.editBtn.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
                 self.editBtn.setTitleColor(.black, for: .normal)
                 self.editBtn.setImage(UIImage(named: "modalEdit"), for: .normal)
-                self.viewModel.saveDetail(str: self.containerView.paragrapTextField.text)
+                self.viewModel.saveDetail(paragraph: self.containerView.paragrapTextField.text)
             }
         }.disposed(by: disposeBag)
         
@@ -156,31 +149,22 @@ class ParagraphDetailViewController: UIViewController {
         containerView.keywordTextField.rx.controlEvent(.editingDidEnd).subscribe(with: self) { (self, _) in
             if let text = self.containerView.keywordTextField.text {
                 self.viewModel.addDetailKeyword(keyword: text)
-                self.containerView.keywordCollectionView.reloadData()
+                self.containerView.keywordTextField.text = ""
             }
         }.disposed(by: disposeBag)
-    }
-}
-
-extension ParagraphDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.paragraph?.keywords.count ?? 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: KeywordCollectionViewCell.identifier, for: indexPath) as? KeywordCollectionViewCell else {
-            return UICollectionViewCell()
-        }
-        cell.keywordLbl.text = viewModel.paragraph?.keywords[indexPath.row]
-        cell.xBtn.rx.tap.subscribe(with: self) { (self, data) in
-            self.viewModel.deleteDetailKeyword(keyword: indexPath.row)
-            self.containerView.keywordCollectionView.reloadData()
-        }.disposed(by: cell.disposeBag)
-        if self.editBtn.titleLabel?.text == "수정하기" {
-            cell.xBtn.isHidden = true
-        } else {
-            cell.xBtn.isHidden = false
-        }
-        return cell
+        
+        viewModel.detailParagraph.map{ $0.keywords }.bind(to: containerView.keywordCollectionView.rx.items(cellIdentifier: KeywordCollectionViewCell.identifier,
+                   cellType: KeywordCollectionViewCell.self)) { row, data, cell in
+            cell.keywordLbl.text = data
+            cell.xBtn.rx.tap.subscribe(with: self) { (self, data) in
+                self.viewModel.deleteDetailKeyword(keyword: row)
+            }.disposed(by: cell.disposeBag) // TODO: 혼나기..
+            
+            if self.editBtn.titleLabel?.text == "수정하기" {
+                cell.xBtn.isHidden = true
+            } else {
+                cell.xBtn.isHidden = false
+            }
+        }.disposed(by: disposeBag)
     }
 }
