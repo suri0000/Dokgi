@@ -5,9 +5,10 @@
 //  Created by 송정훈 on 6/3/24.
 //
 
-import UIKit
 import CoreData
+import IQKeyboardManagerSwift
 import NotificationCenter
+import UIKit
 
 @main
 
@@ -22,6 +23,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     options: authOptions,
                     completionHandler: { _, _ in }
                 )
+        IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.enableAutoToolbar = false
+        IQKeyboardManager.shared.resignOnTouchOutside = true
+        
         return true
     }
 

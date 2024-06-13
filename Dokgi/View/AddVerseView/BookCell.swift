@@ -27,9 +27,12 @@ class BookCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(authorLabel)
         
-        titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        authorLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        titleLabel.font = Pretendard.semibold.dynamicFont(style: .headline)
+        authorLabel.font = Pretendard.semibold.dynamicFont(style: .headline)
         authorLabel.textColor = UIColor(named: "AuthorLabelGray")
+        bookImageView.contentMode = .scaleAspectFill
+        bookImageView.layer.cornerRadius = 15
+        bookImageView.clipsToBounds = true
         
         bookImageView.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(16)
@@ -40,13 +43,13 @@ class BookCell: UITableViewCell {
         
         titleLabel.snp.makeConstraints {
             $0.leading.equalTo(bookImageView.snp.trailing).offset(16)
-            $0.top.equalToSuperview().inset(12)
+            $0.top.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().inset(16)
         }
         
         authorLabel.snp.makeConstraints {
             $0.leading.equalTo(titleLabel)
-            $0.top.equalTo(titleLabel.snp.bottom).offset(4)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(8)
             $0.trailing.equalToSuperview().inset(16)
         }
     }
