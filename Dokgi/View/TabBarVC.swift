@@ -27,6 +27,7 @@ class TabBarVC: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tabBar.backgroundColor = .white
+        tabBar.alpha = 0.75
         
         view.addSubview(floatButton)
         floatButton.addTarget(self, action: #selector(didTabButton), for: .touchUpInside)
@@ -73,8 +74,8 @@ class TabBarVC: UITabBarController {
     
     @objc func didTabButton() {
         let addVC = AddVerseVC()
-//        addVC.modalPresentationStyle = .fullScreen
-//        present(addVC, animated: true)
-        self.navigationController?.pushViewController(addVC, animated: true)
+        print("구절추가 버튼 클릭")
+        let navController = UINavigationController(rootViewController: addVC)
+        self.navigationController?.pushViewController(navController, animated: true)
     }
 }
