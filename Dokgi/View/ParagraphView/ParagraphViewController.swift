@@ -438,7 +438,7 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         _ = paragraphData[indexPath.item]
         
-        let modalVC = ParagrapViewController()
+        let modalVC = ParagraphDetailViewController()
         
         present(modalVC, animated: true, completion: nil)
     }
