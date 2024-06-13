@@ -184,7 +184,7 @@ class AddVerseVC: UIViewController {
                 selectedTextColor: .white
             ),
             options: [
-                .indicatorViewBackgroundColor(UIColor(named: "CharcoalBlue") ?? .black),
+                .indicatorViewBackgroundColor(.charcoalBlue),
                 .cornerRadius(15),
                 .backgroundColor(.white)
             ]
@@ -200,7 +200,7 @@ class AddVerseVC: UIViewController {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 15
         $0.layer.borderWidth = 1
-        $0.layer.borderColor = UIColor(named: "CharcoalBlue")?.cgColor // 원하는 경계선 색상
+        $0.layer.borderColor = UIColor.charcoalBlue.cgColor
     }
     
     let recordButton = UIButton().then {
