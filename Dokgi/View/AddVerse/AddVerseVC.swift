@@ -26,9 +26,7 @@ class AddVerseVC: UIViewController {
     // pageType을 변수로 선언하여 값을 관리합니다.
     var pageType: String = "Page" {
         didSet {
-            // pageType 값이 변경되었을 때 추가 작업을 수행할 수 있습니다.
             print("pageType changed to \(pageType)")
-            // 추가 작업을 수행할 코드를 여기에 추가할 수 있습니다.
         }
     }
     
@@ -171,12 +169,11 @@ class AddVerseVC: UIViewController {
         $0.borderStyle = .roundedRect
     }
     
-    // BetterSegmentedControl을 프로그래밍 방식으로 초기화합니다.
     let betterSegmentedControl: BetterSegmentedControl = {
         let segmentedControl = BetterSegmentedControl(
             frame: .zero,
             segments: LabelSegment.segments(
-                withTitles: ["%", "페이지"],
+                withTitles: ["%", "Page"],
                 normalFont: Pretendard.bold.dynamicFont(style: .footnote),
                 normalTextColor: UIColor(named: "CharcoalBlue") ?? .black,
                 selectedFont: Pretendard.bold.dynamicFont(style: .footnote),
@@ -196,7 +193,7 @@ class AddVerseVC: UIViewController {
     let ControlBoder = UIView().then {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 15
-        $0.layer.borderWidth = 1 // 경계선 두께 0.7 포인트
+        $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor(named: "CharcoalBlue")?.cgColor // 원하는 경계선 색상
     }
     
