@@ -33,7 +33,8 @@ class TabBarVC: UITabBarController {
         
         // 홈화면 설정
         let homePageVC = HomeViewController()
-        homePageVC.tabBarItem = UITabBarItem(title: "홈", image: UIImage(named: "tabBarHome"), tag: 0)
+        let homeNavigationController = UINavigationController(rootViewController: homePageVC)
+        homeNavigationController.tabBarItem = UITabBarItem(title: "홈", image: UIImage(named: "tabBarHome"), tag: 0)
 
         // 구절화면 설정
         let verseVC = ParagraphViewController()
@@ -41,10 +42,11 @@ class TabBarVC: UITabBarController {
 
         // 내 서재 설정
         let myLibraryVC = LibrarySearchViewController()
-        myLibraryVC.tabBarItem = UITabBarItem(title: "내 서재", image: UIImage(named: "tabBarMyLibrary"), tag: 2)
+        let myLibraryNavigationController = UINavigationController(rootViewController: myLibraryVC)
+        myLibraryNavigationController.tabBarItem = UITabBarItem(title: "내 서재", image: UIImage(named: "tabBarMyLibrary"), tag: 2)
 
         // 탭바 컨트롤러에 뷰 컨트롤러 설정
-        viewControllers = [homePageVC, verseVC, myLibraryVC]
+        viewControllers = [homeNavigationController, verseVC, myLibraryNavigationController]
 
         // 탭 바의 색상 설정
         UITabBar.appearance().tintColor = UIColor.black // 선택된 아이템

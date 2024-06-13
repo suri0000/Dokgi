@@ -651,6 +651,7 @@
 		};
 		A74874732C0D7E0800B830EE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 855318BC2C16F18D00340ACF /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -714,6 +715,7 @@
 		};
 		A74874742C0D7E0800B830EE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 855318BC2C16F18D00340ACF /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -770,6 +772,7 @@
 		};
 		A74874762C0D7E0800B830EE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 855318BC2C16F18D00340ACF /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -803,6 +806,7 @@
 		};
 		A74874772C0D7E0800B830EE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 855318BC2C16F18D00340ACF /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;

@@ -270,7 +270,8 @@ class LibrarySearchViewController: UIViewController {
 extension LibrarySearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return CoreDataManager.shared.bookData.value.count
+//        return CoreDataManager.shared.bookData.value.count
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -278,8 +279,17 @@ extension LibrarySearchViewController: UICollectionViewDelegate, UICollectionVie
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryCollectionViewCell.identifier, for: indexPath) as? LibraryCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.authorNameLabel.text = CoreDataManager.shared.bookData.value[indexPath.row].author
-        cell.bookNameLabel.text = CoreDataManager.shared.bookData.value[indexPath.row].name
+//        cell.authorNameLabel.text = CoreDataManager.shared.bookData.value[indexPath.row].author
+//        cell.bookNameLabel.text = CoreDataManager.shared.bookData.value[indexPath.row].name
+        
+        cell.authorNameLabel.text = "dfasdf"
+        cell.bookNameLabel.text = "dsfa"
+        
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let bookDetailViewController = BookDetailViewController()
+        self.navigationController?.pushViewController(bookDetailViewController, animated: true)
     }
 }
