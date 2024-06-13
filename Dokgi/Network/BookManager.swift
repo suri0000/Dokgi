@@ -51,6 +51,7 @@ class BookManager {
             
             do {
                 if let json = try? JSONSerialization.jsonObject(with: data, options: []) {
+                    print(json)
                 }
                 let response = try JSONDecoder().decode(SearchBookResponse.self, from: data)
                 completion(.success(response))
