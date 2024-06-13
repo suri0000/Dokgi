@@ -1,6 +1,24 @@
 {
-  "originHash" : "8e1cfc11ad32e349bba8c9d3fb99952487677e64fd1db686a5e86d0495f6fd44",
+  "originHash" : "9b6241676e809292aca04b97a02944f0f14e3c8e9a2d89ead3898eb2ff64be70",
   "pins" : [
+    {
+      "identity" : "bettersegmentedcontrol",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/gmarm/BetterSegmentedControl",
+      "state" : {
+        "revision" : "a2b2116761f71320cee7e69b4249863f0f372c71",
+        "version" : "2.0.1"
+      }
+    },
+    {
+      "identity" : "iqkeyboardmanager",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/hackiftekhar/IQKeyboardManager.git",
+      "state" : {
+        "revision" : "19e111f9246b3407fe0c334dc78fa890c40d8c67",
+        "version" : "7.0.3"
+      }
+    },
     {
       "identity" : "kingfisher",
       "kind" : "remoteSourceControl",

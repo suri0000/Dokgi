@@ -61,6 +61,8 @@ class LibrarySearchViewController: UIViewController {
         setConstraints()
         setSearchBar()
         setSortMenuView()
+        setFloatingButton()
+        
         CoreDataManager.shared.bookData.subscribe(with: self) { (self, bookData) in
             self.libraryCollectionView.reloadData()
         }.disposed(by: disposeBag)
@@ -76,9 +78,16 @@ class LibrarySearchViewController: UIViewController {
         }.disposed(by: disposeBag)
     }
     
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         sortMenuView.isHidden = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.navigationBar.isHidden = true
     }
     
     private func setUI() {
