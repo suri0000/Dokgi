@@ -26,7 +26,7 @@ class TabBarVC: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        tabBar.backgroundColor = .white
         
         view.addSubview(floatButton)
         floatButton.addTarget(self, action: #selector(didTabButton), for: .touchUpInside)
