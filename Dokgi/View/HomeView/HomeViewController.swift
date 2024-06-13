@@ -11,9 +11,10 @@ import SnapKit
 import UIKit
 
 class HomeViewController: UIViewController {
+ 
     let disposeBag = DisposeBag()
     let viewModel = HomeViewModel()
-    
+
     let scrollView = UIScrollView()
     let contentView = UIView()
     
@@ -69,6 +70,7 @@ class HomeViewController: UIViewController {
         setupCollectionView()
         bindViewModel()
         bannerTimer()
+        setFloatingButton()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -97,7 +99,7 @@ class HomeViewController: UIViewController {
          nextLevelBubble,
          todayVersesLabel,
          todayVersesColletionView,
-        indicatorDots].forEach {
+         indicatorDots,].forEach {
             contentView.addSubview($0)
         }
         
@@ -231,7 +233,7 @@ class HomeViewController: UIViewController {
         indicatorDots.currentPageIndicatorTintColor = UIColor(.dotBlue)
         indicatorDots.numberOfPages = 5
     }
-    
+
     func setupCollectionView() {
         currentLevelCollectionView.dataSource = self
         currentLevelCollectionView.delegate = self
@@ -464,6 +466,27 @@ extension UICollectionViewCell {
         UIView.animate(withDuration: 0.2) {
             self.transform = CGAffineTransform.identity
         }
+    }
+}
+
+extension UIViewController {
+    func setFloatingButton() {
+        let floatButton = FloatButton()
+        view.addSubview(floatButton)
+        
+        floatButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview().offset(-25)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-40)
+            $0.width.height.equalTo(70)
+        }
+        
+        floatButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+    }
+    
+    @objc func didTapButton() {
+        let addVC = AddVerseVC()
+        print("구절추가 버튼 클릭")
+        self.navigationController?.pushViewController(addVC, animated: true)
     }
 }
 
