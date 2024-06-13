@@ -75,18 +75,14 @@ class ParagraphDetailContainerView: UIView {
         $0.textColor = .alarmSettingText
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupLayout()
-    }
-    
     let paragrapTextField = UITextView().then {
         $0.font = Pretendard.regular.dynamicFont(style: .callout)
         $0.backgroundColor = .clear
-        $0.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         $0.isScrollEnabled = true
         $0.textContainer.lineBreakMode = .byWordWrapping
         $0.isHidden = true
+        $0.layer.cornerRadius = 8
+        $0.clipsToBounds = true
     }
     
     let keywordTextField = UITextField().then {
@@ -102,6 +98,12 @@ class ParagraphDetailContainerView: UIView {
             $0.height.equalTo(33)
         }
     }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupLayout()
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

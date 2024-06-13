@@ -76,6 +76,11 @@ class LibrarySearchViewController: UIViewController {
         }.disposed(by: disposeBag)
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        sortMenuView.isHidden = true
+    }
+    
     private func setUI() {
         view.backgroundColor = .white
         
@@ -174,8 +179,6 @@ class LibrarySearchViewController: UIViewController {
         sortMenuView.snp.makeConstraints {
             $0.top.equalTo(sortButton.snp.bottom).offset(3)
             $0.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(60)
-            $0.width.equalTo(113)
         }
         
         // 정렬 옵션 메뉴(최신순 버튼, 오래된순 버튼)
@@ -186,13 +189,11 @@ class LibrarySearchViewController: UIViewController {
         latestFirstButton.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(oldestFirstButton.snp.top)
-            $0.height.equalTo(30)
         }
         
         oldestFirstButton.snp.makeConstraints {
             $0.top.equalTo(latestFirstButton.snp.bottom)
             $0.bottom.leading.trailing.equalToSuperview()
-            $0.height.equalTo(30)
         }
         
         // 최신순 버튼
@@ -225,6 +226,7 @@ class LibrarySearchViewController: UIViewController {
         oldestTextLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalTo(latestFirstcheckImageView.snp.trailing).offset(6)
+            $0.trailing.equalToSuperview().inset(5)
         }
         
         libraryCollectionView.snp.makeConstraints {
