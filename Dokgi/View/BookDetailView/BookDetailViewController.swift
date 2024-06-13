@@ -238,10 +238,13 @@ class BookDetailViewController: UIViewController {
     private func setBookInfo() {
         bookTitleLabel.text = bookInfo?.name
         authorLabel.text = bookInfo?.author
+        
         if let url = URL(string: bookInfo?.image ?? "") {
             bookImage.kf.setImage(with: url)
             backgroundBookImage.kf.setImage(with: url)
         }
+        
+        dateLabel.text = viewModel.recordDateFormat()
     }
 }
 // MARK: - PassageTableView

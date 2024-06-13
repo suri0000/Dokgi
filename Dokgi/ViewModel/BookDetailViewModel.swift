@@ -13,4 +13,11 @@ class BookDetailViewModel {
     
     var bookInfo: Verse?
     
+    func recordDateFormat() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy. MM. dd"
+        let recordDate =  dateFormatter.string(from: bookInfo?.date ?? Date())
+        
+        return recordDate
+    }
 }
