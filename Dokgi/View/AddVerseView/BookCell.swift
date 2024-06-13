@@ -34,7 +34,6 @@ class BookCell: UITableViewCell {
         bookImageView.layer.cornerRadius = 15
         bookImageView.clipsToBounds = true
         
-        
         bookImageView.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(16)
             $0.centerY.equalToSuperview()
