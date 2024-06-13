@@ -403,10 +403,11 @@ class AddVerseVC: UIViewController {
         // Verse 인스턴스 생성
         let verse = Verse(name: book.title, author: book.author, image: book.image, text: verseTextView.text, pageNumber: pageNumber, pageType: pageType, keywords: keywords, date: currentDate)
         
-        // TODO: 생성된 Verse 인스턴스를 어딘가에 저장하기
+        CoreDataManager.shared.saveData(verse: verse)
         print(verse)
         // 저장이 완료되었다는 메시지
         showAlert(title: "저장 완료", message: "구절이 성공적으로 저장되었습니다.")
+        // TODO: - 이전 화면으로 이동
     }
     
     func showAlert(title: String, message: String) {

@@ -59,11 +59,12 @@ class LibrarySearchViewController: UIViewController {
         setConstraints()
         setSearchBar()
         setSortMenuView()
+        
         CoreDataManager.shared.bookData.subscribe(with: self) { (self, bookData) in
             self.libraryCollectionView.reloadData()
         }.disposed(by: disposeBag)
         
-        self.searchBar.rx.text.debounce(.seconds(1), scheduler: MainScheduler.instance).subscribe(with: self) { (self, text) in
+        self.searchBar.rx.text.debounce(.milliseconds(500), scheduler: MainScheduler.instance).subscribe(with: self) { (self, text) in
             guard let text = text else { return }
             if text.isEmpty == true {
                 CoreDataManager.shared.readData()
@@ -270,8 +271,7 @@ class LibrarySearchViewController: UIViewController {
 extension LibrarySearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return CoreDataManager.shared.bookData.value.count
-        return 3
+        return CoreDataManager.shared.bookData.value.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -279,11 +279,8 @@ extension LibrarySearchViewController: UICollectionViewDelegate, UICollectionVie
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryCollectionViewCell.identifier, for: indexPath) as? LibraryCollectionViewCell else {
             return UICollectionViewCell()
         }
-//        cell.authorNameLabel.text = CoreDataManager.shared.bookData.value[indexPath.row].author
-//        cell.bookNameLabel.text = CoreDataManager.shared.bookData.value[indexPath.row].name
-        
-        cell.authorNameLabel.text = "dfasdf"
-        cell.bookNameLabel.text = "dsfa"
+        cell.authorNameLabel.text = CoreDataManager.shared.bookData.value[indexPath.row].author
+        cell.bookNameLabel.text = CoreDataManager.shared.bookData.value[indexPath.row].name
         
         return cell
     }
