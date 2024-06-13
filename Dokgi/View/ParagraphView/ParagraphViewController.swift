@@ -84,6 +84,13 @@ class ParagraphViewController: UIViewController {
         setConstraints()
         setSearchBar()
         setSortMenuView()
+        setFloatingButton()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.navigationBar.isHidden = true
     }
     
     private func setUI() {
