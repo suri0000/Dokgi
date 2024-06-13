@@ -5,13 +5,15 @@
 //  Created by 예슬 on 6/10/24.
 //
 
+import Kingfisher
 import SnapKit
 import Then
 import UIKit
 
 class BookDetailViewController: UIViewController {
-    
-    var passageCount = 5
+    private let viewModel = BookDetailViewModel.shared
+    private var passageCount = 5
+    lazy var bookInfo = viewModel.bookInfo
     
     private let contentsView = UIView()
     private let gradientLayerView = UIView()
@@ -111,6 +113,7 @@ class BookDetailViewController: UIViewController {
         passageTableView.delegate = self
         passageTableView.register(PassageTableViewCell.self, forCellReuseIdentifier: PassageTableViewCell.identifier)
         setConstraints()
+        setBookInfo()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -231,8 +234,17 @@ class BookDetailViewController: UIViewController {
         layer.endPoint = CGPoint(x: 0.5, y: 0.8)
         view.layer.addSublayer(layer)
     }
+    
+    private func setBookInfo() {
+        bookTitleLabel.text = bookInfo?.name
+        authorLabel.text = bookInfo?.author
+        if let url = URL(string: bookInfo?.image ?? "") {
+            bookImage.kf.setImage(with: url)
+            backgroundBookImage.kf.setImage(with: url)
+        }
+    }
 }
-
+// MARK: - PassageTableView
 extension BookDetailViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
