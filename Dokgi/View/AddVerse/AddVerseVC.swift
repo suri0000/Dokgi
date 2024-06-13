@@ -23,8 +23,7 @@ class AddVerseVC: UIViewController {
     var keywords: [String] = []
     weak var delegate: BookSelectionDelegate?
     
-    // pageType을 변수로 선언하여 값을 관리합니다.
-    var pageType: String = "Page" {
+    var pageType: String = "%" {
         didSet {
             print("pageType changed to \(pageType)")
         }
