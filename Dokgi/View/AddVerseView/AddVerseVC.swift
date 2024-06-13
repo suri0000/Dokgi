@@ -119,6 +119,7 @@ class AddVerseVC: UIViewController {
         $0.font = Pretendard.regular.dynamicFont(style: .footnote)
         $0.textColor = .placeholderText
         $0.layer.cornerRadius = 8
+        $0.clipsToBounds = true
         $0.showsVerticalScrollIndicator = false
         $0.delegate = self
     }
@@ -177,22 +178,24 @@ class AddVerseVC: UIViewController {
             frame: .zero,
             segments: LabelSegment.segments(
                 withTitles: ["%", "Page"],
-                normalFont: Pretendard.bold.dynamicFont(style: .footnote),
-                normalTextColor: UIColor(named: "CharcoalBlue") ?? .black,
-                selectedFont: Pretendard.bold.dynamicFont(style: .footnote),
+                normalFont: Pretendard.semibold.dynamicFont(style: .footnote),
+                normalTextColor: .charcoalBlue,
+                selectedFont: Pretendard.semibold.dynamicFont(style: .footnote),
                 selectedTextColor: .white
             ),
             options: [
-                .backgroundColor(.white),
+                .indicatorViewBackgroundColor(UIColor(named: "CharcoalBlue") ?? .black),
                 .cornerRadius(15),
-                .indicatorViewBackgroundColor(UIColor(named: "CharcoalBlue") ?? .black)
+                .backgroundColor(.white)
             ]
         )
+        
         // 초기 세그먼트 인덱스 설정
         segmentedControl.setIndex(0, animated: false, shouldSendValueChangedEvent: false)
+        
         return segmentedControl
     }()
-    
+
     let ControlBoder = UIView().then {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 15
