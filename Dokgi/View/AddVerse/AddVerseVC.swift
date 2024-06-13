@@ -5,6 +5,7 @@
 //  Created by 한철희 on 6/4/24.
 //
 
+import BetterSegmentedControl
 import SnapKit
 import Then
 import UIKit
@@ -21,6 +22,15 @@ class AddVerseVC: UIViewController {
     var images: [UIImage] = []
     var keywords: [String] = []
     weak var delegate: BookSelectionDelegate?
+    
+    // pageType을 변수로 선언하여 값을 관리합니다.
+    var pageType: String = "Page" {
+        didSet {
+            // pageType 값이 변경되었을 때 추가 작업을 수행할 수 있습니다.
+            print("pageType changed to \(pageType)")
+            // 추가 작업을 수행할 코드를 여기에 추가할 수 있습니다.
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -161,27 +171,34 @@ class AddVerseVC: UIViewController {
         $0.borderStyle = .roundedRect
     }
     
-    let segmentedControl = UISegmentedControl(items: ["%", "Page"]).then {
-            $0.selectedSegmentIndex = 0 // 초기 선택 세그먼트 인덱스
-            // 선택되지 않은 상태의 폰트 및 색상 설정
-            $0.setTitleTextAttributes([
-                .font: Pretendard.bold.dynamicFont(style: .footnote),
-                .foregroundColor: UIColor(named: "CharcoalBlue") ?? .black
-            ], for: .normal)
-            
-            // 선택된 상태의 폰트 및 색상 설정
-            $0.setTitleTextAttributes([
-                .font: Pretendard.bold.dynamicFont(style: .footnote),
-                .foregroundColor: UIColor.white
-            ], for: .selected)
-            
-            $0.layer.cornerRadius = 20
-            $0.layer.borderColor = UIColor(named: "CharcoalBlue")?.cgColor
-            $0.layer.borderWidth = 0.7
-            $0.layer.masksToBounds = true
-            $0.selectedSegmentTintColor = UIColor(named: "CharcoalBlue")
-        }
-
+    // BetterSegmentedControl을 프로그래밍 방식으로 초기화합니다.
+    let betterSegmentedControl: BetterSegmentedControl = {
+        let segmentedControl = BetterSegmentedControl(
+            frame: .zero,
+            segments: LabelSegment.segments(
+                withTitles: ["%", "페이지"],
+                normalFont: Pretendard.bold.dynamicFont(style: .footnote),
+                normalTextColor: UIColor(named: "CharcoalBlue") ?? .black,
+                selectedFont: Pretendard.bold.dynamicFont(style: .footnote),
+                selectedTextColor: .white
+            ),
+            options: [
+                .backgroundColor(.white),
+                .cornerRadius(15),
+                .indicatorViewBackgroundColor(UIColor(named: "CharcoalBlue") ?? .black)
+            ]
+        )
+        // 초기 세그먼트 인덱스 설정
+        segmentedControl.setIndex(0, animated: false, shouldSendValueChangedEvent: false)
+        return segmentedControl
+    }()
+    
+    let ControlBoder = UIView().then {
+        $0.backgroundColor = .white
+        $0.layer.cornerRadius = 15
+        $0.layer.borderWidth = 1 // 경계선 두께 0.7 포인트
+        $0.layer.borderColor = UIColor(named: "CharcoalBlue")?.cgColor // 원하는 경계선 색상
+    }
     
     let recordButton = UIButton().then {
         $0.setTitle("기록 하기", for: .normal)
@@ -209,7 +226,8 @@ class AddVerseVC: UIViewController {
         viewInScroll.addSubview(keywordCollectionView)
         viewInScroll.addSubview(pageLabel)
         viewInScroll.addSubview(pageNumberTextField)
-        viewInScroll.addSubview(segmentedControl)
+        viewInScroll.addSubview(ControlBoder)
+        viewInScroll.addSubview(betterSegmentedControl)
         viewInScroll.addSubview(recordButton)
     }
     
@@ -315,11 +333,18 @@ class AddVerseVC: UIViewController {
             $0.height.equalTo(30)
         }
         
-        segmentedControl.snp.makeConstraints {
+        betterSegmentedControl.snp.makeConstraints {
             $0.centerY.equalTo(pageLabel.snp.centerY)
             $0.trailing.equalTo(viewInScroll.snp.trailing).offset(-16)
             $0.height.equalTo(30)
             $0.width.equalTo(120)
+        }
+        
+        ControlBoder.snp.makeConstraints {
+            $0.centerY.equalTo(pageLabel.snp.centerY)
+            $0.trailing.equalTo(viewInScroll.snp.trailing).offset(-15)
+            $0.height.equalTo(32)
+            $0.width.equalTo(122)
         }
         
         recordButton.snp.makeConstraints {
@@ -336,6 +361,7 @@ class AddVerseVC: UIViewController {
         scanButton.addTarget(self, action: #selector(scanButtonTapped(_:)), for: .touchUpInside)
         searchButton.addTarget(self, action: #selector(searchButtonTapped(_:)), for: .touchUpInside)
         recordButton.addTarget(self, action: #selector(recordButtonTapped(_:)), for: .touchUpInside)
+        betterSegmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
     }
     
     func setupHideKeyboardOnTap() {
@@ -365,6 +391,19 @@ class AddVerseVC: UIViewController {
         present(bookSearchVC, animated: true, completion: nil)
     }
     
+    @objc func segmentedControlValueChanged(_ sender: BetterSegmentedControl) {
+        switch sender.index {
+        case 0:
+            pageType = "%"
+            break
+        case 1:
+            pageType = "Page"
+            break
+        default:
+            break
+        }
+    }
+    
     @objc func recordButtonTapped(_ sender: UIButton) {
         print("기록하기 버튼이 눌렸습니다.")
         if searchButton.isHidden == false {
@@ -389,16 +428,6 @@ class AddVerseVC: UIViewController {
               verseTextView.text != "텍스트를 입력하세요" else {
             showAlert(title: "경고", message: "모든 필수 정보를 입력해주세요.")
             return
-        }
-        
-        let pageType: String
-        switch segmentedControl.selectedSegmentIndex {
-        case 0:
-            pageType = "%"
-        case 1:
-            pageType = "Page"
-        default:
-            pageType = "Page"
         }
         
         // 현재 날짜 정보 가져오기
