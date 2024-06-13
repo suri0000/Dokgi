@@ -16,8 +16,8 @@ class HomeViewModel {
     let currentLevel = BehaviorRelay<Int>(value: 1)
     let currentLevelPercent = BehaviorRelay<Double>(value: 0)
     let verses = BehaviorRelay<[String]>(value: [])
-    let currentLevelImage = BehaviorRelay<UIImage?>(value: UIImage(named: ""))
-    let nextLevelImage = BehaviorRelay<UIImage?>(value: UIImage(named: ""))
+    let currentLevelImage = BehaviorRelay<UIImage?>(value: UIImage(named: " "))
+    let nextLevelImage = BehaviorRelay<UIImage?>(value: UIImage(named: " "))
     let randomVerses = BehaviorRelay<[String]>(value: [])
     
     // 구절 길이 계산

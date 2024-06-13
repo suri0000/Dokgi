@@ -16,6 +16,8 @@ class HomeViewController: UIViewController {
     
     let scrollView = UIScrollView()
     let contentView = UIView()
+    
+    let settingButton = UIButton()
     let currentLengthLabel = UILabel()
     let currentLevelCollectionView: UICollectionView = {
         let layout = CurrentLevelCollectionFlowLayout()
@@ -67,7 +69,7 @@ class HomeViewController: UIViewController {
         configureUI()
         setupCollectionView()
         bindViewModel()
-        configureNavigationBar()
+//        configureNavigationBar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -82,7 +84,8 @@ class HomeViewController: UIViewController {
     func setupConstraints() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        [currentLengthLabel,
+        [settingButton,
+         currentLengthLabel,
          currentLevelCollectionView,
          nextLengthLabel,
          lengthSlider,
@@ -104,12 +107,16 @@ class HomeViewController: UIViewController {
         }
         
         contentView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-            $0.width.equalToSuperview()
+            $0.edges.width.equalToSuperview()
+        }
+        
+        settingButton.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(57)
+            $0.trailing.equalToSuperview().offset(-24)
         }
         
         currentLengthLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(58 - 44)
+            $0.top.equalToSuperview().offset(112)
             $0.leading.equalToSuperview().offset(29)
         }
         
@@ -183,6 +190,9 @@ class HomeViewController: UIViewController {
     
     func configureUI() {
         view.backgroundColor = .white
+        settingButton.setImage(.setting, for: .normal)
+        settingButton.tintColor = .charcoalBlue
+        settingButton.addTarget(self, action: #selector(didTapSetting), for: .touchUpInside)
         currentLengthLabel.text = "현재 구절 길이"
         currentLengthLabel.font = Pretendard.semibold.dynamicFont(style: .title3)
         nextLengthLabel.text = "다음 레벨까지 \(Int(Float(viewModel.currentLevelPercent.value) * 100)) % 달성했습니다!"
@@ -321,12 +331,7 @@ class HomeViewController: UIViewController {
     }
     
     // 홈 상단에 설정 페이지 이동
-    private func configureNavigationBar() {
-        let rightBarButton = UIBarButtonItem(image: UIImage(named: "setting"), style: .plain, target: self, action: #selector(didTapSetting))
-        rightBarButton.tintColor = .charcoalBlue
-        self.navigationItem.rightBarButtonItem = rightBarButton
-    }
-    
+
     @objc func didTapSetting() {
         let settingVC = SettingViewController()
         self.navigationController?.pushViewController(settingVC, animated: true)
@@ -339,10 +344,7 @@ extension HomeViewController: UICollectionViewDataSource {
             let currentLevel = viewModel.currentLevel
             return min(currentLevel.value + 1, viewModel.levelCards.count)
             //        viewModel.levelCards.count //이미지 확인용
-        } else {
-            
-            return 5
-        }
+        } else { return 5 }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -354,7 +356,6 @@ extension HomeViewController: UICollectionViewDataSource {
             // 마지막 셀에만 블러 설정
             if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
                 cell.blurEffectView.isHidden = false
-                
             } else {
                 cell.blurEffectView.isHidden = true
             }
@@ -372,7 +373,6 @@ extension HomeViewController: UICollectionViewDataSource {
                 cell.transformToSmall()
             }
             return cell
-            
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayVersesCell.identifier, for: indexPath) as? TodayVersesCell else { return UICollectionViewCell() }
             
@@ -380,7 +380,6 @@ extension HomeViewController: UICollectionViewDataSource {
             if indexPath.item < randomVerses.count {
                 cell.verse.text = randomVerses[indexPath.item]
             }
-            
             return cell
         }
     }
