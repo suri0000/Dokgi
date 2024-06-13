@@ -42,6 +42,12 @@ class AddVerseVC: UIViewController {
         setUserInfoTextField()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isHidden = false
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    
     let scrollView = UIScrollView().then {
         $0.showsVerticalScrollIndicator = false
     }

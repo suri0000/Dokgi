@@ -18,6 +18,7 @@
 		3C73E29F2C1AB164004B1BF8 /* CurrentLevelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C73E29C2C1AB164004B1BF8 /* CurrentLevelCell.swift */; };
 		3C73E2A02C1AB164004B1BF8 /* CurrentLevelCollectionFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C73E29D2C1AB164004B1BF8 /* CurrentLevelCollectionFlowLayout.swift */; };
 		3C73E2A12C1AB164004B1BF8 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C73E29E2C1AB164004B1BF8 /* HomeViewController.swift */; };
+		3C73E2A32C1B03AD004B1BF8 /* FloatButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C73E2A22C1B03AC004B1BF8 /* FloatButton.swift */; };
 		7BE488A92C0F267000BDB92A /* LibrarySearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE488A82C0F267000BDB92A /* LibrarySearchViewController.swift */; };
 		7BE488AF2C103E5A00BDB92A /* LibraryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE488AE2C103E5A00BDB92A /* LibraryCollectionViewCell.swift */; };
 		7BE488B32C16E29C00BDB92A /* ParagraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE488B22C16E29C00BDB92A /* ParagraphViewController.swift */; };
@@ -110,6 +111,7 @@
 		3C73E29C2C1AB164004B1BF8 /* CurrentLevelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentLevelCell.swift; sourceTree = "<group>"; };
 		3C73E29D2C1AB164004B1BF8 /* CurrentLevelCollectionFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentLevelCollectionFlowLayout.swift; sourceTree = "<group>"; };
 		3C73E29E2C1AB164004B1BF8 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		3C73E2A22C1B03AC004B1BF8 /* FloatButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatButton.swift; sourceTree = "<group>"; };
 		7BE488A82C0F267000BDB92A /* LibrarySearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibrarySearchViewController.swift; sourceTree = "<group>"; };
 		7BE488AE2C103E5A00BDB92A /* LibraryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryCollectionViewCell.swift; sourceTree = "<group>"; };
 		7BE488B22C16E29C00BDB92A /* ParagraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParagraphViewController.swift; sourceTree = "<group>"; };
@@ -324,6 +326,7 @@
 				A75908C92C0F759D00415D6D /* SettingView */,
 				AB355D592C1871E900B3DE16 /* AddVerseView */,
 				A74874652C0D7E0700B830EE /* ViewController.swift */,
+				3C73E2A22C1B03AC004B1BF8 /* FloatButton.swift */,
 				AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */,
 				3C73E2972C1889F6004B1BF8 /* HomeView */,
 			);
@@ -572,6 +575,7 @@
 				7BE488AF2C103E5A00BDB92A /* LibraryCollectionViewCell.swift in Sources */,
 				3C41815F2C0DBF9800D141FD /* BookModel.swift in Sources */,
 				AB66D3442C0EEFE3000D72DA /* TabBarVC.swift in Sources */,
+				3C73E2A32C1B03AD004B1BF8 /* FloatButton.swift in Sources */,
 				7BE488B52C16E4CF00BDB92A /* ParagraphCollectionViewCell.swift in Sources */,
 				7BE488B32C16E29C00BDB92A /* ParagraphViewController.swift in Sources */,
 				3C4181652C0DC4A100D141FD /* BookManager.swift in Sources */,
