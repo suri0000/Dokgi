@@ -14,6 +14,6 @@ struct SearchBookResponse: Codable {
 
 // MARK: - Item
 struct Item: Codable {
-    let title, image, author, publisher : String
+    let title, image, author : String
 }
 
