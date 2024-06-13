@@ -13,7 +13,7 @@ class ParagraphDetailContainerView: UIView {
     let textView = UIView().then {
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 20
-        $0.backgroundColor = UIColor(named: "LightPastelBlue")
+        $0.backgroundColor = .lightPastelBlue
     }
     
     lazy var paragrapTextLbl = UILabel().then {

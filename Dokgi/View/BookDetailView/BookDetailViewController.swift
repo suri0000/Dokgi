@@ -228,7 +228,11 @@ class BookDetailViewController: UIViewController {
         layer.frame = view.bounds
         layer.colors = colors
         layer.startPoint = CGPoint(x: 0.5, y: 0.0)
-        layer.endPoint = CGPoint(x: 0.5, y: 0.4)
+        if view == self.buttonBackgroundView {
+            layer.endPoint = CGPoint(x: 0.5, y: 0.5)
+        } else {
+            layer.endPoint = CGPoint(x: 0.5, y: 0.8)
+        }
         view.layer.addSublayer(layer)
     }
 }
