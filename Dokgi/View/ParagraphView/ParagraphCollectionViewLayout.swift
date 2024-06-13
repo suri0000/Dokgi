@@ -56,7 +56,6 @@ class ParagraphCollectionViewLayout: UICollectionViewFlowLayout {
             attributes.frame = insetFrame
             cache.append(attributes)
             
-            print(contentHeight, frame.maxY)
             contentHeight = max(contentHeight, frame.maxY)
             yOffSet[column] = yOffSet[column] + height
             
@@ -81,7 +80,7 @@ class ParagraphCollectionViewLayout: UICollectionViewFlowLayout {
     }
     
     func invalidateCache() {
-            cache.removeAll()
-            contentHeight = 0
-        }
+        cache.removeAll()
+        contentHeight = 0
+    }
 }

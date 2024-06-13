@@ -14,7 +14,9 @@ class ParagraphViewController: UIViewController {
     private let selectionButtonImageView = UIImageView()
     private let selectionButtonLabel = UILabel()
     private let doneButton = UIButton()
+    
     private let searchBar = UISearchBar()
+    private var isFiltering: Bool = false
     
     private let sortButton = UIButton()
     private let sortButtonImageView = UIImageView()
@@ -48,16 +50,32 @@ class ParagraphViewController: UIViewController {
         return collectionView
     }()
     
-    var paragraphData = [
-        ("짧은 텍스트입니다끝", "24.06.11"),
-        ("짧은 텍스트입니다. 짧은 텍스트입니다. 짧은 텍스트입니다. 짧은 텍스트입니다끝", "24.06.10"),
-        ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이끝", "24.06.09"),
-        ("짧은 텍스트입니.짧은 텍스트입니.짧은 텍스트입니끝", "24.06.08"),
-        ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다끝", "24.06.07"),
-        ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다.끝", "24.06.06"),
-        ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다 끝", "24.06.05"),
-        ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다 끝", "24.06.04")
-    ]
+    var paragraphData = [("짧은 텍스트입니다끝", "24.06.11"),
+                         ("짧은 텍스트입니다. 짧은 텍스트입니다. 짧은 텍스트입니다. 짧은 텍스트입니다끝", "24.06.10"),
+                         ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이끝", "24.06.09"),
+                         ("짧은 텍스트입니.짧은 텍스트입니.짧은 텍스트입니끝", "24.06.08"),
+                         ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다끝", "24.06.07"),
+                         ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다.끝", "24.06.06"),
+                         ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다 끝", "24.06.05"),
+                         ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다 끝", "24.06.04")] {
+        didSet {
+            if let layout = paragraphCollectionView.collectionViewLayout as? ParagraphCollectionViewLayout {
+                layout.invalidateCache()
+            }
+            
+            paragraphCollectionView.reloadData()
+        }
+    }
+    
+    private var searchResultItems: [(String, String)] = [] {
+        didSet {
+            if let layout = paragraphCollectionView.collectionViewLayout as? ParagraphCollectionViewLayout {
+                layout.invalidateCache()
+            }
+            
+            paragraphCollectionView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -294,6 +312,7 @@ class ParagraphViewController: UIViewController {
         searchBar.searchTextField.layer.cornerRadius = 17
         searchBar.searchTextField.layer.masksToBounds = true
         searchBar.searchTextField.font = Pretendard.regular.dynamicFont(style: .caption2)
+        searchBar.delegate = self
     }
     // MARK: - 설정버튼
     private func setSortMenuView() {
@@ -317,12 +336,6 @@ class ParagraphViewController: UIViewController {
         sortMenuView.isHidden = true
         
         paragraphData.sort { $0.1 > $1.1 }
-        
-        if let layout = paragraphCollectionView.collectionViewLayout as? ParagraphCollectionViewLayout {
-                layout.invalidateCache()
-            }
-        
-        self.paragraphCollectionView.reloadData()
     }
     
     @objc private func tappedOldestFirst() {
@@ -334,12 +347,6 @@ class ParagraphViewController: UIViewController {
         sortMenuView.isHidden = true
         
         paragraphData.sort { $0.1 < $1.1 }
-        
-        if let layout = paragraphCollectionView.collectionViewLayout as? ParagraphCollectionViewLayout {
-                layout.invalidateCache()
-            }
-        
-        self.paragraphCollectionView.reloadData()
     }
     
     @objc private func tappedSelectionButton() {
@@ -367,9 +374,15 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let cellCount = paragraphData.count
+        let resultCount = searchResultItems.count
         
-        emptyMessageLabel.isHidden = cellCount > 0
-        return cellCount
+        let itemCount = isFiltering ? resultCount : cellCount
+        
+        emptyMessageLabel.isHidden = itemCount > 0
+        if isFiltering { emptyMessageLabel.text = "검색결과가 없습니다." }
+        
+        print(cellCount, resultCount)
+        return itemCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -378,21 +391,22 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
             return UICollectionViewCell()
         }
         
-        let (text, date) = paragraphData[indexPath.item]
-        cell.paragraphLabel.text = text
-        cell.dateLabel.text = date
         cell.setColor(with: indexPath)
         cell.deleteButton.isHidden = !isEditingMode
         cell.delegate = self
+        
+        let (text, date) = isFiltering ? searchResultItems[indexPath.item] : paragraphData[indexPath.item]
+        cell.paragraphLabel.text = text
+        cell.dateLabel.text = date
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, heightForTextAtIndexPath indexPath: IndexPath) -> CGFloat {
-        let text = paragraphData[indexPath.item].0
+        let text = isFiltering ? searchResultItems[indexPath.item].0 : paragraphData[indexPath.item].0
+        
         return calculateCellHeight(for: text, in: collectionView)
     }
-    
     
     func heightForText(_ text: String, width: CGFloat) -> CGFloat {
         let label = UILabel()
@@ -419,12 +433,6 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
     func tappedDeleteButton(in cell: ParagraphCollectionViewCell) {
         guard let indexPath = paragraphCollectionView.indexPath(for: cell) else { return }
         paragraphData.remove(at: indexPath.item)
-        
-        if let layout = paragraphCollectionView.collectionViewLayout as? ParagraphCollectionViewLayout {
-                layout.invalidateCache()
-            }
-        
-        self.paragraphCollectionView.reloadData()
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -435,3 +443,53 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
         present(modalVC, animated: true, completion: nil)
     }
 }
+
+//MARK: - SearchBar
+extension ParagraphViewController: UISearchBarDelegate {
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.isFiltering = true
+        self.searchBar.showsCancelButton = true
+        
+        self.paragraphCollectionView.reloadData()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filterItems(with: searchText)
+    }
+    
+    private func filterItems(with searchText: String) {
+        if searchText.isEmpty {
+            // 검색어가 비어있을 시 : 모든 구절 보여주기
+            searchResultItems = paragraphData
+        } else {
+            // 검색어에 맞게 items 배열 필터링 후 searchResultItems에 저장
+            searchResultItems = paragraphData.filter { $0.0.localizedCaseInsensitiveContains(searchText) }
+        }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.searchBar.showsCancelButton = false
+        self.searchBar.resignFirstResponder()
+        self.isFiltering = false
+        self.searchBar.text = ""
+        self.searchResultItems = []
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        self.isFiltering = false
+        self.paragraphCollectionView.reloadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let searchText = searchBar.text else { return }
+        filterItems(with: searchText)
+        
+        self.searchBar.showsCancelButton = false
+        self.searchBar.resignFirstResponder()
+        self.isFiltering = false
+        self.searchBar.text = ""
+        self.searchResultItems = []
+    }
+}
+
