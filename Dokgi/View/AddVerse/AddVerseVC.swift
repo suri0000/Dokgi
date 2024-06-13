@@ -161,28 +161,26 @@ class AddVerseVC: UIViewController {
         $0.borderStyle = .roundedRect
     }
     
-    let segmentedControl = SegmentedControl(cornerRadius: 15).then {
-        $0.insertSegment(withTitle: "%", at: 0, animated: false)
-        $0.insertSegment(withTitle: "Page", at: 1, animated: false)
-        $0.selectedSegmentIndex = 0 // 초기 선택 세그먼트 인덱스
-
-        // 선택되지 않은 상태의 폰트 및 색상 설정
-        $0.setTitleTextAttributes([
-            .font: Pretendard.bold.dynamicFont(style: .footnote),
-            .foregroundColor: UIColor(named: "CharcoalBlue") ?? .black
-        ], for: .normal)
-        
-        // 선택된 상태의 폰트 및 색상 설정
-        $0.setTitleTextAttributes([
-            .font: Pretendard.bold.dynamicFont(style: .footnote),
-            .foregroundColor: UIColor.white
-        ], for: .selected)
-        
-        $0.layer.borderColor = UIColor(named: "CharcoalBlue")?.cgColor
-        $0.layer.borderWidth = 0.7
-        $0.layer.masksToBounds = true
-        $0.selectedSegmentTintColor = UIColor(named: "CharcoalBlue")
-    }
+    let segmentedControl = UISegmentedControl(items: ["%", "Page"]).then {
+            $0.selectedSegmentIndex = 0 // 초기 선택 세그먼트 인덱스
+            // 선택되지 않은 상태의 폰트 및 색상 설정
+            $0.setTitleTextAttributes([
+                .font: Pretendard.bold.dynamicFont(style: .footnote),
+                .foregroundColor: UIColor(named: "CharcoalBlue") ?? .black
+            ], for: .normal)
+            
+            // 선택된 상태의 폰트 및 색상 설정
+            $0.setTitleTextAttributes([
+                .font: Pretendard.bold.dynamicFont(style: .footnote),
+                .foregroundColor: UIColor.white
+            ], for: .selected)
+            
+            $0.layer.cornerRadius = 20
+            $0.layer.borderColor = UIColor(named: "CharcoalBlue")?.cgColor
+            $0.layer.borderWidth = 0.7
+            $0.layer.masksToBounds = true
+            $0.selectedSegmentTintColor = UIColor(named: "CharcoalBlue")
+        }
 
     
     let recordButton = UIButton().then {
@@ -591,36 +589,5 @@ extension AddVerseVC: BookSelectionDelegate {
     func didSelectBook(_ book: Item) {
         self.selectedBook = book
         displayBookInfo()
-    }
-}
-
-final class SegmentedControl: UISegmentedControl {
-    private var cornerRadius: CGFloat
-
-    init(cornerRadius: CGFloat) {
-        self.cornerRadius = cornerRadius
-        super.init(frame: .zero)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        layer.cornerRadius = cornerRadius
-
-        guard let selectedSegment = subviews.last as? UIImageView else {
-            return
-        }
-
-        selectedSegment.image = nil
-        selectedSegment.backgroundColor = selectedSegmentTintColor
-        selectedSegment.layer.removeAnimation(forKey: "SelectionBounds")
-        selectedSegment.layer.cornerRadius = cornerRadius - layer.borderWidth
-        selectedSegment.bounds = CGRect(origin: .zero, size: CGSize(
-            width: selectedSegment.bounds.width,
-            height: bounds.height - layer.borderWidth * 2
-        ))
     }
 }
