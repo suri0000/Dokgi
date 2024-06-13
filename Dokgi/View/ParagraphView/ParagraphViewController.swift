@@ -414,6 +414,8 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
         label.text = text
         label.numberOfLines = 0  // 멀티라인
         label.preferredMaxLayoutWidth = width
+        label.font = Pretendard.regular.dynamicFont(style: .subheadline)
+        label.adjustsFontForContentSizeCategory = true
         
         let constraintSize = CGSize(width: width, height: .greatestFiniteMagnitude)
         let size = label.sizeThatFits(constraintSize)
@@ -450,6 +452,7 @@ extension ParagraphViewController: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         self.isFiltering = true
+        self.searchBar.showsCancelButton = true
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -470,12 +473,6 @@ extension ParagraphViewController: UISearchBarDelegate {
         self.isFiltering = false
         self.searchBar.text = ""
         self.searchResultItems = []
-    }
-    
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-//        self.isFiltering = false
-//        self.paragraphCollectionView.reloadData()
-//        self.searchBar.searchTextField.resignFirstResponder()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
