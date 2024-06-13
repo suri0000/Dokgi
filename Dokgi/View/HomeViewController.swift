@@ -57,9 +57,9 @@ class HomeViewController: UIViewController {
             self.indicatorDots.currentPage = nowPage
         }
     }
+    
     var indicatorDots = UIPageControl()
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -68,7 +68,6 @@ class HomeViewController: UIViewController {
         setupCollectionView()
         bindViewModel()
         configureNavigationBar()
-
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -229,6 +228,8 @@ class HomeViewController: UIViewController {
     }
     
     func bindViewModel() {
+        
+        // 현재 레벨
         viewModel.currentLevel
             .subscribe(onNext: { [ weak self ] value in
                 print("currentLevel changed \(value)")
@@ -236,6 +237,7 @@ class HomeViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        // 현재 레벨의 달성도(퍼센트)
         viewModel.currentLevelPercent
             .subscribe(onNext: { [ weak self ] value in
                 guard let self else { return }
@@ -249,17 +251,26 @@ class HomeViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        // 현재 레벨 이미지
         viewModel.currentLevelImage
             .subscribe(onNext: { [ weak self ] image in
                 self?.currentLevelImage.image = image
             })
             .disposed(by: disposeBag)
         
+        // 다음 레벨 이미지
         viewModel.nextLevelImage
             .subscribe(onNext: { [ weak self ] image in
                 self?.nextLevelImage.image = image
             })
             .disposed(by: disposeBag)
+        
+        // 구절 랜덤 5개
+        viewModel.randomVerses
+            .subscribe(onNext: { [weak self] _ in
+                self?.todayVersesColletionView.reloadData()
+            })
+            .disposed(by: viewModel.disposeBag)
     }
 
     func selectLevel(_ level: Int, animated: Bool = true) {
@@ -364,8 +375,12 @@ extension HomeViewController: UICollectionViewDataSource {
             
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayVersesCell.identifier, for: indexPath) as? TodayVersesCell else { return UICollectionViewCell() }
-            let randomVerses = viewModel.verses.value.shuffled().prefix(5)
-            cell.verse.text = randomVerses[indexPath.item]
+            
+            let randomVerses = viewModel.randomVerses.value
+            if indexPath.item < randomVerses.count {
+                cell.verse.text = randomVerses[indexPath.item]
+            }
+            
             return cell
         }
     }
