@@ -5,6 +5,7 @@
 //  Created by 한철희 on 6/4/24.
 //
 
+import Kingfisher
 import SnapKit
 import Then
 import UIKit

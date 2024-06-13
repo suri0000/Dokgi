@@ -5,6 +5,7 @@
 //  Created by t2023-m0095 on 6/4/24.
 //
 
+import Kingfisher
 import RxCocoa
 import RxSwift
 import SnapKit
@@ -281,6 +282,9 @@ extension LibrarySearchViewController: UICollectionViewDelegate, UICollectionVie
         }
         cell.authorNameLabel.text = CoreDataManager.shared.bookData.value[indexPath.row].author
         cell.bookNameLabel.text = CoreDataManager.shared.bookData.value[indexPath.row].name
+        if let url = URL(string: CoreDataManager.shared.bookData.value[indexPath.row].image) {
+            cell.bookImageView.kf.setImage(with: url)
+        }
         
         return cell
     }
