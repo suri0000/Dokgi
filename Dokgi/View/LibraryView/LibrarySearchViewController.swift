@@ -232,11 +232,11 @@ class LibrarySearchViewController: UIViewController {
         
         libraryCollectionView.snp.makeConstraints {
             $0.top.equalTo(sortButton.snp.bottom).offset(20)
-            $0.bottom.leading.trailing.equalToSuperview().inset(0)
+            $0.bottom.leading.trailing.equalToSuperview()
         }
         
         emptyMessageLabel.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
+            $0.center.equalToSuperview()
         }
     }
     //MARK: - searchBar

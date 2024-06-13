@@ -291,7 +291,7 @@ class ParagraphViewController: UIViewController {
         
         paragraphCollectionView.snp.makeConstraints {
             $0.top.equalTo(sortButton.snp.bottom).offset(14)
-            $0.bottom.leading.trailing.equalToSuperview().inset(0)
+            $0.bottom.leading.trailing.equalToSuperview()
         }
         
         emptyMessageLabel.snp.makeConstraints {
@@ -438,7 +438,7 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         _ = paragraphData[indexPath.item]
         
-        let modalVC = ParagrapViewController()
+        let modalVC = ParagraphDetailViewController()
         
         present(modalVC, animated: true, completion: nil)
     }
