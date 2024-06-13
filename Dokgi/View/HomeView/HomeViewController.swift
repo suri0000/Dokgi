@@ -64,12 +64,11 @@ class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupConstraints()
         configureUI()
         setupCollectionView()
         bindViewModel()
-//        configureNavigationBar()
+        bannerTimer()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -78,7 +77,12 @@ class HomeViewController: UIViewController {
             $0.centerX.equalTo(self.lengthSlider.snp.leading).offset(self.lengthSlider.frame.width * CGFloat(lengthSlider.value))
             print("lengthSlider.value \(lengthSlider.value), lengthSlider.frame.width \(lengthSlider.frame.width)")
         }
-        bannerTimer()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.navigationBar.isHidden = true
     }
     
     func setupConstraints() {
@@ -111,12 +115,12 @@ class HomeViewController: UIViewController {
         }
         
         settingButton.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(57)
+            $0.top.equalToSuperview().offset(3)
             $0.trailing.equalToSuperview().offset(-24)
         }
         
         currentLengthLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(112)
+            $0.top.equalToSuperview().offset(58)
             $0.leading.equalToSuperview().offset(29)
         }
         
@@ -333,8 +337,11 @@ class HomeViewController: UIViewController {
     // 홈 상단에 설정 페이지 이동
 
     @objc func didTapSetting() {
+        print("셋팅버튼 눌림")
         let settingVC = SettingViewController()
         self.navigationController?.pushViewController(settingVC, animated: true)
+        settingVC.tabBarController?.tabBar.isHidden = true
+        settingVC.navigationController?.navigationBar.isHidden = false
     }
 }
 

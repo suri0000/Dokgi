@@ -34,6 +34,8 @@ class TabBarVC: UITabBarController {
         // 홈화면 설정
         let homePageVC = HomeViewController()
         homePageVC.tabBarItem = UITabBarItem(title: "홈", image: UIImage(named: "tabBarHome"), tag: 0)
+        let homeNaviVC = UINavigationController(rootViewController: homePageVC)
+        homeNaviVC.navigationBar.isHidden = true
 
         // 구절화면 설정
         let verseVC = ParagraphViewController()
@@ -44,7 +46,7 @@ class TabBarVC: UITabBarController {
         myLibraryVC.tabBarItem = UITabBarItem(title: "내 서재", image: UIImage(named: "tabBarMyLibrary"), tag: 2)
 
         // 탭바 컨트롤러에 뷰 컨트롤러 설정
-        let controllers = [homePageVC, verseVC, myLibraryVC]
+        let controllers = [homeNaviVC, verseVC, myLibraryVC]
         setViewControllers(controllers, animated: true)
 
         // 탭 바의 색상 설정
@@ -71,7 +73,8 @@ class TabBarVC: UITabBarController {
     
     @objc func didTabButton() {
         let addVC = AddVerseVC()
-        addVC.modalPresentationStyle = .fullScreen
-        present(addVC, animated: true)
+//        addVC.modalPresentationStyle = .fullScreen
+//        present(addVC, animated: true)
+        self.navigationController?.pushViewController(addVC, animated: true)
     }
 }
