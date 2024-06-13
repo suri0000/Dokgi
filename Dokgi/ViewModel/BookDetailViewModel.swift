@@ -36,6 +36,15 @@ class BookDetailViewModel {
         
         return pageType
     }
+    
+    func makeAddVerseViewData() -> Item {
+        guard let bookInfo = bookInfo else {
+            return Item(title: "", image: "", author: "")
+        }
+        let item = Item(title: bookInfo.name, image: bookInfo.image, author: bookInfo.author)
+        
+        return item
+    }
 }
 
 struct Passage {

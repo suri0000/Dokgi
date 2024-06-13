@@ -93,6 +93,7 @@ class BookDetailViewController: UIViewController {
         $0.backgroundColor = .charcoalBlue
         $0.layer.cornerRadius = 15
         $0.clipsToBounds = true
+        $0.addTarget(self, action: #selector(didTabAddPassageButton), for: .touchUpInside)
     }
     
     private let buttonLabel = UILabel().then {
@@ -241,6 +242,13 @@ class BookDetailViewController: UIViewController {
             bookImage.kf.setImage(with: url)
             backgroundBookImage.kf.setImage(with: url)
         }
+    }
+    
+    @objc private func didTabAddPassageButton() {
+        let addVesreVC = AddVerseVC()
+        addVesreVC.selectedBook = viewModel.makeAddVerseViewData()
+        self.navigationController?.pushViewController(addVesreVC, animated: true)
+        addVesreVC.displayBookInfo()
     }
 }
 // MARK: - PassageTableView
