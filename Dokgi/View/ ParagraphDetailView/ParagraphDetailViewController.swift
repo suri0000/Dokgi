@@ -154,7 +154,7 @@ class ParagraphDetailViewController: UIViewController {
         }.disposed(by: disposeBag)
         
         viewModel.detailParagraph.map{ $0.keywords }.bind(to: containerView.keywordCollectionView.rx.items(cellIdentifier: KeywordCollectionViewCell.identifier,
-                   cellType: KeywordCollectionViewCell.self )) {row, data, cell in
+                   cellType: KeywordCollectionViewCell.self)) { row, data, cell in
             cell.keywordLbl.text = data
             cell.xBtn.rx.tap.subscribe(with: self) { (self, data) in
                 self.viewModel.deleteDetailKeyword(keyword: row)
