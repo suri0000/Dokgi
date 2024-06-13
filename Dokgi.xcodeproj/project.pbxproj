@@ -37,7 +37,6 @@
 		A74874712C0D7E0800B830EE /* Base in Resources */ = {isa = PBXBuildFile; fileRef = A74874702C0D7E0800B830EE /* Base */; };
 		A748747F2C0D7EBF00B830EE /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = A748747E2C0D7EBF00B830EE /* Model.swift */; };
 		A74874812C0D7EC800B830EE /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74874802C0D7EC800B830EE /* ViewModel.swift */; };
-		A74874832C0D7ED100B830EE /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74874822C0D7ED100B830EE /* PaddingLabel.swift */; };
 		A74874872C0D7F1700B830EE /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A74874862C0D7F1700B830EE /* SnapKit */; };
 		A748748C2C0D7F2100B830EE /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = A748748B2C0D7F2100B830EE /* Then */; };
 		A748748F2C0D7F3400B830EE /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = A748748E2C0D7F3400B830EE /* RxCocoa */; };
@@ -56,14 +55,16 @@
 		A75908CF2C101A3900415D6D /* DayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908CE2C101A3900415D6D /* DayTableViewCell.swift */; };
 		A75908D12C12D36100415D6D /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908D02C12D36100415D6D /* UserDefaultsKey.swift */; };
 		A75908D32C12D69300415D6D /* IntArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75908D22C12D69300415D6D /* IntArrayExtension.swift */; };
-		A7F2DB172C1347C80020B0AA /* ParagrapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB162C1347C80020B0AA /* ParagrapViewController.swift */; };
-		A7F2DB192C134B200020B0AA /* ParagrapContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB182C134B200020B0AA /* ParagrapContainerView.swift */; };
+		A75D3D722C1A11C4006C2EB3 /* ParagraphDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB162C1347C80020B0AA /* ParagraphDetailViewController.swift */; };
+		A75D3D732C1A11C7006C2EB3 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74874822C0D7ED100B830EE /* PaddingLabel.swift */; };
+		A7F2DB192C134B200020B0AA /* ParagraphDetailContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB182C134B200020B0AA /* ParagraphDetailContainerView.swift */; };
 		A7F2DB1D2C15C6E70020B0AA /* KeywordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB1C2C15C6E70020B0AA /* KeywordCollectionViewCell.swift */; };
 		A7F2DB212C16FF860020B0AA /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB202C16FF860020B0AA /* CoreDataManager.swift */; };
-		A7F2DB602C17F98E0020B0AA /* CoreDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB5F2C17F98E0020B0AA /* CoreDataModel.swift */; };
+		A7F2DB622C18A5E80020B0AA /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = A7F2DB612C18A5E80020B0AA /* Kingfisher */; };
+		A7F2DB642C18BAA70020B0AA /* ParagraphDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB632C18BAA70020B0AA /* ParagraphDetailViewModel.swift */; };
 		AB23869D2C18849E00E6FACE /* AddVerseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB23869C2C18849E00E6FACE /* AddVerseVC.swift */; };
+		AB23869F2C19B5FC00E6FACE /* VerseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB23869E2C19B5FC00E6FACE /* VerseModel.swift */; };
 		AB355D552C180C9700B3DE16 /* BookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB355D542C180C9700B3DE16 /* BookCell.swift */; };
-		AB355D582C180D8F00B3DE16 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = AB355D572C180D8F00B3DE16 /* Kingfisher */; };
 		AB355D5B2C18725400B3DE16 /* KeywordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB355D5A2C18725400B3DE16 /* KeywordCell.swift */; };
 		AB66D3442C0EEFE3000D72DA /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */; };
 		AB66D3692C17688C000D72DA /* BookSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3682C17688C000D72DA /* BookSearchVC.swift */; };
@@ -142,12 +143,13 @@
 		A75908CE2C101A3900415D6D /* DayTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTableViewCell.swift; sourceTree = "<group>"; };
 		A75908D02C12D36100415D6D /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
 		A75908D22C12D69300415D6D /* IntArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntArrayExtension.swift; sourceTree = "<group>"; };
-		A7F2DB162C1347C80020B0AA /* ParagrapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParagrapViewController.swift; sourceTree = "<group>"; };
-		A7F2DB182C134B200020B0AA /* ParagrapContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParagrapContainerView.swift; sourceTree = "<group>"; };
+		A7F2DB162C1347C80020B0AA /* ParagraphDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParagraphDetailViewController.swift; sourceTree = "<group>"; };
+		A7F2DB182C134B200020B0AA /* ParagraphDetailContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParagraphDetailContainerView.swift; sourceTree = "<group>"; };
 		A7F2DB1C2C15C6E70020B0AA /* KeywordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordCollectionViewCell.swift; sourceTree = "<group>"; };
 		A7F2DB202C16FF860020B0AA /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
-		A7F2DB5F2C17F98E0020B0AA /* CoreDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataModel.swift; sourceTree = "<group>"; };
+		A7F2DB632C18BAA70020B0AA /* ParagraphDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParagraphDetailViewModel.swift; sourceTree = "<group>"; };
 		AB23869C2C18849E00E6FACE /* AddVerseVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddVerseVC.swift; sourceTree = "<group>"; };
+		AB23869E2C19B5FC00E6FACE /* VerseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerseModel.swift; sourceTree = "<group>"; };
 		AB355D542C180C9700B3DE16 /* BookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCell.swift; sourceTree = "<group>"; };
 		AB355D5A2C18725400B3DE16 /* KeywordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordCell.swift; sourceTree = "<group>"; };
 		AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
@@ -168,7 +170,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB355D582C180D8F00B3DE16 /* Kingfisher in Frameworks */,
+				A7F2DB622C18A5E80020B0AA /* Kingfisher in Frameworks */,
 				A74874932C0D7F3400B830EE /* RxSwift in Frameworks */,
 				A74874912C0D7F3400B830EE /* RxRelay in Frameworks */,
 				A74874872C0D7F1700B830EE /* SnapKit in Frameworks */,
@@ -326,6 +328,7 @@
 				3C208EB12C106DD300CED104 /* HomeViewModel.swift */,
 				A75908CA2C0FEDEF00415D6D /* DayTimeViewModel.swift */,
 				A7F2DB202C16FF860020B0AA /* CoreDataManager.swift */,
+				A7F2DB632C18BAA70020B0AA /* ParagraphDetailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -338,7 +341,8 @@
 				3C41815E2C0DBF9800D141FD /* BookModel.swift */,
 				3C208EAF2C10273F00CED104 /* DataManager.swift */,
 				3C73E2952C17D8B8004B1BF8 /* MetricUtil.swift */,
-				A7F2DB5F2C17F98E0020B0AA /* CoreDataModel.swift */,
+				A75908D02C12D36100415D6D /* UserDefaultsKey.swift */,
+				AB23869E2C19B5FC00E6FACE /* VerseModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -378,8 +382,8 @@
 		A7F2DB152C1347840020B0AA /*  ParagraphDetailView */ = {
 			isa = PBXGroup;
 			children = (
-				A7F2DB162C1347C80020B0AA /* ParagrapViewController.swift */,
-				A7F2DB182C134B200020B0AA /* ParagrapContainerView.swift */,
+				A7F2DB162C1347C80020B0AA /* ParagraphDetailViewController.swift */,
+				A7F2DB182C134B200020B0AA /* ParagraphDetailContainerView.swift */,
 				A7F2DB1C2C15C6E70020B0AA /* KeywordCollectionViewCell.swift */,
 			);
 			path = " ParagraphDetailView";
@@ -437,7 +441,7 @@
 				A748748E2C0D7F3400B830EE /* RxCocoa */,
 				A74874902C0D7F3400B830EE /* RxRelay */,
 				A74874922C0D7F3400B830EE /* RxSwift */,
-				AB355D572C180D8F00B3DE16 /* Kingfisher */,
+				A7F2DB612C18A5E80020B0AA /* Kingfisher */,
 			);
 			productName = Dokgi;
 			productReference = A748745E2C0D7E0600B830EE /* Dokgi.app */;
@@ -524,14 +528,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A75D3D732C1A11C7006C2EB3 /* PaddingLabel.swift in Sources */,
+				A75D3D722C1A11C4006C2EB3 /* ParagraphDetailViewController.swift in Sources */,
 				855318C12C17FAD800340ACF /* PassageTableViewCell.swift in Sources */,
 				A748747F2C0D7EBF00B830EE /* Model.swift in Sources */,
 				A75908B72C0EF4C000415D6D /* SettingViewController.swift in Sources */,
+				A7F2DB642C18BAA70020B0AA /* ParagraphDetailViewModel.swift in Sources */,
 				A75908C42C0F6B9600415D6D /* Font.swift in Sources */,
 				A75908D12C12D36100415D6D /* UserDefaultsKey.swift in Sources */,
+				AB23869F2C19B5FC00E6FACE /* VerseModel.swift in Sources */,
 				A748746C2C0D7E0700B830EE /* Dokgi.xcdatamodeld in Sources */,
 				AB355D5B2C18725400B3DE16 /* KeywordCell.swift in Sources */,
-				A7F2DB602C17F98E0020B0AA /* CoreDataModel.swift in Sources */,
 				A7F2DB1D2C15C6E70020B0AA /* KeywordCollectionViewCell.swift in Sources */,
 				A74874662C0D7E0700B830EE /* ViewController.swift in Sources */,
 				3C208EB02C10273F00CED104 /* DataManager.swift in Sources */,
@@ -539,15 +546,13 @@
 				A75908D32C12D69300415D6D /* IntArrayExtension.swift in Sources */,
 				A74874622C0D7E0600B830EE /* AppDelegate.swift in Sources */,
 				A74874812C0D7EC800B830EE /* ViewModel.swift in Sources */,
-				A7F2DB192C134B200020B0AA /* ParagrapContainerView.swift in Sources */,
+				A7F2DB192C134B200020B0AA /* ParagraphDetailContainerView.swift in Sources */,
 				7BE488B72C171BC500BDB92A /* ParagraphCollectionViewLayout.swift in Sources */,
 				3C4181632C0DC1E000D141FD /* Network.swift in Sources */,
 				A75908CB2C0FEDEF00415D6D /* DayTimeViewModel.swift in Sources */,
-				A74874832C0D7ED100B830EE /* PaddingLabel.swift in Sources */,
 				AB23869D2C18849E00E6FACE /* AddVerseVC.swift in Sources */,
 				AB66D3692C17688C000D72DA /* BookSearchVC.swift in Sources */,
 				AB355D552C180C9700B3DE16 /* BookCell.swift in Sources */,
-				A74874832C0D7ED100B830EE /* PaddingLabel.swift in Sources */,
 				7BE488AF2C103E5A00BDB92A /* LibraryCollectionViewCell.swift in Sources */,
 				3C41815F2C0DBF9800D141FD /* BookModel.swift in Sources */,
 				AB66D3442C0EEFE3000D72DA /* TabBarVC.swift in Sources */,
@@ -558,7 +563,6 @@
 				3C208EAE2C0F63DF00CED104 /* CurrentLevelCell.swift in Sources */,
 				7BE488A92C0F267000BDB92A /* LibrarySearchViewController.swift in Sources */,
 				A75908CF2C101A3900415D6D /* DayTableViewCell.swift in Sources */,
-				A7F2DB172C1347C80020B0AA /* ParagrapViewController.swift in Sources */,
 				855318BB2C16E56800340ACF /* BookDetailViewController.swift in Sources */,
 				A75908B92C0F087900415D6D /* AlarmView.swift in Sources */,
 				A75908C62C0F756800415D6D /* TimePickerViewController.swift in Sources */,
@@ -926,7 +930,7 @@
 			package = A748748D2C0D7F3400B830EE /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
 		};
-		AB355D572C180D8F00B3DE16 /* Kingfisher */ = {
+		A7F2DB612C18A5E80020B0AA /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AB355D562C180D8F00B3DE16 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
