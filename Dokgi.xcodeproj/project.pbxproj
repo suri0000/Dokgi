@@ -313,9 +313,9 @@
 		A748747A2C0D7E1300B830EE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7BE488B12C16E24800BDB92A /* ParagraphView */,
 				855318B92C16E42500340ACF /* BookDetailView */,
 				7BE488B02C16E21E00BDB92A /* LibraryView */,
-				7BE488B12C16E24800BDB92A /* ParagraphView */,
 				A7F2DB152C1347840020B0AA /*  ParagraphDetailView */,
 				A75908C92C0F759D00415D6D /* SettingView */,
 				AB355D592C1871E900B3DE16 /* AddVerse */,
@@ -341,7 +341,6 @@
 		A748747C2C0D7E1700B830EE /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				A75908D02C12D36100415D6D /* UserDefaultsKey.swift */,
 				A748747E2C0D7EBF00B830EE /* Model.swift */,
 				3C41815E2C0DBF9800D141FD /* BookModel.swift */,
 				3C208EAF2C10273F00CED104 /* DataManager.swift */,

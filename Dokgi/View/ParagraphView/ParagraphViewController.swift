@@ -304,6 +304,7 @@ class ParagraphViewController: UIViewController {
         searchBar.searchBarStyle = .minimal
         searchBar.setPositionAdjustment(UIOffset(horizontal: 8, vertical: 0), for: .search)
         searchBar.setPositionAdjustment(UIOffset(horizontal: -8, vertical: 0), for: .clear)
+        
         searchBar.placeholder = "기록한 구절을 검색해보세요"
         searchBar.searchTextField.borderStyle = .line
         searchBar.searchTextField.layer.borderWidth = 1
@@ -311,7 +312,8 @@ class ParagraphViewController: UIViewController {
         searchBar.searchTextField.layer.backgroundColor = UIColor.white.cgColor
         searchBar.searchTextField.layer.cornerRadius = 17
         searchBar.searchTextField.layer.masksToBounds = true
-        searchBar.searchTextField.font = Pretendard.regular.dynamicFont(style: .caption2)
+        searchBar.searchTextField.font = Pretendard.regular.dynamicFont(style: .footnote)
+    
         searchBar.delegate = self
     }
     // MARK: - 설정버튼
@@ -369,7 +371,7 @@ class ParagraphViewController: UIViewController {
 extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDataSource, ParagraphCollectionViewLayoutDelegate, ParagraphCollectionViewCellDelegate {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -386,7 +388,6 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ParagraphCollectionViewCell.identifier, for: indexPath) as? ParagraphCollectionViewCell else {
             return UICollectionViewCell()
         }
@@ -425,7 +426,7 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
         let paragraphLabelHeight = heightForText(text, width: width)
         let paragraphDateSpacing: CGFloat = 30
         let dataLabelHeight: CGFloat = 22
-        let topBottomPadding: CGFloat = 12 * 2
+        let topBottomPadding: CGFloat = 14 * 2
         
         return paragraphLabelHeight + paragraphDateSpacing + dataLabelHeight + topBottomPadding
     }
@@ -449,9 +450,6 @@ extension ParagraphViewController: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         self.isFiltering = true
-        self.searchBar.showsCancelButton = true
-        
-        self.paragraphCollectionView.reloadData()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -460,10 +458,8 @@ extension ParagraphViewController: UISearchBarDelegate {
     
     private func filterItems(with searchText: String) {
         if searchText.isEmpty {
-            // 검색어가 비어있을 시 : 모든 구절 보여주기
             searchResultItems = paragraphData
         } else {
-            // 검색어에 맞게 items 배열 필터링 후 searchResultItems에 저장
             searchResultItems = paragraphData.filter { $0.0.localizedCaseInsensitiveContains(searchText) }
         }
     }
@@ -477,8 +473,9 @@ extension ParagraphViewController: UISearchBarDelegate {
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        self.isFiltering = false
-        self.paragraphCollectionView.reloadData()
+//        self.isFiltering = false
+//        self.paragraphCollectionView.reloadData()
+//        self.searchBar.searchTextField.resignFirstResponder()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -487,9 +484,5 @@ extension ParagraphViewController: UISearchBarDelegate {
         
         self.searchBar.showsCancelButton = false
         self.searchBar.resignFirstResponder()
-        self.isFiltering = false
-        self.searchBar.text = ""
-        self.searchResultItems = []
     }
 }
-
