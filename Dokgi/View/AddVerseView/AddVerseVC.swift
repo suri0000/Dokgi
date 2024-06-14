@@ -321,7 +321,7 @@ class AddVerseVC: UIViewController {
         keywordField.snp.makeConstraints {
             $0.top.equalTo(keywordLabel.snp.bottom).offset(16)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(33)
+            $0.height.equalTo(36)
         }
         
         keywordCollectionView.snp.makeConstraints {
