@@ -236,7 +236,7 @@ class LibrarySearchViewController: UIViewController {
         oldestTextLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalTo(latestFirstcheckImageView.snp.trailing).offset(6)
-            $0.trailing.equalToSuperview().inset(5)
+            $0.trailing.equalToSuperview().inset(25)
         }
         
         libraryCollectionView.snp.makeConstraints {

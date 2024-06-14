@@ -40,7 +40,6 @@ class LibraryCollectionViewCell: UICollectionViewCell {
   
         bookNameLabel.text = "김태성의 별별 한국사 능력 검정시험"
         bookNameLabel.font = Pretendard.bold.dynamicFont(style: .subheadline)
-        bookNameLabel.textColor = UIColor.black
         bookNameLabel.textAlignment = .center
         bookNameLabel.numberOfLines = 2
         bookNameLabel.layer.masksToBounds = true

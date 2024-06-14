@@ -110,14 +110,14 @@ class ParagraphViewController: UIViewController {
         selectionButtonImageView.image = .filter
         
         selectionButtonLabel.text = "선택"
-        selectionButtonLabel.font = Pretendard.medium.dynamicFont(style: .subheadline)
+        selectionButtonLabel.font = Pretendard.semibold.dynamicFont(style: .headline)
         selectionButtonLabel.textColor = .charcoalBlue
         selectionButton.sizeToFit()
         
         doneButton.backgroundColor = .yellow
         doneButton.isHidden = true
         doneButton.addTarget(self, action: #selector(tappedDoneButton), for: .touchUpInside)
-        doneButton.titleLabel?.font = Pretendard.medium.dynamicFont(style: .callout)
+        doneButton.titleLabel?.font = Pretendard.semibold.dynamicFont(style: .headline)
         doneButton.setTitle("완료", for: .normal)
         doneButton.setTitleColor(.brightRed, for: .normal)
         
@@ -288,7 +288,7 @@ class ParagraphViewController: UIViewController {
         oldestTextLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalTo(latestFirstcheckImageView.snp.trailing).offset(6)
-            $0.trailing.equalToSuperview().inset(5)
+            $0.trailing.equalToSuperview().inset(25)
         }
         
         paragraphCollectionView.snp.makeConstraints {
@@ -326,9 +326,13 @@ class ParagraphViewController: UIViewController {
         oldestFirstcheckImageView.isHidden = true
     }
     
-    @objc private func showSortMenuView() {
-        sortMenuView.isHidden = false
-        view.bringSubviewToFront(sortMenuView)
+    @objc private func showOrHideSortMenuView() {
+        if sortMenuView.isHidden {
+            sortMenuView.isHidden = false
+            view.bringSubviewToFront(sortMenuView)
+        } else {
+            sortMenuView.isHidden = true
+        }
     }
     
     @objc private func tappedLatestFirst() {
