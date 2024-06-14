@@ -19,6 +19,7 @@ class BookSearchVC: UIViewController {
     
     let tableView = UITableView().then {
         $0.rowHeight = 150
+        $0.showsVerticalScrollIndicator = false
     }
     
     let searchBar = UISearchBar().then {
