@@ -15,7 +15,7 @@ class BookManager {
     private let clientID = "ZhymPJXIPco2dZ2xDma2"
     private let clientKEY = "kNGk9K_N84"
 
-    func fetchBookData(queryValue: String, completion: @escaping (Result<SearchBookResponse, Error>) -> Void) {
+    func fetchBookData(queryValue: String, startIndex: Int = 1, completion: @escaping (Result<SearchBookResponse, Error>) -> Void) {
         
         guard var urlComponents = URLComponents(string: url) else {
             print("Invalid URL")
@@ -23,7 +23,8 @@ class BookManager {
         }
         
         let queryItems: [URLQueryItem] = [
-            URLQueryItem(name: "query", value: queryValue)
+            URLQueryItem(name: "query", value: queryValue),
+            URLQueryItem(name: "start", value: "\(startIndex)")
         ]
         
         urlComponents.queryItems = queryItems
@@ -39,20 +40,18 @@ class BookManager {
         request.setValue(clientKEY, forHTTPHeaderField: "X-Naver-Client-Secret")
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            // 에러 처리
             if let error = error {
                 print("Error \(error)")
+                completion(.failure(error))
                 return
             }
             guard let data = data else {
                 print("No data")
+                completion(.failure(NSError(domain: "No data", code: -1, userInfo: nil)))
                 return
             }
             
             do {
-                if let json = try? JSONSerialization.jsonObject(with: data, options: []) {
-                    print(json)
-                }
                 let response = try JSONDecoder().decode(SearchBookResponse.self, from: data)
                 completion(.success(response))
             } catch {
@@ -63,6 +62,3 @@ class BookManager {
         task.resume()
     }
 }
-
-
-
