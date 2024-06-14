@@ -11,7 +11,7 @@ import RxSwift
 import SnapKit
 import UIKit
 
-class LibrarySearchViewController: UIViewController {
+class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
     
     private let libraryLabel = UILabel()
     private let searchBar = UISearchBar()
@@ -247,6 +247,7 @@ class LibrarySearchViewController: UIViewController {
         searchBar.searchBarStyle = .minimal
         searchBar.setPositionAdjustment(UIOffset(horizontal: 8, vertical: 0), for: .search)
         searchBar.setPositionAdjustment(UIOffset(horizontal: -8, vertical: 0), for: .clear)
+        
         searchBar.placeholder = "기록된 책을 검색해보세요"
         searchBar.searchTextField.borderStyle = .line
         searchBar.searchTextField.layer.borderWidth = 1
@@ -254,7 +255,9 @@ class LibrarySearchViewController: UIViewController {
         searchBar.searchTextField.layer.backgroundColor = UIColor.white.cgColor
         searchBar.searchTextField.layer.cornerRadius = 17
         searchBar.searchTextField.layer.masksToBounds = true
-        searchBar.searchTextField.font = Pretendard.regular.dynamicFont(style: .caption2)
+        searchBar.searchTextField.font = Pretendard.regular.dynamicFont(style: .footnote)
+        
+        searchBar.delegate = self
     }
     // MARK: - 설정버튼
     private func setSortMenuView() {
