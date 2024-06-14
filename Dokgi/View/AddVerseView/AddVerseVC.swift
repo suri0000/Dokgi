@@ -24,7 +24,7 @@ class AddVerseVC: UIViewController {
     var keywords: [String] = []
     weak var delegate: BookSelectionDelegate?
     
-    var pageType: String = "%" {
+    var pageType: String = "Page" {
         didSet {
             print("pageType changed to \(pageType)")
         }
@@ -32,7 +32,6 @@ class AddVerseVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Navigation Controller: \(self.navigationController ?? nil)")
         view.backgroundColor = .white
         keywordCollectionView.register(KeywordCell.self, forCellWithReuseIdentifier: KeywordCell.reuseIdentifier)
         keywordField.delegate = self
@@ -187,7 +186,7 @@ class AddVerseVC: UIViewController {
         let segmentedControl = BetterSegmentedControl(
             frame: .zero,
             segments: LabelSegment.segments(
-                withTitles: ["%", "Page"],
+                withTitles: ["Page", "%"],
                 normalFont: Pretendard.semibold.dynamicFont(style: .footnote),
                 normalTextColor: .charcoalBlue,
                 selectedFont: Pretendard.semibold.dynamicFont(style: .footnote),
@@ -405,10 +404,10 @@ class AddVerseVC: UIViewController {
     @objc func segmentedControlValueChanged(_ sender: BetterSegmentedControl) {
         switch sender.index {
         case 0:
-            pageType = "%"
+            pageType = "Page"
             break
         case 1:
-            pageType = "Page"
+            pageType = "%"
             break
         default:
             break
@@ -448,7 +447,6 @@ class AddVerseVC: UIViewController {
         let verse = Verse(name: book.title, author: book.author, image: book.image, text: verseTextView.text, pageNumber: pageNumber, pageType: pageType, keywords: keywords, date: currentDate)
         
         CoreDataManager.shared.saveData(verse: verse)
-        print(verse)
         // 저장이 완료되었다는 메시지
         // TODO: - 이전 화면으로 이동
         showAlert(title: "저장 완료", message: "구절이 성공적으로 저장되었습니다.") {
