@@ -74,12 +74,13 @@ class HomeViewModel {
             })
             .disposed(by: disposeBag)
 
+        // 테스트 데이터
+        verses.accept(["도개걸육조", "우리팀 화이팅", "오늘은 다들 일찍 잘 수 있길","아자아자 화이팅이다", "주말을 주세요", "모두 행복합시다"])
         loadTodayVerses()
     }
     
     // MARK: - Today's verese
     private func loadTodayVerses() {
-        print(#function, "start")
         print("todaty \(today)")
         let savedDate = UserDefaults.standard.string(forKey: "savedDate")
         
@@ -93,7 +94,6 @@ class HomeViewModel {
                 shuffleAndSaveVerses()
             }
         }
-        print(#function, "end")
     }
     
     func shuffleAndSaveVerses() {
@@ -110,6 +110,7 @@ class HomeViewModel {
         print("shuffled \(shuffled)")
         
         randomVerses.accept(shuffled)
+        print("randomVerses: \(randomVerses)")
         UserDefaults.standard.set(today, forKey: "savedDate")
         UserDefaults.standard.set(shuffled, forKey: "shuffledVerses")
     }
