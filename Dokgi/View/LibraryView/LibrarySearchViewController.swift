@@ -5,6 +5,7 @@
 //  Created by t2023-m0095 on 6/4/24.
 //
 
+import Kingfisher
 import RxCocoa
 import RxSwift
 import SnapKit
@@ -67,7 +68,7 @@ class LibrarySearchViewController: UIViewController {
             self.libraryCollectionView.reloadData()
         }.disposed(by: disposeBag)
         
-        self.searchBar.rx.text.debounce(.seconds(1), scheduler: MainScheduler.instance).subscribe(with: self) { (self, text) in
+        self.searchBar.rx.text.debounce(.milliseconds(500), scheduler: MainScheduler.instance).subscribe(with: self) { (self, text) in
             guard let text = text else { return }
             if text.isEmpty == true {
                 CoreDataManager.shared.readData()
@@ -310,6 +311,16 @@ extension LibrarySearchViewController: UICollectionViewDelegate, UICollectionVie
         }
         cell.authorNameLabel.text = CoreDataManager.shared.bookData.value[indexPath.row].author
         cell.bookNameLabel.text = CoreDataManager.shared.bookData.value[indexPath.row].name
+        if let url = URL(string: CoreDataManager.shared.bookData.value[indexPath.row].image) {
+            cell.bookImageView.kf.setImage(with: url)
+        }
+        
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        BookDetailViewModel.shared.bookInfo = CoreDataManager.shared.bookData.value[indexPath.row]
+        let bookDetailViewController = BookDetailViewController()
+        self.navigationController?.pushViewController(bookDetailViewController, animated: true)
     }
 }

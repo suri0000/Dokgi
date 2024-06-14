@@ -26,6 +26,7 @@
 		7BE488B72C171BC500BDB92A /* ParagraphCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE488B62C171BC400BDB92A /* ParagraphCollectionViewLayout.swift */; };
 		855318BB2C16E56800340ACF /* BookDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855318BA2C16E56800340ACF /* BookDetailViewController.swift */; };
 		855318C12C17FAD800340ACF /* PassageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855318C02C17FAD800340ACF /* PassageTableViewCell.swift */; };
+		855318C62C1AEBF900340ACF /* BookDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855318C52C1AEBF900340ACF /* BookDetailViewModel.swift */; };
 		85A821CB2C10B24300494313 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A821CA2C10B24300494313 /* WidgetKit.framework */; };
 		85A821CD2C10B24300494313 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A821CC2C10B24300494313 /* SwiftUI.framework */; };
 		85A821D02C10B24300494313 /* DokgiWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A821CF2C10B24300494313 /* DokgiWidgetBundle.swift */; };
@@ -122,6 +123,7 @@
 		855318BA2C16E56800340ACF /* BookDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailViewController.swift; sourceTree = "<group>"; };
 		855318BC2C16F18D00340ACF /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		855318C02C17FAD800340ACF /* PassageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassageTableViewCell.swift; sourceTree = "<group>"; };
+		855318C52C1AEBF900340ACF /* BookDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailViewModel.swift; sourceTree = "<group>"; };
 		85A821C82C10B24300494313 /* DokgiWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DokgiWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		85A821CA2C10B24300494313 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		85A821CC2C10B24300494313 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -347,6 +349,7 @@
 				A75908CA2C0FEDEF00415D6D /* DayTimeViewModel.swift */,
 				A7F2DB202C16FF860020B0AA /* CoreDataManager.swift */,
 				A7F2DB632C18BAA70020B0AA /* ParagraphDetailViewModel.swift */,
+				855318C52C1AEBF900340ACF /* BookDetailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -570,6 +573,7 @@
 				A75908D32C12D69300415D6D /* IntArrayExtension.swift in Sources */,
 				A74874622C0D7E0600B830EE /* AppDelegate.swift in Sources */,
 				A74874812C0D7EC800B830EE /* ViewModel.swift in Sources */,
+				855318C62C1AEBF900340ACF /* BookDetailViewModel.swift in Sources */,
 				A7F2DB192C134B200020B0AA /* ParagraphDetailContainerView.swift in Sources */,
 				7BE488B72C171BC500BDB92A /* ParagraphCollectionViewLayout.swift in Sources */,
 				3C4181632C0DC1E000D141FD /* Network.swift in Sources */,
@@ -679,6 +683,7 @@
 		};
 		A74874732C0D7E0800B830EE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 855318BC2C16F18D00340ACF /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -742,6 +747,7 @@
 		};
 		A74874742C0D7E0800B830EE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 855318BC2C16F18D00340ACF /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -798,6 +804,7 @@
 		};
 		A74874762C0D7E0800B830EE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 855318BC2C16F18D00340ACF /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -832,6 +839,7 @@
 		};
 		A74874772C0D7E0800B830EE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 855318BC2C16F18D00340ACF /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;

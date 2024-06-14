@@ -20,6 +20,8 @@ class HomeViewModel {
     let nextLevelImage = BehaviorRelay<UIImage?>(value: UIImage(named: " "))
     let randomVerses = BehaviorRelay<[String]>(value: [])
     
+    let today = DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .none)
+    
     // 구절 길이 계산
     func getVerseLength(from verses: [String]) -> Int {
         verses.reduce(0) { result, verse in result + verse.count }
@@ -71,49 +73,45 @@ class HomeViewModel {
                 print("verses changed \(value)")
             })
             .disposed(by: disposeBag)
+
         loadTodayVerses()
     }
     
-    // 매일 5개의 랜덤구절을 저장하고 불러오는 함수
+    // MARK: - Today's verese
     private func loadTodayVerses() {
         print(#function, "start")
-        
-        let today = DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .none)
         print("todaty \(today)")
         let savedDate = UserDefaults.standard.string(forKey: "savedDate")
         
         // 날짜에 따른 구절 업데이트
         if today != savedDate {
-            // 오늘이 아니면 랜덤 5개의 구절 저장
-            let shuffled = verses.value.shuffled().prefix(5).map { $0 }
-            print("shuffled \(shuffled)")
-            randomVerses.accept(Array(shuffled))
-            UserDefaults.standard.set(today, forKey: "savedDate")
-            UserDefaults.standard.set(shuffled, forKey: "shuffledVerses")
+            shuffleAndSaveVerses()
         } else {
             if let savedVerses = UserDefaults.standard.array(forKey: "shuffledVerses") as? [String] {
                 randomVerses.accept(savedVerses)
             } else {
-                let shuffled = verses.value.shuffled().prefix(5).map { $0 }
-                print("shuffled \(shuffled)")
-                randomVerses.accept(Array(shuffled))
-                UserDefaults.standard.set(today, forKey: "savedDate")
-                UserDefaults.standard.set(shuffled, forKey: "shuffledVerses")
+                shuffleAndSaveVerses()
             }
         }
         print(#function, "end")
     }
     
-    // 구절추가 테스트 함수
-    func addVerse(_ verse: String) {
-        var verseList = verses.value
-        verseList.append(verse)
-        verses.accept(verseList)
-    }
-    
-    // 구절 삭제 테스트 함수
-    func clearVerse() {
-        verses.accept([])
+    func shuffleAndSaveVerses() {
+        let versesCount = self.verses.value.count
+        
+        guard versesCount > 0 else {
+            print("No verses recorded")
+            return
+        }
+        
+        let shuffledCount = min(5, versesCount)
+        let shuffled = verses.value.shuffled().prefix(shuffledCount).map { $0 }
+        
+        print("shuffled \(shuffled)")
+        
+        randomVerses.accept(shuffled)
+        UserDefaults.standard.set(today, forKey: "savedDate")
+        UserDefaults.standard.set(shuffled, forKey: "shuffledVerses")
     }
 }
 

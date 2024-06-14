@@ -14,7 +14,7 @@ class KeywordCell: UICollectionViewCell {
     static let reuseIdentifier = "KeywordCell"
     
     private let label = UILabel().then {
-        $0.textColor = .brightRed
+        $0.textColor = .brightBlue
         $0.font = Pretendard.regular.dynamicFont(style: .callout)
     }
     

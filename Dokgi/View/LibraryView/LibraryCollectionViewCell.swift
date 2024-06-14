@@ -34,7 +34,7 @@ class LibraryCollectionViewCell: UICollectionViewCell {
         bookImageView.image = UIImage(named: "book")
         bookImageView.backgroundColor = .white
         bookImageView.layer.cornerRadius = 15
-        bookImageView.layer.borderColor = UIColor(named: "LightGray")?.cgColor
+        bookImageView.layer.borderColor = UIColor(resource: .buttonLightGray).cgColor
         bookImageView.layer.borderWidth = 1
         bookImageView.contentMode = .scaleAspectFit
   
