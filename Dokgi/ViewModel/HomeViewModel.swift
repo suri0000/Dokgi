@@ -35,8 +35,8 @@ class HomeViewModel {
         return 1
     }
 
-    
     init() {
+        
         verses
             .subscribe(onNext: { [weak self] value in
                 guard let self = self else { return }
@@ -62,9 +62,15 @@ class HomeViewModel {
             })
             .disposed(by: disposeBag)
         
-        // 테스트 구문추가
-        verses.accept(["1", "2", "3", "4", "5", "나는 행복하지 않기 때문에 불행한 것이 아니다.", "당신이 세상에서 보고 싶은 변화가 되어라.", "전쟁은 평화다. 자유는 굴레다. 무지는 힘이다.", "인간은 패배하기 위해 태어난 것이 아니다. 인간은 파괴될 수는 있어도 패배하지는 않는다.", "죽지 못할 것은 살지 못한다.", "오만은 우리 자신을, 편견은 다른 사람들을 생각하는 데서 비롯된다.", "희망은 깃털을 달고 영혼에 앉아 노래하는 것." ])
-        
+        CoreDataManager.shared.bookData
+            .subscribe(onNext: { [weak self] value in
+                let verses = value.map { verses in
+                    return verses.text
+                }
+                self?.verses.accept(verses)
+                print("verses changed \(value)")
+            })
+            .disposed(by: disposeBag)
         loadTodayVerses()
     }
     
