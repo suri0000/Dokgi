@@ -341,7 +341,6 @@ class HomeViewController: UIViewController {
     // 다음 페이지 이동
     func scrollNextToPage(_ page: Int) {
         nowPage += 1
-        print("now: \(nowPage), page: \(page)")
         todayVersesColletionView.scrollToItem(at: IndexPath(item: nowPage, section: 0), at: .right, animated: true)
     }
     
@@ -433,45 +432,54 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         currentCell?.transformToSmall()
     }
     
-  func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-      
-          guard scrollView == currentLevelCollectionView else { return }
-          
-          // pointee == 스크롤 도착 좌표
-          targetContentOffset.pointee = scrollView.contentOffset
-          
-          let flowLayout = currentLevelCollectionView.collectionViewLayout as! CurrentLevelCollectionFlowLayout
-          let cellWidthIncludingSpacing = flowLayout.itemSize.width + flowLayout.minimumLineSpacing
-          let offset = targetContentOffset.pointee
-          let horizontalVelocity = velocity.x
-          
-          var selectedIndex = levelCollectionViewSelectedIndex
-          
-          switch horizontalVelocity {
-          // 스크롤 시
-          case _ where horizontalVelocity > 0:
-              selectedIndex = levelCollectionViewSelectedIndex + 1
-          case _ where horizontalVelocity < 0:
-              selectedIndex = levelCollectionViewSelectedIndex - 1
-              
-          // 정지 후에 스크롤 할 떄
-          case _ where horizontalVelocity == 0:
-              let index = (offset.x + scrollView.contentInset.left) / cellWidthIncludingSpacing
-              let roundedIndex = round(index)
-              selectedIndex = Int(roundedIndex)
-          default:
-              print("Incorrect velocity for collection view")
-          }
-          
-          let safeIndex = max(0, min(selectedIndex, viewModel.currentLevel.value))
-    //      let safeIndex = max(0, min(selectedIndex, viewModel.levelCards.count)) // 이미지 오류 확인용
-          let selectedIndexPath = IndexPath(item: safeIndex, section: 0)
-          currentLevelCollectionView.scrollToItem(at: selectedIndexPath, at: .centeredHorizontally, animated: true)
-          
-          levelCollectionViewSelectedIndex = selectedIndexPath.item
-
-          updateCurrentLevelCollectionViewCell()
-  }
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        
+        if scrollView == currentLevelCollectionView {
+            guard scrollView == currentLevelCollectionView else { return }
+            
+            // pointee == 스크롤 도착 좌표
+            targetContentOffset.pointee = scrollView.contentOffset
+            
+            let flowLayout = currentLevelCollectionView.collectionViewLayout as! CurrentLevelCollectionFlowLayout
+            let cellWidthIncludingSpacing = flowLayout.itemSize.width + flowLayout.minimumLineSpacing
+            let offset = targetContentOffset.pointee
+            let horizontalVelocity = velocity.x
+            
+            var selectedIndex = levelCollectionViewSelectedIndex
+            
+            switch horizontalVelocity {
+                // 스크롤 시
+            case _ where horizontalVelocity > 0:
+                selectedIndex = levelCollectionViewSelectedIndex + 1
+            case _ where horizontalVelocity < 0:
+                selectedIndex = levelCollectionViewSelectedIndex - 1
+                
+                // 정지 후에 스크롤 할 떄
+            case _ where horizontalVelocity == 0:
+                let index = (offset.x + scrollView.contentInset.left) / cellWidthIncludingSpacing
+                let roundedIndex = round(index)
+                selectedIndex = Int(roundedIndex)
+            default:
+                print("Incorrect velocity for collection view")
+            }
+            
+            let safeIndex = max(0, min(selectedIndex, viewModel.currentLevel.value))
+            //      let safeIndex = max(0, min(selectedIndex, viewModel.levelCards.count)) // 이미지 오류 확인용
+            let selectedIndexPath = IndexPath(item: safeIndex, section: 0)
+            currentLevelCollectionView.scrollToItem(at: selectedIndexPath, at: .centeredHorizontally, animated: true)
+            
+            levelCollectionViewSelectedIndex = selectedIndexPath.item
+            
+            updateCurrentLevelCollectionViewCell()
+        } else if scrollView == todayVersesColletionView {
+            // 사용자가 오늘의 구절을 넘겼을 때
+            let pageWidth = scrollView.frame.size.width
+            let targetXContentOffset = targetContentOffset.pointee.x
+            let page = Int(targetXContentOffset / pageWidth)
+            self.indicatorDots.currentPage = page
+            self.nowPage = page
+        }
+    }
 }
 
 extension UICollectionViewCell {
