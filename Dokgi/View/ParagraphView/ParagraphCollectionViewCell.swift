@@ -7,12 +7,18 @@
 import SnapKit
 import UIKit
 
+protocol ParagraphCollectionViewCellDelegate: AnyObject {
+    func tappedDeleteButton(in cell: ParagraphCollectionViewCell)
+}
+
 class ParagraphCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "ParagraphCollectionViewCell"
     
+    let deleteButton = UIButton()
     let paragraphLabel = UILabel()
     let dateLabel = UILabel()
+    weak var delegate: ParagraphCollectionViewCellDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,20 +32,26 @@ class ParagraphCollectionViewCell: UICollectionViewCell {
     }
     
     func setCell() {
+        deleteButton.setImage(.deleteParagraph, for: .normal)
+        deleteButton.addTarget(self, action: #selector(tappedDeleteButton), for: .touchUpInside)
+        
         paragraphLabel.font = Pretendard.regular.dynamicFont(style: .subheadline)
-        paragraphLabel.textColor = UIColor.black
         paragraphLabel.numberOfLines = 0  //자동 줄바꿈
         paragraphLabel.lineBreakMode = .byCharWrapping
         
-        dateLabel.text = "24.05.26"
         dateLabel.font = Pretendard.regular.dynamicFont(style: .caption2)
-        dateLabel.textColor = UIColor(named: "AlarmMemoGray")
+        dateLabel.textColor = .alarmMemoGray
         dateLabel.numberOfLines = 1
     }
     
     func setConstraints() {
-        [paragraphLabel, dateLabel].forEach {
+        [deleteButton, paragraphLabel, dateLabel].forEach {
             contentView.addSubview($0)
+        }
+        
+        deleteButton.snp.makeConstraints {
+            $0.top.leading.equalToSuperview().offset(-7)
+            $0.width.height.equalTo(26)
         }
         
         paragraphLabel.snp.makeConstraints {
@@ -51,5 +63,16 @@ class ParagraphCollectionViewCell: UICollectionViewCell {
             $0.bottom.trailing.equalToSuperview().inset(15)
             $0.height.equalTo(22)
         }
+    }
+    
+    func setColor(with indexPath: IndexPath) {
+        let colors = ["LightSkyBlue", "LightPastelBlue", "LavenderBlue", "LavenderDarkBlue"]
+        let colorName = colors[indexPath.item % colors.count]
+        contentView.backgroundColor = UIColor(named: colorName) ?? .gray
+        contentView.layer.cornerRadius = 20
+    }
+    
+    @objc private func tappedDeleteButton() {
+        delegate?.tappedDeleteButton(in: self)
     }
 }

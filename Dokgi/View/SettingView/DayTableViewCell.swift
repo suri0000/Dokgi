@@ -13,12 +13,12 @@ class DayTableViewCell: UITableViewCell {
     
     static let identifier = "DayTableViewCell"
     
+    let check = UIImageView()
+    
     let dayLabel = UILabel().then {
         $0.text = ""
         $0.font = Pretendard.regular.dynamicFont(style: .body)
     }
-    
-    let check = UIImageView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -44,5 +44,4 @@ class DayTableViewCell: UITableViewCell {
             $0.height.width.equalTo(24)
         }
     }
-    
 }
