@@ -42,7 +42,7 @@ class ParagraphViewController: UIViewController {
         layout.delegate = self
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.contentInset = UIEdgeInsets(top: 1, left: 14, bottom: 14, right: 14)
+        collectionView.contentInset = UIEdgeInsets(top: 2, left: 14, bottom: 15, right: 14)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(ParagraphCollectionViewCell.self, forCellWithReuseIdentifier: ParagraphCollectionViewCell.identifier)
@@ -103,10 +103,10 @@ class ParagraphViewController: UIViewController {
         selectionButtonLabel.textColor = UIColor(named: "CharcoalBlue")
         selectionButton.sizeToFit()
         
-        doneButton.backgroundColor = .white
+        doneButton.backgroundColor = .yellow
         doneButton.isHidden = true
         doneButton.addTarget(self, action: #selector(tappedDoneButton), for: .touchUpInside)
-        doneButton.titleLabel?.font = Pretendard.medium.dynamicFont(style: .subheadline)
+        doneButton.titleLabel?.font = Pretendard.medium.dynamicFont(style: .callout)
         doneButton.setTitle("완료", for: .normal)
         doneButton.setTitleColor(UIColor(named: "BrightRed"), for: .normal)
         
@@ -150,7 +150,6 @@ class ParagraphViewController: UIViewController {
         
         emptyMessageLabel.text = "기록한 구절이 없어요\n구절을 등록해 보세요"
         emptyMessageLabel.font = Pretendard.regular.dynamicFont(style: .subheadline)
-        emptyMessageLabel.textColor = .black
         emptyMessageLabel.isHidden = true
         emptyMessageLabel.numberOfLines = 0
         let attrString = NSMutableAttributedString(string: emptyMessageLabel.text!)
@@ -199,8 +198,6 @@ class ParagraphViewController: UIViewController {
         doneButton.snp.makeConstraints {
             $0.centerY.equalTo(paragraphLabel.snp.centerY)
             $0.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(24)
-            $0.width.equalTo(30)
         }
         
         searchBar.snp.makeConstraints {
@@ -337,7 +334,7 @@ class ParagraphViewController: UIViewController {
         
         sortMenuView.isHidden = true
         
-        paragraphData.sort { $0.1 > $1.1 }
+        isFiltering ? searchResultItems.sort { $0.1 > $1.1 } : paragraphData.sort { $0.1 > $1.1 }
     }
     
     @objc private func tappedOldestFirst() {
@@ -348,7 +345,7 @@ class ParagraphViewController: UIViewController {
         
         sortMenuView.isHidden = true
         
-        paragraphData.sort { $0.1 < $1.1 }
+        isFiltering ? searchResultItems.sort { $0.1 < $1.1 } : paragraphData.sort { $0.1 < $1.1 }
     }
     
     @objc private func tappedSelectionButton() {
@@ -405,8 +402,8 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, heightForTextAtIndexPath indexPath: IndexPath) -> CGFloat {
         let text = isFiltering ? searchResultItems[indexPath.item].0 : paragraphData[indexPath.item].0
-        
-        return calculateCellHeight(for: text, in: collectionView)
+        let date = isFiltering ? searchResultItems[indexPath.item].1 : paragraphData[indexPath.item].1
+        return calculateCellHeight(for: text, for: date, in: collectionView)
     }
     
     func heightForText(_ text: String, width: CGFloat) -> CGFloat {
@@ -414,6 +411,7 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
         label.text = text
         label.numberOfLines = 0  // 멀티라인
         label.preferredMaxLayoutWidth = width
+        label.lineBreakMode = .byCharWrapping
         label.font = Pretendard.regular.dynamicFont(style: .subheadline)
         label.adjustsFontForContentSizeCategory = true
         
@@ -423,14 +421,31 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
         return size.height
     }
     
-    func calculateCellHeight(for text: String, in collectionView: UICollectionView) -> CGFloat {
-        let width = (collectionView.bounds.width - (collectionView.contentInset.left + collectionView.contentInset.right)) / 2 - 4
+    func heightForDateText(_ date: String, width: CGFloat) -> CGFloat {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.preferredMaxLayoutWidth = width
+        label.font = Pretendard.regular.dynamicFont(style: .caption2)
+        label.adjustsFontForContentSizeCategory = true
+        label.text = date
+        
+        let constraintSize = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let size = label.sizeThatFits(constraintSize)
+        
+        return size.height
+    }
+    
+    func calculateCellHeight(for text: String, for date: String, in collectionView: UICollectionView) -> CGFloat {
+        let cellPadding: CGFloat = 6
+        var width = (collectionView.bounds.width - (collectionView.contentInset.left + collectionView.contentInset.right + cellPadding * 4)) / 2
+        width = 140.67
+        
         let paragraphLabelHeight = heightForText(text, width: width)
         let paragraphDateSpacing: CGFloat = 30
-        let dataLabelHeight: CGFloat = 22
+        let dateLabelHeight: CGFloat = heightForDateText(date, width: width)
         let topBottomPadding: CGFloat = 14 * 2
-        
-        return paragraphLabelHeight + paragraphDateSpacing + dataLabelHeight + topBottomPadding
+        print(text, paragraphLabelHeight, dateLabelHeight)
+        return paragraphLabelHeight + paragraphDateSpacing + dateLabelHeight + topBottomPadding
     }
     
     func tappedDeleteButton(in cell: ParagraphCollectionViewCell) {
