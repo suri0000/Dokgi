@@ -589,14 +589,17 @@ extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "KeywordCell", for: indexPath) as? KeywordCell else {
             return UICollectionViewCell()
         }
-        cell.configure(with: keywords[indexPath.item])
+        
+        let reversedIndex = keywords.count - 1 - indexPath.item
+        cell.configure(with: keywords[reversedIndex])
         cell.backgroundColor = .lightSkyBlue
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let keyword = keywords[indexPath.item]
+        let reversedIndex = keywords.count - 1 - indexPath.item
+        let keyword = keywords[reversedIndex]
         let font = Pretendard.regular.dynamicFont(style: .callout)
         let attributes = [NSAttributedString.Key.font: font]
         let textSize = (keyword as NSString).size(withAttributes: attributes)
