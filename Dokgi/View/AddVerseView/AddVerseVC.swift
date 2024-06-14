@@ -32,6 +32,7 @@ class AddVerseVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("Navigation Controller: \(self.navigationController ?? nil)")
         view.backgroundColor = .white
         keywordCollectionView.register(KeywordCell.self, forCellWithReuseIdentifier: KeywordCell.reuseIdentifier)
         keywordField.delegate = self
@@ -449,14 +450,17 @@ class AddVerseVC: UIViewController {
         CoreDataManager.shared.saveData(verse: verse)
         print(verse)
         // 저장이 완료되었다는 메시지
-        showAlert(title: "저장 완료", message: "구절이 성공적으로 저장되었습니다.")
+        showAlert(title: "저장 완료", message: "구절이 성공적으로 저장되었습니다.") {
+            self.navigationController?.popViewController(animated: true)
+        }
         // TODO: - 이전 화면으로 이동
     }
     
-    func showAlert(title: String, message: String) {
+    func showAlert(title: String, message: String, completion: (() -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .default)
-        alert.addAction(okAction)
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
+            completion?()
+        }))
         present(alert, animated: true, completion: nil)
     }
     
