@@ -14,14 +14,12 @@ import UIKit
 
 class SettingViewController: UIViewController{
     let disposeBag = DisposeBag()
-    
+    let alarmView = AlarmView()
     let viewModel = DayTimeViewModel()
     let titleLbl = UILabel().then {
         $0.text = "설정"
         $0.font = Pretendard.bold.dynamicFont(style: .title2)
     }
-    
-    let alarmView = AlarmView()
     
     //MARK: - lifeCycle
     override func viewDidLoad() {

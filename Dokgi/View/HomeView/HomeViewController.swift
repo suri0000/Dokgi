@@ -11,9 +11,10 @@ import SnapKit
 import UIKit
 
 class HomeViewController: UIViewController {
+ 
     let disposeBag = DisposeBag()
     let viewModel = HomeViewModel()
-    
+
     let scrollView = UIScrollView()
     let contentView = UIView()
     
@@ -65,11 +66,12 @@ class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupConstraints()
         configureUI()
         setupCollectionView()
         bindViewModel()
+        bannerTimer()
+        setFloatingButton()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -78,7 +80,12 @@ class HomeViewController: UIViewController {
             $0.centerX.equalTo(self.lengthSlider.snp.leading).offset(self.lengthSlider.frame.width * CGFloat(lengthSlider.value))
             print("lengthSlider.value \(lengthSlider.value), lengthSlider.frame.width \(lengthSlider.frame.width)")
         }
-        bannerTimer()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.navigationBar.isHidden = true
     }
     
     func setupConstraints() {
@@ -93,7 +100,7 @@ class HomeViewController: UIViewController {
          nextLevelBubble,
          todayVersesLabel,
          todayVersesColletionView,
-        indicatorDots].forEach {
+         indicatorDots,].forEach {
             contentView.addSubview($0)
         }
         
@@ -111,12 +118,12 @@ class HomeViewController: UIViewController {
         }
         
         settingButton.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(57)
+            $0.top.equalToSuperview().offset(3)
             $0.trailing.equalToSuperview().offset(-24)
         }
         
         currentLengthLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(112)
+            $0.top.equalToSuperview().offset(58)
             $0.leading.equalToSuperview().offset(29)
         }
         
@@ -202,13 +209,13 @@ class HomeViewController: UIViewController {
             lengthSlider.setThumbImage(thumbImage, for: .highlighted)
         }
         lengthSlider.isUserInteractionEnabled = false
-        currentLevelBubble.image = UIImage(named: "speechBubble1")
+        currentLevelBubble.image = .speechBubble1
         currentLevelBubble.clipsToBounds = true
         currentLevelImage.backgroundColor = .clear
-        currentLevelImage.image = UIImage(named: "grape")
+        currentLevelImage.image = .grape
         currentLevelImage.layer.masksToBounds = true
         currentLevelImage.contentMode = .scaleAspectFit
-        nextLevelBubble.image = UIImage(named: "speechBubble2")
+        nextLevelBubble.image = .speechBubble2
         nextLevelBubble.clipsToBounds = true
         nextLevelBubble.layer.masksToBounds = true
         blurEffectView.frame = nextLevelImage.bounds
@@ -217,7 +224,7 @@ class HomeViewController: UIViewController {
         blurEffectView.layer.cornerRadius = 18
         blurEffectView.layer.masksToBounds = true
         nextLevelImage.backgroundColor = .clear
-        nextLevelImage.image = UIImage(named: "goni")
+        nextLevelImage.image = .goni
         nextLevelImage.contentMode = .scaleAspectFit
         nextLevelImage.layer.masksToBounds = true
         todayVersesLabel.text = "오늘의 구절"
@@ -234,7 +241,7 @@ class HomeViewController: UIViewController {
             indicatorDots.numberOfPages = vereseCount
         }
     }
-    
+
     func setupCollectionView() {
         currentLevelCollectionView.dataSource = self
         currentLevelCollectionView.delegate = self
@@ -357,8 +364,11 @@ class HomeViewController: UIViewController {
     
     // 홈 상단에 설정 페이지 이동
     @objc func didTapSetting() {
+        print("셋팅버튼 눌림")
         let settingVC = SettingViewController()
         self.navigationController?.pushViewController(settingVC, animated: true)
+        settingVC.tabBarController?.tabBar.isHidden = true
+        settingVC.navigationController?.navigationBar.isHidden = false
     }
 }
 
@@ -494,6 +504,27 @@ extension UICollectionViewCell {
         UIView.animate(withDuration: 0.2) {
             self.transform = CGAffineTransform.identity
         }
+    }
+}
+
+extension UIViewController {
+    func setFloatingButton() {
+        let floatButton = FloatButton()
+        view.addSubview(floatButton)
+        
+        floatButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview().offset(-25)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-40)
+            $0.width.height.equalTo(70)
+        }
+        
+        floatButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+    }
+    
+    @objc func didTapButton() {
+        let addVC = AddVerseVC()
+        print("구절추가 버튼 클릭")
+        self.navigationController?.pushViewController(addVC, animated: true)
     }
 }
 
