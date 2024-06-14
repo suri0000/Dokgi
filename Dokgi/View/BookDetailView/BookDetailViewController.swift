@@ -5,6 +5,7 @@
 //  Created by 예슬 on 6/10/24.
 //
 
+import RxSwift
 import Kingfisher
 import SnapKit
 import Then
@@ -12,8 +13,7 @@ import UIKit
 
 class BookDetailViewController: UIViewController {
     private let viewModel = BookDetailViewModel.shared
-    lazy var bookInfo = viewModel.bookInfo
-    lazy var passageData = viewModel.passagesData
+    var disposeBag = DisposeBag()
     
     private let contentsView = UIView()
     private let gradientLayerView = UIView()
@@ -111,6 +111,11 @@ class BookDetailViewController: UIViewController {
         viewModel.makePassageDateOfBook()
         setConstraints()
         setBookInfo()
+        
+        CoreDataManager.shared.bookData.subscribe(with: self) { (self, bookData) in
+            self.viewModel.makePassageDateOfBook()
+            self.passageTableView.reloadData()
+        }.disposed(by: disposeBag)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -151,7 +156,7 @@ class BookDetailViewController: UIViewController {
         }
         
         scrollView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.edges.equalTo(self.view)
         }
         
         contentsView.snp.makeConstraints {
@@ -161,18 +166,18 @@ class BookDetailViewController: UIViewController {
         passageTableView.snp.makeConstraints {
             $0.top.equalTo(passageTitleLabel.snp.bottom).offset(11)
             $0.horizontalEdges.equalToSuperview().inset(20)
-            $0.height.equalTo(96 * viewModel.passagesData.count)
-            $0.bottom.equalToSuperview().inset(100)
+            $0.height.equalTo(96 * viewModel.passagesData.value.count)
+            $0.bottom.equalToSuperview().inset(10)
         }
         
         backgroundBookImage.snp.makeConstraints {
-            $0.top.equalTo(self.view)
+            $0.top.equalToSuperview().offset(-100)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalTo(bookInfoStackView.snp.top)
         }
         
         blurView.snp.makeConstraints {
-            $0.top.equalTo(self.view)
+            $0.top.equalToSuperview().offset(-100)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalTo(bookInfoStackView.snp.top)
         }
@@ -243,11 +248,11 @@ class BookDetailViewController: UIViewController {
     }
     
     private func setBookInfo() {
-        bookTitleLabel.text = bookInfo?.name
-        authorLabel.text = bookInfo?.author
+        bookTitleLabel.text = viewModel.bookInfo.value.name
+        authorLabel.text = viewModel.bookInfo.value.author
         dateLabel.text = viewModel.recordDateFormat()
         
-        if let url = URL(string: bookInfo?.image ?? "") {
+        if let url = URL(string: viewModel.bookInfo.value.image) {
             bookImage.kf.setImage(with: url)
             backgroundBookImage.kf.setImage(with: url)
         }
@@ -264,14 +269,14 @@ class BookDetailViewController: UIViewController {
 extension BookDetailViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return passageData.count
+        return viewModel.passagesData.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PassageTableViewCell.identifier, for: indexPath) as? PassageTableViewCell else { return UITableViewCell() }
         
         cell.selectionStyle = .none
-        cell.setPassageData(passage: passageData[indexPath.row])
+        cell.setPassageData(passage: viewModel.passagesData.value[indexPath.row])
         
         return cell
     }

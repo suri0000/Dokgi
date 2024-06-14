@@ -35,6 +35,8 @@ class CoreDataManager {
         } catch {
             print("Failed to fetch or save data: \(error)")
         }
+        
+        CoreDataManager.shared.bookData.accept(CoreDataManager.shared.bookData.value + [verse])
     }
     
     func readData() {
