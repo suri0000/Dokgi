@@ -101,7 +101,7 @@ class HomeViewController: UIViewController {
          nextLevelBubble,
          todayVersesLabel,
          todayVersesColletionView,
-         indicatorDots,].forEach {
+         indicatorDots].forEach {
             contentView.addSubview($0)
         }
         
@@ -111,11 +111,13 @@ class HomeViewController: UIViewController {
         }
         
         scrollView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalTo(self.view.safeAreaLayoutGuide)
+            $0.horizontalEdges.bottom.equalToSuperview()
         }
         
         contentView.snp.makeConstraints {
-            $0.edges.width.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.bottom.width.equalToSuperview()
         }
         
         settingButton.snp.makeConstraints {
@@ -198,6 +200,7 @@ class HomeViewController: UIViewController {
     
     func configureUI() {
         view.backgroundColor = .white
+        scrollView.showsVerticalScrollIndicator = false
         settingButton.setImage(.setting, for: .normal)
         settingButton.tintColor = .charcoalBlue
         settingButton.addTarget(self, action: #selector(didTapSetting), for: .touchUpInside)
