@@ -37,8 +37,8 @@ class HomeViewModel {
         return 1
     }
 
-    
     init() {
+        
         verses
             .subscribe(onNext: { [weak self] value in
                 guard let self = self else { return }
@@ -64,23 +64,23 @@ class HomeViewModel {
             })
             .disposed(by: disposeBag)
         
-        // 테스트 구문추가
-        verses.accept(["대부분의 사람들은 조용한 절망 속에서 삶을 살아간다.",
-                       "당신 자신이 되어라. 다른 사람은 이미 다 있다.",
-                       "우리의 삶은 우리의 생각이 만든다.",
-//                       "나는 행복하지 않기 때문에 불행한 것이 아니다.",
-//                       "당신이 세상에서 보고 싶은 변화가 되어라.",
-//                       "전쟁은 평화다. 자유는 굴레다. 무지는 힘이다.",
-//                       "인간은 패배하기 위해 태어난 것이 아니다. 인간은 파괴될 수는 있어도 패배하지는 않는다.",
-//                       "죽지 못할 것은 살지 못한다.",
-                      ])
-        
+        CoreDataManager.shared.bookData
+            .subscribe(onNext: { [weak self] value in
+                let verses = value.map { verses in
+                    return verses.text
+                }
+                self?.verses.accept(verses)
+                print("verses changed \(value)")
+            })
+            .disposed(by: disposeBag)
+
+        // 테스트 데이터
+        verses.accept(["도개걸육조", "우리팀 화이팅", "오늘은 다들 일찍 잘 수 있길","아자아자 화이팅이다", "주말을 주세요", "모두 행복합시다"])
         loadTodayVerses()
     }
     
     // MARK: - Today's verese
     private func loadTodayVerses() {
-        print(#function, "start")
         print("todaty \(today)")
         let savedDate = UserDefaults.standard.string(forKey: "savedDate")
         
@@ -94,7 +94,6 @@ class HomeViewModel {
                 shuffleAndSaveVerses()
             }
         }
-        print(#function, "end")
     }
     
     func shuffleAndSaveVerses() {
@@ -111,6 +110,7 @@ class HomeViewModel {
         print("shuffled \(shuffled)")
         
         randomVerses.accept(shuffled)
+        print("randomVerses: \(randomVerses)")
         UserDefaults.standard.set(today, forKey: "savedDate")
         UserDefaults.standard.set(shuffled, forKey: "shuffledVerses")
     }
