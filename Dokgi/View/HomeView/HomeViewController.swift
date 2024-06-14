@@ -14,6 +14,7 @@ class HomeViewController: UIViewController {
  
     let disposeBag = DisposeBag()
     let viewModel = HomeViewModel()
+    lazy var verese = viewModel.verses.value
 
     let scrollView = UIScrollView()
     let contentView = UIView()
@@ -62,7 +63,7 @@ class HomeViewController: UIViewController {
     }
     
     var indicatorDots = UIPageControl()
-    lazy var vereseCount = viewModel.verses.value.count
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -232,14 +233,7 @@ class HomeViewController: UIViewController {
         todayVersesColletionView.layer.cornerRadius = 10
         indicatorDots.pageIndicatorTintColor = UIColor(.dotGray).withAlphaComponent(0.3)
         indicatorDots.currentPageIndicatorTintColor = UIColor(.dotBlue)
-        
-        if vereseCount >= 5 {
-            indicatorDots.numberOfPages = 5
-        } else if vereseCount == 0 {
-            indicatorDots.numberOfPages = 0
-        } else {
-            indicatorDots.numberOfPages = vereseCount
-        }
+        indicatorDots.numberOfPages = viewModel.randomVerses.value.count
     }
 
     func setupCollectionView() {
@@ -330,23 +324,11 @@ class HomeViewController: UIViewController {
     }
     // 배너 움직이는 매서드
     func bannerMove() {
-        let versesCount = viewModel.verses.value.count
         
-        if versesCount >= 5 {
-            // 현재페이지가 마지막 페이지일 경우
-            if nowPage == 4 {
-                scrollToFirstPage()
-            } else {
-                scrollNextToPage(nowPage)
-            }
-        } else if (1...4).contains(versesCount) {
-            if nowPage == versesCount - 1 {
-                scrollToFirstPage()
-            } else {
-                scrollNextToPage(nowPage)
-            }
-        } else if versesCount == 0 {
-            nowPage = 0
+        if nowPage == viewModel.randomVerses.value.count - 1 {
+            scrollToFirstPage()
+        } else if viewModel.randomVerses.value.count > nowPage {
+            scrollNextToPage(nowPage)
         }
     }
     
@@ -359,7 +341,8 @@ class HomeViewController: UIViewController {
     // 다음 페이지 이동
     func scrollNextToPage(_ page: Int) {
         nowPage += 1
-        todayVersesColletionView.scrollToItem(at: IndexPath(item: page, section: 0), at: .right, animated: true)
+        print("now: \(nowPage), page: \(page)")
+        todayVersesColletionView.scrollToItem(at: IndexPath(item: nowPage, section: 0), at: .right, animated: true)
     }
     
     // 홈 상단에 설정 페이지 이동
@@ -380,9 +363,9 @@ extension HomeViewController: UICollectionViewDataSource {
             //        viewModel.levelCards.count //이미지 확인용
         } else if collectionView == todayVersesColletionView {
             
-            switch vereseCount {
+            switch viewModel.randomVerses.value.count {
             case 1...4:
-                return vereseCount
+                return viewModel.randomVerses.value.count
             case 5...:
                 return 5
             default:
