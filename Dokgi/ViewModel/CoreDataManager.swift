@@ -43,9 +43,11 @@ class CoreDataManager {
         
         do {
             let books = try context.fetch(fetchRequest)
+            var verse = [Verse]()
             for book in books {
-                bookData.accept(bookData.value + [Verse(name: book.name!, author: book.author!, image: book.image!, text: book.text!, pageNumber: Int(book.pageNum), pageType: book.pageType == true ? "%" : "page", keywords: book.keywords ?? [], date: book.date!)])
+                verse.append(Verse(name: book.name!, author: book.author!, image: book.image!, text: book.text!, pageNumber: Int(book.pageNum), pageType: book.pageType == true ? "%" : "page", keywords: book.keywords ?? [], date: book.date!))
             }
+            bookData.accept(verse)
         } catch {
             print("Failed to fetch or read data: \(error)")
         }

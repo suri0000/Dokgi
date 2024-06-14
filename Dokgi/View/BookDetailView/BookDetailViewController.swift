@@ -5,13 +5,15 @@
 //  Created by 예슬 on 6/10/24.
 //
 
+import Kingfisher
 import SnapKit
 import Then
 import UIKit
 
 class BookDetailViewController: UIViewController {
-    
-    var passageCount = 5
+    private let viewModel = BookDetailViewModel.shared
+    lazy var bookInfo = viewModel.bookInfo
+    lazy var passageData = viewModel.passagesData
     
     private let contentsView = UIView()
     private let gradientLayerView = UIView()
@@ -24,7 +26,6 @@ class BookDetailViewController: UIViewController {
     }
     
     private let backgroundBookImage = UIImageView().then {
-        $0.image = UIImage(named: "testImage")
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
     }
@@ -36,7 +37,6 @@ class BookDetailViewController: UIViewController {
     }
     
     private let bookImage = UIImageView().then {
-        $0.image = UIImage(named: "testImage")
         $0.contentMode = .scaleAspectFit
         $0.isUserInteractionEnabled = false
         $0.clipsToBounds = true
@@ -48,14 +48,12 @@ class BookDetailViewController: UIViewController {
     }
     
     private let bookTitleLabel = UILabel().then {
-        $0.text = "하루 한 장 나의 어휘력을 위한 필사 노트"
         $0.font = Pretendard.semibold.dynamicFont(style: .headline)
         $0.numberOfLines = 2
         $0.textAlignment = .center
     }
     
     private let authorLabel = UILabel().then {
-        $0.text = "쿠이 료코"
         $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
         $0.numberOfLines = 2
         $0.textColor = .alarmSettingText
@@ -74,7 +72,6 @@ class BookDetailViewController: UIViewController {
     }
     
     private let dateLabel = UILabel().then {
-        $0.text = "2024. 06. 09"
         $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
         $0.textColor = .alarmSettingText
         $0.textAlignment = .right
@@ -96,6 +93,7 @@ class BookDetailViewController: UIViewController {
         $0.backgroundColor = .charcoalBlue
         $0.layer.cornerRadius = 15
         $0.clipsToBounds = true
+        $0.addTarget(self, action: #selector(didTabAddPassageButton), for: .touchUpInside)
     }
     
     private let buttonLabel = UILabel().then {
@@ -110,13 +108,20 @@ class BookDetailViewController: UIViewController {
         passageTableView.dataSource = self
         passageTableView.delegate = self
         passageTableView.register(PassageTableViewCell.self, forCellReuseIdentifier: PassageTableViewCell.identifier)
+        viewModel.makePassageDateOfBook()
         setConstraints()
+        setBookInfo()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         blurLayer(layer: gradientLayer, view: gradientLayerView)
         blurLayer(layer: buttonBackgroundLayer, view: buttonBackgroundView)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isHidden = false
     }
     // MARK: - UI
     private func setConstraints() {
@@ -145,7 +150,7 @@ class BookDetailViewController: UIViewController {
             firstDateRecordStackView.addArrangedSubview($0)
         }
         
-        scrollView.snp.makeConstraints { 
+        scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
@@ -156,7 +161,7 @@ class BookDetailViewController: UIViewController {
         passageTableView.snp.makeConstraints {
             $0.top.equalTo(passageTitleLabel.snp.bottom).offset(11)
             $0.horizontalEdges.equalToSuperview().inset(20)
-            $0.height.equalTo(96 * passageCount)
+            $0.height.equalTo(96 * viewModel.passagesData.count)
             $0.bottom.equalToSuperview().inset(100)
         }
         
@@ -180,7 +185,8 @@ class BookDetailViewController: UIViewController {
         
         bookImage.snp.makeConstraints {
             $0.top.equalToSuperview().inset(26)
-            $0.horizontalEdges.equalToSuperview().inset(135)
+            $0.centerX.equalToSuperview()
+            $0.width.equalTo(174)
             $0.height.equalTo(bookImage.snp.width).multipliedBy(1.4)
         }
         
@@ -214,7 +220,7 @@ class BookDetailViewController: UIViewController {
         buttonBackgroundView.snp.makeConstraints {
             $0.centerY.equalTo(addPassageButton)
             $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(view.safeAreaLayoutGuide).multipliedBy(0.2)
+            $0.height.equalTo(view.safeAreaLayoutGuide).multipliedBy(0.3)
         }
     }
     
@@ -228,21 +234,44 @@ class BookDetailViewController: UIViewController {
         layer.frame = view.bounds
         layer.colors = colors
         layer.startPoint = CGPoint(x: 0.5, y: 0.0)
-        layer.endPoint = CGPoint(x: 0.5, y: 0.8)
+        if view == self.buttonBackgroundView {
+            layer.endPoint = CGPoint(x: 0.5, y: 0.5)
+        } else {
+            layer.endPoint = CGPoint(x: 0.5, y: 0.8)
+        }
         view.layer.addSublayer(layer)
     }
+    
+    private func setBookInfo() {
+        bookTitleLabel.text = bookInfo?.name
+        authorLabel.text = bookInfo?.author
+        dateLabel.text = viewModel.recordDateFormat()
+        
+        if let url = URL(string: bookInfo?.image ?? "") {
+            bookImage.kf.setImage(with: url)
+            backgroundBookImage.kf.setImage(with: url)
+        }
+    }
+    
+    @objc private func didTabAddPassageButton() {
+        let addVesreVC = AddVerseVC()
+        addVesreVC.selectedBook = viewModel.makeAddVerseViewData()
+        self.navigationController?.pushViewController(addVesreVC, animated: true)
+        addVesreVC.displayBookInfo()
+    }
 }
-
+// MARK: - PassageTableView
 extension BookDetailViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return passageCount
+        return passageData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PassageTableViewCell.identifier, for: indexPath) as? PassageTableViewCell else { return UITableViewCell() }
         
         cell.selectionStyle = .none
+        cell.setPassageData(passage: passageData[indexPath.row])
         
         return cell
     }

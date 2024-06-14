@@ -26,11 +26,11 @@ class ParagraphDetailViewController: UIViewController {
     }
     
     let xBtn = UIButton().then {
-        $0.setImage(UIImage(named: "deleteKeyword")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        $0.tintColor = UIColor(named: "ModelxGray")
+        $0.setImage(UIImage(resource: .deleteKeyword).withRenderingMode(.alwaysTemplate), for: .normal)
+        $0.tintColor = .modelxGray
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 15
-        $0.backgroundColor = UIColor(named: "ModelxBackground")
+        $0.backgroundColor = .modelxBackground
         $0.snp.makeConstraints {
             $0.width.height.equalTo(30)
         }
@@ -40,7 +40,7 @@ class ParagraphDetailViewController: UIViewController {
         $0.setTitle("수정하기", for: .normal)
         $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
         $0.setTitleColor(.black, for: .normal)
-        $0.setImage(UIImage(named: "modalEdit"), for: .normal)
+        $0.setImage(.modalEdit, for: .normal)
     }
     
     let ParagrapScrollView = UIScrollView().then {
@@ -112,7 +112,7 @@ class ParagraphDetailViewController: UIViewController {
             self.titleLbl.text = data.name
             self.containerView.paragrapTextLbl.text = data.text
             self.containerView.pageWriteLbl.text = "\(data.pageNumber) \(data.pageType)"
-            self.containerView.writeDateDay.text = data.date.formatted()
+            self.containerView.writeDateDay.text = data.date.toString()
         }.disposed(by: disposeBag)
         
         self.xBtn.rx.tap.subscribe(with: self) { (self, _) in
@@ -125,7 +125,7 @@ class ParagraphDetailViewController: UIViewController {
                 self.sheetPresentationController?.detents = [self.largeDetent]
                 self.editBtn.setTitle("완료", for: .normal)
                 self.editBtn.titleLabel?.font = Pretendard.semibold.dynamicFont(style: .callout)
-                self.editBtn.setTitleColor(UIColor(named: "SkyBlue"), for: .normal)
+                self.editBtn.setTitleColor(.skyBlue, for: .normal)
                 self.editBtn.setImage(nil, for: .normal)
             } else {
                 self.containerView.editCompleteLayout()
@@ -133,7 +133,7 @@ class ParagraphDetailViewController: UIViewController {
                 self.editBtn.setTitle("수정하기", for: .normal)
                 self.editBtn.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
                 self.editBtn.setTitleColor(.black, for: .normal)
-                self.editBtn.setImage(UIImage(named: "modalEdit"), for: .normal)
+                self.editBtn.setImage(.modalEdit, for: .normal)
                 self.viewModel.saveDetail(paragraph: self.containerView.paragrapTextField.text)
             }
         }.disposed(by: disposeBag)
@@ -158,7 +158,7 @@ class ParagraphDetailViewController: UIViewController {
             cell.keywordLbl.text = data
             cell.xBtn.rx.tap.subscribe(with: self) { (self, data) in
                 self.viewModel.deleteDetailKeyword(keyword: row)
-            }.disposed(by: cell.disposeBag) // TODO: 혼나기..
+            }.disposed(by: cell.disposeBag)
             
             if self.editBtn.titleLabel?.text == "수정하기" {
                 cell.xBtn.isHidden = true

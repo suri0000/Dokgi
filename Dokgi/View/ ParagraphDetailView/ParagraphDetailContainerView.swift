@@ -13,7 +13,7 @@ class ParagraphDetailContainerView: UIView {
     let textView = UIView().then {
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 20
-        $0.backgroundColor = UIColor(named: "LightPastelBlue")
+        $0.backgroundColor = .lightPastelBlue
     }
     
     lazy var paragrapTextLbl = UILabel().then {
@@ -39,7 +39,7 @@ class ParagraphDetailContainerView: UIView {
         $0.alwaysBounceVertical = false
         $0.isScrollEnabled = true
         $0.snp.makeConstraints {
-            $0.height.equalTo(42)
+            $0.height.equalTo(52)
         }
     }
     
@@ -56,7 +56,7 @@ class ParagraphDetailContainerView: UIView {
     lazy var writeDateDay = UILabel().then {
         $0.text = "2024.6.9"
         $0.font = Pretendard.regular.dynamicFont(style: .body)
-        $0.textColor = UIColor(named: "AlarmSettingText")
+        $0.textColor = .alarmSettingText
     }
     
     let pageStackView = UIStackView().then {
@@ -72,21 +72,17 @@ class ParagraphDetailContainerView: UIView {
     lazy var pageWriteLbl = UILabel().then {
         $0.text = "2000"
         $0.font = Pretendard.regular.dynamicFont(style: .body)
-        $0.textColor = UIColor(named: "AlarmSettingText")
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupLayout()
+        $0.textColor = .alarmSettingText
     }
     
     let paragrapTextField = UITextView().then {
         $0.font = Pretendard.regular.dynamicFont(style: .callout)
         $0.backgroundColor = .clear
-        $0.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         $0.isScrollEnabled = true
         $0.textContainer.lineBreakMode = .byWordWrapping
         $0.isHidden = true
+        $0.layer.cornerRadius = 8
+        $0.clipsToBounds = true
     }
     
     let keywordTextField = UITextField().then {
@@ -94,7 +90,7 @@ class ParagraphDetailContainerView: UIView {
         $0.placeholder = "키워드를 입력해 주세요"
         $0.layer.cornerRadius = 10
         $0.layer.borderWidth = 1
-        $0.layer.borderColor = UIColor(named: "KeywordBorder")?.cgColor
+        $0.layer.borderColor = UIColor(resource: .keywordBorder).cgColor
         $0.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 22.0, height: 0.0))
         $0.leftViewMode = .always
         $0.isHidden = true
@@ -102,6 +98,12 @@ class ParagraphDetailContainerView: UIView {
             $0.height.equalTo(33)
         }
     }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupLayout()
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -146,7 +148,7 @@ class ParagraphDetailContainerView: UIView {
         }
         
         writeStackView.snp.makeConstraints {
-            $0.top.equalTo(keywordStackView.snp.bottom).offset(30)
+            $0.top.equalTo(keywordStackView.snp.bottom).offset(20)
             $0.horizontalEdges.equalToSuperview().inset(20)
         }
         

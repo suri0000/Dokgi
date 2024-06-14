@@ -11,9 +11,10 @@ import SnapKit
 import UIKit
 
 class HomeViewController: UIViewController {
+ 
     let disposeBag = DisposeBag()
     let viewModel = HomeViewModel()
-    
+
     let scrollView = UIScrollView()
     let contentView = UIView()
     
@@ -61,15 +62,16 @@ class HomeViewController: UIViewController {
     }
     
     var indicatorDots = UIPageControl()
+    lazy var vereseCount = viewModel.verses.value.count
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupConstraints()
         configureUI()
         setupCollectionView()
         bindViewModel()
-//        configureNavigationBar()
+        bannerTimer()
+        setFloatingButton()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -78,7 +80,12 @@ class HomeViewController: UIViewController {
             $0.centerX.equalTo(self.lengthSlider.snp.leading).offset(self.lengthSlider.frame.width * CGFloat(lengthSlider.value))
             print("lengthSlider.value \(lengthSlider.value), lengthSlider.frame.width \(lengthSlider.frame.width)")
         }
-        bannerTimer()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.navigationBar.isHidden = true
     }
     
     func setupConstraints() {
@@ -93,7 +100,7 @@ class HomeViewController: UIViewController {
          nextLevelBubble,
          todayVersesLabel,
          todayVersesColletionView,
-        indicatorDots].forEach {
+         indicatorDots,].forEach {
             contentView.addSubview($0)
         }
         
@@ -111,12 +118,12 @@ class HomeViewController: UIViewController {
         }
         
         settingButton.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(57)
+            $0.top.equalToSuperview().offset(3)
             $0.trailing.equalToSuperview().offset(-24)
         }
         
         currentLengthLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(112)
+            $0.top.equalToSuperview().offset(58)
             $0.leading.equalToSuperview().offset(29)
         }
         
@@ -202,13 +209,13 @@ class HomeViewController: UIViewController {
             lengthSlider.setThumbImage(thumbImage, for: .highlighted)
         }
         lengthSlider.isUserInteractionEnabled = false
-        currentLevelBubble.image = UIImage(named: "speechBubble1")
+        currentLevelBubble.image = .speechBubble1
         currentLevelBubble.clipsToBounds = true
         currentLevelImage.backgroundColor = .clear
-        currentLevelImage.image = UIImage(named: "grape")
+        currentLevelImage.image = .grape
         currentLevelImage.layer.masksToBounds = true
         currentLevelImage.contentMode = .scaleAspectFit
-        nextLevelBubble.image = UIImage(named: "speechBubble2")
+        nextLevelBubble.image = .speechBubble2
         nextLevelBubble.clipsToBounds = true
         nextLevelBubble.layer.masksToBounds = true
         blurEffectView.frame = nextLevelImage.bounds
@@ -217,7 +224,7 @@ class HomeViewController: UIViewController {
         blurEffectView.layer.cornerRadius = 18
         blurEffectView.layer.masksToBounds = true
         nextLevelImage.backgroundColor = .clear
-        nextLevelImage.image = UIImage(named: "goni")
+        nextLevelImage.image = .goni
         nextLevelImage.contentMode = .scaleAspectFit
         nextLevelImage.layer.masksToBounds = true
         todayVersesLabel.text = "오늘의 구절"
@@ -225,9 +232,16 @@ class HomeViewController: UIViewController {
         todayVersesColletionView.layer.cornerRadius = 10
         indicatorDots.pageIndicatorTintColor = UIColor(.dotGray).withAlphaComponent(0.3)
         indicatorDots.currentPageIndicatorTintColor = UIColor(.dotBlue)
-        indicatorDots.numberOfPages = 5
+        
+        if vereseCount >= 5 {
+            indicatorDots.numberOfPages = 5
+        } else if vereseCount == 0 {
+            indicatorDots.numberOfPages = 0
+        } else {
+            indicatorDots.numberOfPages = vereseCount
+        }
     }
-    
+
     func setupCollectionView() {
         currentLevelCollectionView.dataSource = self
         currentLevelCollectionView.delegate = self
@@ -316,25 +330,45 @@ class HomeViewController: UIViewController {
     }
     // 배너 움직이는 매서드
     func bannerMove() {
-        // 현재페이지가 마지막 페이지일 경우
-        if nowPage == 4 {
-        // 맨 처음 페이지로 돌아감
-            todayVersesColletionView.scrollToItem(at: NSIndexPath(item: 0, section: 0) as IndexPath, at: .right, animated: true)
+        let versesCount = viewModel.verses.value.count
+        
+        if versesCount >= 5 {
+            // 현재페이지가 마지막 페이지일 경우
+            if nowPage == 4 {
+                scrollToFirstPage()
+            } else {
+                scrollNextToPage(nowPage)
+            }
+        } else if (1...4).contains(versesCount) {
+            if nowPage == versesCount - 1 {
+                scrollToFirstPage()
+            } else {
+                scrollNextToPage(nowPage)
+            }
+        } else if versesCount == 0 {
             nowPage = 0
-            
-            return
-        } else {
-            // 다음 페이지로 전환
-            nowPage += 1
-            todayVersesColletionView.scrollToItem(at: NSIndexPath(item: nowPage, section: 0) as IndexPath, at: .right, animated: true)
         }
     }
     
-    // 홈 상단에 설정 페이지 이동
+    // 첫번째 페이지로 이동
+    func scrollToFirstPage() {
+        todayVersesColletionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .right, animated: true)
+        nowPage = 0
+    }
 
+    // 다음 페이지 이동
+    func scrollNextToPage(_ page: Int) {
+        nowPage += 1
+        todayVersesColletionView.scrollToItem(at: IndexPath(item: page, section: 0), at: .right, animated: true)
+    }
+    
+    // 홈 상단에 설정 페이지 이동
     @objc func didTapSetting() {
+        print("셋팅버튼 눌림")
         let settingVC = SettingViewController()
         self.navigationController?.pushViewController(settingVC, animated: true)
+        settingVC.tabBarController?.tabBar.isHidden = true
+        settingVC.navigationController?.navigationBar.isHidden = false
     }
 }
 
@@ -344,7 +378,18 @@ extension HomeViewController: UICollectionViewDataSource {
             let currentLevel = viewModel.currentLevel
             return min(currentLevel.value + 1, viewModel.levelCards.count)
             //        viewModel.levelCards.count //이미지 확인용
-        } else { return 5 }
+        } else if collectionView == todayVersesColletionView {
+            
+            switch vereseCount {
+            case 1...4:
+                return vereseCount
+            case 5...:
+                return 5
+            default:
+                return 1
+            }
+        }
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -379,6 +424,8 @@ extension HomeViewController: UICollectionViewDataSource {
             let randomVerses = viewModel.randomVerses.value
             if indexPath.item < randomVerses.count {
                 cell.verse.text = randomVerses[indexPath.item]
+            } else if randomVerses.count == 0 {
+                cell.verse.text = "구절을 기록해주세요!"
             }
             return cell
         }
@@ -457,6 +504,27 @@ extension UICollectionViewCell {
         UIView.animate(withDuration: 0.2) {
             self.transform = CGAffineTransform.identity
         }
+    }
+}
+
+extension UIViewController {
+    func setFloatingButton() {
+        let floatButton = FloatButton()
+        view.addSubview(floatButton)
+        
+        floatButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview().offset(-25)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-40)
+            $0.width.height.equalTo(70)
+        }
+        
+        floatButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+    }
+    
+    @objc func didTapButton() {
+        let addVC = AddVerseVC()
+        print("구절추가 버튼 클릭")
+        self.navigationController?.pushViewController(addVC, animated: true)
     }
 }
 

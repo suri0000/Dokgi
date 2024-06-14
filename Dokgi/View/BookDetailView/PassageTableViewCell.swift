@@ -12,6 +12,7 @@ import UIKit
 class PassageTableViewCell: UITableViewCell {
     
     static let identifier = String(describing: PassageTableViewCell.self)
+    let viewModel = BookDetailViewModel.shared
     
     private let circleView = UIView().then {
         $0.backgroundColor = .charcoalBlue
@@ -24,9 +25,8 @@ class PassageTableViewCell: UITableViewCell {
     }
     
     private let pageLabel = UILabel().then {
-        let unit = "P"
         $0.font = Pretendard.regular.dynamicFont(style: .caption1)
-        $0.text = "306 \(unit)"
+        $0.setContentCompressionResistancePriority(.init(751), for: .horizontal)
     }
     
     private let passageLabel = PaddingLabel().then {
@@ -36,7 +36,6 @@ class PassageTableViewCell: UITableViewCell {
         $0.layer.cornerRadius = 20
         $0.clipsToBounds = true
         $0.numberOfLines = 4
-        $0.text = "뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다."
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -68,7 +67,6 @@ class PassageTableViewCell: UITableViewCell {
         pageLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalTo(circleView.snp.trailing).offset(11)
-            $0.width.equalTo(contentView.snp.width).multipliedBy(0.1)
         }
         
         passageLabel.snp.makeConstraints {
@@ -76,5 +74,13 @@ class PassageTableViewCell: UITableViewCell {
             $0.leading.equalTo(pageLabel.snp.trailing).offset(10)
             $0.trailing.equalToSuperview()
         }
+    }
+    
+    func setPassageData(passage: Passage) {
+        let pageNumber = passage.pageNumber
+        let pageType = passage.pageType
+        
+        pageLabel.text = String(pageNumber) + viewModel.pageTypeToP(pageType)
+        passageLabel.text = passage.text
     }
 }

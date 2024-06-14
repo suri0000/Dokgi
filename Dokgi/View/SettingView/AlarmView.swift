@@ -27,7 +27,7 @@ class AlarmView: UIView {
     
     let remindDescription = UILabel().then {
         $0.text = "구절을 리마인드 해주는 알림"
-        $0.textColor = UIColor(named: "AlarmMemoGray")
+        $0.textColor = .alarmMemoGray
         $0.font = Pretendard.regular.dynamicFont(style: .footnote)
     }
     
@@ -39,12 +39,12 @@ class AlarmView: UIView {
     let remindTimeLbl = UILabel().then {
         $0.text = "알림 시간"
         $0.font = Pretendard.regular.dynamicFont(style: .footnote)
-        $0.textColor = UIColor(named: "AlarmSettingText")
+        $0.textColor = .alarmSettingText
     }
     
     let remindTimeBtn = UIButton().then {
         $0.setTitle("PM 15 : 00", for: .normal)
-        $0.setTitleColor(UIColor(named: "AlarmSettingText"), for: .normal)
+        $0.setTitleColor(.alarmSettingText, for: .normal)
         $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
     }
     
@@ -69,7 +69,7 @@ class AlarmView: UIView {
     
     let writeDescription = UILabel().then {
         $0.text = "독서 알림"
-        $0.textColor = UIColor(named: "AlarmMemoGray")
+        $0.textColor = .alarmMemoGray
         $0.font = Pretendard.regular.dynamicFont(style: .footnote)
     }
     
@@ -81,12 +81,12 @@ class AlarmView: UIView {
     let writeWeek = UILabel().then {
         $0.text = "알림 요일"
         $0.font = Pretendard.regular.dynamicFont(style: .footnote)
-        $0.textColor = UIColor(named: "AlarmSettingText")
+        $0.textColor = .alarmSettingText
     }
     
     let weekBtn = UIButton().then {
         $0.setTitle("매일", for: .normal)
-        $0.setTitleColor(UIColor(named: "AlarmSettingText"), for: .normal)
+        $0.setTitleColor(.alarmSettingText, for: .normal)
         $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
     }
     
@@ -99,12 +99,12 @@ class AlarmView: UIView {
     let writeTimeLbl = UILabel().then {
         $0.text = "알림 시간"
         $0.font = Pretendard.regular.dynamicFont(style: .footnote)
-        $0.textColor = UIColor(named: "AlarmSettingText")
+        $0.textColor = .alarmSettingText
     }
     
     let writeTimeBtn = UIButton().then {
         $0.setTitle("PM 15 : 00", for: .normal)
-        $0.setTitleColor(UIColor(named: "AlarmSettingText"), for: .normal)
+        $0.setTitleColor(.alarmSettingText, for: .normal)
         $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
     }
     
