@@ -79,12 +79,6 @@ class LibrarySearchViewController: UIViewController {
         }.disposed(by: disposeBag)
     }
     
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        sortMenuView.isHidden = true
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
@@ -100,7 +94,7 @@ class LibrarySearchViewController: UIViewController {
         sortButton.backgroundColor = .lightSkyBlue
         sortButton.layer.cornerRadius = 15
         sortButton.clipsToBounds = true
-        sortButton.addTarget(self, action: #selector(showSortMenuView), for: .touchUpInside)
+        sortButton.addTarget(self, action: #selector(showOrHideSortMenuView), for: .touchUpInside)
         
         sortButtonImageView.image = .down
         sortButtonTitleLabel.text = "최신순"
@@ -270,9 +264,13 @@ class LibrarySearchViewController: UIViewController {
         oldestFirstcheckImageView.isHidden = true
     }
     
-    @objc private func showSortMenuView() {
-        sortMenuView.isHidden = false
-        view.bringSubviewToFront(sortMenuView)
+    @objc private func showOrHideSortMenuView() {
+        if sortMenuView.isHidden {
+            sortMenuView.isHidden = false
+            view.bringSubviewToFront(sortMenuView)
+        } else {
+            sortMenuView.isHidden = true
+        }
     }
     
     @objc private func tappedLatestFirst() {

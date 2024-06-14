@@ -124,7 +124,7 @@ class ParagraphViewController: UIViewController {
         sortButton.backgroundColor = .lightSkyBlue
         sortButton.layer.cornerRadius = 15
         sortButton.clipsToBounds = true
-        sortButton.addTarget(self, action: #selector(showSortMenuView), for: .touchUpInside)
+        sortButton.addTarget(self, action: #selector(showOrHideSortMenuView), for: .touchUpInside)
         
         sortButtonImageView.image = .down
         sortButtonTitleLabel.text = "최신순"
