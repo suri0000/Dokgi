@@ -6,6 +6,7 @@
 //
 
 import BetterSegmentedControl
+import Kingfisher
 import SnapKit
 import Then
 import UIKit
@@ -45,7 +46,6 @@ class AddVerseVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = false
-        self.tabBarController?.tabBar.isHidden = true
     }
     
     let scrollView = UIScrollView().then {
@@ -91,9 +91,11 @@ class AddVerseVC: UIViewController {
         config.image = .magnifyingglass
         config.imagePadding = 8
         config.imagePlacement = .leading
+        config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 15)
         $0.configuration = config
-        $0.layer.cornerRadius = 22
+        $0.layer.cornerRadius = 15
         $0.clipsToBounds = true
+        $0.titleLabel?.numberOfLines = 1
     }
     
     var imageView = UIImageView().then {
@@ -152,7 +154,7 @@ class AddVerseVC: UIViewController {
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 10
         $0.layer.borderWidth = 1
-        $0.layer.borderColor = UIColor.lightGray.cgColor
+        $0.layer.borderColor = UIColor.borderGray.cgColor
     }
 
     lazy var keywordCollectionView = UICollectionView(frame: .zero, collectionViewLayout: {
@@ -274,7 +276,6 @@ class AddVerseVC: UIViewController {
         searchButton.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.height.equalTo(35)
-            $0.width.equalTo(112)
         }
         
         imageView.snp.makeConstraints {
@@ -445,10 +446,11 @@ class AddVerseVC: UIViewController {
         // Verse 인스턴스 생성
         let verse = Verse(name: book.title, author: book.author, image: book.image, text: verseTextView.text, pageNumber: pageNumber, pageType: pageType, keywords: keywords, date: currentDate)
         
-        // TODO: 생성된 Verse 인스턴스를 어딘가에 저장하기
+        CoreDataManager.shared.saveData(verse: verse)
         print(verse)
         // 저장이 완료되었다는 메시지
         showAlert(title: "저장 완료", message: "구절이 성공적으로 저장되었습니다.")
+        // TODO: - 이전 화면으로 이동
     }
     
     func showAlert(title: String, message: String) {
@@ -492,10 +494,11 @@ class AddVerseVC: UIViewController {
         return attributedString
     }
     
-    private func displayBookInfo() {
+    func displayBookInfo() {
         if let book = selectedBook {
             titleLabel.text = book.title
             titleLabel.font = Pretendard.semibold.dynamicFont(style: .headline)
+            titleLabel.textColor = .black
             authorLabel.text = book.author
             if let url = URL(string: book.image) {
                 imageView.kf.setImage(with: url)
@@ -583,19 +586,19 @@ extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
             return UICollectionViewCell()
         }
         cell.configure(with: keywords[indexPath.item])
-        cell.backgroundColor = UIColor(named: "LightSkyBlue")
+        cell.backgroundColor = .lightSkyBlue
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let keyword = keywords[indexPath.item]
-        
         let font = Pretendard.regular.dynamicFont(style: .callout)
         let attributes = [NSAttributedString.Key.font: font]
         let textSize = (keyword as NSString).size(withAttributes: attributes)
-        
         let cellWidth = textSize.width + 35
         let cellHeight: CGFloat = 34
+        
         return CGSize(width: cellWidth, height: cellHeight)
     }
 }

@@ -30,7 +30,6 @@ class TabBarVC: UITabBarController {
         let controllers = [homePageVC, verseVC, myLibraryVC]
         viewControllers = controllers.map { UINavigationController(rootViewController: $0) } // RootViewController 설정
 
-
         // 탭 바의 색상 설정
         UITabBar.appearance().tintColor = .charcoalBlue // 선택된 아이템
         UITabBar.appearance().unselectedItemTintColor = .tabBarGray// 선택되지 않은 아이템

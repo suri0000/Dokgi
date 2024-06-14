@@ -25,6 +25,5 @@ class FloatButton: UIButton {
         self.backgroundColor = .charcoalBlue
         self.setImage(.plus, for: .normal)
         self.tintColor = .white
-        
     }
 }
