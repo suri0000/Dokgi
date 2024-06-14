@@ -33,6 +33,7 @@
 		85A821D22C10B24300494313 /* DokgiWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A821D12C10B24300494313 /* DokgiWidget.swift */; };
 		85A821D42C10B24500494313 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85A821D32C10B24500494313 /* Assets.xcassets */; };
 		85A821D82C10B24500494313 /* DokgiWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 85A821C82C10B24300494313 /* DokgiWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A722B5892C1C715000E43FC9 /* SegmentControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A722B5882C1C715000E43FC9 /* SegmentControlView.swift */; };
 		A74874622C0D7E0600B830EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74874612C0D7E0600B830EE /* AppDelegate.swift */; };
 		A74874642C0D7E0600B830EE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74874632C0D7E0600B830EE /* SceneDelegate.swift */; };
 		A74874662C0D7E0700B830EE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74874652C0D7E0700B830EE /* ViewController.swift */; };
@@ -131,6 +132,7 @@
 		85A821D12C10B24300494313 /* DokgiWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DokgiWidget.swift; sourceTree = "<group>"; };
 		85A821D32C10B24500494313 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		85A821D52C10B24500494313 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A722B5882C1C715000E43FC9 /* SegmentControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentControlView.swift; sourceTree = "<group>"; };
 		A748745E2C0D7E0600B830EE /* Dokgi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dokgi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A74874612C0D7E0600B830EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A74874632C0D7E0600B830EE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -337,6 +339,7 @@
 				A74874652C0D7E0700B830EE /* ViewController.swift */,
 				3C73E2A22C1B03AC004B1BF8 /* FloatButton.swift */,
 				AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */,
+				A722B5882C1C715000E43FC9 /* SegmentControlView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -572,6 +575,7 @@
 				A75908C82C0F758900415D6D /* DaySelectViewController.swift in Sources */,
 				A75908D32C12D69300415D6D /* IntArrayExtension.swift in Sources */,
 				A74874622C0D7E0600B830EE /* AppDelegate.swift in Sources */,
+				A722B5892C1C715000E43FC9 /* SegmentControlView.swift in Sources */,
 				A74874812C0D7EC800B830EE /* ViewModel.swift in Sources */,
 				855318C62C1AEBF900340ACF /* BookDetailViewModel.swift in Sources */,
 				A7F2DB192C134B200020B0AA /* ParagraphDetailContainerView.swift in Sources */,
@@ -683,7 +687,6 @@
 		};
 		A74874732C0D7E0800B830EE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 855318BC2C16F18D00340ACF /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -747,7 +750,6 @@
 		};
 		A74874742C0D7E0800B830EE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 855318BC2C16F18D00340ACF /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;

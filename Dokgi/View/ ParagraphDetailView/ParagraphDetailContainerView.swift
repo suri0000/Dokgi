@@ -33,6 +33,12 @@ class ParagraphDetailContainerView: UIView {
         $0.font = Pretendard.semibold.dynamicFont(style: .body)
     }
     
+    let noKeywordLabel = UILabel().then {
+        $0.text = "키워드 없습니다"
+        $0.font = Pretendard.regular.dynamicFont(style: .callout)
+        $0.textColor = .bookTextGray
+    }
+    
     lazy var keywordCollectionView = UICollectionView(frame: self.bounds, collectionViewLayout: createBasicListLayout()).then {
         $0.backgroundColor = .clear
         $0.showsVerticalScrollIndicator = false
@@ -99,6 +105,25 @@ class ParagraphDetailContainerView: UIView {
         }
     }
     
+    let pageTextStack = UIStackView().then {
+        $0.axis = .horizontal
+        $0.spacing = 8
+    }
+    
+    let pageTextField = UITextField().then {
+        $0.font = Pretendard.regular.dynamicFont(style: .callout)
+        $0.placeholder = "페이지"
+        $0.layer.cornerRadius = 8
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = UIColor(resource: .borderGray).cgColor
+        $0.isHidden = true
+    }
+    
+    let pageSegment = SegmentControlView().then {
+        $0.isHidden = true
+        $0.selectedIndex = 0
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLayout()
@@ -114,15 +139,19 @@ class ParagraphDetailContainerView: UIView {
         textView.addSubview(paragrapTextLbl)
         textView.addSubview(paragrapTextField)
         addSubview(keywordStackView)
-        [keywordLabel, keywordTextField,keywordCollectionView].forEach {
+        [keywordLabel, keywordTextField, noKeywordLabel,keywordCollectionView].forEach {
             keywordStackView.addArrangedSubview($0)
         }
         addSubview(writeStackView)
         [writeDateTitle, writeDateDay].forEach {
             writeStackView.addArrangedSubview($0)
         }
+        addSubview(pageTextStack)
+        [pageTitle, pageTextField].forEach {
+            pageTextStack.addArrangedSubview($0)
+        }
         addSubview(pageStackView)
-        [pageTitle, pageWriteLbl].forEach {
+        [pageTextStack, pageSegment, pageWriteLbl].forEach {
             pageStackView.addArrangedSubview($0)
         }
         

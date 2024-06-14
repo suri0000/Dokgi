@@ -11,22 +11,37 @@ import RxSwift
 
 class ParagraphDetailViewModel {
     var detailParagraph = BehaviorRelay<Verse>(value: Verse(name: "", author: "", image: "", text: "", pageNumber: 1, pageType: "%", keywords: [], date: Date()))
+    var keywords = BehaviorRelay<[String]>(value: [])
     
     func deleteDetailKeyword(keyword: Int) {
-        var verse = self.detailParagraph.value
-        verse.keywords.remove(at: keyword)
-        detailParagraph.accept(verse)
+        var tmp = self.keywords.value
+        if tmp.isEmpty == false {
+            tmp.remove(at: keyword)
+        }
+        keywords.accept(tmp)
+    }
+    
+    func updateDetailKeyword(keyword: String) {
+        var keywordTmp = self.keywords.value
+        if keywordTmp.isEmpty == false {
+            keywordTmp[0] = keyword
+        }
+        keywords.accept(keywordTmp)
     }
     
     func addDetailKeyword(keyword: String) {
-        var verse = self.detailParagraph.value
-        verse.keywords.insert(keyword, at: 0)
-        detailParagraph.accept(verse)
+        var keywordTmp = self.keywords.value
+        keywordTmp.insert(keyword, at: 0)
+        keywords.accept(keywordTmp)
     }
     
-    func saveDetail(paragraph: String) {
+    func saveDetail(paragraph: String, page: String, pageType: Int) {
         var verse = self.detailParagraph.value
         verse.text = paragraph
+        verse.keywords = keywords.value.filter{ $0 != "" }
+        verse.pageNumber = Int(page) ?? 0
+        verse.pageType = pageType == 0 ? "%" : "Page"
+        detailParagraph.accept(verse)
         CoreDataManager.shared.updateData(verse: verse)
     }
 }
