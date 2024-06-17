@@ -19,6 +19,7 @@ class AlarmView: UIView {
     let remindSwitch = UISwitch().then {
         $0.isOn = true
         $0.onTintColor = .brightBlue
+        $0.setOn(true, animated: true)
     }
     
     let remindTitle = UILabel().then {
@@ -120,7 +121,12 @@ class AlarmView: UIView {
         super.init(frame: frame)
         self.backgroundColor = .white
         setupLayout()
+        if UserDefaults.standard.bool(forKey: UserDefaultsKeys.notification.rawValue) == false {
+            self.remindSwitch.isEnabled = false
+            self.writeSwitch.isEnabled = false
+        }
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
