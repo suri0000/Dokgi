@@ -319,7 +319,7 @@ extension LibrarySearchViewController: UICollectionViewDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        BookDetailViewModel.shared.bookInfo = CoreDataManager.shared.bookData.value[indexPath.row]
+        BookDetailViewModel.shared.bookInfo.accept(CoreDataManager.shared.bookData.value[indexPath.row])
         let bookDetailViewController = BookDetailViewController()
         self.navigationController?.pushViewController(bookDetailViewController, animated: true)
     }
