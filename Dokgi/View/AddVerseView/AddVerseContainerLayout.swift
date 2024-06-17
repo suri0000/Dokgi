@@ -1,8 +1,15 @@
-import UIKit
+//
+//  AddVerseContainerLayout.swift
+//  Dokgi
+//
+//  Created by 한철희 on 6/17/24.
+//
+
 import BetterSegmentedControl
 import Kingfisher
 import SnapKit
 import Then
+import UIKit
 
 class AddVerseContainerLayout: UIView {
     
