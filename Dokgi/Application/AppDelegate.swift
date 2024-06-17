@@ -23,6 +23,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     options: authOptions,
                     completionHandler: { _, _ in }
                 )
+        if UserDefaults.standard.bool(forKey: "lauchedBefore") == false {
+            // 하고싶은 작업지정
+            let viewModel = DayTimeViewModel()
+            UserDefaults.standard.set(true, forKey: UserDefaultsKeys.remindSwitch.rawValue)
+            viewModel.sendLocalPushRemind(identifier: "remindTime", time: [3, 0, 1])
+            UserDefaults.standard.set(true, forKey: UserDefaultsKeys.writeSwitch.rawValue)
+            viewModel.sendLocalPushWrite(identifier: "writeTime", time: [3, 0, 1], day: [1, 1, 1, 1, 1, 1, 1])
+            UserDefaults.standard.set(true, forKey: "lauchedBefore")
+        }
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.enableAutoToolbar = false
         IQKeyboardManager.shared.resignOnTouchOutside = true

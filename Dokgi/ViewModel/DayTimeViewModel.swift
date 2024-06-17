@@ -17,7 +17,7 @@ class DayTimeViewModel {
     static var writeTime = BehaviorRelay<[Int]>(value: UserDefaults.standard.array(forKey: "writeTime") as? [Int] ?? [3, 00, 1])
     
     let hourArr = [Int](1...12)
-    let minArr = [Int](0...59)
+    let minArr = [Int](00...59).map { String($0).count == 1 ? "0\($0)" : "\($0)" }
     let ampmArr = ["AM", "PM"]
     let DayArr = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"]
     var selectday = [Int](1...7)
@@ -28,7 +28,7 @@ class DayTimeViewModel {
         case 0:
             selectTime[0] = hourArr[row % hourArr.count]
         case 1:
-            selectTime[1] = minArr[row % minArr.count]
+            selectTime[1] = Int(minArr[row % minArr.count])!
         case 2:
             selectTime[2] = row % ampmArr.count
         default:

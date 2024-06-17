@@ -49,7 +49,11 @@ class TimePickerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        viewModel.selectTime = DayTimeViewModel.remindTime.value
+        if writeBool == true {
+            viewModel.selectTime = DayTimeViewModel.writeTime.value
+        } else {
+            viewModel.selectTime = DayTimeViewModel.remindTime.value
+        }
         let smallId = UISheetPresentationController.Detent.Identifier("small")
         let smallDetent = UISheetPresentationController.Detent.custom(identifier: smallId) { context in
             return UIScreen.main.bounds.size.height - 450
@@ -86,9 +90,9 @@ class TimePickerViewController: UIViewController {
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.bottom.equalToSuperview().inset(95)
         }
-        timePicker.selectRow((DayTimeViewModel.remindTime.value[0] - 1) + 12 * 50, inComponent: 0, animated: false)
-        timePicker.selectRow(DayTimeViewModel.remindTime.value[1] + 60 * 50, inComponent: 1, animated: false)
-        timePicker.selectRow(DayTimeViewModel.remindTime.value[2], inComponent: 2, animated: false)
+        timePicker.selectRow((viewModel.selectTime[0] - 1) + 12 * 50, inComponent: 0, animated: false)
+        timePicker.selectRow(viewModel.selectTime[1] + 60 * 50, inComponent: 1, animated: false)
+        timePicker.selectRow(viewModel.selectTime[2], inComponent: 2, animated: false)
     }
     
     func buttonTapped() {
