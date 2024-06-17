@@ -12,8 +12,8 @@ struct Verse {
     let author: String
     let image: String
     var text: String
-    let pageNumber: Int
-    let pageType: String
+    var pageNumber: Int
+    var pageType: String
     var keywords: [String]
     let date: Date
 
