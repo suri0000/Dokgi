@@ -457,10 +457,10 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        _ = viewModel.paragraphData.value[indexPath.item]
-        
         let modalVC = ParagraphDetailViewController()
         
+        viewModel.selectParagraph(at: indexPath.item)
+        modalVC.viewModel.detailParagraph.accept(viewModel.detailParagraph.value)
         present(modalVC, animated: true, completion: nil)
     }
 }

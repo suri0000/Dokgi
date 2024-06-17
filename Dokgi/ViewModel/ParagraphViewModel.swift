@@ -12,6 +12,7 @@ import RxSwift
 class ParagraphViewModel {
     var disposeBag = DisposeBag()
     var paragraphData = BehaviorRelay<[(String, String)]>(value: [("", "")])
+    var detailParagraph = BehaviorRelay<Verse>(value: Verse(name: "", author: "", image: "", text: "", pageNumber: 1, pageType: "P", keywords: [], date: Date()))
     
     init() {
         CoreDataManager.shared.bookData
@@ -28,4 +29,11 @@ class ParagraphViewModel {
             })
             .disposed(by: disposeBag)
     }
+    
+    func selectParagraph(at index: Int) {
+            let selectedText = paragraphData.value[index].0
+            if let selectedVerse = CoreDataManager.shared.bookData.value.first(where: { $0.text == selectedText }) {
+                detailParagraph.accept(selectedVerse)
+            }
+        }
 }
