@@ -73,6 +73,8 @@ class HomeViewController: UIViewController {
         bindViewModel()
         bannerTimer()
         setFloatingButton()
+        
+        CoreDataManager.shared.readData() // 추가된 구절 반영
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -101,7 +103,7 @@ class HomeViewController: UIViewController {
          nextLevelBubble,
          todayVersesLabel,
          todayVersesColletionView,
-         indicatorDots,].forEach {
+         indicatorDots].forEach {
             contentView.addSubview($0)
         }
         
@@ -111,11 +113,13 @@ class HomeViewController: UIViewController {
         }
         
         scrollView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalTo(self.view.safeAreaLayoutGuide)
+            $0.horizontalEdges.bottom.equalToSuperview()
         }
         
         contentView.snp.makeConstraints {
-            $0.edges.width.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.bottom.width.equalToSuperview()
         }
         
         settingButton.snp.makeConstraints {
@@ -198,12 +202,14 @@ class HomeViewController: UIViewController {
     
     func configureUI() {
         view.backgroundColor = .white
+        scrollView.showsVerticalScrollIndicator = false
         settingButton.setImage(.setting, for: .normal)
         settingButton.tintColor = .charcoalBlue
         settingButton.addTarget(self, action: #selector(didTapSetting), for: .touchUpInside)
         currentLengthLabel.text = "현재 구절 길이"
         currentLengthLabel.font = Pretendard.semibold.dynamicFont(style: .title3)
         nextLengthLabel.text = "다음 레벨까지 \(Int(Float(viewModel.currentLevelPercent.value) * 100)) % 달성했습니다!"
+        print("다음 레벨까지 \(Int(Float(viewModel.currentLevelPercent.value) * 100)) % 달성했습니다!")
         nextLengthLabel.font = Pretendard.regular.dynamicFont(style: .subheadline)
         if let thumbImage = UIImage(named: "currentThum") {
             lengthSlider.setThumbImage(thumbImage, for: .normal)
@@ -279,14 +285,16 @@ class HomeViewController: UIViewController {
         // 다음 레벨 이미지
         viewModel.nextLevelImage
             .subscribe(onNext: { [ weak self ] image in
+                self?.todayVersesColletionView.reloadData()
                 self?.nextLevelImage.image = image
             })
             .disposed(by: disposeBag)
         
         // 구절 랜덤 5개
         viewModel.randomVerses
-            .subscribe(onNext: { [weak self] _ in
+            .subscribe(onNext: { [weak self] value in
                 self?.todayVersesColletionView.reloadData()
+                self?.indicatorDots.numberOfPages = value.count
             })
             .disposed(by: viewModel.disposeBag)
     }
@@ -295,6 +303,8 @@ class HomeViewController: UIViewController {
         print("selectLevel \(level)")
         let index = max(0, min(level - 1, viewModel.levelCards.count - 1))
         let indexPath = IndexPath(item: index, section: 0)
+        
+        currentLevelCollectionView.reloadData() // 데이터 업데이트시 콜렉션뷰 리로드
         currentLevelCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
     
         levelCollectionViewSelectedIndex = index
@@ -341,7 +351,6 @@ class HomeViewController: UIViewController {
     // 다음 페이지 이동
     func scrollNextToPage(_ page: Int) {
         nowPage += 1
-//        print("now: \(nowPage), page: \(page)")
         todayVersesColletionView.scrollToItem(at: IndexPath(item: nowPage, section: 0), at: .right, animated: true)
     }
     
@@ -433,45 +442,54 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         currentCell?.transformToSmall()
     }
     
-  func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-      
-          guard scrollView == currentLevelCollectionView else { return }
-          
-          // pointee == 스크롤 도착 좌표
-          targetContentOffset.pointee = scrollView.contentOffset
-          
-          let flowLayout = currentLevelCollectionView.collectionViewLayout as! CurrentLevelCollectionFlowLayout
-          let cellWidthIncludingSpacing = flowLayout.itemSize.width + flowLayout.minimumLineSpacing
-          let offset = targetContentOffset.pointee
-          let horizontalVelocity = velocity.x
-          
-          var selectedIndex = levelCollectionViewSelectedIndex
-          
-          switch horizontalVelocity {
-          // 스크롤 시
-          case _ where horizontalVelocity > 0:
-              selectedIndex = levelCollectionViewSelectedIndex + 1
-          case _ where horizontalVelocity < 0:
-              selectedIndex = levelCollectionViewSelectedIndex - 1
-              
-          // 정지 후에 스크롤 할 떄
-          case _ where horizontalVelocity == 0:
-              let index = (offset.x + scrollView.contentInset.left) / cellWidthIncludingSpacing
-              let roundedIndex = round(index)
-              selectedIndex = Int(roundedIndex)
-          default:
-              print("Incorrect velocity for collection view")
-          }
-          
-          let safeIndex = max(0, min(selectedIndex, viewModel.currentLevel.value))
-    //      let safeIndex = max(0, min(selectedIndex, viewModel.levelCards.count)) // 이미지 오류 확인용
-          let selectedIndexPath = IndexPath(item: safeIndex, section: 0)
-          currentLevelCollectionView.scrollToItem(at: selectedIndexPath, at: .centeredHorizontally, animated: true)
-          
-          levelCollectionViewSelectedIndex = selectedIndexPath.item
-
-          updateCurrentLevelCollectionViewCell()
-  }
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        
+        if scrollView == currentLevelCollectionView {
+            guard scrollView == currentLevelCollectionView else { return }
+            
+            // pointee == 스크롤 도착 좌표
+            targetContentOffset.pointee = scrollView.contentOffset
+            
+            let flowLayout = currentLevelCollectionView.collectionViewLayout as! CurrentLevelCollectionFlowLayout
+            let cellWidthIncludingSpacing = flowLayout.itemSize.width + flowLayout.minimumLineSpacing
+            let offset = targetContentOffset.pointee
+            let horizontalVelocity = velocity.x
+            
+            var selectedIndex = levelCollectionViewSelectedIndex
+            
+            switch horizontalVelocity {
+                // 스크롤 시
+            case _ where horizontalVelocity > 0:
+                selectedIndex = levelCollectionViewSelectedIndex + 1
+            case _ where horizontalVelocity < 0:
+                selectedIndex = levelCollectionViewSelectedIndex - 1
+                
+                // 정지 후에 스크롤 할 떄
+            case _ where horizontalVelocity == 0:
+                let index = (offset.x + scrollView.contentInset.left) / cellWidthIncludingSpacing
+                let roundedIndex = round(index)
+                selectedIndex = Int(roundedIndex)
+            default:
+                print("Incorrect velocity for collection view")
+            }
+            
+            let safeIndex = max(0, min(selectedIndex, viewModel.currentLevel.value))
+            //      let safeIndex = max(0, min(selectedIndex, viewModel.levelCards.count)) // 이미지 오류 확인용
+            let selectedIndexPath = IndexPath(item: safeIndex, section: 0)
+            currentLevelCollectionView.scrollToItem(at: selectedIndexPath, at: .centeredHorizontally, animated: true)
+            
+            levelCollectionViewSelectedIndex = selectedIndexPath.item
+            
+            updateCurrentLevelCollectionViewCell()
+        } else if scrollView == todayVersesColletionView {
+            // 사용자가 오늘의 구절을 넘겼을 때
+            let pageWidth = scrollView.frame.size.width
+            let targetXContentOffset = targetContentOffset.pointee.x
+            let page = Int(targetXContentOffset / pageWidth)
+            self.indicatorDots.currentPage = page
+            self.nowPage = page
+        }
+    }
 }
 
 extension UICollectionViewCell {

@@ -52,19 +52,22 @@ class CurrentLevelCell: UICollectionViewCell {
         }
         
         textView.snp.makeConstraints {
-            $0.verticalEdges.equalToSuperview().inset(32.5)
+            $0.centerY.equalTo(cardImageView.snp.centerY)
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalTo(cardImageView.snp.leading)
         }
         
         levelView.snp.makeConstraints {
-            $0.width.equalTo(63)
-            $0.height.equalTo(22)
-            $0.leading.top.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.top.equalToSuperview()
         }
         
         levelLabel.snp.makeConstraints {
             $0.center.equalTo(levelView)
+            $0.top.equalTo(levelView.snp.top).offset(4)
+            $0.bottom.equalTo(levelView.snp.bottom).offset(-4)
+            $0.leading.equalTo(levelView.snp.leading).offset(8)
+            $0.trailing.equalTo(levelView.snp.trailing).offset(-8)
         }
         
         descrptionLabel.snp.makeConstraints {
@@ -73,8 +76,9 @@ class CurrentLevelCell: UICollectionViewCell {
         }
         
         lengthLabel.snp.makeConstraints {
-            $0.bottom.equalToSuperview()
+            $0.top.equalTo(descrptionLabel.snp.bottom).offset(16)
             $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
     }
     

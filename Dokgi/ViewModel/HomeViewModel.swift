@@ -64,18 +64,26 @@ class HomeViewModel {
             })
             .disposed(by: disposeBag)
         
+        // 구절 추가 업데이트
         CoreDataManager.shared.bookData
-            .subscribe(onNext: { [weak self] value in
-                let verses = value.map { verses in
-                    return verses.text
-                }
+            .map{ $0.map { $0.text }}
+            .subscribe(onNext: { [weak self] verses in
                 self?.verses.accept(verses)
-                print("verses changed \(value)")
+                print("verses changed \(verses)")
+            })
+            .disposed(by: disposeBag)
+        
+        // 오늘의 구절 업데이트
+        CoreDataManager.shared.bookData
+            .skip(1)
+            .take(1)
+            .subscribe(onNext: { [weak self] _ in
+                self?.loadTodayVerses()
             })
             .disposed(by: disposeBag)
 
         // 테스트 데이터
-        verses.accept(["도개걸육조", "우리팀 화이팅", "오늘은 다들 일찍 잘 수 있길","아자아자 화이팅이다", "주말을 주세요", "모두 행복합시다"])
+//        verses.accept(["도개걸육조", "우리팀 화이팅", "오늘은 다들 일찍 잘 수 있길","아자아자 화이팅이다", "주말을 주세요", "모두 행복합시다"])
         loadTodayVerses()
     }
     
