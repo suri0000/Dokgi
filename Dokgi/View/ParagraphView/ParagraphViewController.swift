@@ -114,7 +114,6 @@ class ParagraphViewController: UIViewController {
         selectionButtonLabel.textColor = .charcoalBlue
         selectionButton.sizeToFit()
         
-        doneButton.backgroundColor = .yellow
         doneButton.isHidden = true
         doneButton.addTarget(self, action: #selector(tappedDoneButton), for: .touchUpInside)
         doneButton.titleLabel?.font = Pretendard.semibold.dynamicFont(style: .headline)
@@ -446,14 +445,13 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
     
     func calculateCellHeight(for text: String, for date: String, in collectionView: UICollectionView) -> CGFloat {
         let cellPadding: CGFloat = 6
-        var width = (collectionView.bounds.width - (collectionView.contentInset.left + collectionView.contentInset.right + cellPadding * 4)) / 2
-        width = 140.67
-        
+        let leftRightinsets: CGFloat = 15 * 2
+        let width = (collectionView.bounds.width - (collectionView.contentInset.left + collectionView.contentInset.right + cellPadding * 4)) / 2 - leftRightinsets + 0.5
+
         let paragraphLabelHeight = heightForText(text, width: width)
         let paragraphDateSpacing: CGFloat = 30
         let dateLabelHeight: CGFloat = heightForDateText(date, width: width)
         let topBottomPadding: CGFloat = 14 * 2
-        print(text, paragraphLabelHeight, dateLabelHeight)
         return paragraphLabelHeight + paragraphDateSpacing + dateLabelHeight + topBottomPadding
     }
     

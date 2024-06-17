@@ -34,16 +34,14 @@ class ParagraphCollectionViewCell: UICollectionViewCell {
     func setCell() {
         deleteButton.setImage(.deleteParagraph, for: .normal)
         deleteButton.addTarget(self, action: #selector(tappedDeleteButton), for: .touchUpInside)
-        
+
         paragraphLabel.font = Pretendard.regular.dynamicFont(style: .subheadline)
         paragraphLabel.numberOfLines = 0  //자동 줄바꿈
         paragraphLabel.lineBreakMode = .byCharWrapping
-        paragraphLabel.backgroundColor = .yellow
-        
+
         dateLabel.font = Pretendard.regular.dynamicFont(style: .caption2)
         dateLabel.textColor = .alarmMemoGray
         dateLabel.numberOfLines = 1
-        dateLabel.backgroundColor = .yellow
     }
     
     func setConstraints() {

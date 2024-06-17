@@ -11,10 +11,13 @@ import RxSwift
 import SnapKit
 import UIKit
 
-class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
+class LibrarySearchViewController: UIViewController {
     
     private let libraryLabel = UILabel()
+    
     private let searchBar = UISearchBar()
+    private var isFiltering: Bool = false
+    
     private let sortButton = UIButton()
     private let sortButtonImageView = UIImageView()
     private let sortButtonTitleLabel = UILabel()
@@ -256,8 +259,6 @@ class LibrarySearchViewController: UIViewController, UISearchBarDelegate {
         searchBar.searchTextField.layer.cornerRadius = 17
         searchBar.searchTextField.layer.masksToBounds = true
         searchBar.searchTextField.font = Pretendard.regular.dynamicFont(style: .footnote)
-        
-        searchBar.delegate = self
     }
     // MARK: - 설정버튼
     private func setSortMenuView() {
