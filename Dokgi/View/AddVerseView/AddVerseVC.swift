@@ -19,16 +19,7 @@ protocol BookSelectionDelegate: AnyObject {
 
 class AddVerseVC: UIViewController {
     
-    var selectedBook: Item?
-    var images: [UIImage] = []
-    var keywords: [String] = []
-    weak var delegate: BookSelectionDelegate?
-    
-    var pageType: String = "Page" {
-        didSet {
-            print("pageType changed to \(pageType)")
-        }
-    }
+    let viewModel = AddVerseViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +29,7 @@ class AddVerseVC: UIViewController {
         setupViews()
         initLayout()
         setupActions()
-        setupHideKeyboardOnTap()
+        viewModel.setupHideKeyboardOnTap(view: view)
         updateCharacterCountLabel()
         setUserInfoTextField()
     }
@@ -374,26 +365,10 @@ class AddVerseVC: UIViewController {
         keywordField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
     
-    func setupHideKeyboardOnTap() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
-        tapGesture.cancelsTouchesInView = false
-        view.addGestureRecognizer(tapGesture)
-    }
-    
-    func visionKit() {
-        let scan = VNDocumentCameraViewController()
-        scan.delegate = self
-        self.present(scan, animated: true)
-    }
-    
-    @objc func hideKeyboard() {
-        view.endEditing(true)
-    }
-    
     @objc func scanButtonTapped(_ sender: UIButton) {
-        images = []
-        visionKit()
+        viewModel.visionKit(presenter: self)
     }
+
     
     @objc func searchButtonTapped(_ sender: UIButton) {
         let bookSearchVC = BookSearchVC()
@@ -404,11 +379,9 @@ class AddVerseVC: UIViewController {
     @objc func segmentedControlValueChanged(_ sender: BetterSegmentedControl) {
         switch sender.index {
         case 0:
-            pageType = "Page"
-            break
+            viewModel.pageType = "Page"
         case 1:
-            pageType = "%"
-            break
+            viewModel.pageType = "%"
         default:
             break
         }
@@ -417,37 +390,33 @@ class AddVerseVC: UIViewController {
     @objc func recordButtonTapped(_ sender: UIButton) {
         print("기록하기 버튼이 눌렸습니다.")
         if searchButton.isHidden == false {
-            showAlert(title: "책 정보 기록", message: "책 검색을 눌러 책 정보를 기록해주세요")
+            viewModel.showAlert(presenter: self, title: "책 정보 기록", message: "책 검색을 눌러 책 정보를 기록해주세요")
             return
         }
         
         if verseTextView.text.isEmpty || verseTextView.text == "텍스트를 입력하세요" {
-            showAlert(title: "구절 입력", message: "구절을 입력해 주세요")
+            viewModel.showAlert(presenter: self, title: "구절 입력", message: "구절을 입력해 주세요")
             return
         }
         
         if pageNumberTextField.text?.isEmpty == true {
-            showAlert(title: "페이지", message: "페이지를 입력해 주세요")
+            viewModel.showAlert(presenter: self, title: "페이지", message: "페이지를 입력해 주세요")
             return
         }
         
-        guard let book = selectedBook,
-              let pageNumberText = pageNumberTextField.text,
-              let pageNumber = Int(pageNumberText),
-              !verseTextView.text.isEmpty,
-              verseTextView.text != "텍스트를 입력하세요" else {
-            showAlert(title: "경고", message: "모든 필수 정보를 입력해주세요.")
-            return
+        viewModel.saveVerse(selectedBook: viewModel.selectedBook,
+                            verseText: verseTextView.text ?? "",
+                            pageNumberText: pageNumberTextField.text ?? "",
+                            pageType: viewModel.pageType,
+                            keywords: viewModel.keywords) { success in
+            if success {
+                self.navigationController?.popViewController(animated: true)
+            } else {
+                self.viewModel.showAlert(presenter: self, title: "경고", message: "모든 필수 정보를 입력해주세요.")
+            }
         }
         
-        let currentDate = Date()
-        
-        // Verse 인스턴스 생성
-        let verse = Verse(name: book.title, author: book.author, image: book.image, text: verseTextView.text, pageNumber: pageNumber, pageType: pageType, keywords: keywords, date: currentDate)
-        
-        CoreDataManager.shared.saveData(verse: verse)
-        // TODO: - 이전 화면으로 이동
-        self.navigationController?.popViewController(animated: true)
+
     }
     
     func showAlert(title: String, message: String, completion: (() -> Void)? = nil) {
@@ -493,7 +462,7 @@ class AddVerseVC: UIViewController {
     }
     
     func displayBookInfo() {
-        if let book = selectedBook {
+        if let book = viewModel.selectedBook {
             titleLabel.text = book.title
             titleLabel.font = Pretendard.semibold.dynamicFont(style: .headline)
             titleLabel.textColor = .black
@@ -537,15 +506,16 @@ class AddVerseVC: UIViewController {
         }
     }
     func removeKeyword(at indexPath: IndexPath) {
-        keywords.remove(at: indexPath.item)
+        viewModel.keywords.remove(at: indexPath.item)
         keywordCollectionView.deleteItems(at: [indexPath])
     }
 }
+
 // MARK: - UITextFieldDelegate
 extension AddVerseVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let keyword = textField.text, !keyword.isEmpty {
-            keywords[keywords.count - 1] = keyword
+            viewModel.keywords[viewModel.keywords.count - 1] = keyword
             keywordCollectionView.reloadData()
         }
         textField.text = ""
@@ -555,17 +525,17 @@ extension AddVerseVC: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if let text = textField.text, text.isEmpty {
-            keywords.append("")
+            viewModel.keywords.append("")
             keywordCollectionView.reloadData()
         }
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
         if let text = textField.text {
-            if keywords.isEmpty {
-                keywords.append(text)
+            if viewModel.keywords.isEmpty {
+                viewModel.keywords.append(text)
             } else {
-                keywords[keywords.count - 1] = text
+                viewModel.keywords[viewModel.keywords.count - 1] = text
             }
             keywordCollectionView.reloadData()
         }
@@ -576,7 +546,7 @@ extension AddVerseVC: UITextFieldDelegate {
 extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return keywords.count
+        return viewModel.keywords.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -584,16 +554,16 @@ extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
             return UICollectionViewCell()
         }
         
-        let reversedIndex = keywords.count - 1 - indexPath.item
-        cell.configure(with: keywords[reversedIndex])
+        let reversedIndex = viewModel.keywords.count - 1 - indexPath.item
+        cell.configure(with: viewModel.keywords[reversedIndex])
         cell.backgroundColor = .lightSkyBlue
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let reversedIndex = keywords.count - 1 - indexPath.item
-        let keyword = keywords[reversedIndex]
+        let reversedIndex = viewModel.keywords.count - 1 - indexPath.item
+        let keyword = viewModel.keywords[reversedIndex]
         let font = Pretendard.regular.dynamicFont(style: .callout)
         let attributes = [NSAttributedString.Key.font: font]
         let textSize = (keyword as NSString).size(withAttributes: attributes)
@@ -655,7 +625,7 @@ extension AddVerseVC: VNDocumentCameraViewControllerDelegate {
 // MARK: - 데이터 전달
 extension AddVerseVC: BookSelectionDelegate {
     func didSelectBook(_ book: Item) {
-        self.selectedBook = book
+        viewModel.selectedBook = book
         displayBookInfo()
     }
 }
