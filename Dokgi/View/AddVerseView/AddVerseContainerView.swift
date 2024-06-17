@@ -80,7 +80,7 @@ class AddVerseContainerView: UIView {
         $0.numberOfLines = 2
     }
     
-    let textOverlapView = UIView().then {
+    let overlapView = UIView().then {
         $0.backgroundColor = .clear
         $0.layer.borderWidth = 1.0
         $0.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.7).cgColor
@@ -94,6 +94,11 @@ class AddVerseContainerView: UIView {
         $0.font = Pretendard.regular.dynamicFont(style: .callout)
         $0.textColor = .placeholderText
         $0.showsVerticalScrollIndicator = false
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 8.0 // 원하는 값으로 설정
+        let attributedString = NSAttributedString(string: $0.text ?? "", attributes: [.paragraphStyle: paragraphStyle])
+        $0.attributedText = attributedString
     }
     
     let characterCountLabel = UILabel().then {
@@ -201,7 +206,7 @@ class AddVerseContainerView: UIView {
         infoView.addSubview(authorLabel)
         infoView.addSubview(overlayView)
         overlayView.addSubview(searchButton)
-        addSubview(textOverlapView)
+        addSubview(overlapView)
         addSubview(verseTextView)
         addSubview(characterCountLabel)
         addSubview(pencilImageView)
@@ -256,7 +261,7 @@ class AddVerseContainerView: UIView {
             $0.trailing.equalTo(infoView.snp.trailing).offset(-16)
         }
         
-        textOverlapView.snp.makeConstraints {
+        overlapView.snp.makeConstraints {
             $0.top.equalTo(infoView.snp.bottom).offset(32)
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(329) // 원하는 높이로 설정
@@ -269,17 +274,17 @@ class AddVerseContainerView: UIView {
         }
         
         characterCountLabel.snp.makeConstraints {
-            $0.trailing.equalTo(textOverlapView.snp.trailing).offset(-16)
-            $0.bottom.equalTo(textOverlapView.snp.bottom).offset(-16)
+            $0.trailing.equalTo(overlapView.snp.trailing).offset(-16)
+            $0.bottom.equalTo(overlapView.snp.bottom).offset(-16)
         }
         
         pencilImageView.snp.makeConstraints {
-            $0.bottom.equalTo(textOverlapView.snp.bottom).offset(-8)
-            $0.leading.equalTo(textOverlapView.snp.leading).offset(8)
+            $0.bottom.equalTo(overlapView.snp.bottom).offset(-8)
+            $0.leading.equalTo(overlapView.snp.leading).offset(8)
         }
         
         keywordLabel.snp.makeConstraints {
-            $0.top.equalTo(textOverlapView.snp.bottom).offset(32)
+            $0.top.equalTo(overlapView.snp.bottom).offset(32)
             $0.horizontalEdges.equalToSuperview().inset(16)
         }
         
