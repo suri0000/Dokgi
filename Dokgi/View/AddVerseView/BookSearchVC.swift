@@ -19,6 +19,7 @@ class BookSearchVC: UIViewController {
     
     let tableView = UITableView().then {
         $0.rowHeight = 150
+        $0.showsVerticalScrollIndicator = false
     }
     
     let searchBar = UISearchBar().then {
@@ -31,6 +32,10 @@ class BookSearchVC: UIViewController {
         $0.searchTextField.layer.cornerRadius = 15
         $0.searchTextField.layer.masksToBounds = true
     }
+    
+    var isLoading = false
+    var query: String = ""
+    var startIndex: Int = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,23 +74,33 @@ class BookSearchVC: UIViewController {
         tableView.delegate = self
         tableView.register(BookCell.self, forCellReuseIdentifier: "BookCell")
     }
+    
+    private func fetchBooks(query: String, startIndex: Int) {
+        isLoading = true
+        bookManager.fetchBookData(queryValue: query, startIndex: startIndex) { result in
+            switch result {
+            case .success(let response):
+                DispatchQueue.main.async {
+                    self.searchResults.append(contentsOf: response.items)
+                    self.tableView.reloadData()
+                    self.isLoading = false
+                }
+            case .failure(let error):
+                print("Error: \(error)")
+                self.isLoading = false
+            }
+        }
+    }
 }
 
 // MARK: - UISearchBarDelegate
 extension BookSearchVC: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let query = searchBar.text {
-            bookManager.fetchBookData(queryValue: query) { result in
-                switch result {
-                case .success(let response):
-                    DispatchQueue.main.async {
-                        self.searchResults = response.items
-                        self.tableView.reloadData()
-                    }
-                case .failure(let error):
-                    print("Error: \(error)")
-                }
-            }
+            self.query = query
+            self.startIndex = 1
+            self.searchResults = []
+            fetchBooks(query: query, startIndex: startIndex)
         }
         searchBar.resignFirstResponder()
     }
@@ -118,4 +133,16 @@ extension BookSearchVC: UITableViewDelegate {
         delegate?.didSelectBook(item)
         dismiss(animated: true, completion: nil)
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let position = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let scrollViewHeight = scrollView.frame.size.height
+        
+        if position > (contentHeight - 100 - scrollViewHeight) && !isLoading {
+            startIndex += 10 // Naver API는 한 번에 10개의 결과를 반환합니다.
+            fetchBooks(query: query, startIndex: startIndex)
+        }
+    }
 }
+

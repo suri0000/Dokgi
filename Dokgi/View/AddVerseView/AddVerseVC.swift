@@ -24,7 +24,7 @@ class AddVerseVC: UIViewController {
     var keywords: [String] = []
     weak var delegate: BookSelectionDelegate?
     
-    var pageType: String = "%" {
+    var pageType: String = "Page" {
         didSet {
             print("pageType changed to \(pageType)")
         }
@@ -186,7 +186,7 @@ class AddVerseVC: UIViewController {
         let segmentedControl = BetterSegmentedControl(
             frame: .zero,
             segments: LabelSegment.segments(
-                withTitles: ["%", "Page"],
+                withTitles: ["Page", "%"],
                 normalFont: Pretendard.semibold.dynamicFont(style: .footnote),
                 normalTextColor: .charcoalBlue,
                 selectedFont: Pretendard.semibold.dynamicFont(style: .footnote),
@@ -321,7 +321,7 @@ class AddVerseVC: UIViewController {
         keywordField.snp.makeConstraints {
             $0.top.equalTo(keywordLabel.snp.bottom).offset(16)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(33)
+            $0.height.equalTo(36)
         }
         
         keywordCollectionView.snp.makeConstraints {
@@ -404,10 +404,10 @@ class AddVerseVC: UIViewController {
     @objc func segmentedControlValueChanged(_ sender: BetterSegmentedControl) {
         switch sender.index {
         case 0:
-            pageType = "%"
+            pageType = "Page"
             break
         case 1:
-            pageType = "Page"
+            pageType = "%"
             break
         default:
             break
@@ -440,23 +440,21 @@ class AddVerseVC: UIViewController {
             return
         }
         
-        // 현재 날짜 정보 가져오기
         let currentDate = Date()
         
         // Verse 인스턴스 생성
         let verse = Verse(name: book.title, author: book.author, image: book.image, text: verseTextView.text, pageNumber: pageNumber, pageType: pageType, keywords: keywords, date: currentDate)
         
         CoreDataManager.shared.saveData(verse: verse)
-        print(verse)
-        // 저장이 완료되었다는 메시지
-        showAlert(title: "저장 완료", message: "구절이 성공적으로 저장되었습니다.")
         // TODO: - 이전 화면으로 이동
+        self.navigationController?.popViewController(animated: true)
     }
     
-    func showAlert(title: String, message: String) {
+    func showAlert(title: String, message: String, completion: (() -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .default)
-        alert.addAction(okAction)
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
+            completion?()
+        }))
         present(alert, animated: true, completion: nil)
     }
     
@@ -585,14 +583,17 @@ extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "KeywordCell", for: indexPath) as? KeywordCell else {
             return UICollectionViewCell()
         }
-        cell.configure(with: keywords[indexPath.item])
+        
+        let reversedIndex = keywords.count - 1 - indexPath.item
+        cell.configure(with: keywords[reversedIndex])
         cell.backgroundColor = .lightSkyBlue
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let keyword = keywords[indexPath.item]
+        let reversedIndex = keywords.count - 1 - indexPath.item
+        let keyword = keywords[reversedIndex]
         let font = Pretendard.regular.dynamicFont(style: .callout)
         let attributes = [NSAttributedString.Key.font: font]
         let textSize = (keyword as NSString).size(withAttributes: attributes)
