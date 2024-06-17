@@ -6,27 +6,27 @@
 //
 
 import Foundation
+import RxCocoa
 
 class BookDetailViewModel {
     
     static let shared = BookDetailViewModel()
-    var bookInfo: Verse?
-    var passagesData: [Passage] = []
+    var bookInfo = BehaviorRelay(value: Verse(name: "", author: "", image: "", text: "", pageNumber: 0, pageType: "", keywords: [], date: Date()))
+    var passagesData = BehaviorRelay(value: [Passage(text: "", pageType: "", pageNumber: 0)])
     
     func recordDateFormat() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy. MM. dd"
-        let recordDate =  dateFormatter.string(from: bookInfo?.date ?? Date())
+        let recordDate =  dateFormatter.string(from: bookInfo.value.date)
         
         return recordDate
     }
     
     func makePassageDateOfBook() {
-        let sameTitleBook =  CoreDataManager.shared.bookData.value.filter { $0.name == bookInfo?.name }
-        
-        passagesData = sameTitleBook.map { book in
+        let sameTitleBook =  CoreDataManager.shared.bookData.value.filter { $0.name == bookInfo.value.name }
+        passagesData.accept(sameTitleBook.map { book in
             Passage(text: book.text, pageType: book.pageType, pageNumber: book.pageNumber)
-        }
+        })
     }
     
     func pageTypeToP(_ pageType: String) -> String {
@@ -38,10 +38,7 @@ class BookDetailViewModel {
     }
     
     func makeAddVerseViewData() -> Item {
-        guard let bookInfo = bookInfo else {
-            return Item(title: "", image: "", author: "")
-        }
-        let item = Item(title: bookInfo.name, image: bookInfo.image, author: bookInfo.author)
+        let item = Item(title: bookInfo.value.name, image: bookInfo.value.image, author: bookInfo.value.author)
         
         return item
     }

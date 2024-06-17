@@ -111,6 +111,14 @@ class ParagraphDetailViewController: UIViewController {
         viewModel.detailParagraph.subscribe(with: self) { (self, data) in
             self.titleLbl.text = data.name
             self.containerView.paragrapTextLbl.text = data.text
+            self.viewModel.keywords.accept(data.keywords)
+            if self.viewModel.keywords.value.isEmpty {
+                self.containerView.noKeywordLabel.isHidden = false
+                self.containerView.keywordCollectionView.isHidden = true
+            } else {
+                self.containerView.noKeywordLabel.isHidden = true
+                self.containerView.keywordCollectionView.isHidden = false
+            }
             self.containerView.pageWriteLbl.text = "\(data.pageNumber) \(data.pageType)"
             self.containerView.writeDateDay.text = data.date.toString()
         }.disposed(by: disposeBag)
@@ -127,6 +135,10 @@ class ParagraphDetailViewController: UIViewController {
                 self.editBtn.titleLabel?.font = Pretendard.semibold.dynamicFont(style: .callout)
                 self.editBtn.setTitleColor(.skyBlue, for: .normal)
                 self.editBtn.setImage(nil, for: .normal)
+                self.containerView.pageTextField.isHidden = false
+                self.containerView.pageSegment.isHidden = false
+                self.containerView.pageWriteLbl.isHidden = true
+                self.containerView.pageSegment.selectedIndex = self.viewModel.detailParagraph.value.pageType == "%" ? 0 : 1
             } else {
                 self.containerView.editCompleteLayout()
                 self.sheetPresentationController?.detents = [self.smallDetent]
@@ -134,26 +146,41 @@ class ParagraphDetailViewController: UIViewController {
                 self.editBtn.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
                 self.editBtn.setTitleColor(.black, for: .normal)
                 self.editBtn.setImage(.modalEdit, for: .normal)
-                self.viewModel.saveDetail(paragraph: self.containerView.paragrapTextField.text)
+                self.viewModel.saveDetail(paragraph: self.containerView.paragrapTextField.text, page: self.containerView.pageTextField.text ?? "", pageType: self.containerView.pageSegment.selectedIndex)
+                self.containerView.pageTextField.isHidden = true
+                self.containerView.pageSegment.isHidden = true
+                self.containerView.pageWriteLbl.isHidden = false
             }
+        }.disposed(by: disposeBag)
+        
+        containerView.pageSegment.buttons[0].rx.tap.subscribe { sender in
+            self.containerView.pageSegment.selectedIndex = 0
+        }.disposed(by: disposeBag)
+        
+        containerView.pageSegment.buttons[1].rx.tap.subscribe { sender in
+            self.containerView.pageSegment.selectedIndex = 1
         }.disposed(by: disposeBag)
         
         containerView.paragrapTextField.rx.text.orEmpty.subscribe(with: self) { (self, text) in
             self.containerView.paragrapTextLimit(text)
         }.disposed(by: disposeBag)
         
+        containerView.keywordTextField.rx.controlEvent(.editingDidBegin).subscribe(with: self) { (self, _) in
+            self.viewModel.addDetailKeyword(keyword: "")
+            self.containerView.noKeywordLabel.isHidden = true
+            self.containerView.keywordCollectionView.isHidden = false
+        }.disposed(by: disposeBag)
+        
         containerView.keywordTextField.rx.text.orEmpty.subscribe(with: self) { (self, text) in
             self.containerView.keywordTextLimit(text)
+            self.viewModel.updateDetailKeyword(keyword: text)
         }.disposed(by: disposeBag)
         
         containerView.keywordTextField.rx.controlEvent(.editingDidEnd).subscribe(with: self) { (self, _) in
-            if let text = self.containerView.keywordTextField.text {
-                self.viewModel.addDetailKeyword(keyword: text)
-                self.containerView.keywordTextField.text = ""
-            }
+            self.containerView.keywordTextField.text = ""
         }.disposed(by: disposeBag)
         
-        viewModel.detailParagraph.map{ $0.keywords }.bind(to: containerView.keywordCollectionView.rx.items(cellIdentifier: KeywordCollectionViewCell.identifier,
+        viewModel.keywords.bind(to: containerView.keywordCollectionView.rx.items(cellIdentifier: KeywordCollectionViewCell.identifier,
                    cellType: KeywordCollectionViewCell.self)) { row, data, cell in
             cell.keywordLbl.text = data
             cell.xBtn.rx.tap.subscribe(with: self) { (self, data) in
