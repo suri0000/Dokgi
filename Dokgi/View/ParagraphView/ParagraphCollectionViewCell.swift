@@ -34,11 +34,11 @@ class ParagraphCollectionViewCell: UICollectionViewCell {
     func setCell() {
         deleteButton.setImage(.deleteParagraph, for: .normal)
         deleteButton.addTarget(self, action: #selector(tappedDeleteButton), for: .touchUpInside)
-        
+
         paragraphLabel.font = Pretendard.regular.dynamicFont(style: .subheadline)
         paragraphLabel.numberOfLines = 0  //자동 줄바꿈
         paragraphLabel.lineBreakMode = .byCharWrapping
-        
+
         dateLabel.font = Pretendard.regular.dynamicFont(style: .caption2)
         dateLabel.textColor = .alarmMemoGray
         dateLabel.numberOfLines = 1
@@ -61,7 +61,6 @@ class ParagraphCollectionViewCell: UICollectionViewCell {
         dateLabel.snp.makeConstraints {
             $0.top.equalTo(paragraphLabel.snp.bottom).offset(30)
             $0.bottom.trailing.equalToSuperview().inset(15)
-            $0.height.equalTo(22)
         }
     }
     

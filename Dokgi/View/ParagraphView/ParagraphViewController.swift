@@ -42,7 +42,7 @@ class ParagraphViewController: UIViewController {
         layout.delegate = self
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.contentInset = UIEdgeInsets(top: 1, left: 14, bottom: 14, right: 14)
+        collectionView.contentInset = UIEdgeInsets(top: 2, left: 14, bottom: 15, right: 14)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(ParagraphCollectionViewCell.self, forCellWithReuseIdentifier: ParagraphCollectionViewCell.identifier)
@@ -110,21 +110,20 @@ class ParagraphViewController: UIViewController {
         selectionButtonImageView.image = .filter
         
         selectionButtonLabel.text = "선택"
-        selectionButtonLabel.font = Pretendard.medium.dynamicFont(style: .subheadline)
+        selectionButtonLabel.font = Pretendard.semibold.dynamicFont(style: .headline)
         selectionButtonLabel.textColor = .charcoalBlue
         selectionButton.sizeToFit()
         
-        doneButton.backgroundColor = .white
         doneButton.isHidden = true
         doneButton.addTarget(self, action: #selector(tappedDoneButton), for: .touchUpInside)
-        doneButton.titleLabel?.font = Pretendard.medium.dynamicFont(style: .subheadline)
+        doneButton.titleLabel?.font = Pretendard.semibold.dynamicFont(style: .headline)
         doneButton.setTitle("완료", for: .normal)
         doneButton.setTitleColor(.brightRed, for: .normal)
         
         sortButton.backgroundColor = .lightSkyBlue
         sortButton.layer.cornerRadius = 15
         sortButton.clipsToBounds = true
-        sortButton.addTarget(self, action: #selector(showSortMenuView), for: .touchUpInside)
+        sortButton.addTarget(self, action: #selector(showOrHideSortMenuView), for: .touchUpInside)
         
         sortButtonImageView.image = .down
         sortButtonTitleLabel.text = "최신순"
@@ -288,7 +287,7 @@ class ParagraphViewController: UIViewController {
         oldestTextLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalTo(latestFirstcheckImageView.snp.trailing).offset(6)
-            $0.trailing.equalToSuperview().inset(5)
+            $0.trailing.equalToSuperview().inset(25)
         }
         
         paragraphCollectionView.snp.makeConstraints {
@@ -306,6 +305,7 @@ class ParagraphViewController: UIViewController {
         searchBar.searchBarStyle = .minimal
         searchBar.setPositionAdjustment(UIOffset(horizontal: 8, vertical: 0), for: .search)
         searchBar.setPositionAdjustment(UIOffset(horizontal: -8, vertical: 0), for: .clear)
+        
         searchBar.placeholder = "기록한 구절을 검색해보세요"
         searchBar.searchTextField.borderStyle = .line
         searchBar.searchTextField.layer.borderWidth = 1
@@ -313,7 +313,8 @@ class ParagraphViewController: UIViewController {
         searchBar.searchTextField.layer.backgroundColor = UIColor.white.cgColor
         searchBar.searchTextField.layer.cornerRadius = 17
         searchBar.searchTextField.layer.masksToBounds = true
-        searchBar.searchTextField.font = Pretendard.regular.dynamicFont(style: .caption2)
+        searchBar.searchTextField.font = Pretendard.regular.dynamicFont(style: .footnote)
+    
         searchBar.delegate = self
     }
     // MARK: - 설정버튼
@@ -324,9 +325,13 @@ class ParagraphViewController: UIViewController {
         oldestFirstcheckImageView.isHidden = true
     }
     
-    @objc private func showSortMenuView() {
-        sortMenuView.isHidden = false
-        view.bringSubviewToFront(sortMenuView)
+    @objc private func showOrHideSortMenuView() {
+        if sortMenuView.isHidden {
+            sortMenuView.isHidden = false
+            view.bringSubviewToFront(sortMenuView)
+        } else {
+            sortMenuView.isHidden = true
+        }
     }
     
     @objc private func tappedLatestFirst() {
@@ -337,7 +342,7 @@ class ParagraphViewController: UIViewController {
         
         sortMenuView.isHidden = true
         
-        paragraphData.sort { $0.1 > $1.1 }
+        isFiltering ? searchResultItems.sort { $0.1 > $1.1 } : paragraphData.sort { $0.1 > $1.1 }
     }
     
     @objc private func tappedOldestFirst() {
@@ -348,7 +353,7 @@ class ParagraphViewController: UIViewController {
         
         sortMenuView.isHidden = true
         
-        paragraphData.sort { $0.1 < $1.1 }
+        isFiltering ? searchResultItems.sort { $0.1 < $1.1 } : paragraphData.sort { $0.1 < $1.1 }
     }
     
     @objc private func tappedSelectionButton() {
@@ -371,7 +376,7 @@ class ParagraphViewController: UIViewController {
 extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDataSource, ParagraphCollectionViewLayoutDelegate, ParagraphCollectionViewCellDelegate {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -388,7 +393,6 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ParagraphCollectionViewCell.identifier, for: indexPath) as? ParagraphCollectionViewCell else {
             return UICollectionViewCell()
         }
@@ -406,8 +410,8 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, heightForTextAtIndexPath indexPath: IndexPath) -> CGFloat {
         let text = isFiltering ? searchResultItems[indexPath.item].0 : paragraphData[indexPath.item].0
-        
-        return calculateCellHeight(for: text, in: collectionView)
+        let date = isFiltering ? searchResultItems[indexPath.item].1 : paragraphData[indexPath.item].1
+        return calculateCellHeight(for: text, for: date, in: collectionView)
     }
     
     func heightForText(_ text: String, width: CGFloat) -> CGFloat {
@@ -415,6 +419,9 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
         label.text = text
         label.numberOfLines = 0  // 멀티라인
         label.preferredMaxLayoutWidth = width
+        label.lineBreakMode = .byCharWrapping
+        label.font = Pretendard.regular.dynamicFont(style: .subheadline)
+        label.adjustsFontForContentSizeCategory = true
         
         let constraintSize = CGSize(width: width, height: .greatestFiniteMagnitude)
         let size = label.sizeThatFits(constraintSize)
@@ -422,14 +429,30 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
         return size.height
     }
     
-    func calculateCellHeight(for text: String, in collectionView: UICollectionView) -> CGFloat {
-        let width = (collectionView.bounds.width - (collectionView.contentInset.left + collectionView.contentInset.right)) / 2 - 4
+    func heightForDateText(_ date: String, width: CGFloat) -> CGFloat {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.preferredMaxLayoutWidth = width
+        label.font = Pretendard.regular.dynamicFont(style: .caption2)
+        label.adjustsFontForContentSizeCategory = true
+        label.text = date
+        
+        let constraintSize = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let size = label.sizeThatFits(constraintSize)
+        
+        return size.height
+    }
+    
+    func calculateCellHeight(for text: String, for date: String, in collectionView: UICollectionView) -> CGFloat {
+        let cellPadding: CGFloat = 6
+        let leftRightinsets: CGFloat = 15 * 2
+        let width = (collectionView.bounds.width - (collectionView.contentInset.left + collectionView.contentInset.right + cellPadding * 4)) / 2 - leftRightinsets + 0.5
+
         let paragraphLabelHeight = heightForText(text, width: width)
         let paragraphDateSpacing: CGFloat = 30
-        let dataLabelHeight: CGFloat = 22
-        let topBottomPadding: CGFloat = 12 * 2
-        
-        return paragraphLabelHeight + paragraphDateSpacing + dataLabelHeight + topBottomPadding
+        let dateLabelHeight: CGFloat = heightForDateText(date, width: width)
+        let topBottomPadding: CGFloat = 14 * 2
+        return paragraphLabelHeight + paragraphDateSpacing + dateLabelHeight + topBottomPadding
     }
     
     func tappedDeleteButton(in cell: ParagraphCollectionViewCell) {
@@ -452,8 +475,6 @@ extension ParagraphViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         self.isFiltering = true
         self.searchBar.showsCancelButton = true
-        
-        self.paragraphCollectionView.reloadData()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -462,10 +483,8 @@ extension ParagraphViewController: UISearchBarDelegate {
     
     private func filterItems(with searchText: String) {
         if searchText.isEmpty {
-            // 검색어가 비어있을 시 : 모든 구절 보여주기
             searchResultItems = paragraphData
         } else {
-            // 검색어에 맞게 items 배열 필터링 후 searchResultItems에 저장
             searchResultItems = paragraphData.filter { $0.0.localizedCaseInsensitiveContains(searchText) }
         }
     }
@@ -478,19 +497,11 @@ extension ParagraphViewController: UISearchBarDelegate {
         self.searchResultItems = []
     }
     
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        self.isFiltering = false
-        self.paragraphCollectionView.reloadData()
-    }
-    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchBar.text else { return }
         filterItems(with: searchText)
         
         self.searchBar.showsCancelButton = false
         self.searchBar.resignFirstResponder()
-        self.isFiltering = false
-        self.searchBar.text = ""
-        self.searchResultItems = []
     }
 }

@@ -15,6 +15,7 @@ class LibrarySearchViewController: UIViewController {
     
     private let libraryLabel = UILabel()
     private let searchBar = UISearchBar()
+    private var isFiltering: Bool = false
     private let sortButton = UIButton()
     private let sortButtonImageView = UIImageView()
     private let sortButtonTitleLabel = UILabel()
@@ -79,12 +80,6 @@ class LibrarySearchViewController: UIViewController {
         }.disposed(by: disposeBag)
     }
     
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        sortMenuView.isHidden = true
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
@@ -100,7 +95,7 @@ class LibrarySearchViewController: UIViewController {
         sortButton.backgroundColor = .lightSkyBlue
         sortButton.layer.cornerRadius = 15
         sortButton.clipsToBounds = true
-        sortButton.addTarget(self, action: #selector(showSortMenuView), for: .touchUpInside)
+        sortButton.addTarget(self, action: #selector(showOrHideSortMenuView), for: .touchUpInside)
         
         sortButtonImageView.image = .down
         sortButtonTitleLabel.text = "최신순"
@@ -236,7 +231,7 @@ class LibrarySearchViewController: UIViewController {
         oldestTextLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalTo(latestFirstcheckImageView.snp.trailing).offset(6)
-            $0.trailing.equalToSuperview().inset(5)
+            $0.trailing.equalToSuperview().inset(25)
         }
         
         libraryCollectionView.snp.makeConstraints {
@@ -253,6 +248,7 @@ class LibrarySearchViewController: UIViewController {
         searchBar.searchBarStyle = .minimal
         searchBar.setPositionAdjustment(UIOffset(horizontal: 8, vertical: 0), for: .search)
         searchBar.setPositionAdjustment(UIOffset(horizontal: -8, vertical: 0), for: .clear)
+        
         searchBar.placeholder = "기록된 책을 검색해보세요"
         searchBar.searchTextField.borderStyle = .line
         searchBar.searchTextField.layer.borderWidth = 1
@@ -260,7 +256,7 @@ class LibrarySearchViewController: UIViewController {
         searchBar.searchTextField.layer.backgroundColor = UIColor.white.cgColor
         searchBar.searchTextField.layer.cornerRadius = 17
         searchBar.searchTextField.layer.masksToBounds = true
-        searchBar.searchTextField.font = Pretendard.regular.dynamicFont(style: .caption2)
+        searchBar.searchTextField.font = Pretendard.regular.dynamicFont(style: .footnote)
     }
     // MARK: - 설정버튼
     private func setSortMenuView() {
@@ -270,9 +266,13 @@ class LibrarySearchViewController: UIViewController {
         oldestFirstcheckImageView.isHidden = true
     }
     
-    @objc private func showSortMenuView() {
-        sortMenuView.isHidden = false
-        view.bringSubviewToFront(sortMenuView)
+    @objc private func showOrHideSortMenuView() {
+        if sortMenuView.isHidden {
+            sortMenuView.isHidden = false
+            view.bringSubviewToFront(sortMenuView)
+        } else {
+            sortMenuView.isHidden = true
+        }
     }
     
     @objc private func tappedLatestFirst() {
