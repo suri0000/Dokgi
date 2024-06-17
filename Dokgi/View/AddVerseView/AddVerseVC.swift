@@ -20,7 +20,7 @@ protocol BookSelectionDelegate: AnyObject {
 class AddVerseVC: UIViewController {
     
     let viewModel = AddVerseViewModel()
-        let containerView = AddVerseContainerLayout()
+        let containerView = AddVerseContainerView()
         let scrollView = UIScrollView().then {
             $0.showsVerticalScrollIndicator = false
             $0.alwaysBounceVertical = true
@@ -61,7 +61,6 @@ class AddVerseVC: UIViewController {
         containerView.snp.makeConstraints {
             $0.edges.equalTo(scrollView.contentLayoutGuide)
             $0.width.equalTo(scrollView.snp.width)
-            $0.height.greaterThanOrEqualTo(view.safeAreaLayoutGuide.snp.height)
             $0.height.greaterThanOrEqualTo(1000)
         }
     }

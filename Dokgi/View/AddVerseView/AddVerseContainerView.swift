@@ -11,7 +11,7 @@ import SnapKit
 import Then
 import UIKit
 
-class AddVerseContainerLayout: UIView {
+class AddVerseContainerView: UIView {
     
     // MARK: - Properties
     let scanButton = UIButton(configuration: .filled(), primaryAction: nil).then {
@@ -188,7 +188,7 @@ class AddVerseContainerLayout: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Setup
+    // MARK: - setupViews
     private func setupViews() {
         addSubview(scanButton)
         addSubview(infoView)
@@ -210,6 +210,7 @@ class AddVerseContainerLayout: UIView {
         addSubview(recordButton)
     }
     
+    // MARK: - 제약조건
     private func initLayout() {
         scanButton.snp.makeConstraints {
             $0.top.equalToSuperview().offset(16)
@@ -239,14 +240,14 @@ class AddVerseContainerLayout: UIView {
         }
         
         titleLabel.snp.makeConstraints {
-            $0.leading.equalTo(imageView.snp.trailing).offset(16)
             $0.centerY.equalTo(infoView.snp.centerY).offset(-16)
+            $0.leading.equalTo(imageView.snp.trailing).offset(16)
             $0.trailing.equalTo(infoView.snp.trailing).offset(-16)
         }
         
         authorLabel.snp.makeConstraints {
-            $0.leading.equalTo(imageView.snp.trailing).offset(16)
             $0.top.equalTo(titleLabel.snp.bottom).offset(16)
+            $0.leading.equalTo(imageView.snp.trailing).offset(16)
             $0.trailing.equalTo(infoView.snp.trailing).offset(-16)
         }
         
