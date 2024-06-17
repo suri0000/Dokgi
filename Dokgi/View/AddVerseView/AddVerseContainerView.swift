@@ -265,7 +265,7 @@ class AddVerseContainerView: UIView {
         verseTextView.snp.makeConstraints {
             $0.top.equalTo(infoView.snp.bottom).offset(35)
             $0.horizontalEdges.equalToSuperview().inset(18)
-            $0.bottom.equalTo(characterCountLabel.snp.top)
+            $0.bottom.equalTo(pencilImageView.snp.top).inset(8)
         }
         
         characterCountLabel.snp.makeConstraints {
