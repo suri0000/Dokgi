@@ -49,6 +49,7 @@ class KeywordCell: UICollectionViewCell {
         }
         
         layer.cornerRadius = 10
+        layer.masksToBounds = true
         
         deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
     }

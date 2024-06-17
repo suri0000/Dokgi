@@ -252,7 +252,8 @@ extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         let reversedIndex = viewModel.keywords.count - 1 - indexPath.item
         let keyword = viewModel.keywords[reversedIndex]
         cell.configure(with: keyword)
-        cell.backgroundColor = .lightSkyBlue
+        cell.layer.borderColor = UIColor.lightSkyBlue.cgColor
+        cell.layer.borderWidth = 2
         
         return cell
     }
@@ -276,7 +277,7 @@ extension AddVerseVC: UITextViewDelegate {
         guard textView.textColor == .placeholderText else { return }
         textView.textColor = .label
         textView.text = nil
-        updateCharacterCountLabel() // 글자 수 업데이트
+        updateCharacterCountLabel()
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
