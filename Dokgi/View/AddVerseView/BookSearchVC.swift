@@ -34,7 +34,7 @@ class BookSearchVC: UIViewController {
         $0.searchTextField.layer.backgroundColor = UIColor.white.cgColor
         $0.searchTextField.layer.cornerRadius = 17
         $0.searchTextField.layer.masksToBounds = true
-        $0.searchTextField.font = Pretendard.regular.dynamicFont(style: .footnote)
+        $0.searchTextField.font = Pretendard.regular.dynamicFont(style: .subheadline)
     }
     
     var isLoading = false
