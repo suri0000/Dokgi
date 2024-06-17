@@ -140,7 +140,7 @@ extension BookSearchVC: UITableViewDelegate {
         let scrollViewHeight = scrollView.frame.size.height
         
         if position > (contentHeight - 100 - scrollViewHeight) && !isLoading {
-            startIndex += 10 // Naver API는 한 번에 10개의 결과를 반환합니다.
+            startIndex += 10
             fetchBooks(query: query, startIndex: startIndex)
         }
     }

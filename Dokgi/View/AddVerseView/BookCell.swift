@@ -37,8 +37,8 @@ class BookCell: UITableViewCell {
         bookImageView.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(16)
             $0.centerY.equalToSuperview()
-            $0.width.equalTo(100)
-            $0.height.equalTo(140)
+            $0.width.equalTo(103)
+            $0.height.equalTo(146)
         }
         
         titleLabel.snp.makeConstraints {
