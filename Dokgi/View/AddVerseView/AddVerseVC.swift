@@ -440,7 +440,6 @@ class AddVerseVC: UIViewController {
             return
         }
         
-        // 현재 날짜 정보 가져오기
         let currentDate = Date()
         
         // Verse 인스턴스 생성
