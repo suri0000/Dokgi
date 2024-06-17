@@ -31,7 +31,6 @@ class AddVerseVC: UIViewController {
         setupViews()
         initLayout()
         setupActions()
-        viewModel.setupHideKeyboardOnTap(view: view)
         updateCharacterCountLabel()
         setUserInfoTextField()
     }

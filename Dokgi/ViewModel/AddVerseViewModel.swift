@@ -24,13 +24,6 @@ class AddVerseViewModel {
     }
     
     // MARK: - ViewModel Logic
-    
-    func setupHideKeyboardOnTap(view: UIView) {
-        let tapGesture = UITapGestureRecognizer(target: view, action: #selector(view.endEditing))
-        tapGesture.cancelsTouchesInView = false
-        view.addGestureRecognizer(tapGesture)
-    }
-    
     func visionKit(presenter: UIViewController) {
         let scan = VNDocumentCameraViewController()
         scan.delegate = presenter as? VNDocumentCameraViewControllerDelegate
