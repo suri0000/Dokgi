@@ -53,7 +53,7 @@ class DayTimeViewModel {
     }
     
     func sendLocalPushRemind(identifier: String, time: [Int]) {
-        let gujur : [String] = ["블랙핑크", "김지수", "제니", "로제", "리사", "안녕 안녕 나는 지수야", "헬륨가스 먹었더니 이렇게 됐지"]
+        let gujur : [String] = CoreDataManager.shared.bookData.value.count == 0 ? ["누군가를 있는 그대로 존중한다는 것은 그만큼 어려운 일이다.", "본질을 아는 것보다, 본질을 알기 위해 있는 그대로를 보기 위해 노력하는 것이 중요하다고, 그것이 바로 그 대상에 대한 존중이라고."] : CoreDataManager.shared.bookData.value.map { $0.text }
         UserDefaults.standard.set(time, forKey: UserDefaultsKeys.remindTime.rawValue)
         for i in 1...31 {
             let content = UNMutableNotificationContent()

@@ -18,6 +18,7 @@ class AlarmView: UIView {
     
     let remindSwitch = UISwitch().then {
         $0.isOn = true
+        $0.onTintColor = .brightBlue
     }
     
     let remindTitle = UILabel().then {
@@ -60,6 +61,7 @@ class AlarmView: UIView {
     
     let writeSwitch = UISwitch().then {
         $0.isOn = true
+        $0.onTintColor = .brightBlue
     }
     
     let writeTitle = UILabel().then {
