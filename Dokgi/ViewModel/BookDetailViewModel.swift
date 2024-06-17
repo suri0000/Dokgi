@@ -30,7 +30,7 @@ class BookDetailViewModel {
     }
     
     func pageTypeToP(_ pageType: String) -> String {
-        if pageType == "page" {
+        if pageType == "Page" || pageType == "page" {
             return "P"
         }
         
