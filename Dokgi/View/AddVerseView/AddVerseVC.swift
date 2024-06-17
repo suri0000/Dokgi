@@ -20,16 +20,14 @@ protocol BookSelectionDelegate: AnyObject {
 class AddVerseVC: UIViewController {
     
     let viewModel = AddVerseViewModel()
-    let containerView = AddVerseContainerLayout()
-    
+        let containerView = AddVerseContainerLayout()
+        let scrollView = UIScrollView().then {
+            $0.showsVerticalScrollIndicator = false
+            $0.alwaysBounceVertical = true
+            $0.contentInsetAdjustmentBehavior = .never
+        }
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        containerView.keywordCollectionView.register(KeywordCell.self, forCellWithReuseIdentifier: KeywordCell.reuseIdentifier)
-        containerView.keywordCollectionView.delegate = self // 데이터소스와 델리게이트 설정
-        containerView.keywordCollectionView.dataSource = self // 데이터소스와 델리게이트 설정
-        containerView.keywordField.delegate = self
-        containerView.verseTextView.delegate = self
         setupViews()
         initLayout()
         setupActions()
@@ -43,15 +41,16 @@ class AddVerseVC: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
     }
     
-    let scrollView = UIScrollView().then {
-        $0.showsVerticalScrollIndicator = false
-        $0.alwaysBounceVertical = true
-        $0.contentInsetAdjustmentBehavior = .never
-    }
-    
     func setupViews() {
+        view.backgroundColor = .white
         view.addSubview(scrollView)
         scrollView.addSubview(containerView)
+        
+        containerView.keywordCollectionView.register(KeywordCell.self, forCellWithReuseIdentifier: KeywordCell.reuseIdentifier)
+        containerView.keywordCollectionView.delegate = self
+        containerView.keywordCollectionView.dataSource = self
+        containerView.keywordField.delegate = self
+        containerView.verseTextView.delegate = self
     }
     
     // MARK: - 제약조건
@@ -63,7 +62,7 @@ class AddVerseVC: UIViewController {
         containerView.snp.makeConstraints {
             $0.edges.equalTo(scrollView.contentLayoutGuide)
             $0.width.equalTo(scrollView.snp.width)
-            $0.height.greaterThanOrEqualTo(view.safeAreaLayoutGuide.snp.height) // 이 부분을 추가
+            $0.height.greaterThanOrEqualTo(view.safeAreaLayoutGuide.snp.height)
             $0.height.greaterThanOrEqualTo(1000)
         }
     }
@@ -88,18 +87,10 @@ class AddVerseVC: UIViewController {
     }
     
     @objc func segmentedControlValueChanged(_ sender: BetterSegmentedControl) {
-        switch sender.index {
-        case 0:
-            viewModel.pageType = "Page"
-        case 1:
-            viewModel.pageType = "%"
-        default:
-            break
-        }
+        viewModel.pageType = sender.index == 0 ? "Page" : "%"
     }
     
     @objc func recordButtonTapped(_ sender: UIButton) {
-        print("기록하기 버튼이 눌렸습니다.")
         if containerView.searchButton.isHidden == false {
             viewModel.showAlert(presenter: self, title: "책 정보 기록", message: "책 검색을 눌러 책 정보를 기록해주세요")
             return
@@ -138,12 +129,9 @@ class AddVerseVC: UIViewController {
     
     func setUserInfoTextField() {
         containerView.keywordField.backgroundColor = .white
-        
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: containerView.keywordField.frame.height))
-        
         containerView.keywordField.leftView = paddingView
         containerView.keywordField.leftViewMode = .always
-        
         containerView.keywordField.rightView = paddingView
         containerView.keywordField.rightViewMode = .always
     }
@@ -158,14 +146,13 @@ class AddVerseVC: UIViewController {
     static func createAttributedString(for text: String) -> NSAttributedString {
         let attributedString = NSMutableAttributedString(string: text)
         
-        // "키워드" 부분에 대한 속성 설정
+        // "키워드" 부분에 대한 설정
         let keywordRange = (text as NSString).range(of: "키워드")
-        attributedString.addAttribute(.font, value: Pretendard.semibold.dynamicFont(style: .headline), range: keywordRange)
+        attributedString.addAttributes([.font: Pretendard.semibold.dynamicFont(style: .headline)], range: keywordRange)
         
-        // "선택" 부분에 대한 속성 설정
+        // "선택" 부분에 대한 설정
         let selectionRange = (text as NSString).range(of: "(선택)")
-        attributedString.addAttribute(.font, value: Pretendard.regular.dynamicFont(style: .headline), range: selectionRange)
-        attributedString.addAttribute(.foregroundColor, value: UIColor.gray, range: selectionRange)
+        attributedString.addAttributes([.font: Pretendard.regular.dynamicFont(style: .headline), .foregroundColor: UIColor.gray], range: selectionRange)
         
         return attributedString
     }
@@ -202,8 +189,7 @@ class AddVerseVC: UIViewController {
                 self?.containerView.verseTextView.text = recognizedStrings.joined(separator: "\n")
             }
         }
-        let revision3 = VNRecognizeTextRequestRevision3
-        request.revision = revision3
+        request.revision = VNRecognizeTextRequestRevision3
         request.recognitionLevel = .accurate
         request.recognitionLanguages = ["ko-KR"]
         request.usesLanguageCorrection = true
