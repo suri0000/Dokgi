@@ -37,19 +37,19 @@ class BookCell: UITableViewCell {
         bookImageView.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(16)
             $0.centerY.equalToSuperview()
-            $0.width.equalTo(103)
-            $0.height.equalTo(146)
+            $0.width.equalTo(90)
+            $0.height.equalTo(130)
         }
         
         titleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(32)
             $0.leading.equalTo(bookImageView.snp.trailing).offset(16)
-            $0.top.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().inset(16)
         }
         
         authorLabel.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(16)
             $0.leading.equalTo(titleLabel)
-            $0.top.equalTo(titleLabel.snp.bottom).offset(8)
             $0.trailing.equalToSuperview().inset(16)
         }
     }

@@ -80,15 +80,19 @@ class AddVerseContainerView: UIView {
         $0.numberOfLines = 2
     }
     
-    lazy var verseTextView = UITextView().then {
-        $0.text = "텍스트를 입력하세요"
+    let textOverlapView = UIView().then {
+        $0.backgroundColor = .clear
         $0.layer.borderWidth = 1.0
         $0.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.7).cgColor
+        $0.layer.cornerRadius = 8
+        $0.clipsToBounds = true
+    }
+    
+    lazy var verseTextView = UITextView().then {
+        $0.text = "텍스트를 입력하세요"
         $0.textContainerInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
         $0.font = Pretendard.regular.dynamicFont(style: .callout)
         $0.textColor = .placeholderText
-        $0.layer.cornerRadius = 8
-        $0.clipsToBounds = true
         $0.showsVerticalScrollIndicator = false
     }
     
@@ -197,6 +201,7 @@ class AddVerseContainerView: UIView {
         infoView.addSubview(authorLabel)
         infoView.addSubview(overlayView)
         overlayView.addSubview(searchButton)
+        addSubview(textOverlapView)
         addSubview(verseTextView)
         addSubview(characterCountLabel)
         addSubview(pencilImageView)
@@ -251,24 +256,30 @@ class AddVerseContainerView: UIView {
             $0.trailing.equalTo(infoView.snp.trailing).offset(-16)
         }
         
-        verseTextView.snp.makeConstraints {
+        textOverlapView.snp.makeConstraints {
             $0.top.equalTo(infoView.snp.bottom).offset(32)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(329)
+            $0.height.equalTo(329) // 원하는 높이로 설정
+        }
+        
+        verseTextView.snp.makeConstraints {
+            $0.top.equalTo(infoView.snp.bottom).offset(35)
+            $0.horizontalEdges.equalToSuperview().inset(18)
+            $0.bottom.equalTo(characterCountLabel.snp.top)
         }
         
         characterCountLabel.snp.makeConstraints {
-            $0.trailing.equalTo(verseTextView.snp.trailing).offset(-16)
-            $0.bottom.equalTo(verseTextView.snp.bottom).offset(-16)
+            $0.trailing.equalTo(textOverlapView.snp.trailing).offset(-16)
+            $0.bottom.equalTo(textOverlapView.snp.bottom).offset(-16)
         }
         
         pencilImageView.snp.makeConstraints {
-            $0.bottom.equalTo(verseTextView.snp.bottom).offset(-8)
-            $0.leading.equalTo(verseTextView.snp.leading).offset(8)
+            $0.bottom.equalTo(textOverlapView.snp.bottom).offset(-8)
+            $0.leading.equalTo(textOverlapView.snp.leading).offset(8)
         }
         
         keywordLabel.snp.makeConstraints {
-            $0.top.equalTo(verseTextView.snp.bottom).offset(32)
+            $0.top.equalTo(textOverlapView.snp.bottom).offset(32)
             $0.horizontalEdges.equalToSuperview().inset(16)
         }
         
