@@ -14,10 +14,8 @@ import UIKit
 class LibrarySearchViewController: UIViewController {
     
     private let libraryLabel = UILabel()
-    
     private let searchBar = UISearchBar()
     private var isFiltering: Bool = false
-    
     private let sortButton = UIButton()
     private let sortButtonImageView = UIImageView()
     private let sortButtonTitleLabel = UILabel()
