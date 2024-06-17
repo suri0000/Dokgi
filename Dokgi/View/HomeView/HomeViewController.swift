@@ -73,6 +73,8 @@ class HomeViewController: UIViewController {
         bindViewModel()
         bannerTimer()
         setFloatingButton()
+        
+        CoreDataManager.shared.readData() // 추가된 구절 반영
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -207,6 +209,7 @@ class HomeViewController: UIViewController {
         currentLengthLabel.text = "현재 구절 길이"
         currentLengthLabel.font = Pretendard.semibold.dynamicFont(style: .title3)
         nextLengthLabel.text = "다음 레벨까지 \(Int(Float(viewModel.currentLevelPercent.value) * 100)) % 달성했습니다!"
+        print("다음 레벨까지 \(Int(Float(viewModel.currentLevelPercent.value) * 100)) % 달성했습니다!")
         nextLengthLabel.font = Pretendard.regular.dynamicFont(style: .subheadline)
         if let thumbImage = UIImage(named: "currentThum") {
             lengthSlider.setThumbImage(thumbImage, for: .normal)
@@ -282,14 +285,16 @@ class HomeViewController: UIViewController {
         // 다음 레벨 이미지
         viewModel.nextLevelImage
             .subscribe(onNext: { [ weak self ] image in
+                self?.todayVersesColletionView.reloadData()
                 self?.nextLevelImage.image = image
             })
             .disposed(by: disposeBag)
         
         // 구절 랜덤 5개
         viewModel.randomVerses
-            .subscribe(onNext: { [weak self] _ in
+            .subscribe(onNext: { [weak self] value in
                 self?.todayVersesColletionView.reloadData()
+                self?.indicatorDots.numberOfPages = value.count
             })
             .disposed(by: viewModel.disposeBag)
     }
@@ -298,6 +303,8 @@ class HomeViewController: UIViewController {
         print("selectLevel \(level)")
         let index = max(0, min(level - 1, viewModel.levelCards.count - 1))
         let indexPath = IndexPath(item: index, section: 0)
+        
+        currentLevelCollectionView.reloadData() // 데이터 업데이트시 콜렉션뷰 리로드
         currentLevelCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
     
         levelCollectionViewSelectedIndex = index
