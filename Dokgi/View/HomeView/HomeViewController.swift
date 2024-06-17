@@ -341,7 +341,7 @@ class HomeViewController: UIViewController {
     // 다음 페이지 이동
     func scrollNextToPage(_ page: Int) {
         nowPage += 1
-        print("now: \(nowPage), page: \(page)")
+//        print("now: \(nowPage), page: \(page)")
         todayVersesColletionView.scrollToItem(at: IndexPath(item: nowPage, section: 0), at: .right, animated: true)
     }
     
