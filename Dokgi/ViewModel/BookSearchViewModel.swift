@@ -34,11 +34,11 @@ class BookSearchViewModel {
     }
     
     func clearRecentSearches() {
-        UserDefaults.standard.removeObject(forKey: "recentSearches")
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.recentSearches.rawValue)
     }
     
     func saveRecentSearch(_ text: String) {
-        var recentSearches = UserDefaults.standard.stringArray(forKey: "recentSearches") ?? []
+        var recentSearches = UserDefaults.standard.stringArray(forKey: UserDefaultsKeys.recentSearches.rawValue) ?? []
         
         recentSearches.removeAll(where: { $0 == text })
         recentSearches.insert(text, at: 0)
@@ -46,16 +46,16 @@ class BookSearchViewModel {
         if recentSearches.count > 10 {
             recentSearches.removeLast()
         }
-        UserDefaults.standard.set(recentSearches, forKey: "recentSearches")
+        UserDefaults.standard.set(recentSearches, forKey: UserDefaultsKeys.recentSearches.rawValue)
     }
     
     func loadRecentSearches() -> [String] {
-        return UserDefaults.standard.stringArray(forKey: "recentSearches") ?? []
+        return UserDefaults.standard.stringArray(forKey: UserDefaultsKeys.recentSearches.rawValue) ?? []
     }
     
     func removeRecentSearch(at indexPath: IndexPath) {
-        var recentSearches = UserDefaults.standard.stringArray(forKey: "recentSearches") ?? []
+        var recentSearches = UserDefaults.standard.stringArray(forKey: UserDefaultsKeys.recentSearches.rawValue) ?? []
         recentSearches.remove(at: indexPath.item)
-        UserDefaults.standard.set(recentSearches, forKey: "recentSearches")
+        UserDefaults.standard.set(recentSearches, forKey: UserDefaultsKeys.recentSearches.rawValue)
     }
 }

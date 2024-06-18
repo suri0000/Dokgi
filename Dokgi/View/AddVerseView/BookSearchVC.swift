@@ -48,7 +48,7 @@ class BookSearchVC: UIViewController {
         if let image = poundKeyImage {
             let attachment = NSTextAttachment()
             attachment.image = image
-            attachment.bounds = CGRect(x: 0, y: -3, width: image.size.width, height: image.size.height) // Adjust the bounds as needed
+            attachment.bounds = CGRect(x: 0, y: -3, width: image.size.width, height: image.size.height)
             let attachmentString = NSAttributedString(attachment: attachment)
             let mutableAttributedString = NSMutableAttributedString(string: " ")
             mutableAttributedString.append(attachmentString)
@@ -149,7 +149,7 @@ class BookSearchVC: UIViewController {
         tableView.separatorStyle = .none
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(BookCell.self, forCellReuseIdentifier: "BookCell")
+        tableView.register(BookCell.self, forCellReuseIdentifier: BookCell.identifier)
     }
     
     private func setupCollectionView() {
