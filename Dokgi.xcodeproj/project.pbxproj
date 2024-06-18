@@ -35,8 +35,13 @@
 		85A821D22C10B24300494313 /* DokgiWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A821D12C10B24300494313 /* DokgiWidget.swift */; };
 		85A821D42C10B24500494313 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85A821D32C10B24500494313 /* Assets.xcassets */; };
 		85A821D82C10B24500494313 /* DokgiWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 85A821C82C10B24300494313 /* DokgiWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		85BC84732C21B97300D8A27E /* Dokgi.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A748746A2C0D7E0700B830EE /* Dokgi.xcdatamodeld */; };
+		85BC84762C21BCD700D8A27E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74874612C0D7E0600B830EE /* AppDelegate.swift */; };
+		85BC847C2C21F29F00D8A27E /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 85BC847B2C21F29F00D8A27E /* RxSwift */; };
+		85BC847E2C21F2A400D8A27E /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 85BC847D2C21F2A400D8A27E /* RxCocoa */; };
+		85BC847F2C21F37900D8A27E /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB202C16FF860020B0AA /* CoreDataManager.swift */; };
+		85BC84812C21F60800D8A27E /* VerseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB23869E2C19B5FC00E6FACE /* VerseModel.swift */; };
 		A722B5892C1C715000E43FC9 /* SegmentControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A722B5882C1C715000E43FC9 /* SegmentControlView.swift */; };
-		A74874622C0D7E0600B830EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74874612C0D7E0600B830EE /* AppDelegate.swift */; };
 		A74874642C0D7E0600B830EE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74874632C0D7E0600B830EE /* SceneDelegate.swift */; };
 		A74874662C0D7E0700B830EE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74874652C0D7E0700B830EE /* ViewController.swift */; };
 		A748746C2C0D7E0700B830EE /* Dokgi.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A748746A2C0D7E0700B830EE /* Dokgi.xcdatamodeld */; };
@@ -137,6 +142,8 @@
 		85A821D12C10B24300494313 /* DokgiWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DokgiWidget.swift; sourceTree = "<group>"; };
 		85A821D32C10B24500494313 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		85A821D52C10B24500494313 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		85BC84712C21B6FD00D8A27E /* Dokgi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Dokgi.entitlements; sourceTree = "<group>"; };
+		85BC84722C21B70600D8A27E /* DokgiWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DokgiWidgetExtension.entitlements; sourceTree = "<group>"; };
 		A722B5882C1C715000E43FC9 /* SegmentControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentControlView.swift; sourceTree = "<group>"; };
 		A748745E2C0D7E0600B830EE /* Dokgi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dokgi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A74874612C0D7E0600B830EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -184,7 +191,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85BC847C2C21F29F00D8A27E /* RxSwift in Frameworks */,
 				85A821CD2C10B24300494313 /* SwiftUI.framework in Frameworks */,
+				85BC847E2C21F2A400D8A27E /* RxCocoa in Frameworks */,
 				85A821CB2C10B24300494313 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -278,6 +287,7 @@
 		A74874552C0D7E0600B830EE = {
 			isa = PBXGroup;
 			children = (
+				85BC84722C21B70600D8A27E /* DokgiWidgetExtension.entitlements */,
 				A74874602C0D7E0600B830EE /* Dokgi */,
 				85A821CE2C10B24300494313 /* DokgiWidget */,
 				85A821C92C10B24300494313 /* Frameworks */,
@@ -297,6 +307,7 @@
 		A74874602C0D7E0600B830EE /* Dokgi */ = {
 			isa = PBXGroup;
 			children = (
+				85BC84712C21B6FD00D8A27E /* Dokgi.entitlements */,
 				A748747D2C0D7E1900B830EE /* Application */,
 				3C4181612C0DC1A900D141FD /* Network */,
 				A748747C2C0D7E1700B830EE /* Model */,
@@ -340,7 +351,7 @@
 				3C73E2972C1889F6004B1BF8 /* HomeView */,
 				855318B92C16E42500340ACF /* BookDetailView */,
 				7BE488B02C16E21E00BDB92A /* LibraryView */,
-				A7F2DB152C1347840020B0AA /*  ParagraphDetailView */,
+				A7F2DB152C1347840020B0AA /* ParagraphDetailView */,
 				A75908C92C0F759D00415D6D /* SettingView */,
 				AB355D592C1871E900B3DE16 /* AddVerseView */,
 				A74874652C0D7E0700B830EE /* ViewController.swift */,
@@ -450,6 +461,10 @@
 			dependencies = (
 			);
 			name = DokgiWidgetExtension;
+			packageProductDependencies = (
+				85BC847B2C21F29F00D8A27E /* RxSwift */,
+				85BC847D2C21F2A400D8A27E /* RxCocoa */,
+			);
 			productName = DokgiWidgetExtension;
 			productReference = 85A821C82C10B24300494313 /* DokgiWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -559,7 +574,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85BC84812C21F60800D8A27E /* VerseModel.swift in Sources */,
 				85A821D22C10B24300494313 /* DokgiWidget.swift in Sources */,
+				85BC84732C21B97300D8A27E /* Dokgi.xcdatamodeld in Sources */,
+				85BC847F2C21F37900D8A27E /* CoreDataManager.swift in Sources */,
 				85A821D02C10B24300494313 /* DokgiWidgetBundle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -576,6 +594,7 @@
 				A7F2DB642C18BAA70020B0AA /* ParagraphDetailViewModel.swift in Sources */,
 				A75908C42C0F6B9600415D6D /* Font.swift in Sources */,
 				3C73E2A12C1AB164004B1BF8 /* HomeViewController.swift in Sources */,
+				85BC84762C21BCD700D8A27E /* AppDelegate.swift in Sources */,
 				A75908D12C12D36100415D6D /* UserDefaultsKey.swift in Sources */,
 				AB23869F2C19B5FC00E6FACE /* VerseModel.swift in Sources */,
 				A748746C2C0D7E0700B830EE /* Dokgi.xcdatamodeld in Sources */,
@@ -585,7 +604,6 @@
 				3C208EB02C10273F00CED104 /* DataManager.swift in Sources */,
 				A75908C82C0F758900415D6D /* DaySelectViewController.swift in Sources */,
 				A75908D32C12D69300415D6D /* IntArrayExtension.swift in Sources */,
-				A74874622C0D7E0600B830EE /* AppDelegate.swift in Sources */,
 				A722B5892C1C715000E43FC9 /* SegmentControlView.swift in Sources */,
 				A74874812C0D7EC800B830EE /* ViewModel.swift in Sources */,
 				855318C62C1AEBF900340ACF /* BookDetailViewModel.swift in Sources */,
@@ -651,8 +669,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = DokgiWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CS9SP68DH3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DokgiWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DokgiWidget;
@@ -664,7 +684,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dogaegirl6mo.Dokgi.DokgiWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dogaegeol6mo.Dokgi.DokgiWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -679,8 +699,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = DokgiWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CS9SP68DH3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DokgiWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DokgiWidget;
@@ -692,7 +714,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dogaegirl6mo.Dokgi.DokgiWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dogaegeol6mo.Dokgi.DokgiWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -829,11 +851,13 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Dokgi/Dokgi.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = CS9SP68DH3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Dokgi/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "이 앱은 문서 스캔을 위해 카메라를 사용합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -845,7 +869,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dogaegirl6mo.Dokgi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dogaegeol6mo.Dokgi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -864,11 +888,13 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Dokgi/Dokgi.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = CS9SP68DH3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Dokgi/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "이 앱은 문서 스캔을 위해 카메라를 사용합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -880,7 +906,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dogaegirl6mo.Dokgi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dogaegeol6mo.Dokgi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -976,6 +1002,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		85BC847B2C21F29F00D8A27E /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A748748D2C0D7F3400B830EE /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		85BC847D2C21F2A400D8A27E /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A748748D2C0D7F3400B830EE /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
 		A74874862C0D7F1700B830EE /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = A74874852C0D7F1700B830EE /* XCRemoteSwiftPackageReference "SnapKit" */;

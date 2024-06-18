@@ -5,36 +5,57 @@
 //  Created by 예슬 on 6/5/24.
 //
 
+import RxCocoa
+import RxSwift
 import SwiftUI
 import WidgetKit
 
 struct Provider: TimelineProvider {
+    let disposeBag = DisposeBag()
+    
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date())
+        SimpleEntry(date: Date(), passage: "누군가를 있는 그대로 존중한다는 것은 그만큼 어려운 일이다.")
     }
     
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date())
+        let entry = SimpleEntry(date: Date(), passage: "누군가를 있는 그대로 존중한다는 것은 그만큼 어려운 일이다.")
         completion(entry)
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+        var entries: [SimpleEntry] = []
+        
         let currentDate = Date()
         let midnight = Calendar.current.startOfDay(for: currentDate)
         let nextDayMidnight = Calendar.current.date(byAdding: .day, value: 1, to: midnight)!
-        let entry = SimpleEntry(date: currentDate)
-        let timeline = Timeline(entries: [entry], policy: .after(nextDayMidnight))
-        completion(timeline)
+        
+        CoreDataManager.shared.readData()
+        CoreDataManager.shared.bookData
+                    .asObservable()
+                    .subscribe(onNext: { verses in
+                        let randomPassage = verses.randomElement()?.text ?? "본질을 아는 것보다, 본질을 알기 위해 있는 그대로를 보기 위해 노력하는 것이 중요하다고, 그것이 바로 그 대상에 대한 존중이라고."
+                        let entry = SimpleEntry(date: currentDate, passage: randomPassage)
+                        entries.append(entry)
+                        print(entry)
+                        let timeline = Timeline(entries: entries, policy: .after(nextDayMidnight))
+                        completion(timeline)
+                    })
+                    .disposed(by: disposeBag)
+        
+//        let entry = SimpleEntry(date: currentDate)
+//        let timeline = Timeline(entries: [entry], policy: .after(nextDayMidnight))
+//        completion(timeline)
     }
 }
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
+    var passage: String
 }
 
 struct DokgiWidgetEntryView: View {
     var entry: Provider.Entry
-    var passage: [String] = ["뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다.", "허리수술 2천만원", "누군가를 있는 그대로 존중한다는 것은 그만큼 어려운 일이다.", "본질을 아는 것보다, 본질을 알기 위해 있는 그대로를 보기 위해 노력하는 것이 중요하다고, 그것이 바로 그 대상에 대한 존중이라고.", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+//    var passage: [String] = ["뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다.", "허리수술 2천만원", "누군가를 있는 그대로 존중한다는 것은 그만큼 어려운 일이다.", "본질을 아는 것보다, 본질을 알기 위해 있는 그대로를 보기 위해 노력하는 것이 중요하다고, 그것이 바로 그 대상에 대한 존중이라고.", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -42,7 +63,8 @@ struct DokgiWidgetEntryView: View {
                 Image("doubleQuotationMarks")
                 Spacer()
             }
-            Text(passage.randomElement() ?? "")
+            Text(entry.passage)
+//            Text(passage.randomElement() ?? "")
                 .font(.subheadline)
                 .padding(EdgeInsets(top: 7, leading: 15, bottom: 16, trailing: 0))
             Spacer(minLength: 0)
@@ -67,6 +89,6 @@ struct DokgiWidget: Widget {
 #Preview(as: .systemMedium) {
     DokgiWidget()
 } timeline: {
-    SimpleEntry(date: .now)
-    SimpleEntry(date: .distantFuture)
+    SimpleEntry(date: .now, passage: "")
+    SimpleEntry(date: .distantFuture, passage: "")
 }
