@@ -185,9 +185,7 @@ class BookSearchVC: UIViewController {
     }
     
     func loadMore() {
-        if isLoading {
-            return
-        }
+        if isLoading { return }
         isLoading = true
         startIndex += 1
         
@@ -225,14 +223,22 @@ extension BookSearchVC: UISearchBarDelegate {
             self.startIndex = 1
             self.searchResults = []
             fetchBooks(query: query, startIndex: startIndex)
+            viewModel.saveRecentSearch(query)
+            tableView.isHidden = false
             recentSearchStackView.isHidden = true
             collectionView.isHidden = true
             noResultsLabel.isHidden = true
-            tableView.isHidden = false
-            
-            viewModel.saveRecentSearch(query)
-            
             searchBar.resignFirstResponder()
+        }
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            self.searchResults = []
+            self.tableView.reloadData()
+            tableView.isHidden = true
+            recentSearchStackView.isHidden = false
+            collectionView.isHidden = false
         }
     }
 }
@@ -266,21 +272,9 @@ extension BookSearchVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == searchResults.count - 1 && !isLoading {
-            // 테이블 뷰의 마지막 행이 표시되고 데이터를 불러오는 중이 아닌 경우에만 loadMore() 함수를 호출합니다.
             loadMore()
         }
     }
-    
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        let position = scrollView.contentOffset.y
-//        let contentHeight = scrollView.contentSize.height
-//        let scrollViewHeight = scrollView.frame.size.height
-//        
-//        if position > (contentHeight - 100 - scrollViewHeight) && !isLoading {
-//            startIndex += 10
-//            fetchBooks(query: query, startIndex: startIndex)
-//        }
-//    }
 }
 
 // MARK: - UICollectionViewDataSource
