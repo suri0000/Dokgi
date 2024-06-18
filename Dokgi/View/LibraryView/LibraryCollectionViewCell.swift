@@ -33,9 +33,9 @@ class LibraryCollectionViewCell: UICollectionViewCell {
         
         bookImageView.backgroundColor = .white
         bookImageView.layer.cornerRadius = 15
+        bookImageView.clipsToBounds = true
         bookImageView.layer.borderColor = UIColor(resource: .buttonLightGray).cgColor
         bookImageView.layer.borderWidth = 1
-        bookImageView.contentMode = .scaleAspectFit
   
         bookNameLabel.font = Pretendard.bold.dynamicFont(style: .subheadline)
         bookNameLabel.textAlignment = .center

@@ -149,34 +149,8 @@ class AddVerseContainerView: UIView {
         $0.borderStyle = .roundedRect
     }
     
-    let betterSegmentedControl: BetterSegmentedControl = {
-        let segmentedControl = BetterSegmentedControl(
-            frame: .zero,
-            segments: LabelSegment.segments(
-                withTitles: ["Page", "%"],
-                normalFont: Pretendard.semibold.dynamicFont(style: .footnote),
-                normalTextColor: .charcoalBlue,
-                selectedFont: Pretendard.semibold.dynamicFont(style: .footnote),
-                selectedTextColor: .white
-            ),
-            options: [
-                .indicatorViewBackgroundColor(.charcoalBlue),
-                .cornerRadius(15),
-                .backgroundColor(.white)
-            ]
-        )
-        
-        // 초기 세그먼트 인덱스 설정
-        segmentedControl.setIndex(0, animated: false, shouldSendValueChangedEvent: false)
-        
-        return segmentedControl
-    }()
-    
-    let ControlBoder = UIView().then {
-        $0.backgroundColor = .white
-        $0.layer.cornerRadius = 15
-        $0.layer.borderWidth = 1
-        $0.layer.borderColor = UIColor.charcoalBlue.cgColor
+    let pageSegment = SegmentControlView().then {
+        $0.selectedIndex = 0
     }
     
     let recordButton = UIButton().then {
@@ -184,7 +158,8 @@ class AddVerseContainerView: UIView {
         $0.titleLabel?.font = Pretendard.bold.dynamicFont(style: .headline)
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = .charcoalBlue
-        $0.layer.cornerRadius = 8
+        $0.layer.cornerRadius = 15
+        $0.clipsToBounds = true
     }
     
     // MARK: - Lifecycle
@@ -216,8 +191,7 @@ class AddVerseContainerView: UIView {
         addSubview(keywordCollectionView)
         addSubview(pageLabel)
         addSubview(pageNumberTextField)
-        addSubview(ControlBoder)
-        addSubview(betterSegmentedControl)
+        addSubview(pageSegment)
         addSubview(recordButton)
     }
     
@@ -313,18 +287,11 @@ class AddVerseContainerView: UIView {
             $0.height.equalTo(30)
         }
         
-        betterSegmentedControl.snp.makeConstraints {
+        pageSegment.snp.makeConstraints {
             $0.centerY.equalTo(pageLabel.snp.centerY)
             $0.trailing.equalToSuperview().offset(-16)
             $0.height.equalTo(30)
             $0.width.equalTo(120)
-        }
-        
-        ControlBoder.snp.makeConstraints {
-            $0.centerY.equalTo(pageLabel.snp.centerY)
-            $0.trailing.equalToSuperview().offset(-15)
-            $0.height.equalTo(32)
-            $0.width.equalTo(122)
         }
         
         recordButton.snp.makeConstraints {

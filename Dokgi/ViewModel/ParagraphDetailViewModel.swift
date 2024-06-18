@@ -40,7 +40,7 @@ class ParagraphDetailViewModel {
         verse.text = paragraph
         verse.keywords = keywords.value.filter{ $0 != "" }
         verse.pageNumber = Int(page) ?? 0
-        verse.pageType = pageType == 0 ? "%" : "Page"
+        verse.pageType = pageType == 0 ? "Page" : "%"
         detailParagraph.accept(verse)
         CoreDataManager.shared.updateData(verse: verse)
         CoreDataManager.shared.readData()

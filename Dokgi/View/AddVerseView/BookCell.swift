@@ -9,6 +9,8 @@ import UIKit
 import Kingfisher
 
 class BookCell: UITableViewCell {
+    static let identifier = "BookCell"
+    
     private let bookImageView = UIImageView()
     private let titleLabel = UILabel()
     private let authorLabel = UILabel()
