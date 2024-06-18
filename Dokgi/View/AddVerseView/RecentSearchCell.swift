@@ -22,6 +22,8 @@ class RecentSearchCell: UICollectionViewCell {
         $0.setImage(.deleteKeyword, for: .normal)
     }
     
+    var viewModel: BookSearchViewModel!
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -57,10 +59,14 @@ class RecentSearchCell: UICollectionViewCell {
     @objc private func deleteButtonTapped() {
         guard let collectionView = superview as? UICollectionView else { return }
         guard let indexPath = collectionView.indexPath(for: self) else { return }
-        (collectionView.delegate as? BookSearchVC)?.removeRecentSearch(at: indexPath)
+        
+        viewModel.removeRecentSearch(at: indexPath)
+        
+        collectionView.reloadData()
     }
     
-    func configure(with text: String) {
+    func configure(with text: String, viewModel: BookSearchViewModel) {
+        self.viewModel = viewModel
         label.text = text
     }
 }

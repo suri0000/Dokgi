@@ -12,10 +12,10 @@ import Kingfisher
 
 class BookSearchVC: UIViewController {
     
-    let bookManager = BookManager.shared
+    let viewModel = BookSearchViewModel()
+    weak var delegate: BookSelectionDelegate?
     
     var searchResults: [Item] = []
-    weak var delegate: BookSelectionDelegate?
     
     let tableView = UITableView().then {
         $0.rowHeight = 150
@@ -87,8 +87,6 @@ class BookSearchVC: UIViewController {
         setupUI()
         setupTableView()
         setupCollectionView()
-        
-        let recentSearches = loadRecentSearches()
     }
     
     private func setupUI() {
@@ -152,16 +150,17 @@ class BookSearchVC: UIViewController {
     
     private func fetchBooks(query: String, startIndex: Int) {
         isLoading = true
-        bookManager.fetchBookData(queryValue: query, startIndex: startIndex) { result in
+        viewModel.fetchBooks(query: query, startIndex: startIndex) { [weak self] result in
+            guard let self = self else { return }
             switch result {
-            case .success(let response):
+            case .success(let items):
                 DispatchQueue.main.async {
-                    if response.items.isEmpty {
+                    if items.isEmpty {
                         self.noResultsLabel.isHidden = false
                         self.tableView.isHidden = true
                     } else {
                         self.noResultsLabel.isHidden = true
-                        self.searchResults.append(contentsOf: response.items)
+                        self.searchResults.append(contentsOf: items)
                         self.tableView.reloadData()
                         self.tableView.isHidden = false
                     }
@@ -175,28 +174,7 @@ class BookSearchVC: UIViewController {
     }
     
     @objc private func clearAllButtonTapped() {
-        print("전체 삭제")
-        UserDefaults.standard.removeObject(forKey: "recentSearches")
-        collectionView.reloadData()
-    }
-    
-    private func saveRecentSearch(_ text: String) {
-        var recentSearches = UserDefaults.standard.stringArray(forKey: "recentSearches") ?? []
-        recentSearches.insert(text, at: 0)
-        if recentSearches.count > 10 {
-            recentSearches.removeLast()
-        }
-        UserDefaults.standard.set(recentSearches, forKey: "recentSearches")
-    }
-    
-    private func loadRecentSearches() -> [String] {
-        return UserDefaults.standard.stringArray(forKey: "recentSearches") ?? []
-    }
-    
-    func removeRecentSearch(at indexPath: IndexPath) {
-        var recentSearches = UserDefaults.standard.stringArray(forKey: "recentSearches") ?? []
-        recentSearches.remove(at: indexPath.item)
-        UserDefaults.standard.set(recentSearches, forKey: "recentSearches")
+        viewModel.clearRecentSearches()
         collectionView.reloadData()
     }
 }
@@ -214,50 +192,11 @@ extension BookSearchVC: UISearchBarDelegate {
             noResultsLabel.isHidden = true
             tableView.isHidden = false
             
-            saveRecentSearch(query) // 검색어를 저장합니다.
+            viewModel.saveRecentSearch(query) // 검색 쿼리 저장
+            
+            // 필요한 경우 여기서 키보드를 닫을 수도 있습니다
+            searchBar.resignFirstResponder()
         }
-        searchBar.resignFirstResponder()
-    }
-}
-
-// MARK: - UICollectionViewDataSource
-extension BookSearchVC: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return loadRecentSearches().count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchCell.identifier, for: indexPath) as? RecentSearchCell else {
-            return UICollectionViewCell()
-        }
-        
-        let recentSearches = loadRecentSearches()
-        cell.layer.borderColor = UIColor.lightSkyBlue.cgColor
-        cell.layer.borderWidth = 2
-        cell.configure(with: recentSearches[indexPath.item])
-        return cell
-    }
-}
-
-extension BookSearchVC: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let recentSearches = loadRecentSearches()
-        let text = recentSearches[indexPath.item]
-        let font = Pretendard.regular.dynamicFont(style: .callout)
-        let attributes = [NSAttributedString.Key.font: font]
-        let textSize = (text as NSString).size(withAttributes: attributes)
-        let width = textSize.width + 35
-        let height: CGFloat = 34
-        return CGSize(width: width, height: height)
-    }
-}
-
-// MARK: - UICollectionViewDelegate
-extension BookSearchVC: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let recentSearches = loadRecentSearches()
-        searchBar.text = recentSearches[indexPath.item]
-        searchBarSearchButtonClicked(searchBar)
     }
 }
 
@@ -273,7 +212,7 @@ extension BookSearchVC: UITableViewDataSource {
         }
         
         let item = searchResults[indexPath.row]
-        cell.configure(with: item)
+        cell.configure(with: item) // Assume `configure` method sets up the cell with item data
         return cell
     }
 }
@@ -298,5 +237,57 @@ extension BookSearchVC: UITableViewDelegate {
             startIndex += 10
             fetchBooks(query: query, startIndex: startIndex)
         }
+    }
+}
+
+// MARK: - UICollectionViewDataSource
+extension BookSearchVC: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.loadRecentSearches().count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchCell.identifier, for: indexPath) as? RecentSearchCell else {
+            return UICollectionViewCell()
+        }
+        
+        let recentSearches = viewModel.loadRecentSearches()
+        cell.configure(with: recentSearches[indexPath.item], viewModel: viewModel) 
+        cell.layer.borderColor = UIColor.lightSkyBlue.cgColor
+        cell.layer.borderWidth = 2
+        return cell
+    }
+}
+
+// MARK: - UICollectionViewDelegate
+extension BookSearchVC: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let recentSearches = viewModel.loadRecentSearches()
+        searchBar.text = recentSearches[indexPath.item]
+        searchBarSearchButtonClicked(searchBar)
+    }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+extension BookSearchVC: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let recentSearches = viewModel.loadRecentSearches()
+        let text = recentSearches[indexPath.item]
+        let font = Pretendard.regular.dynamicFont(style: .callout)
+        let attributes = [NSAttributedString.Key.font: font]
+        let textSize = (text as NSString).size(withAttributes: attributes)
+        let width = textSize.width + 35
+        let height: CGFloat = 34
+        return CGSize(width: width, height: height)
+    }
+}
+
+// MARK: - BookSelectionDelegate
+extension BookSearchVC: BookSelectionDelegate {
+    func didSelectBook(_ book: Item) {
+        delegate?.didSelectBook(book)
+                
+        // 선택된 책을 처리한 후, 선택 해제 애니메이션 등을 추가할 수 있습니다.
+        dismiss(animated: true, completion: nil)
     }
 }

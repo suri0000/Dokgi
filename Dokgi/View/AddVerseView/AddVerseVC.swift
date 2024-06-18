@@ -262,7 +262,6 @@ extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         cell.configure(with: keyword)
         cell.layer.borderColor = UIColor.lightSkyBlue.cgColor
         cell.layer.borderWidth = 2
-        
         return cell
     }
     
