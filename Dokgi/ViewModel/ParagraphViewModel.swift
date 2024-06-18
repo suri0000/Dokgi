@@ -30,8 +30,8 @@ class ParagraphViewModel {
             .disposed(by: disposeBag)
     }
     
-    func selectParagraph(at index: Int) {
-            let selectedText = paragraphData.value[index].0
+    func selectParagraph(text: String, at index: Int) {
+            let selectedText = text
             if let selectedVerse = CoreDataManager.shared.bookData.value.first(where: { $0.text == selectedText }) {
                 detailParagraph.accept(selectedVerse)
             }
