@@ -52,5 +52,4 @@ class AddVerseViewModel {
                 completion(true)
         completion(true)
     }
-
 }

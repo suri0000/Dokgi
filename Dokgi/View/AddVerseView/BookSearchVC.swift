@@ -30,7 +30,6 @@ class BookSearchVC: UIViewController {
         $0.searchBarStyle = .minimal
         $0.setPositionAdjustment(UIOffset(horizontal: 8, vertical: 0), for: .search)
         $0.setPositionAdjustment(UIOffset(horizontal: -8, vertical: 0), for: .clear)
-        
         $0.placeholder = "책을 검색해보세요"
         $0.searchTextField.borderStyle = .line
         $0.searchTextField.layer.borderWidth = 1
@@ -57,7 +56,7 @@ class BookSearchVC: UIViewController {
             $0.attributedText = mutableAttributedString
         }
     }
-
+    
     let clearAllButton = UIButton().then {
         $0.setTitle("전체 삭제", for: .normal)
         $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
@@ -65,7 +64,7 @@ class BookSearchVC: UIViewController {
         $0.addTarget(self, action: #selector(clearAllButtonTapped), for: .touchUpInside)
         $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8)
     }
-
+    
     let noResultsLabel = UILabel().then {
         $0.text = "검색어와 일치하는 책이 없습니다"
         $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
