@@ -16,11 +16,7 @@ class AddVerseViewModel {
     var keywords: [String] = []
     weak var delegate: BookSelectionDelegate?
     
-    var pageType: String = "Page" {
-        didSet {
-            print("pageType changed to \(pageType)")
-        }
-    }
+    var pageType: String = "Page"
     
     // MARK: - ViewModel Logic
     func visionKit(presenter: UIViewController) {
@@ -54,7 +50,7 @@ class AddVerseViewModel {
         
         CoreDataManager.shared.saveData(verse: verse)
         print("Saving verse with pageType: \(pageType), verseText: \(verseText), pageNumberText: \(pageNumberText), keywords: \(keywords)")
-                completion(true) // Simulate success
+                completion(true)
         completion(true)
     }
 

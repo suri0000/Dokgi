@@ -101,8 +101,6 @@ class AddVerseVC: UIViewController {
         default:
             break
         }
-        
-        print("selectedIndex changed to \(containerView.pageSegment.selectedIndex)")
     }
     
     @objc func recordButtonTapped(_ sender: UIButton) {
