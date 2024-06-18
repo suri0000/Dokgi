@@ -86,6 +86,7 @@ class ParagraphViewController: UIViewController {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -451,15 +452,18 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
     
     func tappedDeleteButton(in cell: ParagraphCollectionViewCell) {
         guard let indexPath = paragraphCollectionView.indexPath(for: cell) else { return }
-        var currentParagraph = viewModel.paragraphData.value
+        self.viewModel.selectParagraph(text: isFiltering ? searchResultItems[indexPath.item].0 : viewModel.paragraphData.value[indexPath.item].0, at: indexPath.item)
+        var currentParagraph = isFiltering ? searchResultItems : viewModel.paragraphData.value
         currentParagraph.remove(at: indexPath.item)
         viewModel.paragraphData.accept(currentParagraph)
+        searchResultItems = currentParagraph
+        CoreDataManager.shared.deleteData(verse: viewModel.detailParagraph.value)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let modalVC = ParagraphDetailViewController()
         
-        viewModel.selectParagraph(at: indexPath.item)
+        viewModel.selectParagraph(text: isFiltering ? searchResultItems[indexPath.item].0 : viewModel.paragraphData.value[indexPath.item].0, at: indexPath.item)
         modalVC.viewModel.detailParagraph.accept(viewModel.detailParagraph.value)
         present(modalVC, animated: true, completion: nil)
     }
