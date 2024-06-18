@@ -273,6 +273,8 @@ extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         let reversedIndex = viewModel.keywords.count - 1 - indexPath.item
         let keyword = viewModel.keywords[reversedIndex]
         cell.configure(with: keyword)
+        cell.layer.cornerRadius = 14
+        cell.clipsToBounds = true
         cell.layer.borderColor = UIColor.lightSkyBlue.cgColor
         cell.layer.borderWidth = 2
         return cell

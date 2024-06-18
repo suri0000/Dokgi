@@ -260,7 +260,9 @@ extension BookSearchVC: UICollectionViewDataSource {
         }
         
         let recentSearches = viewModel.loadRecentSearches()
-        cell.configure(with: recentSearches[indexPath.item], viewModel: viewModel) 
+        cell.configure(with: recentSearches[indexPath.item], viewModel: viewModel)
+        cell.layer.cornerRadius = 14
+        cell.clipsToBounds = true
         cell.layer.borderColor = UIColor.lightSkyBlue.cgColor
         cell.layer.borderWidth = 2
         return cell
