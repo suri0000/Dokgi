@@ -222,9 +222,8 @@ extension BookSearchVC: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: BookCell.identifier, for: indexPath) as? BookCell else {
             return UITableViewCell()
         }
-        
         let item = searchResults[indexPath.row]
-        cell.configure(with: item) // Assume `configure` method sets up the cell with item data
+        cell.configure(with: item)
         return cell
     }
 }
@@ -298,8 +297,6 @@ extension BookSearchVC: UICollectionViewDelegateFlowLayout {
 extension BookSearchVC: BookSelectionDelegate {
     func didSelectBook(_ book: Item) {
         delegate?.didSelectBook(book)
-                
-        // 선택된 책을 처리한 후, 선택 해제 애니메이션 등을 추가할 수 있습니다.
         dismiss(animated: true, completion: nil)
     }
 }
