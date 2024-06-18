@@ -58,6 +58,25 @@ class BookSearchVC: UIViewController {
         $0.isHidden = true
     }
     
+    let recentSearchStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.alignment = .center
+        $0.distribution = .equalSpacing
+        $0.spacing = 8
+    }
+    
+    let collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: 100, height: 30)
+        layout.minimumInteritemSpacing = 10
+        layout.minimumLineSpacing = 10
+        return UICollectionView(frame: .zero, collectionViewLayout: layout).then {
+            $0.backgroundColor = .white
+            $0.isHidden = false
+        }
+    }()
+    
     var isLoading = false
     var query: String = ""
     var startIndex: Int = 1
@@ -66,6 +85,7 @@ class BookSearchVC: UIViewController {
         super.viewDidLoad()
         setupUI()
         setupTableView()
+        setupCollectionView()
     }
     
     private func setupUI() {
@@ -78,10 +98,14 @@ class BookSearchVC: UIViewController {
     
     private func addSubviews() {
         view.addSubview(searchBar)
-        view.addSubview(recentSearchLabel)
-        view.addSubview(clearAllButton)
+        view.addSubview(recentSearchStackView) // 스택뷰 추가
+        view.addSubview(collectionView) // 컬렉션뷰 추가
         view.addSubview(tableView)
         view.addSubview(noResultsLabel)
+        
+        // 스택뷰에 서브뷰 추가
+        recentSearchStackView.addArrangedSubview(recentSearchLabel)
+        recentSearchStackView.addArrangedSubview(clearAllButton)
     }
     
     private func setupConstraints() {
@@ -90,18 +114,19 @@ class BookSearchVC: UIViewController {
             $0.horizontalEdges.equalToSuperview().inset(16)
         }
         
-        recentSearchLabel.snp.makeConstraints {
-            $0.top.equalTo(searchBar.snp.bottom).offset(16)
-            $0.leading.equalToSuperview().offset(24)
+        recentSearchStackView.snp.makeConstraints {
+            $0.top.equalTo(searchBar.snp.bottom).offset(12)
+            $0.horizontalEdges.equalToSuperview().inset(24)
         }
         
-        clearAllButton.snp.makeConstraints {
-            $0.centerY.equalTo(recentSearchLabel)
-            $0.trailing.equalToSuperview().inset(24)
+        collectionView.snp.makeConstraints {
+            $0.top.equalTo(recentSearchStackView.snp.bottom).offset(12)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.height.equalTo(50)
         }
         
         tableView.snp.makeConstraints {
-            $0.top.equalTo(searchBar.snp.bottom).offset(16)
+            $0.top.equalTo(collectionView.snp.bottom).offset(16)
             $0.leading.trailing.bottom.equalToSuperview()
         }
         
@@ -115,6 +140,12 @@ class BookSearchVC: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(BookCell.self, forCellReuseIdentifier: "BookCell")
+    }
+    
+    private func setupCollectionView() {
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(RecentSearchCell.self, forCellWithReuseIdentifier: "RecentSearchCell")
     }
     
     private func fetchBooks(query: String, startIndex: Int) {
@@ -154,12 +185,39 @@ extension BookSearchVC: UISearchBarDelegate {
             self.startIndex = 1
             self.searchResults = []
             fetchBooks(query: query, startIndex: startIndex)
-            recentSearchLabel.isHidden = true
-            clearAllButton.isHidden = true
+            recentSearchStackView.isHidden = true // 검색 시작 후 히스토리 스택뷰 숨기기
+            collectionView.isHidden = true // 컬렉션뷰 숨기기
             noResultsLabel.isHidden = true
             tableView.isHidden = false // 검색 시작 후 테이블뷰 표시
         }
         searchBar.resignFirstResponder()
+    }
+}
+
+// MARK: - UICollectionViewDataSource
+extension BookSearchVC: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10 // 임시로 10개의 아이템을 표시하도록 설정, 실제 데이터에 따라 수정 필요
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecentSearchCell", for: indexPath) as? RecentSearchCell else {
+            return UICollectionViewCell()
+        }
+        
+        cell.configure(with: "검색어 \(indexPath.item + 1)") // 임시 데이터 설정, 실제 데이터에 따라 수정 필요
+        cell.layer.borderColor = UIColor.lightSkyBlue.cgColor
+        cell.layer.borderWidth = 2
+        return cell
+    }
+}
+
+// MARK: - UICollectionViewDelegate
+extension BookSearchVC: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedSearch = "검색어 \(indexPath.item + 1)" // 임시 데이터 설정, 실제 데이터에 따라 수정 필요
+        searchBar.text = selectedSearch
+        searchBarSearchButtonClicked(searchBar)
     }
 }
 

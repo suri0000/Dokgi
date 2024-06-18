@@ -79,6 +79,7 @@
 		AB355D552C180C9700B3DE16 /* BookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB355D542C180C9700B3DE16 /* BookCell.swift */; };
 		AB355D5B2C18725400B3DE16 /* KeywordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB355D5A2C18725400B3DE16 /* KeywordCell.swift */; };
 		AB4BDC042C20394C001FDA8F /* AddVerseContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4BDC032C20394C001FDA8F /* AddVerseContainerView.swift */; };
+		AB4BDC062C216BF7001FDA8F /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4BDC052C216BF7001FDA8F /* RecentSearchCell.swift */; };
 		AB66D3442C0EEFE3000D72DA /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */; };
 		AB66D3692C17688C000D72DA /* BookSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3682C17688C000D72DA /* BookSearchVC.swift */; };
 /* End PBXBuildFile section */
@@ -175,6 +176,7 @@
 		AB355D542C180C9700B3DE16 /* BookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCell.swift; sourceTree = "<group>"; };
 		AB355D5A2C18725400B3DE16 /* KeywordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordCell.swift; sourceTree = "<group>"; };
 		AB4BDC032C20394C001FDA8F /* AddVerseContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVerseContainerView.swift; sourceTree = "<group>"; };
+		AB4BDC052C216BF7001FDA8F /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
 		AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
 		AB66D3682C17688C000D72DA /* BookSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearchVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -340,7 +342,7 @@
 				3C73E2972C1889F6004B1BF8 /* HomeView */,
 				855318B92C16E42500340ACF /* BookDetailView */,
 				7BE488B02C16E21E00BDB92A /* LibraryView */,
-				A7F2DB152C1347840020B0AA /*  ParagraphDetailView */,
+				A7F2DB152C1347840020B0AA /* ParagraphDetailView */,
 				A75908C92C0F759D00415D6D /* SettingView */,
 				AB355D592C1871E900B3DE16 /* AddVerseView */,
 				A74874652C0D7E0700B830EE /* ViewController.swift */,
@@ -426,10 +428,11 @@
 			isa = PBXGroup;
 			children = (
 				AB66D3682C17688C000D72DA /* BookSearchVC.swift */,
-				AB355D542C180C9700B3DE16 /* BookCell.swift */,
-				AB355D5A2C18725400B3DE16 /* KeywordCell.swift */,
 				AB23869C2C18849E00E6FACE /* AddVerseVC.swift */,
 				AB4BDC032C20394C001FDA8F /* AddVerseContainerView.swift */,
+				AB355D542C180C9700B3DE16 /* BookCell.swift */,
+				AB355D5A2C18725400B3DE16 /* KeywordCell.swift */,
+				AB4BDC052C216BF7001FDA8F /* RecentSearchCell.swift */,
 			);
 			path = AddVerseView;
 			sourceTree = "<group>";
@@ -585,6 +588,7 @@
 				3C208EB02C10273F00CED104 /* DataManager.swift in Sources */,
 				A75908C82C0F758900415D6D /* DaySelectViewController.swift in Sources */,
 				A75908D32C12D69300415D6D /* IntArrayExtension.swift in Sources */,
+				AB4BDC062C216BF7001FDA8F /* RecentSearchCell.swift in Sources */,
 				A74874622C0D7E0600B830EE /* AppDelegate.swift in Sources */,
 				A722B5892C1C715000E43FC9 /* SegmentControlView.swift in Sources */,
 				A74874812C0D7EC800B830EE /* ViewModel.swift in Sources */,
