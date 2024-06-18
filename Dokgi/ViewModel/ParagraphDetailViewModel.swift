@@ -37,12 +37,13 @@ class ParagraphDetailViewModel {
     
     func saveDetail(paragraph: String, page: String, pageType: Int) {
         var verse = self.detailParagraph.value
+        let before = self.detailParagraph.value.text
         verse.text = paragraph
         verse.keywords = keywords.value.filter{ $0 != "" }
-        verse.pageNumber = Int(page) ?? 0
-        verse.pageType = pageType == 0 ? "%" : "Page"
+        verse.pageType = pageType == 0 ? "Page" : "%"
+        verse.pageNumber = (pageType == 0 ? Int(page.page()) : Int(page.percent()))!
         detailParagraph.accept(verse)
-        CoreDataManager.shared.updateData(verse: verse)
+        CoreDataManager.shared.updateData(verse: verse, before: before)
         CoreDataManager.shared.readData()
     }
 }
