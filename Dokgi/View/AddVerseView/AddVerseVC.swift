@@ -157,11 +157,11 @@ class AddVerseVC: UIViewController {
     static func createAttributedString(for text: String) -> NSAttributedString {
         let attributedString = NSMutableAttributedString(string: text)
         
-        // "키워드" 부분에 대한 설정
+        // "키워드" 부분 설정
         let keywordRange = (text as NSString).range(of: "키워드")
         attributedString.addAttributes([.font: Pretendard.semibold.dynamicFont(style: .headline)], range: keywordRange)
         
-        // "선택" 부분에 대한 설정
+        // "선택" 부분 설정
         let selectionRange = (text as NSString).range(of: "(선택)")
         attributedString.addAttributes([.font: Pretendard.regular.dynamicFont(style: .headline), .foregroundColor: UIColor.gray], range: selectionRange)
         
@@ -233,7 +233,6 @@ extension AddVerseVC: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if let text = textField.text, text.isEmpty {
-            // Only add a new empty keyword if there are no empty ones already
             if !viewModel.keywords.contains("") {
                 viewModel.keywords.append("")
                 containerView.keywordCollectionView.reloadData()
