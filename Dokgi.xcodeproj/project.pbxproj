@@ -66,6 +66,7 @@
 		A75D3D732C1A11C7006C2EB3 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74874822C0D7ED100B830EE /* PaddingLabel.swift */; };
 		A75D3D752C1B47D1006C2EB3 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75D3D742C1B47D1006C2EB3 /* StringExtension.swift */; };
 		A75D3D772C1B493F006C2EB3 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75D3D762C1B493F006C2EB3 /* DateExtension.swift */; };
+		A78D2A1C2C216FCF00F8AC72 /* LibrarySearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78D2A1B2C216FCF00F8AC72 /* LibrarySearchViewModel.swift */; };
 		A7F2DB192C134B200020B0AA /* ParagraphDetailContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB182C134B200020B0AA /* ParagraphDetailContainerView.swift */; };
 		A7F2DB1D2C15C6E70020B0AA /* KeywordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB1C2C15C6E70020B0AA /* KeywordCollectionViewCell.swift */; };
 		A7F2DB212C16FF860020B0AA /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB202C16FF860020B0AA /* CoreDataManager.swift */; };
@@ -166,6 +167,7 @@
 		A75908D22C12D69300415D6D /* IntArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntArrayExtension.swift; sourceTree = "<group>"; };
 		A75D3D742C1B47D1006C2EB3 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		A75D3D762C1B493F006C2EB3 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		A78D2A1B2C216FCF00F8AC72 /* LibrarySearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibrarySearchViewModel.swift; sourceTree = "<group>"; };
 		A7F2DB162C1347C80020B0AA /* ParagraphDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParagraphDetailViewController.swift; sourceTree = "<group>"; };
 		A7F2DB182C134B200020B0AA /* ParagraphDetailContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParagraphDetailContainerView.swift; sourceTree = "<group>"; };
 		A7F2DB1C2C15C6E70020B0AA /* KeywordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -367,6 +369,7 @@
 				8500B52D2C203A4500A0EB38 /* ParagraphViewModel.swift */,
 				AB2386B12C1FE9F000E6FACE /* AddVerseViewModel.swift */,
 				AB4BDC092C219C6F001FDA8F /* BookSearchViewModel.swift */,
+				A78D2A1B2C216FCF00F8AC72 /* LibrarySearchViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -620,6 +623,7 @@
 				3C73E2962C17D8B8004B1BF8 /* MetricUtil.swift in Sources */,
 				3C73E2A02C1AB164004B1BF8 /* CurrentLevelCollectionFlowLayout.swift in Sources */,
 				A75D3D772C1B493F006C2EB3 /* DateExtension.swift in Sources */,
+				A78D2A1C2C216FCF00F8AC72 /* LibrarySearchViewModel.swift in Sources */,
 				7BE488A92C0F267000BDB92A /* LibrarySearchViewController.swift in Sources */,
 				A75908CF2C101A3900415D6D /* DayTableViewCell.swift in Sources */,
 				855318BB2C16E56800340ACF /* BookDetailViewController.swift in Sources */,

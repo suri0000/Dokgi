@@ -13,6 +13,8 @@ import UIKit
 
 class LibrarySearchViewController: UIViewController {
     
+    let libraryViewModel = LibrarySearchViewModel()
+    
     private let libraryLabel = UILabel()
     private let searchBar = UISearchBar()
     private var isFiltering: Bool = false
@@ -66,17 +68,16 @@ class LibrarySearchViewController: UIViewController {
         setFloatingButton()
         
         CoreDataManager.shared.bookData.subscribe(with: self) { (self, bookData) in
+            self.libraryViewModel.dataFilter(verses: bookData)
+        }.disposed(by: disposeBag)
+        
+        libraryViewModel.libraryData.subscribe(with: self) { (self, bookData) in
             self.libraryCollectionView.reloadData()
         }.disposed(by: disposeBag)
         
         self.searchBar.rx.text.debounce(.milliseconds(500), scheduler: MainScheduler.instance).subscribe(with: self) { (self, text) in
             guard let text = text else { return }
-            if text.isEmpty == true {
-                CoreDataManager.shared.readData()
-            } else {
-                CoreDataManager.shared.readData()
-                CoreDataManager.shared.bookData.accept(CoreDataManager.shared.bookData.value.filter { $0.name.contains(text) })
-            }
+            self.libraryViewModel.dataSearch(text: text)
         }.disposed(by: disposeBag)
     }
     
@@ -84,6 +85,7 @@ class LibrarySearchViewController: UIViewController {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
+        CoreDataManager.shared.readData()
     }
     
     private func setUI() {
@@ -198,7 +200,8 @@ class LibrarySearchViewController: UIViewController {
         
         oldestFirstButton.snp.makeConstraints {
             $0.top.equalTo(latestFirstButton.snp.bottom)
-            $0.bottom.leading.trailing.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(5)
         }
         
         // 최신순 버튼
@@ -280,7 +283,7 @@ class LibrarySearchViewController: UIViewController {
         
         latestFirstcheckImageView.isHidden = false
         oldestFirstcheckImageView.isHidden = true
-        
+        self.libraryViewModel.dataLatest()
         sortMenuView.isHidden = true
     }
     
@@ -289,7 +292,7 @@ class LibrarySearchViewController: UIViewController {
         
         latestFirstcheckImageView.isHidden = true
         oldestFirstcheckImageView.isHidden = false
-        
+        self.libraryViewModel.dataOldest()
         sortMenuView.isHidden = true
     }
 }
@@ -298,7 +301,7 @@ extension LibrarySearchViewController: UICollectionViewDelegate, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        let cellCount = CoreDataManager.shared.bookData.value.count
+        let cellCount = libraryViewModel.libraryData.value.count
         
         emptyMessageLabel.isHidden = cellCount > 0
         return cellCount
@@ -309,9 +312,9 @@ extension LibrarySearchViewController: UICollectionViewDelegate, UICollectionVie
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryCollectionViewCell.identifier, for: indexPath) as? LibraryCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.authorNameLabel.text = CoreDataManager.shared.bookData.value[indexPath.row].author
-        cell.bookNameLabel.text = CoreDataManager.shared.bookData.value[indexPath.row].name
-        if let url = URL(string: CoreDataManager.shared.bookData.value[indexPath.row].image) {
+        cell.authorNameLabel.text = libraryViewModel.libraryData.value[indexPath.row].author
+        cell.bookNameLabel.text = libraryViewModel.libraryData.value[indexPath.row].name
+        if let url = URL(string: libraryViewModel.libraryData.value[indexPath.row].image) {
             cell.bookImageView.kf.setImage(with: url)
         }
         
@@ -319,7 +322,7 @@ extension LibrarySearchViewController: UICollectionViewDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        BookDetailViewModel.shared.bookInfo.accept(CoreDataManager.shared.bookData.value[indexPath.row])
+        BookDetailViewModel.shared.bookInfo.accept(libraryViewModel.libraryData.value[indexPath.row])
         let bookDetailViewController = BookDetailViewController()
         self.navigationController?.pushViewController(bookDetailViewController, animated: true)
     }
