@@ -37,8 +37,7 @@ class HomeViewController: UIViewController {
     let currentLevelBubble = UIImageView()
     let currentLevelImage = UIImageView()
     let nextLevelBubble = UIImageView()
-    let nextLevelImage = UIImageView()
-    let blurEffect = UIBlurEffect(style: .regular)
+    let questionMark = UILabel()
     
     let todayVersesLabel = UILabel()
     let todayVersesColletionView: UICollectionView = {
@@ -52,8 +51,6 @@ class HomeViewController: UIViewController {
         view.register(TodayVersesCell.self, forCellWithReuseIdentifier: TodayVersesCell.identifier)
         return view
     }()
-    
-    lazy var blurEffectView = UIVisualEffectView(effect: blurEffect)
             
     var levelCollectionViewSelectedIndex = 0
     var nowPage: Int = 0 {
@@ -81,7 +78,6 @@ class HomeViewController: UIViewController {
         super.viewDidAppear(animated)
         currentLevelBubble.snp.makeConstraints {
             $0.centerX.equalTo(self.lengthSlider.snp.leading).offset(self.lengthSlider.frame.width * CGFloat(lengthSlider.value))
-            print("lengthSlider.value \(lengthSlider.value), lengthSlider.frame.width \(lengthSlider.frame.width)")
         }
     }
     
@@ -108,9 +104,7 @@ class HomeViewController: UIViewController {
         }
         
         currentLevelBubble.addSubview(currentLevelImage)
-        [nextLevelImage, blurEffectView].forEach {
-            nextLevelBubble.addSubview($0)
-        }
+        nextLevelBubble.addSubview(questionMark)
         
         scrollView.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide)
@@ -169,16 +163,9 @@ class HomeViewController: UIViewController {
             $0.trailing.equalTo(lengthSlider.snp.trailing).offset(17)
         }
         
-        nextLevelImage.snp.makeConstraints {
-            $0.width.height.equalTo(28)
-            $0.top.equalTo(nextLevelBubble.snp.top).offset(8)
-            $0.centerX.equalTo(nextLevelBubble.snp.centerX)
-        }
-        
-        blurEffectView.snp.makeConstraints {
-            $0.width.height.equalTo(36)
-            $0.top.equalTo(nextLevelBubble.snp.top).offset(4)
-            $0.centerX.equalTo(nextLevelBubble.snp.centerX)
+        questionMark.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+            
         }
         
         todayVersesLabel.snp.makeConstraints {
@@ -209,7 +196,6 @@ class HomeViewController: UIViewController {
         currentLengthLabel.text = "현재 구절 길이"
         currentLengthLabel.font = Pretendard.semibold.dynamicFont(style: .title3)
         nextLengthLabel.text = "다음 레벨까지 \(Int(Float(viewModel.currentLevelPercent.value) * 100)) % 달성했습니다!"
-        print("다음 레벨까지 \(Int(Float(viewModel.currentLevelPercent.value) * 100)) % 달성했습니다!")
         nextLengthLabel.font = Pretendard.regular.dynamicFont(style: .subheadline)
         if let thumbImage = UIImage(named: "currentThum") {
             lengthSlider.setThumbImage(thumbImage, for: .normal)
@@ -225,15 +211,9 @@ class HomeViewController: UIViewController {
         nextLevelBubble.image = .speechBubble2
         nextLevelBubble.clipsToBounds = true
         nextLevelBubble.layer.masksToBounds = true
-        blurEffectView.frame = nextLevelImage.bounds
-        blurEffectView.alpha = 0.7
-        blurEffectView.backgroundColor = .white.withAlphaComponent(0.6)
-        blurEffectView.layer.cornerRadius = 18
-        blurEffectView.layer.masksToBounds = true
-        nextLevelImage.backgroundColor = .clear
-        nextLevelImage.image = .goni
-        nextLevelImage.contentMode = .scaleAspectFit
-        nextLevelImage.layer.masksToBounds = true
+        questionMark.font = .systemFont(ofSize: 30, weight: .heavy)
+        questionMark.textColor = .deepSkyBlue
+        questionMark.text = "?"
         todayVersesLabel.text = "오늘의 구절"
         todayVersesLabel.font = Pretendard.semibold.dynamicFont(style: .title3)
         todayVersesColletionView.layer.cornerRadius = 10
@@ -256,7 +236,6 @@ class HomeViewController: UIViewController {
         // 현재 레벨
         viewModel.currentLevel
             .subscribe(onNext: { [ weak self ] value in
-                print("currentLevel changed \(value)")
                 self?.selectLevel(value, animated: true)
             })
             .disposed(by: disposeBag)
@@ -265,7 +244,6 @@ class HomeViewController: UIViewController {
         viewModel.currentLevelPercent
             .subscribe(onNext: { [ weak self ] value in
                 guard let self else { return }
-                print("currentLevelPercent changed \(value)")
                 self.lengthSlider.value = Float(value)
                 self.currentLevelBubble.snp.remakeConstraints {
                     $0.width.equalTo(38)
@@ -282,14 +260,6 @@ class HomeViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        // 다음 레벨 이미지
-        viewModel.nextLevelImage
-            .subscribe(onNext: { [ weak self ] image in
-                self?.todayVersesColletionView.reloadData()
-                self?.nextLevelImage.image = image
-            })
-            .disposed(by: disposeBag)
-        
         // 구절 랜덤 5개
         viewModel.randomVerses
             .subscribe(onNext: { [weak self] value in
@@ -300,7 +270,6 @@ class HomeViewController: UIViewController {
     }
 
     func selectLevel(_ level: Int, animated: Bool = true) {
-        print("selectLevel \(level)")
         let index = max(0, min(level - 1, viewModel.levelCards.count - 1))
         let indexPath = IndexPath(item: index, section: 0)
         
@@ -356,7 +325,6 @@ class HomeViewController: UIViewController {
     
     // 홈 상단에 설정 페이지 이동
     @objc func didTapSetting() {
-        print("셋팅버튼 눌림")
         let settingVC = SettingViewController()
         self.navigationController?.pushViewController(settingVC, animated: true)
         settingVC.tabBarController?.tabBar.isHidden = true
@@ -390,11 +358,12 @@ extension HomeViewController: UICollectionViewDataSource {
             
             cell.setCellConfig(viewModel.levelCards[indexPath.item])
             
-            // 마지막 셀에만 블러 설정
+            // 다음레벨 가리기
             if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
-                cell.blurEffectView.isHidden = false
+                cell.hideView.isHidden = false
+                cell.setupNextLevelCell(viewModel.currentLevel.value)
             } else {
-                cell.blurEffectView.isHidden = true
+                cell.hideView.isHidden = true
             }
             
             if indexPath.item + 1 == viewModel.currentLevel.value {
@@ -474,7 +443,6 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
             }
             
             let safeIndex = max(0, min(selectedIndex, viewModel.currentLevel.value))
-            //      let safeIndex = max(0, min(selectedIndex, viewModel.levelCards.count)) // 이미지 오류 확인용
             let selectedIndexPath = IndexPath(item: safeIndex, section: 0)
             currentLevelCollectionView.scrollToItem(at: selectedIndexPath, at: .centeredHorizontally, animated: true)
             
@@ -524,7 +492,6 @@ extension UIViewController {
     
     @objc func didTapButton() {
         let addVC = AddVerseVC()
-        print("구절추가 버튼 클릭")
         self.navigationController?.pushViewController(addVC, animated: true)
     }
 }

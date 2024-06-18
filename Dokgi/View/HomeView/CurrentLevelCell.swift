@@ -18,14 +18,14 @@ class CurrentLevelCell: UICollectionViewCell {
     let descrptionLabel = UILabel()
     let lengthLabel = UILabel()
     let cardImageView = UIImageView()
-    var blurEffectView = UIVisualEffectView()
+    let hideView = UIView()
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
         setupConstraints()
         setUpShadow()
-        setupBlur(alpha: 0.8)
     }
     
     required init?(coder: NSCoder) {
@@ -123,23 +123,46 @@ class CurrentLevelCell: UICollectionViewCell {
         contentView.layer.masksToBounds = true
     }
 
-    func setupBlur(alpha: CGFloat = 0.5) {
-        // 블러 효과 생성
-        let blurEffect = UIBlurEffect(style: .regular)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+    // 다음 레벨셀 설정
+    func setupNextLevelCell(_ level : Int) {
+        hideView.backgroundColor = .white
+        let nextLevel = UILabel()
+        let currentLevel = UILabel()
+        let questionMark = UILabel()
         
-        // 블러 효과 뷰의 크기와 위치 설정
-        blurEffectView.frame = self.contentView.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        blurEffectView.backgroundColor = .white.withAlphaComponent(0.5)
+        contentView.addSubview(hideView)
+        [nextLevel, currentLevel, questionMark].forEach {
+            hideView.addSubview($0)
+        }
         
-        // 블러 효과 뷰를 셀의 contentView에 추가
-        self.contentView.addSubview(blurEffectView)
+        nextLevel.text = "Level \(level + 1)"
+        nextLevel.font = Pretendard.bold.dynamicFont(style: .title3)
+        currentLevel.text = "Level \(level)을 다 달성하면 보입니다"
+        currentLevel.font = Pretendard.regular.dynamicFont(style: .callout)
+        currentLevel.textColor = .alarmSettingText
+        questionMark.font = .systemFont(ofSize: 60, weight: .heavy)
+        questionMark.textColor = .deepSkyBlue
+        questionMark.text = "?"
         
-        // 블러 효과의 알파값 설정
-        blurEffectView.alpha = alpha
+        hideView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
-        self.blurEffectView = blurEffectView
+        nextLevel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(30)
+            $0.centerX.equalToSuperview()
+        }
+        
+        currentLevel.snp.makeConstraints {
+            $0.top.equalTo(nextLevel.snp.bottom).offset(4)
+            $0.centerX.equalToSuperview()
+        }
+        
+        questionMark.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(currentLevel.snp.bottom)
+        }
+        
     }
 }
 
