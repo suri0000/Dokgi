@@ -13,13 +13,14 @@ import UIKit
 
 class BookDetailViewController: UIViewController {
     private let viewModel = BookDetailViewModel.shared
-    var disposeBag = DisposeBag()
+    private var disposeBag = DisposeBag()
     
     private let contentsView = UIView()
     private let gradientLayerView = UIView()
     private let buttonBackgroundView = UIView()
     private let buttonBackgroundLayer = CAGradientLayer()
     private let gradientLayer = CAGradientLayer()
+    
     
     private let scrollView = UIScrollView().then {
         $0.showsVerticalScrollIndicator = false
@@ -118,15 +119,12 @@ class BookDetailViewController: UIViewController {
         }.disposed(by: disposeBag)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        blurLayer(layer: gradientLayer, view: gradientLayerView)
-        blurLayer(layer: buttonBackgroundLayer, view: buttonBackgroundView)
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = false
+        
+        blurLayer(layer: gradientLayer, view: gradientLayerView)
+        blurLayer(layer: buttonBackgroundLayer, view: buttonBackgroundView)
     }
     // MARK: - UI
     private func setConstraints() {
@@ -236,15 +234,24 @@ class BookDetailViewController: UIViewController {
         ]
         
         layer.type = .axial
-        layer.frame = view.bounds
         layer.colors = colors
-        layer.startPoint = CGPoint(x: 0.5, y: 0.0)
-        if view == self.buttonBackgroundView {
-            layer.endPoint = CGPoint(x: 0.5, y: 0.5)
-        } else {
-            layer.endPoint = CGPoint(x: 0.5, y: 0.8)
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            let startPoint = CGPoint(x: 0.5, y: 0.0)
+            let endPoint: CGPoint
+            if view == self.buttonBackgroundView {
+                endPoint = CGPoint(x: 0.5, y: 0.5)
+            } else {
+                endPoint = CGPoint(x: 0.5, y: 0.8)
+            }
+            
+            DispatchQueue.main.async {
+                layer.frame = view.bounds
+                layer.startPoint = startPoint
+                layer.endPoint = endPoint
+                view.layer.addSublayer(layer)
+            }
         }
-        view.layer.addSublayer(layer)
     }
     
     private func setBookInfo() {

@@ -17,7 +17,6 @@ class HomeViewModel {
     let currentLevelPercent = BehaviorRelay<Double>(value: 0)
     let verses = BehaviorRelay<[String]>(value: [])
     let currentLevelImage = BehaviorRelay<UIImage?>(value: UIImage(named: " "))
-    let nextLevelImage = BehaviorRelay<UIImage?>(value: UIImage(named: " "))
     let randomVerses = BehaviorRelay<[String]>(value: [])
     
     let today = DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .none)
@@ -42,7 +41,6 @@ class HomeViewModel {
         verses
             .subscribe(onNext: { [weak self] value in
                 guard let self = self else { return }
-                print("verses changed \(value)")
                 
                 // 현재 구절길이와 레벨
                 let verseLength = self.getVerseLength(from: value)
@@ -60,7 +58,6 @@ class HomeViewModel {
                 self.currentLevel.accept(verseLevel)
                 self.currentLevelPercent.accept(currentLevelPercent)
                 self.currentLevelImage.accept(currentLevelImage)
-                self.nextLevelImage.accept(nextLevelImage)
             })
             .disposed(by: disposeBag)
         
@@ -69,7 +66,6 @@ class HomeViewModel {
             .map{ $0.map { $0.text }}
             .subscribe(onNext: { [weak self] verses in
                 self?.verses.accept(verses)
-                print("verses changed \(verses)")
             })
             .disposed(by: disposeBag)
         
@@ -82,14 +78,11 @@ class HomeViewModel {
             })
             .disposed(by: disposeBag)
 
-        // 테스트 데이터
-//        verses.accept(["도개걸육조", "우리팀 화이팅", "오늘은 다들 일찍 잘 수 있길","아자아자 화이팅이다", "주말을 주세요", "모두 행복합시다"])
         loadTodayVerses()
     }
     
     // MARK: - Today's verese
     private func loadTodayVerses() {
-        print("todaty \(today)")
         let savedDate = UserDefaults.standard.string(forKey: "savedDate")
         
         // 날짜에 따른 구절 업데이트
@@ -115,10 +108,7 @@ class HomeViewModel {
         let shuffledCount = min(5, versesCount)
         let shuffled = verses.value.shuffled().prefix(shuffledCount).map { $0 }
         
-        print("shuffled \(shuffled)")
-        
         randomVerses.accept(shuffled)
-        print("randomVerses: \(randomVerses)")
         UserDefaults.standard.set(today, forKey: "savedDate")
         UserDefaults.standard.set(shuffled, forKey: "shuffledVerses")
     }

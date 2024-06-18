@@ -18,6 +18,11 @@ class AlarmView: UIView {
     
     let remindSwitch = UISwitch().then {
         $0.isOn = true
+        $0.onTintColor = .brightBlue
+    }
+    
+    lazy var remindSwitchBtn = UIButton(frame: remindSwitch.frame).then {
+        $0.backgroundColor = .clear
     }
     
     let remindTitle = UILabel().then {
@@ -28,7 +33,7 @@ class AlarmView: UIView {
     let remindDescription = UILabel().then {
         $0.text = "구절을 리마인드 해주는 알림"
         $0.textColor = .alarmMemoGray
-        $0.font = Pretendard.regular.dynamicFont(style: .footnote)
+        $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
     }
     
     let remindStack = UIStackView().then {
@@ -38,14 +43,14 @@ class AlarmView: UIView {
     
     let remindTimeLbl = UILabel().then {
         $0.text = "알림 시간"
-        $0.font = Pretendard.regular.dynamicFont(style: .footnote)
+        $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
         $0.textColor = .alarmSettingText
     }
     
     let remindTimeBtn = UIButton().then {
         $0.setTitle("PM 15 : 00", for: .normal)
         $0.setTitleColor(.alarmSettingText, for: .normal)
-        $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
+        $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .subheadline)
     }
     
     let border = UIView().then {
@@ -60,6 +65,11 @@ class AlarmView: UIView {
     
     let writeSwitch = UISwitch().then {
         $0.isOn = true
+        $0.onTintColor = .brightBlue
+    }
+    
+    lazy var writeSwitchBtn = UIButton(frame: writeSwitch.frame).then {
+        $0.backgroundColor = .clear
     }
     
     let writeTitle = UILabel().then {
@@ -70,7 +80,7 @@ class AlarmView: UIView {
     let writeDescription = UILabel().then {
         $0.text = "독서 알림"
         $0.textColor = .alarmMemoGray
-        $0.font = Pretendard.regular.dynamicFont(style: .footnote)
+        $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
     }
     
     let writeStack = UIStackView().then {
@@ -80,14 +90,14 @@ class AlarmView: UIView {
     
     let writeWeek = UILabel().then {
         $0.text = "알림 요일"
-        $0.font = Pretendard.regular.dynamicFont(style: .footnote)
+        $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
         $0.textColor = .alarmSettingText
     }
     
     let weekBtn = UIButton().then {
         $0.setTitle("매일", for: .normal)
         $0.setTitleColor(.alarmSettingText, for: .normal)
-        $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
+        $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .subheadline)
     }
     
     let writeWeekStack = UIStackView().then {
@@ -98,14 +108,14 @@ class AlarmView: UIView {
     
     let writeTimeLbl = UILabel().then {
         $0.text = "알림 시간"
-        $0.font = Pretendard.regular.dynamicFont(style: .footnote)
+        $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
         $0.textColor = .alarmSettingText
     }
     
     let writeTimeBtn = UIButton().then {
         $0.setTitle("PM 15 : 00", for: .normal)
         $0.setTitleColor(.alarmSettingText, for: .normal)
-        $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
+        $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .subheadline)
     }
     
     let writeTimeStack = UIStackView().then {
@@ -119,6 +129,7 @@ class AlarmView: UIView {
         self.backgroundColor = .white
         setupLayout()
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -126,6 +137,7 @@ class AlarmView: UIView {
     func setupLayout() {
         addSubview(alarmTitle)
         addSubview(remindSwitch)
+        addSubview(remindSwitchBtn)
         addSubview(remindStack)
         [remindTitle, remindDescription].forEach {
             remindStack.addArrangedSubview($0)
@@ -138,6 +150,7 @@ class AlarmView: UIView {
         
         addSubview(border)
         addSubview(writeSwitch)
+        addSubview(writeSwitchBtn)
         addSubview(writeStack)
         [writeTitle, writeDescription].forEach {
             writeStack.addArrangedSubview($0)
@@ -168,19 +181,24 @@ class AlarmView: UIView {
             $0.trailing.equalToSuperview().inset(27)
         }
         
+        remindSwitchBtn.snp.makeConstraints {
+            $0.centerY.equalTo(remindStack)
+            $0.trailing.equalToSuperview().inset(27)
+        }
+        
         remindTimeStack.snp.makeConstraints {
-            $0.top.equalTo(remindStack.snp.bottom).offset(23)
+            $0.top.equalTo(remindStack.snp.bottom).offset(28)
             $0.leading.trailing.equalToSuperview().inset(27)
         }
         
         border.snp.makeConstraints {
-            $0.top.equalTo(remindTimeStack.snp.bottom).offset(15)
+            $0.top.equalTo(remindTimeStack.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview().inset(27)
             $0.height.equalTo(1)
         }
         
         writeStack.snp.makeConstraints {
-            $0.top.equalTo(border.snp.bottom).offset(20)
+            $0.top.equalTo(border.snp.bottom).offset(25)
             $0.leading.equalToSuperview().offset(27)
         }
         
@@ -189,14 +207,26 @@ class AlarmView: UIView {
             $0.trailing.equalToSuperview().inset(27)
         }
         
+        writeSwitchBtn.snp.makeConstraints {
+            $0.centerY.equalTo(writeStack)
+            $0.trailing.equalToSuperview().inset(27)
+        }
+        
         writeWeekStack.snp.makeConstraints {
-            $0.top.equalTo(writeStack.snp.bottom).offset(18)
+            $0.top.equalTo(writeStack.snp.bottom).offset(33)
             $0.leading.trailing.equalToSuperview().inset(27)
         }
         
         writeTimeStack.snp.makeConstraints {
-            $0.top.equalTo(writeWeekStack.snp.bottom)
+            $0.top.equalTo(writeWeekStack.snp.bottom).offset(5)
             $0.leading.trailing.equalToSuperview().inset(27)
         }
+    }
+    
+    func switchHidden(onoff: Bool) {
+        self.remindSwitch.isEnabled = onoff
+        self.writeSwitch.isEnabled = onoff
+        self.writeSwitchBtn.isHidden = onoff
+        self.remindSwitchBtn.isHidden = onoff
     }
 }

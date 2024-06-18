@@ -4,17 +4,22 @@
 //
 //  Created by t2023-m0095 on 6/10/24.
 //
+
+import RxSwift
 import SnapKit
 import UIKit
 
 class ParagraphViewController: UIViewController {
+    
+    let viewModel = ParagraphViewModel()
+    var disposeBag = DisposeBag()
     
     private let paragraphLabel = UILabel()
     private let selectionButton = UIButton()
     private let selectionButtonImageView = UIImageView()
     private let selectionButtonLabel = UILabel()
     private let doneButton = UIButton()
-    
+
     private let searchBar = UISearchBar()
     private var isFiltering: Bool = false
     
@@ -49,24 +54,7 @@ class ParagraphViewController: UIViewController {
         
         return collectionView
     }()
-    
-    var paragraphData = [("짧은 텍스트입니다끝", "24.06.11"),
-                         ("짧은 텍스트입니다. 짧은 텍스트입니다. 짧은 텍스트입니다. 짧은 텍스트입니다끝", "24.06.10"),
-                         ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이끝", "24.06.09"),
-                         ("짧은 텍스트입니.짧은 텍스트입니.짧은 텍스트입니끝", "24.06.08"),
-                         ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다. 뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다끝", "24.06.07"),
-                         ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다.끝", "24.06.06"),
-                         ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다 끝", "24.06.05"),
-                         ("뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. 아무 것도 쓰기 싫었다. 아무 것도 쓰기 싫었다. 그저 빨리 돌아가 씻고 싶을 뿐이었다 끝", "24.06.04")] {
-        didSet {
-            if let layout = paragraphCollectionView.collectionViewLayout as? ParagraphCollectionViewLayout {
-                layout.invalidateCache()
-            }
-            
-            paragraphCollectionView.reloadData()
-        }
-    }
-    
+
     private var searchResultItems: [(String, String)] = [] {
         didSet {
             if let layout = paragraphCollectionView.collectionViewLayout as? ParagraphCollectionViewLayout {
@@ -79,6 +67,13 @@ class ParagraphViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        viewModel.paragraphData.subscribe(with: self) { (self, data) in
+            if let layout = self.paragraphCollectionView.collectionViewLayout as? ParagraphCollectionViewLayout {
+                layout.invalidateCache()
+            }
+            self.paragraphCollectionView.reloadData()
+        }.disposed(by: disposeBag)
         
         setUI()
         setConstraints()
@@ -314,7 +309,7 @@ class ParagraphViewController: UIViewController {
         searchBar.searchTextField.layer.cornerRadius = 17
         searchBar.searchTextField.layer.masksToBounds = true
         searchBar.searchTextField.font = Pretendard.regular.dynamicFont(style: .footnote)
-    
+        
         searchBar.delegate = self
     }
     // MARK: - 설정버튼
@@ -336,24 +331,24 @@ class ParagraphViewController: UIViewController {
     
     @objc private func tappedLatestFirst() {
         sortButtonTitleLabel.text = "최신순"
-        
         latestFirstcheckImageView.isHidden = false
         oldestFirstcheckImageView.isHidden = true
-        
         sortMenuView.isHidden = true
         
-        isFiltering ? searchResultItems.sort { $0.1 > $1.1 } : paragraphData.sort { $0.1 > $1.1 }
+        let sortedPassageAndDate = viewModel.paragraphData.value.sorted { $0.1 > $1.1 }
+        
+        isFiltering ? searchResultItems.sort { $0.1 > $1.1 } : viewModel.paragraphData.accept(sortedPassageAndDate)
     }
     
     @objc private func tappedOldestFirst() {
         sortButtonTitleLabel.text = "오래된순"
-        
         latestFirstcheckImageView.isHidden = true
         oldestFirstcheckImageView.isHidden = false
-        
         sortMenuView.isHidden = true
         
-        isFiltering ? searchResultItems.sort { $0.1 < $1.1 } : paragraphData.sort { $0.1 < $1.1 }
+        let sortedPassageAndDate = viewModel.paragraphData.value.sorted { $0.1 < $1.1 }
+        
+        isFiltering ? searchResultItems.sort { $0.1 < $1.1 } : viewModel.paragraphData.accept(sortedPassageAndDate)
     }
     
     @objc private func tappedSelectionButton() {
@@ -380,15 +375,14 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let cellCount = paragraphData.count
+        let cellCount = viewModel.paragraphData.value.count
         let resultCount = searchResultItems.count
-        
         let itemCount = isFiltering ? resultCount : cellCount
         
         emptyMessageLabel.isHidden = itemCount > 0
         if isFiltering { emptyMessageLabel.text = "검색결과가 없습니다." }
         
-        print(cellCount, resultCount)
+//        print(cellCount, resultCount)
         return itemCount
     }
     
@@ -401,7 +395,7 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
         cell.deleteButton.isHidden = !isEditingMode
         cell.delegate = self
         
-        let (text, date) = isFiltering ? searchResultItems[indexPath.item] : paragraphData[indexPath.item]
+        let (text, date) = isFiltering ? searchResultItems[indexPath.item] : viewModel.paragraphData.value[indexPath.item]
         cell.paragraphLabel.text = text
         cell.dateLabel.text = date
         
@@ -409,8 +403,8 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, heightForTextAtIndexPath indexPath: IndexPath) -> CGFloat {
-        let text = isFiltering ? searchResultItems[indexPath.item].0 : paragraphData[indexPath.item].0
-        let date = isFiltering ? searchResultItems[indexPath.item].1 : paragraphData[indexPath.item].1
+        let text = isFiltering ? searchResultItems[indexPath.item].0 : viewModel.paragraphData.value[indexPath.item].0
+        let date = isFiltering ? searchResultItems[indexPath.item].1 : viewModel.paragraphData.value[indexPath.item].1
         return calculateCellHeight(for: text, for: date, in: collectionView)
     }
     
@@ -447,7 +441,7 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
         let cellPadding: CGFloat = 6
         let leftRightinsets: CGFloat = 15 * 2
         let width = (collectionView.bounds.width - (collectionView.contentInset.left + collectionView.contentInset.right + cellPadding * 4)) / 2 - leftRightinsets + 0.5
-
+        
         let paragraphLabelHeight = heightForText(text, width: width)
         let paragraphDateSpacing: CGFloat = 30
         let dateLabelHeight: CGFloat = heightForDateText(date, width: width)
@@ -457,14 +451,16 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
     
     func tappedDeleteButton(in cell: ParagraphCollectionViewCell) {
         guard let indexPath = paragraphCollectionView.indexPath(for: cell) else { return }
-        paragraphData.remove(at: indexPath.item)
+        var currentParagraph = viewModel.paragraphData.value
+        currentParagraph.remove(at: indexPath.item)
+        viewModel.paragraphData.accept(currentParagraph)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        _ = paragraphData[indexPath.item]
-        
         let modalVC = ParagraphDetailViewController()
         
+        viewModel.selectParagraph(at: indexPath.item)
+        modalVC.viewModel.detailParagraph.accept(viewModel.detailParagraph.value)
         present(modalVC, animated: true, completion: nil)
     }
 }
@@ -483,9 +479,9 @@ extension ParagraphViewController: UISearchBarDelegate {
     
     private func filterItems(with searchText: String) {
         if searchText.isEmpty {
-            searchResultItems = paragraphData
+            searchResultItems = viewModel.paragraphData.value
         } else {
-            searchResultItems = paragraphData.filter { $0.0.localizedCaseInsensitiveContains(searchText) }
+            searchResultItems = viewModel.paragraphData.value.filter { $0.0.localizedCaseInsensitiveContains(searchText) }
         }
     }
     

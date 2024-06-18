@@ -13,4 +13,6 @@ enum UserDefaultsKeys: String {
     case writeWeek
     case remindSwitch
     case writeSwitch 
+    case lauchedBefore
+    case notification
 }

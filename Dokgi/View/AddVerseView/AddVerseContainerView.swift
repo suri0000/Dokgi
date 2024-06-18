@@ -80,16 +80,24 @@ class AddVerseContainerView: UIView {
         $0.numberOfLines = 2
     }
     
-    lazy var verseTextView = UITextView().then {
-        $0.text = "텍스트를 입력하세요"
+    let overlapView = UIView().then {
+        $0.backgroundColor = .clear
         $0.layer.borderWidth = 1.0
         $0.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.7).cgColor
-        $0.textContainerInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
-        $0.font = Pretendard.regular.dynamicFont(style: .callout)
-        $0.textColor = .placeholderText
         $0.layer.cornerRadius = 8
         $0.clipsToBounds = true
-        $0.showsVerticalScrollIndicator = false
+    }
+    
+    lazy var verseTextView = UITextView().then {
+        $0.text = "텍스트를 입력하세요"
+        $0.textContainerInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
+        $0.font = Pretendard.regular.dynamicFont(style: .callout)
+                $0.showsVerticalScrollIndicator = false
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 8.0 // 원하는 값으로 설정
+        let attributedString = NSAttributedString(string: $0.text ?? "", attributes: [.paragraphStyle: paragraphStyle])
+        $0.attributedText = attributedString
+        $0.textColor = .placeholderText
     }
     
     let characterCountLabel = UILabel().then {
@@ -109,6 +117,7 @@ class AddVerseContainerView: UIView {
     
     let keywordField = UITextField().then {
         let placeholder = "키워드를 입력해 주세요"
+        $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
         $0.placeholder = placeholder
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 10
@@ -134,7 +143,8 @@ class AddVerseContainerView: UIView {
     }
     
     let pageNumberTextField = UITextField().then {
-        $0.placeholder = "페이지 수"
+        $0.placeholder = "페이지"
+        $0.textAlignment = .center
         $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
         $0.borderStyle = .roundedRect
     }
@@ -197,6 +207,7 @@ class AddVerseContainerView: UIView {
         infoView.addSubview(authorLabel)
         infoView.addSubview(overlayView)
         overlayView.addSubview(searchButton)
+        addSubview(overlapView)
         addSubview(verseTextView)
         addSubview(characterCountLabel)
         addSubview(pencilImageView)
@@ -251,24 +262,30 @@ class AddVerseContainerView: UIView {
             $0.trailing.equalTo(infoView.snp.trailing).offset(-16)
         }
         
-        verseTextView.snp.makeConstraints {
+        overlapView.snp.makeConstraints {
             $0.top.equalTo(infoView.snp.bottom).offset(32)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(329)
+            $0.height.equalTo(329) // 원하는 높이로 설정
+        }
+        
+        verseTextView.snp.makeConstraints {
+            $0.top.equalTo(infoView.snp.bottom).offset(35)
+            $0.horizontalEdges.equalToSuperview().inset(18)
+            $0.bottom.equalTo(pencilImageView.snp.top).inset(8)
         }
         
         characterCountLabel.snp.makeConstraints {
-            $0.trailing.equalTo(verseTextView.snp.trailing).offset(-16)
-            $0.bottom.equalTo(verseTextView.snp.bottom).offset(-16)
+            $0.trailing.equalTo(overlapView.snp.trailing).offset(-16)
+            $0.bottom.equalTo(overlapView.snp.bottom).offset(-16)
         }
         
         pencilImageView.snp.makeConstraints {
-            $0.bottom.equalTo(verseTextView.snp.bottom).offset(-8)
-            $0.leading.equalTo(verseTextView.snp.leading).offset(8)
+            $0.bottom.equalTo(overlapView.snp.bottom).offset(-8)
+            $0.leading.equalTo(overlapView.snp.leading).offset(8)
         }
         
         keywordLabel.snp.makeConstraints {
-            $0.top.equalTo(verseTextView.snp.bottom).offset(32)
+            $0.top.equalTo(overlapView.snp.bottom).offset(32)
             $0.horizontalEdges.equalToSuperview().inset(16)
         }
         
@@ -292,7 +309,7 @@ class AddVerseContainerView: UIView {
         pageNumberTextField.snp.makeConstraints {
             $0.centerY.equalTo(pageLabel.snp.centerY)
             $0.leading.equalTo(pageLabel.snp.trailing).offset(8)
-            $0.width.equalTo(55)
+            $0.width.equalTo(60)
             $0.height.equalTo(30)
         }
         
