@@ -17,12 +17,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         UNUserNotificationCenter.current().delegate = self
-                
-                let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound] // 필요한 알림 권한을 설정
-                UNUserNotificationCenter.current().requestAuthorization(
-                    options: authOptions,
-                    completionHandler: { _, _ in }
-                )
+        
+        let authOptions: UNAuthorizationOptions = [.alert, .sound] // 필요한 알림 권한을 설정
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: { didAllow, _ in
+                if didAllow {
+                    UserDefaults.standard.set(true, forKey: UserDefaultsKeys.notification.rawValue)
+                    if UserDefaults.standard.bool(forKey: UserDefaultsKeys.lauchedBefore.rawValue) == false {
+                        let viewModel = DayTimeViewModel()
+                        UserDefaults.standard.set(true, forKey: UserDefaultsKeys.remindSwitch.rawValue)
+                        viewModel.sendLocalPushRemind(identifier: "remindTime", time: [3, 0, 1])
+                        UserDefaults.standard.set(true, forKey: UserDefaultsKeys.writeSwitch.rawValue)
+                        viewModel.sendLocalPushWrite(identifier: "writeTime", time: [3, 0, 1], day: [1, 1, 1, 1, 1, 1, 1])
+                        UserDefaults.standard.set(true, forKey: UserDefaultsKeys.lauchedBefore.rawValue)
+                    }
+                } else {
+                    UserDefaults.standard.set(false, forKey: UserDefaultsKeys.notification.rawValue)
+                    if UserDefaults.standard.bool(forKey: UserDefaultsKeys.lauchedBefore.rawValue) == false {
+                        UserDefaults.standard.set(false, forKey: UserDefaultsKeys.remindSwitch.rawValue)
+                        UserDefaults.standard.set(false, forKey: UserDefaultsKeys.writeSwitch.rawValue)
+                        UserDefaults.standard.set(true, forKey: UserDefaultsKeys.lauchedBefore.rawValue)
+                    }
+                }
+            }
+        )
+        
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.enableAutoToolbar = false
         IQKeyboardManager.shared.resignOnTouchOutside = true
