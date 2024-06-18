@@ -137,7 +137,9 @@ class ParagraphDetailViewController: UIViewController {
                 self.editBtn.setImage(nil, for: .normal)
                 self.containerView.pageTextField.isHidden = false
                 self.containerView.pageSegment.isHidden = false
+                self.containerView.pageTextField.text = "\(self.viewModel.detailParagraph.value.pageNumber)"
                 self.containerView.pageWriteLbl.isHidden = true
+                self.containerView.keywordCollectionView.reloadData()
                 self.containerView.pageSegment.selectedIndex = self.viewModel.detailParagraph.value.pageType == "%" ? 0 : 1
             } else {
                 self.containerView.editCompleteLayout()
