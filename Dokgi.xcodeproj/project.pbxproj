@@ -336,7 +336,7 @@
 				3C73E2972C1889F6004B1BF8 /* HomeView */,
 				855318B92C16E42500340ACF /* BookDetailView */,
 				7BE488B02C16E21E00BDB92A /* LibraryView */,
-				A7F2DB152C1347840020B0AA /*  ParagraphDetailView */,
+				A7F2DB152C1347840020B0AA /* ParagraphDetailView */,
 				A75908C92C0F759D00415D6D /* SettingView */,
 				AB355D592C1871E900B3DE16 /* AddVerseView */,
 				A74874652C0D7E0700B830EE /* ViewController.swift */,
@@ -407,14 +407,14 @@
 			path = SettingView;
 			sourceTree = "<group>";
 		};
-		A7F2DB152C1347840020B0AA /*  ParagraphDetailView */ = {
+		A7F2DB152C1347840020B0AA /* ParagraphDetailView */ = {
 			isa = PBXGroup;
 			children = (
 				A7F2DB162C1347C80020B0AA /* ParagraphDetailViewController.swift */,
 				A7F2DB182C134B200020B0AA /* ParagraphDetailContainerView.swift */,
 				A7F2DB1C2C15C6E70020B0AA /* KeywordCollectionViewCell.swift */,
 			);
-			path = " ParagraphDetailView";
+			path = ParagraphDetailView;
 			sourceTree = "<group>";
 		};
 		AB355D592C1871E900B3DE16 /* AddVerseView */ = {
