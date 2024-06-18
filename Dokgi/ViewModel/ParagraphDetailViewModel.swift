@@ -23,7 +23,7 @@ class ParagraphDetailViewModel {
     
     func updateDetailKeyword(keyword: String) {
         var keywordTmp = self.keywords.value
-        if keywordTmp.isEmpty == false {
+        if keywordTmp.isEmpty == false && keyword != "" {
             keywordTmp[0] = keyword
         }
         keywords.accept(keywordTmp)
@@ -43,5 +43,6 @@ class ParagraphDetailViewModel {
         verse.pageType = pageType == 0 ? "%" : "Page"
         detailParagraph.accept(verse)
         CoreDataManager.shared.updateData(verse: verse)
+        CoreDataManager.shared.readData()
     }
 }
