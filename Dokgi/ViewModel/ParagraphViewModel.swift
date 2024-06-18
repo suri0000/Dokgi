@@ -11,16 +11,13 @@ import RxSwift
 
 class ParagraphViewModel {
     var disposeBag = DisposeBag()
-    var paragraphData = BehaviorRelay<[(String, String)]>(value: [("", "")])
+    var paragraphData = BehaviorRelay<[(String, Date)]>(value: [("", Date())])
     var detailParagraph = BehaviorRelay<Verse>(value: Verse(name: "", author: "", image: "", text: "", pageNumber: 1, pageType: "P", keywords: [], date: Date()))
     
     init() {
         CoreDataManager.shared.bookData
             .map { $0.map {
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yy. MM. dd"
-                let dateString = dateFormatter.string(from: $0.date)
-                return ($0.text, dateString)
+                return ($0.text, $0.date)
             }
             .sorted { $0.1 > $1.1 }
             }
