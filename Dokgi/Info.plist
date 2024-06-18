@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>API_ID</key>
+	<string>$(naverClientID)</string>
+	<key>API_KEY</key>
+	<string>$(naverClientSecret)</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Pretendard-Bold.otf</string>
@@ -10,10 +14,6 @@
 		<string>Pretendard-SemiBold.otf</string>
 		<string>Pretendard-ExtraBold.otf</string>
 	</array>
-	<key>API_ID</key>
-	<string>$(naverClientID)</string>
-	<key>API_KEY</key>
-	<string>$(naverClientSecret)</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -31,7 +31,5 @@
 			</array>
 		</dict>
 	</dict>
-	<key>NSCameraUsageDescription</key>
-	<string>이 앱은 문서 스캔을 위해 카메라를 사용합니다.</string>
 </dict>
 </plist>

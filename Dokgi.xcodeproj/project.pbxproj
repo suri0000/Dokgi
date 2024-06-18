@@ -80,6 +80,8 @@
 		AB355D552C180C9700B3DE16 /* BookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB355D542C180C9700B3DE16 /* BookCell.swift */; };
 		AB355D5B2C18725400B3DE16 /* KeywordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB355D5A2C18725400B3DE16 /* KeywordCell.swift */; };
 		AB4BDC042C20394C001FDA8F /* AddVerseContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4BDC032C20394C001FDA8F /* AddVerseContainerView.swift */; };
+		AB4BDC062C216BF7001FDA8F /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4BDC052C216BF7001FDA8F /* RecentSearchCell.swift */; };
+		AB4BDC0A2C219C6F001FDA8F /* BookSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4BDC092C219C6F001FDA8F /* BookSearchViewModel.swift */; };
 		AB66D3442C0EEFE3000D72DA /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */; };
 		AB66D3692C17688C000D72DA /* BookSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3682C17688C000D72DA /* BookSearchVC.swift */; };
 /* End PBXBuildFile section */
@@ -177,6 +179,8 @@
 		AB355D542C180C9700B3DE16 /* BookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCell.swift; sourceTree = "<group>"; };
 		AB355D5A2C18725400B3DE16 /* KeywordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordCell.swift; sourceTree = "<group>"; };
 		AB4BDC032C20394C001FDA8F /* AddVerseContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVerseContainerView.swift; sourceTree = "<group>"; };
+		AB4BDC052C216BF7001FDA8F /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
+		AB4BDC092C219C6F001FDA8F /* BookSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearchViewModel.swift; sourceTree = "<group>"; };
 		AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
 		AB66D3682C17688C000D72DA /* BookSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearchVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -364,6 +368,7 @@
 				855318C52C1AEBF900340ACF /* BookDetailViewModel.swift */,
 				8500B52D2C203A4500A0EB38 /* ParagraphViewModel.swift */,
 				AB2386B12C1FE9F000E6FACE /* AddVerseViewModel.swift */,
+				AB4BDC092C219C6F001FDA8F /* BookSearchViewModel.swift */,
 				A78D2A1B2C216FCF00F8AC72 /* LibrarySearchViewModel.swift */,
 			);
 			path = ViewModel;
@@ -429,10 +434,11 @@
 			isa = PBXGroup;
 			children = (
 				AB66D3682C17688C000D72DA /* BookSearchVC.swift */,
-				AB355D542C180C9700B3DE16 /* BookCell.swift */,
-				AB355D5A2C18725400B3DE16 /* KeywordCell.swift */,
 				AB23869C2C18849E00E6FACE /* AddVerseVC.swift */,
 				AB4BDC032C20394C001FDA8F /* AddVerseContainerView.swift */,
+				AB355D542C180C9700B3DE16 /* BookCell.swift */,
+				AB355D5A2C18725400B3DE16 /* KeywordCell.swift */,
+				AB4BDC052C216BF7001FDA8F /* RecentSearchCell.swift */,
 			);
 			path = AddVerseView;
 			sourceTree = "<group>";
@@ -578,6 +584,7 @@
 				A75908B72C0EF4C000415D6D /* SettingViewController.swift in Sources */,
 				A7F2DB642C18BAA70020B0AA /* ParagraphDetailViewModel.swift in Sources */,
 				A75908C42C0F6B9600415D6D /* Font.swift in Sources */,
+				AB4BDC0A2C219C6F001FDA8F /* BookSearchViewModel.swift in Sources */,
 				3C73E2A12C1AB164004B1BF8 /* HomeViewController.swift in Sources */,
 				A75908D12C12D36100415D6D /* UserDefaultsKey.swift in Sources */,
 				AB23869F2C19B5FC00E6FACE /* VerseModel.swift in Sources */,
@@ -588,6 +595,7 @@
 				3C208EB02C10273F00CED104 /* DataManager.swift in Sources */,
 				A75908C82C0F758900415D6D /* DaySelectViewController.swift in Sources */,
 				A75908D32C12D69300415D6D /* IntArrayExtension.swift in Sources */,
+				AB4BDC062C216BF7001FDA8F /* RecentSearchCell.swift in Sources */,
 				A74874622C0D7E0600B830EE /* AppDelegate.swift in Sources */,
 				A722B5892C1C715000E43FC9 /* SegmentControlView.swift in Sources */,
 				A74874812C0D7EC800B830EE /* ViewModel.swift in Sources */,
@@ -657,6 +665,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6794YDXXFY;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DokgiWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DokgiWidget;
@@ -668,7 +677,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dogaegirl6mo.Dokgi.DokgiWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dogaegeol6mo.Dokgi.DokgiWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -685,6 +694,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6794YDXXFY;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DokgiWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DokgiWidget;
@@ -696,7 +706,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dogaegirl6mo.Dokgi.DokgiWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dogaegeol6mo.Dokgi.DokgiWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -838,6 +848,7 @@
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Dokgi/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "이 앱은 문서 스캔을 위해 카메라를 사용합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -849,7 +860,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dogaegirl6mo.Dokgi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dogaegeol6mo.Dokgi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -870,9 +881,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 6794YDXXFY;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Dokgi/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "이 앱은 문서 스캔을 위해 카메라를 사용합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -884,7 +896,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dogaegirl6mo.Dokgi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dogaegeol6mo.Dokgi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
