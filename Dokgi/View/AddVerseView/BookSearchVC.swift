@@ -20,6 +20,7 @@ class BookSearchVC: UIViewController {
     let tableView = UITableView().then {
         $0.rowHeight = 150
         $0.showsVerticalScrollIndicator = false
+        $0.isHidden = true // 초기 설정 시 테이블뷰 숨기기
     }
     
     let searchBar = UISearchBar().then {
@@ -47,7 +48,14 @@ class BookSearchVC: UIViewController {
         $0.setTitle("전체 삭제", for: .normal)
         $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
         $0.setTitleColor(.placeholderText, for: .normal)
-        $0.addTarget(BookSearchVC.self, action: #selector(clearAllButtonTapped), for: .touchUpInside)
+        $0.addTarget(self, action: #selector(clearAllButtonTapped), for: .touchUpInside)
+    }
+    
+    let noResultsLabel = UILabel().then {
+        $0.text = "검색어와 일치하는 책이 없습니다"
+        $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
+        $0.textAlignment = .center
+        $0.isHidden = true
     }
     
     var isLoading = false
@@ -73,6 +81,7 @@ class BookSearchVC: UIViewController {
         view.addSubview(recentSearchLabel)
         view.addSubview(clearAllButton)
         view.addSubview(tableView)
+        view.addSubview(noResultsLabel)
     }
     
     private func setupConstraints() {
@@ -95,6 +104,10 @@ class BookSearchVC: UIViewController {
             $0.top.equalTo(searchBar.snp.bottom).offset(16)
             $0.leading.trailing.bottom.equalToSuperview()
         }
+        
+        noResultsLabel.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
     }
     
     private func setupTableView() {
@@ -110,8 +123,15 @@ class BookSearchVC: UIViewController {
             switch result {
             case .success(let response):
                 DispatchQueue.main.async {
-                    self.searchResults.append(contentsOf: response.items)
-                    self.tableView.reloadData()
+                    if response.items.isEmpty {
+                        self.noResultsLabel.isHidden = false
+                        self.tableView.isHidden = true
+                    } else {
+                        self.noResultsLabel.isHidden = true
+                        self.searchResults.append(contentsOf: response.items)
+                        self.tableView.reloadData()
+                        self.tableView.isHidden = false
+                    }
                     self.isLoading = false
                 }
             case .failure(let error):
@@ -134,6 +154,10 @@ extension BookSearchVC: UISearchBarDelegate {
             self.startIndex = 1
             self.searchResults = []
             fetchBooks(query: query, startIndex: startIndex)
+            recentSearchLabel.isHidden = true
+            clearAllButton.isHidden = true
+            noResultsLabel.isHidden = true
+            tableView.isHidden = false // 검색 시작 후 테이블뷰 표시
         }
         searchBar.resignFirstResponder()
     }
@@ -178,4 +202,3 @@ extension BookSearchVC: UITableViewDelegate {
         }
     }
 }
-
