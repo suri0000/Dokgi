@@ -158,7 +158,8 @@ class AddVerseContainerView: UIView {
         $0.titleLabel?.font = Pretendard.bold.dynamicFont(style: .headline)
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = .charcoalBlue
-        $0.layer.cornerRadius = 8
+        $0.layer.cornerRadius = 15
+        $0.clipsToBounds = true
     }
     
     // MARK: - Lifecycle

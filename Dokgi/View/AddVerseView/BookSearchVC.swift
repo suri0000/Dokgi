@@ -50,7 +50,7 @@ class BookSearchVC: UIViewController {
             let attachmentString = NSAttributedString(attachment: attachment)
             let mutableAttributedString = NSMutableAttributedString(string: " ")
             mutableAttributedString.append(attachmentString)
-            mutableAttributedString.append(NSAttributedString(string: " 최근 검색"))
+            mutableAttributedString.append(NSAttributedString(string: " 최근 검색어"))
             $0.attributedText = mutableAttributedString
         }
     }
