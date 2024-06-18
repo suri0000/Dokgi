@@ -143,7 +143,8 @@ class AddVerseContainerView: UIView {
     }
     
     let pageNumberTextField = UITextField().then {
-        $0.placeholder = "페이지 수"
+        $0.placeholder = "페이지"
+        $0.textAlignment = .center
         $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
         $0.borderStyle = .roundedRect
     }
@@ -308,7 +309,7 @@ class AddVerseContainerView: UIView {
         pageNumberTextField.snp.makeConstraints {
             $0.centerY.equalTo(pageLabel.snp.centerY)
             $0.leading.equalTo(pageLabel.snp.trailing).offset(8)
-            $0.width.equalTo(55)
+            $0.width.equalTo(60)
             $0.height.equalTo(30)
         }
         
