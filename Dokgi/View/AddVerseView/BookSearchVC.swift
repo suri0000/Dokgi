@@ -63,7 +63,6 @@ class BookSearchVC: UIViewController {
         $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8)
     }
 
-    
     let noResultsLabel = UILabel().then {
         $0.text = "검색어와 일치하는 책이 없습니다"
         $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
