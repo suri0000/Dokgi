@@ -117,6 +117,7 @@ class AddVerseContainerView: UIView {
     
     let keywordField = UITextField().then {
         let placeholder = "키워드를 입력해 주세요"
+        $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
         $0.placeholder = placeholder
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 10
