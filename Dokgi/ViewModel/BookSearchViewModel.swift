@@ -39,7 +39,10 @@ class BookSearchViewModel {
     
     func saveRecentSearch(_ text: String) {
         var recentSearches = UserDefaults.standard.stringArray(forKey: "recentSearches") ?? []
+        
+        recentSearches.removeAll(where: { $0 == text })
         recentSearches.insert(text, at: 0)
+        
         if recentSearches.count > 10 {
             recentSearches.removeLast()
         }
