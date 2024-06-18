@@ -220,8 +220,11 @@ extension AddVerseVC: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if let text = textField.text, text.isEmpty {
-            viewModel.keywords.append("")
-            containerView.keywordCollectionView.reloadData()
+            // Only add a new empty keyword if there are no empty ones already
+            if !viewModel.keywords.contains("") {
+                viewModel.keywords.append("")
+                containerView.keywordCollectionView.reloadData()
+            }
         }
     }
     
@@ -233,10 +236,6 @@ extension AddVerseVC: UITextFieldDelegate {
                 viewModel.keywords[viewModel.keywords.count - 1] = text
             }
             containerView.keywordCollectionView.reloadData()
-        }
-        if let text = textField.text, text.count > 20 {
-            let index = text.index(text.startIndex, offsetBy: 20)
-            textField.text = String(text[..<index])
         }
     }
     
@@ -301,7 +300,6 @@ extension AddVerseVC: UITextViewDelegate {
         let currentCount = textView.text.count
         containerView.characterCountLabel.text = "\(currentCount)/200"
         
-        // 최대 200자 제한
         if currentCount > 200 {
             textView.text = String(textView.text.prefix(200))
             containerView.characterCountLabel.text = "200/200"

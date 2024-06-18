@@ -14,13 +14,13 @@ class BookSearchVC: UIViewController {
     
     let bookManager = BookManager.shared
     
-    var searchResults: [Item] = [] // 검색 결과 저장
+    var searchResults: [Item] = []
     weak var delegate: BookSelectionDelegate?
     
     let tableView = UITableView().then {
         $0.rowHeight = 150
         $0.showsVerticalScrollIndicator = false
-        $0.isHidden = true // 초기 설정 시 테이블뷰 숨기기
+        $0.isHidden = true
     }
     
     let searchBar = UISearchBar().then {
