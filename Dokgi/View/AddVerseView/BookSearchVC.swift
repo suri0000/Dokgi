@@ -39,17 +39,30 @@ class BookSearchVC: UIViewController {
     }
     
     let recentSearchLabel = UILabel().then {
+        let poundKeyImage: UIImage? = .poundKey
         $0.text = "최근 검색"
         $0.font = Pretendard.semibold.dynamicFont(style: .headline)
         $0.textColor = .black
+        if let image = poundKeyImage {
+            let attachment = NSTextAttachment()
+            attachment.image = image
+            attachment.bounds = CGRect(x: 0, y: -3, width: image.size.width, height: image.size.height) // Adjust the bounds as needed
+            let attachmentString = NSAttributedString(attachment: attachment)
+            let mutableAttributedString = NSMutableAttributedString(string: " ")
+            mutableAttributedString.append(attachmentString)
+            mutableAttributedString.append(NSAttributedString(string: " 최근 검색"))
+            $0.attributedText = mutableAttributedString
+        }
     }
-    
+
     let clearAllButton = UIButton().then {
         $0.setTitle("전체 삭제", for: .normal)
         $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
         $0.setTitleColor(.placeholderText, for: .normal)
         $0.addTarget(self, action: #selector(clearAllButtonTapped), for: .touchUpInside)
+        $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8)
     }
+
     
     let noResultsLabel = UILabel().then {
         $0.text = "검색어와 일치하는 책이 없습니다"
@@ -111,12 +124,12 @@ class BookSearchVC: UIViewController {
     private func setupConstraints() {
         searchBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(16)
-            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.horizontalEdges.equalToSuperview().inset(14)
         }
         
         recentSearchStackView.snp.makeConstraints {
             $0.top.equalTo(searchBar.snp.bottom).offset(12)
-            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.horizontalEdges.equalToSuperview().inset(17)
         }
         
         collectionView.snp.makeConstraints {

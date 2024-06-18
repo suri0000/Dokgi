@@ -19,7 +19,7 @@ class RecentSearchCell: UICollectionViewCell {
     }
     
     private let deleteButton = UIButton().then {
-        $0.setImage(.deleteKeyword, for: .normal)
+        $0.setImage(.deleteRecentSearch, for: .normal)
     }
     
     var viewModel: BookSearchViewModel!
