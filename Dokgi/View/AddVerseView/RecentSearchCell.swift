@@ -12,6 +12,7 @@ import UIKit
 class RecentSearchCell: UICollectionViewCell {
     
     static let identifier = "RecentSearchCell"
+    var viewModel: BookSearchViewModel!
     
     private let label = UILabel().then {
         $0.textColor = .brightBlue
@@ -21,8 +22,6 @@ class RecentSearchCell: UICollectionViewCell {
     private let deleteButton = UIButton().then {
         $0.setImage(.deleteRecentSearch, for: .normal)
     }
-    
-    var viewModel: BookSearchViewModel!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
