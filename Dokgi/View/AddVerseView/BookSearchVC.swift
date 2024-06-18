@@ -23,14 +23,18 @@ class BookSearchVC: UIViewController {
     }
     
     let searchBar = UISearchBar().then {
-        $0.placeholder = "책을 검색해보세요"
         $0.searchBarStyle = .minimal
+        $0.setPositionAdjustment(UIOffset(horizontal: 8, vertical: 0), for: .search)
+        $0.setPositionAdjustment(UIOffset(horizontal: -8, vertical: 0), for: .clear)
+        
+        $0.placeholder = "책을 검색해보세요"
         $0.searchTextField.borderStyle = .line
         $0.searchTextField.layer.borderWidth = 1
         $0.searchTextField.layer.borderColor = UIColor(resource: .searchBarLightGray).cgColor
         $0.searchTextField.layer.backgroundColor = UIColor.white.cgColor
-        $0.searchTextField.layer.cornerRadius = 15
+        $0.searchTextField.layer.cornerRadius = 17
         $0.searchTextField.layer.masksToBounds = true
+        $0.searchTextField.font = Pretendard.regular.dynamicFont(style: .subheadline)
     }
     
     var isLoading = false
@@ -140,7 +144,7 @@ extension BookSearchVC: UITableViewDelegate {
         let scrollViewHeight = scrollView.frame.size.height
         
         if position > (contentHeight - 100 - scrollViewHeight) && !isLoading {
-            startIndex += 10 // Naver API는 한 번에 10개의 결과를 반환합니다.
+            startIndex += 10
             fetchBooks(query: query, startIndex: startIndex)
         }
     }

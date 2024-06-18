@@ -198,9 +198,11 @@ class AddVerseVC: UIViewController {
             print("텍스트 인식 수행 실패: \(error.localizedDescription)")
         }
     }
+    
     func removeKeyword(at indexPath: IndexPath) {
-        viewModel.keywords.remove(at: indexPath.item)
-        containerView.keywordCollectionView.deleteItems(at: [indexPath])
+        let reversedIndex = viewModel.keywords.count - 1 - indexPath.item
+        viewModel.keywords.remove(at: reversedIndex)
+        containerView.keywordCollectionView.reloadData()
     }
 }
 
@@ -232,12 +234,21 @@ extension AddVerseVC: UITextFieldDelegate {
             }
             containerView.keywordCollectionView.reloadData()
         }
+        if let text = textField.text, text.count > 20 {
+            let index = text.index(text.startIndex, offsetBy: 20)
+            textField.text = String(text[..<index])
+        }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let currentText = textField.text as NSString? else { return true }
+        let newText = currentText.replacingCharacters(in: range, with: string)
+        return newText.count <= 20
     }
 }
 
 // MARK: - CollectionView
 extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.keywords.count
     }
