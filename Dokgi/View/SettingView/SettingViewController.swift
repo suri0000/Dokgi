@@ -64,7 +64,6 @@ class SettingViewController: UIViewController{
             if UserDefaults.standard.bool(forKey: UserDefaultsKeys.writeSwitch.rawValue) == true {
                 self.present(DaySelectViewController(), animated: true)
             }
-            
         }.disposed(by: disposeBag)
         
         alarmView.writeTimeBtn.rx.tap.subscribe { _ in
@@ -125,7 +124,7 @@ class SettingViewController: UIViewController{
     }
     
     func switchAlert() {
-        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
             DispatchQueue.main.async {
                 guard settings.authorizationStatus == .authorized else {
                     
@@ -140,7 +139,7 @@ class SettingViewController: UIViewController{
                             if UIApplication.shared.canOpenURL(settingUrl as URL) {
                                 
                                 
-                                UIApplication.shared.open(settingUrl as URL, options: self.convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: { (istrue) in })
+                                UIApplication.shared.open(settingUrl as URL, options: self.convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: { istrue in })
                             }
                     }))
                     self.present(alert, animated: true)
@@ -153,8 +152,8 @@ class SettingViewController: UIViewController{
 
         return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)
         })
-
     }
+    
     @objc func checkNotificationSetting() {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             DispatchQueue.main.async {
