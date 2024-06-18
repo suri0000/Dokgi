@@ -79,6 +79,10 @@ class LibrarySearchViewController: UIViewController {
             guard let text = text else { return }
             self.libraryViewModel.dataSearch(text: text)
         }.disposed(by: disposeBag)
+        
+        self.searchBar.rx.searchButtonClicked.subscribe(with: self) { (self, _) in
+            self.searchBar.resignFirstResponder()
+        }.disposed(by: disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
