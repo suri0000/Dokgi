@@ -73,7 +73,6 @@ class AddVerseVC: UIViewController {
         containerView.searchButton.addTarget(self, action: #selector(searchButtonTapped(_:)), for: .touchUpInside)
         containerView.recordButton.addTarget(self, action: #selector(recordButtonTapped(_:)), for: .touchUpInside)
         containerView.keywordField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        
         containerView.pageSegment.buttons.enumerated().forEach { index, button in
             button.addTarget(self, action: #selector(pageSegmentButtonTapped(_:)), for: .touchUpInside)
         }
@@ -92,7 +91,6 @@ class AddVerseVC: UIViewController {
     @objc func pageSegmentButtonTapped(_ sender: UIButton) {
         guard let index = containerView.pageSegment.buttons.firstIndex(of: sender) else { return }
         containerView.pageSegment.selectedIndex = index
-        
         switch index {
         case 0:
             viewModel.pageType = "Page"
