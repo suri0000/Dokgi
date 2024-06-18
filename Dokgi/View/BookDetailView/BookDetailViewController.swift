@@ -266,10 +266,9 @@ class BookDetailViewController: UIViewController {
     }
     
     @objc private func didTabAddPassageButton() {
-        let addVesreVC = AddVerseVC()
-        addVesreVC.selectedBook = viewModel.makeAddVerseViewData()
-        self.navigationController?.pushViewController(addVesreVC, animated: true)
-        addVesreVC.displayBookInfo()
+        let addVerseVC = AddVerseVC()
+        addVerseVC.viewModel.selectedBook = viewModel.makeAddVerseViewData()
+        self.navigationController?.pushViewController(addVerseVC, animated: true)
     }
 }
 // MARK: - PassageTableView

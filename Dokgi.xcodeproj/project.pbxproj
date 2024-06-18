@@ -75,8 +75,10 @@
 		AB2386A22C1A0CDB00E6FACE /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AB2386A12C1A0CDB00E6FACE /* IQKeyboardManagerSwift */; };
 		AB2386A52C1AF1A100E6FACE /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = AB355D572C180D8F00B3DE16 /* Kingfisher */; };
 		AB2386A82C1B021D00E6FACE /* BetterSegmentedControl in Frameworks */ = {isa = PBXBuildFile; productRef = AB2386A72C1B021D00E6FACE /* BetterSegmentedControl */; };
+		AB2386B22C1FE9F000E6FACE /* AddVerseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2386B12C1FE9F000E6FACE /* AddVerseViewModel.swift */; };
 		AB355D552C180C9700B3DE16 /* BookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB355D542C180C9700B3DE16 /* BookCell.swift */; };
 		AB355D5B2C18725400B3DE16 /* KeywordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB355D5A2C18725400B3DE16 /* KeywordCell.swift */; };
+		AB4BDC042C20394C001FDA8F /* AddVerseContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4BDC032C20394C001FDA8F /* AddVerseContainerView.swift */; };
 		AB66D3442C0EEFE3000D72DA /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */; };
 		AB66D3692C17688C000D72DA /* BookSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3682C17688C000D72DA /* BookSearchVC.swift */; };
 /* End PBXBuildFile section */
@@ -169,8 +171,10 @@
 		A7F2DB632C18BAA70020B0AA /* ParagraphDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParagraphDetailViewModel.swift; sourceTree = "<group>"; };
 		AB23869C2C18849E00E6FACE /* AddVerseVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddVerseVC.swift; sourceTree = "<group>"; };
 		AB23869E2C19B5FC00E6FACE /* VerseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerseModel.swift; sourceTree = "<group>"; };
+		AB2386B12C1FE9F000E6FACE /* AddVerseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVerseViewModel.swift; sourceTree = "<group>"; };
 		AB355D542C180C9700B3DE16 /* BookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCell.swift; sourceTree = "<group>"; };
 		AB355D5A2C18725400B3DE16 /* KeywordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordCell.swift; sourceTree = "<group>"; };
+		AB4BDC032C20394C001FDA8F /* AddVerseContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVerseContainerView.swift; sourceTree = "<group>"; };
 		AB66D3432C0EEFE3000D72DA /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
 		AB66D3682C17688C000D72DA /* BookSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearchVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -336,7 +340,7 @@
 				3C73E2972C1889F6004B1BF8 /* HomeView */,
 				855318B92C16E42500340ACF /* BookDetailView */,
 				7BE488B02C16E21E00BDB92A /* LibraryView */,
-				A7F2DB152C1347840020B0AA /* ParagraphDetailView */,
+				A7F2DB152C1347840020B0AA /*  ParagraphDetailView */,
 				A75908C92C0F759D00415D6D /* SettingView */,
 				AB355D592C1871E900B3DE16 /* AddVerseView */,
 				A74874652C0D7E0700B830EE /* ViewController.swift */,
@@ -357,6 +361,7 @@
 				A7F2DB632C18BAA70020B0AA /* ParagraphDetailViewModel.swift */,
 				855318C52C1AEBF900340ACF /* BookDetailViewModel.swift */,
 				8500B52D2C203A4500A0EB38 /* ParagraphViewModel.swift */,
+				AB2386B12C1FE9F000E6FACE /* AddVerseViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -424,6 +429,7 @@
 				AB355D542C180C9700B3DE16 /* BookCell.swift */,
 				AB355D5A2C18725400B3DE16 /* KeywordCell.swift */,
 				AB23869C2C18849E00E6FACE /* AddVerseVC.swift */,
+				AB4BDC032C20394C001FDA8F /* AddVerseContainerView.swift */,
 			);
 			path = AddVerseView;
 			sourceTree = "<group>";
@@ -588,6 +594,7 @@
 				3C4181632C0DC1E000D141FD /* Network.swift in Sources */,
 				A75908CB2C0FEDEF00415D6D /* DayTimeViewModel.swift in Sources */,
 				AB23869D2C18849E00E6FACE /* AddVerseVC.swift in Sources */,
+				AB4BDC042C20394C001FDA8F /* AddVerseContainerView.swift in Sources */,
 				AB66D3692C17688C000D72DA /* BookSearchVC.swift in Sources */,
 				3C73E29F2C1AB164004B1BF8 /* CurrentLevelCell.swift in Sources */,
 				AB355D552C180C9700B3DE16 /* BookCell.swift in Sources */,
@@ -599,6 +606,7 @@
 				7BE488B52C16E4CF00BDB92A /* ParagraphCollectionViewCell.swift in Sources */,
 				7BE488B32C16E29C00BDB92A /* ParagraphViewController.swift in Sources */,
 				A75D3D752C1B47D1006C2EB3 /* StringExtension.swift in Sources */,
+				AB2386B22C1FE9F000E6FACE /* AddVerseViewModel.swift in Sources */,
 				3C4181652C0DC4A100D141FD /* BookManager.swift in Sources */,
 				3C73E2992C1937C2004B1BF8 /* TodayVersesCell.swift in Sources */,
 				3C73E2962C17D8B8004B1BF8 /* MetricUtil.swift in Sources */,
