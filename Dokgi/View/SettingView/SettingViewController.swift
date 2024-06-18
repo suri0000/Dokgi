@@ -29,15 +29,7 @@ class SettingViewController: UIViewController{
         buttonTap()
         buttonTitle()
         switchOnOff()
-        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
-               for request in requests {
-                   print("Identifier: \(request.identifier)")
-                   print("Title: \(request.content.title)")
-                   print("Body: \(request.content.body)")
-                   print("Trigger: \(String(describing: request.trigger))")
-                   print("---")
-               }
-           }
+        NotificationCenter.default.addObserver(self, selector: #selector(checkNotificationSetting), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
     // MARK: - Layout
@@ -106,10 +98,18 @@ class SettingViewController: UIViewController{
             }
         }.disposed(by: disposeBag)
         
+        alarmView.remindSwitchBtn.rx.tap.subscribe { _ in
+            self.switchAlert()
+        }.disposed(by: disposeBag)
+        
         alarmView.writeSwitch.rx.isOn.subscribe(with: self) { (self, bool) in
             if UserDefaults.standard.bool(forKey: UserDefaultsKeys.notification.rawValue) == true {
                 self.viewModel.removePendingNotification(identifiers: "writeTime", time: DayTimeViewModel.remindTime.value, on: bool)
             }
+        }.disposed(by: disposeBag)
+        
+        alarmView.writeSwitchBtn.rx.tap.subscribe { _ in
+            self.switchAlert()
         }.disposed(by: disposeBag)
     }
     
@@ -120,6 +120,55 @@ class SettingViewController: UIViewController{
                 viewModel.sendLocalPushRemind(identifier: identifier, time: time)
             } else if identifier == "writeTime" {
                 viewModel.sendLocalPushWrite(identifier: identifier, time: time, day: day)
+            }
+        }
+    }
+    
+    func switchAlert() {
+        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+            DispatchQueue.main.async {
+                guard settings.authorizationStatus == .authorized else {
+                    
+                    let alert = UIAlertController(title: "알림", message: "기기 내 [설정]>[독기]>[알림]에서\n알림을 허용해주세요.", preferredStyle: .alert)
+                    
+                    alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+                    
+                    alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
+                            
+                            let settingUrl = NSURL(string: UIApplication.openSettingsURLString)!
+                            
+                            if UIApplication.shared.canOpenURL(settingUrl as URL) {
+                                
+                                
+                                UIApplication.shared.open(settingUrl as URL, options: self.convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: { (istrue) in })
+                            }
+                    }))
+                    self.present(alert, animated: true)
+                    return
+                }
+            }
+        }
+    }
+    func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+
+        return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)
+        })
+
+    }
+    @objc func checkNotificationSetting() {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            DispatchQueue.main.async {
+                if settings.authorizationStatus == .authorized {
+                    UserDefaults.standard.set(true, forKey: UserDefaultsKeys.notification.rawValue)
+                    self.alarmView.switchHidden(onoff: true)
+                } else if settings.authorizationStatus == .denied {
+                    UserDefaults.standard.set(false, forKey: UserDefaultsKeys.notification.rawValue)
+                    UserDefaults.standard.set(false, forKey: UserDefaultsKeys.writeSwitch.rawValue)
+                    UserDefaults.standard.set(false, forKey: UserDefaultsKeys.remindSwitch.rawValue)
+                    self.alarmView.writeSwitch.isOn = false
+                    self.alarmView.remindSwitch.isOn = false
+                    self.alarmView.switchHidden(onoff: false)
+                }
             }
         }
     }

@@ -73,8 +73,6 @@ class DayTimeViewModel {
             center.add(request) { (error) in
                 if let error = error {
                     print(error)
-                } else {
-                    print("send")
                 }
             }
         }
@@ -105,8 +103,6 @@ class DayTimeViewModel {
             center.add(request) { (error) in
                 if let error = error {
                     print(error)
-                } else {
-                    print("send")
                 }
             }
         }

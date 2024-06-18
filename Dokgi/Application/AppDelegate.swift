@@ -17,8 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         UNUserNotificationCenter.current().delegate = self
-                
-                let authOptions: UNAuthorizationOptions = [.alert, .sound] // 필요한 알림 권한을 설정
+        
+        let authOptions: UNAuthorizationOptions = [.alert, .sound] // 필요한 알림 권한을 설정
         UNUserNotificationCenter.current().requestAuthorization(
             options: authOptions,
             completionHandler: { didAllow, _ in
