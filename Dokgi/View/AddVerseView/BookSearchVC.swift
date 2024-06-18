@@ -17,6 +17,7 @@ class BookSearchVC: UIViewController {
     
     var searchResults: [Item] = []
     var isLoading = false
+    var isLoadingLast = false
     var query: String = ""
     var startIndex: Int = 1
     
@@ -183,6 +184,33 @@ class BookSearchVC: UIViewController {
         }
     }
     
+    func loadMore() {
+        if isLoading {
+            return
+        }
+        isLoading = true
+        startIndex += 1
+        
+        viewModel.fetchBooks(query: query, startIndex: startIndex) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let items):
+                if items.isEmpty {
+                    self.isLoadingLast = true
+                } else {
+                    self.searchResults.append(contentsOf: items)
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                }
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+            self.isLoading = false
+        }
+    }
+    
     @objc private func clearAllButtonTapped() {
         viewModel.clearRecentSearches()
         collectionView.reloadData()
@@ -236,16 +264,23 @@ extension BookSearchVC: UITableViewDelegate {
         dismiss(animated: true, completion: nil)
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let position = scrollView.contentOffset.y
-        let contentHeight = scrollView.contentSize.height
-        let scrollViewHeight = scrollView.frame.size.height
-        
-        if position > (contentHeight - 100 - scrollViewHeight) && !isLoading {
-            startIndex += 10
-            fetchBooks(query: query, startIndex: startIndex)
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == searchResults.count - 1 && !isLoading {
+            // 테이블 뷰의 마지막 행이 표시되고 데이터를 불러오는 중이 아닌 경우에만 loadMore() 함수를 호출합니다.
+            loadMore()
         }
     }
+    
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        let position = scrollView.contentOffset.y
+//        let contentHeight = scrollView.contentSize.height
+//        let scrollViewHeight = scrollView.frame.size.height
+//        
+//        if position > (contentHeight - 100 - scrollViewHeight) && !isLoading {
+//            startIndex += 10
+//            fetchBooks(query: query, startIndex: startIndex)
+//        }
+//    }
 }
 
 // MARK: - UICollectionViewDataSource

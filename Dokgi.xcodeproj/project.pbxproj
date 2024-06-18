@@ -845,7 +845,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6794YDXXFY;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Dokgi/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "이 앱은 문서 스캔을 위해 카메라를 사용합니다.";
