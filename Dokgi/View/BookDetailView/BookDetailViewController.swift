@@ -269,6 +269,7 @@ class BookDetailViewController: UIViewController {
         let addVerseVC = AddVerseVC()
         addVerseVC.viewModel.selectedBook = viewModel.makeAddVerseViewData()
         self.navigationController?.pushViewController(addVerseVC, animated: true)
+        addVerseVC.displayBookInfo()
     }
 }
 // MARK: - PassageTableView
