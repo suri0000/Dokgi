@@ -92,13 +92,12 @@ class AddVerseContainerView: UIView {
         $0.text = "텍스트를 입력하세요"
         $0.textContainerInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
         $0.font = Pretendard.regular.dynamicFont(style: .callout)
-        $0.textColor = .placeholderText
-        $0.showsVerticalScrollIndicator = false
-        
+                $0.showsVerticalScrollIndicator = false
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 8.0 // 원하는 값으로 설정
         let attributedString = NSAttributedString(string: $0.text ?? "", attributes: [.paragraphStyle: paragraphStyle])
         $0.attributedText = attributedString
+        $0.textColor = .placeholderText
     }
     
     let characterCountLabel = UILabel().then {

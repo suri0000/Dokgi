@@ -237,7 +237,6 @@ extension AddVerseVC: UITextFieldDelegate {
 
 // MARK: - CollectionView
 extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.keywords.count
     }
