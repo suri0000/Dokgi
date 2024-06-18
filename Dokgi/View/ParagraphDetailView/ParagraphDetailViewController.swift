@@ -138,7 +138,7 @@ class ParagraphDetailViewController: UIViewController {
                 self.containerView.pageTextField.isHidden = false
                 self.containerView.pageSegment.isHidden = false
                 self.containerView.pageWriteLbl.isHidden = true
-                self.containerView.pageSegment.selectedIndex = self.viewModel.detailParagraph.value.pageType == "%" ? 0 : 1
+                self.containerView.pageSegment.selectedIndex = self.viewModel.detailParagraph.value.pageType == "Page" ? 0 : 1
             } else {
                 self.containerView.editCompleteLayout()
                 self.sheetPresentationController?.detents = [self.smallDetent]

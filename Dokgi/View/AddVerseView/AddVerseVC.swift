@@ -92,6 +92,16 @@ class AddVerseVC: UIViewController {
     @objc func pageSegmentButtonTapped(_ sender: UIButton) {
         guard let index = containerView.pageSegment.buttons.firstIndex(of: sender) else { return }
         containerView.pageSegment.selectedIndex = index
+        
+        switch index {
+        case 0:
+            viewModel.pageType = "Page"
+        case 1:
+            viewModel.pageType  = "%"
+        default:
+            break
+        }
+        
         print("selectedIndex changed to \(containerView.pageSegment.selectedIndex)")
     }
     

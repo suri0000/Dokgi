@@ -53,6 +53,8 @@ class AddVerseViewModel {
         let verse = Verse(name: book.title, author: book.author, image: book.image, text: verseText, pageNumber: pageNumber, pageType: pageType, keywords: keywords, date: currentDate)
         
         CoreDataManager.shared.saveData(verse: verse)
+        print("Saving verse with pageType: \(pageType), verseText: \(verseText), pageNumberText: \(pageNumberText), keywords: \(keywords)")
+                completion(true) // Simulate success
         completion(true)
     }
 
