@@ -20,14 +20,17 @@ protocol BookSelectionDelegate: AnyObject {
 class AddVerseVC: UIViewController {
     
     let viewModel = AddVerseViewModel()
-        let containerView = AddVerseContainerView()
-        let scrollView = UIScrollView().then {
-            $0.showsVerticalScrollIndicator = false
-            $0.alwaysBounceVertical = true
-            $0.contentInsetAdjustmentBehavior = .never
-        }
+    let containerView = AddVerseContainerView()
+    
+    let scrollView = UIScrollView().then {
+        $0.showsVerticalScrollIndicator = false
+        $0.alwaysBounceVertical = true
+        $0.contentInsetAdjustmentBehavior = .never
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        containerView.pageSegment.selectedIndex = 0
         setupViews()
         initLayout()
         setupActions()
@@ -69,14 +72,16 @@ class AddVerseVC: UIViewController {
         containerView.scanButton.addTarget(self, action: #selector(scanButtonTapped(_:)), for: .touchUpInside)
         containerView.searchButton.addTarget(self, action: #selector(searchButtonTapped(_:)), for: .touchUpInside)
         containerView.recordButton.addTarget(self, action: #selector(recordButtonTapped(_:)), for: .touchUpInside)
-        containerView.betterSegmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
         containerView.keywordField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        
+        containerView.pageSegment.buttons.enumerated().forEach { index, button in
+            button.addTarget(self, action: #selector(pageSegmentButtonTapped(_:)), for: .touchUpInside)
+        }
     }
     
     @objc func scanButtonTapped(_ sender: UIButton) {
         viewModel.visionKit(presenter: self)
     }
-
     
     @objc func searchButtonTapped(_ sender: UIButton) {
         let bookSearchVC = BookSearchVC()
@@ -84,8 +89,10 @@ class AddVerseVC: UIViewController {
         present(bookSearchVC, animated: true, completion: nil)
     }
     
-    @objc func segmentedControlValueChanged(_ sender: BetterSegmentedControl) {
-        viewModel.pageType = sender.index == 0 ? "Page" : "%"
+    @objc func pageSegmentButtonTapped(_ sender: UIButton) {
+        guard let index = containerView.pageSegment.buttons.firstIndex(of: sender) else { return }
+        containerView.pageSegment.selectedIndex = index
+        print("selectedIndex changed to \(containerView.pageSegment.selectedIndex)")
     }
     
     @objc func recordButtonTapped(_ sender: UIButton) {

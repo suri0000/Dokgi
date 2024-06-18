@@ -10,7 +10,7 @@ import SnapKit
 import Then
 
 class SegmentControlView: UIView {
-    let segmentTitles = ["%", "Page"]
+    let segmentTitles = ["Page", "%"]
     var buttons: [UIButton] = []
     
     var selectedIndex: Int = 0 {

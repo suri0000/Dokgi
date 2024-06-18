@@ -192,9 +192,8 @@ extension BookSearchVC: UISearchBarDelegate {
             noResultsLabel.isHidden = true
             tableView.isHidden = false
             
-            viewModel.saveRecentSearch(query) // 검색 쿼리 저장
+            viewModel.saveRecentSearch(query)
             
-            // 필요한 경우 여기서 키보드를 닫을 수도 있습니다
             searchBar.resignFirstResponder()
         }
     }
