@@ -37,6 +37,19 @@ class BookSearchVC: UIViewController {
         $0.searchTextField.font = Pretendard.regular.dynamicFont(style: .subheadline)
     }
     
+    let recentSearchLabel = UILabel().then {
+        $0.text = "최근 검색"
+        $0.font = Pretendard.semibold.dynamicFont(style: .headline)
+        $0.textColor = .black
+    }
+    
+    let clearAllButton = UIButton().then {
+        $0.setTitle("전체 삭제", for: .normal)
+        $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
+        $0.setTitleColor(.placeholderText, for: .normal)
+        $0.addTarget(BookSearchVC.self, action: #selector(clearAllButtonTapped), for: .touchUpInside)
+    }
+    
     var isLoading = false
     var query: String = ""
     var startIndex: Int = 1
@@ -57,6 +70,8 @@ class BookSearchVC: UIViewController {
     
     private func addSubviews() {
         view.addSubview(searchBar)
+        view.addSubview(recentSearchLabel)
+        view.addSubview(clearAllButton)
         view.addSubview(tableView)
     }
     
@@ -64,6 +79,16 @@ class BookSearchVC: UIViewController {
         searchBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(16)
             $0.horizontalEdges.equalToSuperview().inset(16)
+        }
+        
+        recentSearchLabel.snp.makeConstraints {
+            $0.top.equalTo(searchBar.snp.bottom).offset(16)
+            $0.leading.equalToSuperview().offset(24)
+        }
+        
+        clearAllButton.snp.makeConstraints {
+            $0.centerY.equalTo(recentSearchLabel)
+            $0.trailing.equalToSuperview().inset(24)
         }
         
         tableView.snp.makeConstraints {
@@ -94,6 +119,10 @@ class BookSearchVC: UIViewController {
                 self.isLoading = false
             }
         }
+    }
+    
+    @objc private func clearAllButtonTapped() {
+        print("전체 삭제")
     }
 }
 
