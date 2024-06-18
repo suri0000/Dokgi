@@ -18,7 +18,6 @@ class CurrentLevelCell: UICollectionViewCell {
     let descrptionLabel = UILabel()
     let lengthLabel = UILabel()
     let cardImageView = UIImageView()
-    var blurEffectView = UIVisualEffectView()
     let hideView = UIView()
 
     
@@ -27,7 +26,6 @@ class CurrentLevelCell: UICollectionViewCell {
         configureUI()
         setupConstraints()
         setUpShadow()
-//        setupBlur(alpha: 0.8)
     }
     
     required init?(coder: NSCoder) {
@@ -125,25 +123,7 @@ class CurrentLevelCell: UICollectionViewCell {
         contentView.layer.masksToBounds = true
     }
 
-    func setupBlur(alpha: CGFloat = 0.5) {
-        // 블러 효과 생성
-        let blurEffect = UIBlurEffect(style: .systemThinMaterialLight)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        
-        // 블러 효과 뷰의 크기와 위치 설정
-        blurEffectView.frame = self.contentView.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        blurEffectView.backgroundColor = .white.withAlphaComponent(0.5)
-        
-        // 블러 효과 뷰를 셀의 contentView에 추가
-        self.contentView.addSubview(blurEffectView)
-        
-        // 블러 효과의 알파값 설정
-        blurEffectView.alpha = alpha
-        
-        self.blurEffectView = blurEffectView
-    }
-    
+    // 다음 레벨셀 설정
     func setupNextLevelCell(_ level : Int) {
         hideView.backgroundColor = .white
         let nextLevel = UILabel()
