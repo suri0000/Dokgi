@@ -10,7 +10,6 @@ import VisionKit
 
 class AddVerseViewModel {
     // MARK: - Properties
-    
     var selectedBook: Item?
     var images: [UIImage] = []
     var keywords: [String] = []
@@ -45,7 +44,7 @@ class AddVerseViewModel {
         
         let currentDate = Date()
         
-        // Create Verse instance
+        // Verse 인스턴스 생성
         let verse = Verse(name: book.title, author: book.author, image: book.image, text: verseText, pageNumber: pageNumber, pageType: pageType, keywords: keywords, date: currentDate)
         
         CoreDataManager.shared.saveData(verse: verse)

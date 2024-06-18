@@ -16,6 +16,9 @@ class BookSearchVC: UIViewController {
     weak var delegate: BookSelectionDelegate?
     
     var searchResults: [Item] = []
+    var isLoading = false
+    var query: String = ""
+    var startIndex: Int = 1
     
     let tableView = UITableView().then {
         $0.rowHeight = 150
@@ -89,10 +92,6 @@ class BookSearchVC: UIViewController {
             $0.showsHorizontalScrollIndicator = false
         }
     }()
-    
-    var isLoading = false
-    var query: String = ""
-    var startIndex: Int = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
