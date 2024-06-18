@@ -11,7 +11,7 @@ import UIKit
 
 class RecentSearchCell: UICollectionViewCell {
     
-    static let reuseIdentifier = "KeywordCell"
+    static let identifier = "RecentSearchCell"
     
     private let label = UILabel().then {
         $0.textColor = .brightBlue
@@ -57,7 +57,7 @@ class RecentSearchCell: UICollectionViewCell {
     @objc private func deleteButtonTapped() {
         guard let collectionView = superview as? UICollectionView else { return }
         guard let indexPath = collectionView.indexPath(for: self) else { return }
-        (collectionView.delegate as? AddVerseVC)?.removeKeyword(at: indexPath)
+        (collectionView.delegate as? BookSearchVC)?.removeRecentSearch(at: indexPath)
     }
     
     func configure(with text: String) {
