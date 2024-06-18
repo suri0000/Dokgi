@@ -19,13 +19,15 @@ class CurrentLevelCell: UICollectionViewCell {
     let lengthLabel = UILabel()
     let cardImageView = UIImageView()
     var blurEffectView = UIVisualEffectView()
+    let hideView = UIView()
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
         setupConstraints()
         setUpShadow()
-        setupBlur(alpha: 0.8)
+//        setupBlur(alpha: 0.8)
     }
     
     required init?(coder: NSCoder) {
@@ -125,7 +127,7 @@ class CurrentLevelCell: UICollectionViewCell {
 
     func setupBlur(alpha: CGFloat = 0.5) {
         // 블러 효과 생성
-        let blurEffect = UIBlurEffect(style: .regular)
+        let blurEffect = UIBlurEffect(style: .systemThinMaterialLight)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         
         // 블러 효과 뷰의 크기와 위치 설정
@@ -140,6 +142,47 @@ class CurrentLevelCell: UICollectionViewCell {
         blurEffectView.alpha = alpha
         
         self.blurEffectView = blurEffectView
+    }
+    
+    func setupNextLevelCell(_ level : Int) {
+        hideView.backgroundColor = .white
+        let nextLevel = UILabel()
+        let currentLevel = UILabel()
+        let questionMark = UILabel()
+        
+        contentView.addSubview(hideView)
+        [nextLevel, currentLevel, questionMark].forEach {
+            hideView.addSubview($0)
+        }
+        
+        nextLevel.text = "Level \(level + 1)"
+        nextLevel.font = Pretendard.bold.dynamicFont(style: .title3)
+        currentLevel.text = "Level \(level)을 다 달성하면 보입니다"
+        currentLevel.font = Pretendard.regular.dynamicFont(style: .callout)
+        currentLevel.textColor = .alarmSettingText
+        questionMark.font = .systemFont(ofSize: 60, weight: .heavy)
+        questionMark.textColor = .deepSkyBlue
+        questionMark.text = "?"
+        
+        hideView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        nextLevel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(30)
+            $0.centerX.equalToSuperview()
+        }
+        
+        currentLevel.snp.makeConstraints {
+            $0.top.equalTo(nextLevel.snp.bottom).offset(4)
+            $0.centerX.equalToSuperview()
+        }
+        
+        questionMark.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(currentLevel.snp.bottom)
+        }
+        
     }
 }
 
