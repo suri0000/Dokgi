@@ -304,6 +304,7 @@ extension BookSearchVC: UICollectionViewDelegate {
         let recentSearches = viewModel.loadRecentSearches()
         searchBar.text = recentSearches[indexPath.item]
         searchBarSearchButtonClicked(searchBar)
+        collectionView.reloadData()
     }
 }
 
