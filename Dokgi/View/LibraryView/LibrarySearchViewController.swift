@@ -90,6 +90,9 @@ class LibrarySearchViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
         CoreDataManager.shared.readData()
+        if sortButton.titleLabel?.text != "최신순" {
+            self.libraryViewModel.dataOldest()
+        }
     }
     
     private func setUI() {
