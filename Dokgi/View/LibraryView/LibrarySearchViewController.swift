@@ -74,7 +74,9 @@ class LibrarySearchViewController: UIViewController {
         libraryViewModel.libraryData.subscribe(with: self) { (self, bookData) in
             self.libraryCollectionView.reloadData()
         }.disposed(by: disposeBag)
-        
+        self.searchBar.searchTextField.rx.controlEvent(.editingDidBegin).subscribe(with: self) { (self, _) in
+            self.searchBar.showsCancelButton = true
+        }.disposed(by: disposeBag)
         self.searchBar.rx.text.debounce(.milliseconds(500), scheduler: MainScheduler.instance).subscribe(with: self) { (self, text) in
             guard let text = text else { return }
             self.libraryViewModel.dataSearch(text: text)
@@ -82,6 +84,12 @@ class LibrarySearchViewController: UIViewController {
         
         self.searchBar.rx.searchButtonClicked.subscribe(with: self) { (self, _) in
             self.searchBar.resignFirstResponder()
+            self.searchBar.showsCancelButton = false
+        }.disposed(by: disposeBag)
+        
+        self.searchBar.rx.cancelButtonClicked.subscribe(with: self) { (self, _) in
+            self.searchBar.resignFirstResponder()
+            self.searchBar.showsCancelButton = false
         }.disposed(by: disposeBag)
     }
     
