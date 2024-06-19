@@ -8,15 +8,29 @@ import CoreData
 import RxCocoa
 import RxSwift
 import UIKit
+import WidgetKit
 
 class CoreDataManager {
     static let shared = CoreDataManager()
     
     var bookData = BehaviorRelay<[Verse]>(value: [])
     
-    var persistent: NSPersistentContainer? {
-        (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
-    }
+    //    var persistent: NSPersistentContainer? {
+    //        (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
+    //    }
+    
+    var persistent: NSPersistentContainer? = {
+        let storeURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.dogaegeol6mo.Dokgi")!.appendingPathComponent("Dokgi.sqlite")
+        let storeDescription = NSPersistentStoreDescription(url: storeURL)
+        let container = NSPersistentContainer(name: "Dokgi")
+        container.persistentStoreDescriptions = [storeDescription]
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        return container
+    }()
     
     func saveData(verse: Verse) {
         guard let context = self.persistent?.viewContext else { return }
@@ -32,6 +46,7 @@ class CoreDataManager {
             newVerse.date = verse.date
             newVerse.keywords = verse.keywords
             try context.save()
+            WidgetCenter.shared.reloadTimelines(ofKind: "DokgiWidget")
         } catch {
             print("Failed to fetch or save data: \(error)")
         }

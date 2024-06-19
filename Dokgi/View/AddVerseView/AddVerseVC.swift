@@ -20,14 +20,17 @@ protocol BookSelectionDelegate: AnyObject {
 class AddVerseVC: UIViewController {
     
     let viewModel = AddVerseViewModel()
-        let containerView = AddVerseContainerView()
-        let scrollView = UIScrollView().then {
-            $0.showsVerticalScrollIndicator = false
-            $0.alwaysBounceVertical = true
-            $0.contentInsetAdjustmentBehavior = .never
-        }
+    let containerView = AddVerseContainerView()
+    
+    let scrollView = UIScrollView().then {
+        $0.showsVerticalScrollIndicator = false
+        $0.alwaysBounceVertical = true
+        $0.contentInsetAdjustmentBehavior = .never
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        containerView.pageSegment.selectedIndex = 0
         setupViews()
         initLayout()
         setupActions()
@@ -69,14 +72,15 @@ class AddVerseVC: UIViewController {
         containerView.scanButton.addTarget(self, action: #selector(scanButtonTapped(_:)), for: .touchUpInside)
         containerView.searchButton.addTarget(self, action: #selector(searchButtonTapped(_:)), for: .touchUpInside)
         containerView.recordButton.addTarget(self, action: #selector(recordButtonTapped(_:)), for: .touchUpInside)
-        containerView.betterSegmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
         containerView.keywordField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        containerView.pageSegment.buttons.enumerated().forEach { index, button in
+            button.addTarget(self, action: #selector(pageSegmentButtonTapped(_:)), for: .touchUpInside)
+        }
     }
     
     @objc func scanButtonTapped(_ sender: UIButton) {
         viewModel.visionKit(presenter: self)
     }
-
     
     @objc func searchButtonTapped(_ sender: UIButton) {
         let bookSearchVC = BookSearchVC()
@@ -84,8 +88,10 @@ class AddVerseVC: UIViewController {
         present(bookSearchVC, animated: true, completion: nil)
     }
     
-    @objc func segmentedControlValueChanged(_ sender: BetterSegmentedControl) {
-        viewModel.pageType = sender.index == 0 ? "Page" : "%"
+    @objc func pageSegmentButtonTapped(_ sender: UIButton) {
+        guard let index = containerView.pageSegment.buttons.firstIndex(of: sender) else { return }
+        containerView.pageSegment.selectedIndex = index
+        viewModel.pageType = index == 0 ? "Page" : "%"
     }
     
     @objc func recordButtonTapped(_ sender: UIButton) {
@@ -144,11 +150,11 @@ class AddVerseVC: UIViewController {
     static func createAttributedString(for text: String) -> NSAttributedString {
         let attributedString = NSMutableAttributedString(string: text)
         
-        // "키워드" 부분에 대한 설정
+        // "키워드" 부분 설정
         let keywordRange = (text as NSString).range(of: "키워드")
         attributedString.addAttributes([.font: Pretendard.semibold.dynamicFont(style: .headline)], range: keywordRange)
         
-        // "선택" 부분에 대한 설정
+        // "선택" 부분 설정
         let selectionRange = (text as NSString).range(of: "(선택)")
         attributedString.addAttributes([.font: Pretendard.regular.dynamicFont(style: .headline), .foregroundColor: UIColor.gray], range: selectionRange)
         
@@ -220,8 +226,10 @@ extension AddVerseVC: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if let text = textField.text, text.isEmpty {
-            viewModel.keywords.append("")
-            containerView.keywordCollectionView.reloadData()
+            if !viewModel.keywords.contains("") {
+                viewModel.keywords.append("")
+                containerView.keywordCollectionView.reloadData()
+            }
         }
     }
     
@@ -233,10 +241,6 @@ extension AddVerseVC: UITextFieldDelegate {
                 viewModel.keywords[viewModel.keywords.count - 1] = text
             }
             containerView.keywordCollectionView.reloadData()
-        }
-        if let text = textField.text, text.count > 20 {
-            let index = text.index(text.startIndex, offsetBy: 20)
-            textField.text = String(text[..<index])
         }
     }
     
@@ -261,9 +265,10 @@ extension AddVerseVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         let reversedIndex = viewModel.keywords.count - 1 - indexPath.item
         let keyword = viewModel.keywords[reversedIndex]
         cell.configure(with: keyword)
+        cell.layer.cornerRadius = 14
+        cell.clipsToBounds = true
         cell.layer.borderColor = UIColor.lightSkyBlue.cgColor
         cell.layer.borderWidth = 2
-        
         return cell
     }
     
@@ -301,7 +306,6 @@ extension AddVerseVC: UITextViewDelegate {
         let currentCount = textView.text.count
         containerView.characterCountLabel.text = "\(currentCount)/200"
         
-        // 최대 200자 제한
         if currentCount > 200 {
             textView.text = String(textView.text.prefix(200))
             containerView.characterCountLabel.text = "200/200"

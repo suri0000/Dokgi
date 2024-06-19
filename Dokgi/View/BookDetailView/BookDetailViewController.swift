@@ -171,7 +171,7 @@ class BookDetailViewController: UIViewController {
             $0.top.equalTo(passageTitleLabel.snp.bottom).offset(11)
             $0.horizontalEdges.equalToSuperview().inset(20)
             $0.height.equalTo(96 * viewModel.passagesData.value.count)
-            $0.bottom.equalToSuperview().inset(10)
+            $0.bottom.equalToSuperview().inset(60)
         }
         
         backgroundBookImage.snp.makeConstraints {
@@ -275,6 +275,7 @@ class BookDetailViewController: UIViewController {
         let addVerseVC = AddVerseVC()
         addVerseVC.viewModel.selectedBook = viewModel.makeAddVerseViewData()
         self.navigationController?.pushViewController(addVerseVC, animated: true)
+        addVerseVC.displayBookInfo()
     }
 }
 // MARK: - PassageTableView

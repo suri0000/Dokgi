@@ -15,4 +15,5 @@ enum UserDefaultsKeys: String {
     case writeSwitch 
     case lauchedBefore
     case notification
+    case recentSearches
 }
