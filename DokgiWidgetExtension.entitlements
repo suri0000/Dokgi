@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.com.dogaegeol6mo.Dokgi</string>
+		<string>group.com.dogaegeol6mo.Dokgi.DokgiWidget</string>
 	</array>
 </dict>
 </plist>

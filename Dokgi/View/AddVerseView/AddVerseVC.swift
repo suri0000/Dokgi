@@ -110,6 +110,11 @@ class AddVerseVC: UIViewController {
             return
         }
         
+        guard let pageNumberText = containerView.pageNumberTextField.text, let pageNumber = Int(pageNumberText) else {
+            showAlert(title: "입력 값 오류", message: "숫자를 입력하세요.")
+            return
+        }
+        
         if viewModel.pageType == "Page" && Int((containerView.pageNumberTextField.text)!) ?? 0 <= 0 {
             showAlert(title: "페이지 값 오류", message: "0 이상을 입력하세요.")
             return
