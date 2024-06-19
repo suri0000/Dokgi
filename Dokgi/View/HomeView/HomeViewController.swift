@@ -246,6 +246,7 @@ class HomeViewController: UIViewController {
             .subscribe(onNext: { [ weak self ] value in
                 guard let self else { return }
                 self.lengthSlider.value = Float(value)
+                nextLengthLabel.text = "다음 레벨까지 \(Int(Float(viewModel.currentLevelPercent.value) * 100)) % 달성했습니다!"
                 self.currentLevelBubble.snp.remakeConstraints {
                     $0.width.equalTo(38)
                     $0.height.equalTo(41)
@@ -338,7 +339,6 @@ extension HomeViewController: UICollectionViewDataSource {
         if collectionView == currentLevelCollectionView {
             let currentLevel = viewModel.currentLevel
             return min(currentLevel.value + 1, viewModel.levelCards.count)
-            //        viewModel.levelCards.count //이미지 확인용
         } else if collectionView == todayVersesColletionView {
             
             switch viewModel.randomVerses.value.count {
@@ -363,6 +363,7 @@ extension HomeViewController: UICollectionViewDataSource {
             if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
                 cell.hideView.isHidden = false
                 cell.setupNextLevelCell(viewModel.currentLevel.value)
+                print("다음레벨 가리기")
             } else {
                 cell.hideView.isHidden = true
             }

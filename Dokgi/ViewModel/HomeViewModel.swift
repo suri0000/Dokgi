@@ -53,7 +53,6 @@ class HomeViewModel {
                 
                 // 현재, 다음레벨 이미지 적용
                 let currentLevelImage = self.levelCards[max(0, verseLevel - 1)].cardImage
-                let nextLevelImage = self.levelCards[min(verseLevel, self.levelCards.count - 1)].cardImage
                 
                 self.currentLevel.accept(verseLevel)
                 self.currentLevelPercent.accept(currentLevelPercent)
