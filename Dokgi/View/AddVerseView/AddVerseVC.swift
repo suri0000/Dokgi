@@ -303,6 +303,7 @@ extension AddVerseVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         guard textView.textColor == .placeholderText else { return }
         textView.textColor = .label
+        textView.font = Pretendard.regular.dynamicFont(style: .body)
         textView.text = nil
         updateCharacterCountLabel()
     }
