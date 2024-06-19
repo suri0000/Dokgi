@@ -88,11 +88,11 @@ class CoreDataManager {
         }
     }
     
-    func updateData(verse: Verse) {
+    func updateData(verse: Verse, before: String) {
         guard let context = self.persistent?.viewContext else { return }
         let fetchRequest: NSFetchRequest<ParagraphEntity> = ParagraphEntity.fetchRequest()
         let namePredicate = NSPredicate(format: "name == %@", verse.name)
-        let textPredicate = NSPredicate(format: "text == %@", verse.text)
+        let textPredicate = NSPredicate(format: "text == %@", before)
         fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [namePredicate, textPredicate])
         
         do {
@@ -101,6 +101,8 @@ class CoreDataManager {
                 let book = books.first
                 book?.text = verse.text
                 book?.keywords = verse.keywords
+                book?.pageNum = Int32(verse.pageNumber)
+                book?.pageType = verse.pageType == "%" ? true : false
                 try context.save()
             }
         } catch {

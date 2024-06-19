@@ -85,6 +85,7 @@ class HomeViewController: UIViewController {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
+        CoreDataManager.shared.readData()
     }
     
     func setupConstraints() {
@@ -152,8 +153,8 @@ class HomeViewController: UIViewController {
         
         currentLevelImage.snp.makeConstraints {
             $0.width.height.equalTo(28)
-            $0.top.equalTo(currentLevelBubble.snp.top).offset(8)
-            $0.centerX.equalTo(currentLevelBubble.snp.centerX)
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview().offset(1)
         }
         
         nextLevelBubble.snp.makeConstraints {
@@ -164,8 +165,7 @@ class HomeViewController: UIViewController {
         }
         
         questionMark.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
-            
+            $0.centerX.centerY.equalToSuperview().offset(0.5)
         }
         
         todayVersesLabel.snp.makeConstraints {
@@ -214,6 +214,7 @@ class HomeViewController: UIViewController {
         questionMark.font = .systemFont(ofSize: 30, weight: .heavy)
         questionMark.textColor = .deepSkyBlue
         questionMark.text = "?"
+        questionMark.textAlignment = .center
         todayVersesLabel.text = "오늘의 구절"
         todayVersesLabel.font = Pretendard.semibold.dynamicFont(style: .title3)
         todayVersesColletionView.layer.cornerRadius = 10

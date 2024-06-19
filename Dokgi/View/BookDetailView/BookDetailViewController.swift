@@ -90,7 +90,7 @@ class BookDetailViewController: UIViewController {
         $0.isScrollEnabled = false
     }
     
-    private let addPassageButton = UIButton().then {
+    lazy var addPassageButton = UIButton().then {
         $0.backgroundColor = .charcoalBlue
         $0.layer.cornerRadius = 15
         $0.clipsToBounds = true
@@ -125,13 +125,21 @@ class BookDetailViewController: UIViewController {
         
         blurLayer(layer: gradientLayer, view: gradientLayerView)
         blurLayer(layer: buttonBackgroundLayer, view: buttonBackgroundView)
+        passageTableView.snp.remakeConstraints {
+            $0.top.equalTo(passageTitleLabel.snp.bottom).offset(11)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.height.equalTo(96 * viewModel.passagesData.value.count)
+            $0.bottom.equalToSuperview().inset(60)
+        }
+
     }
     // MARK: - UI
     private func setConstraints() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentsView)
         addPassageButton.addSubview(buttonLabel)
-        
+        view.addSubview(buttonBackgroundView)
+        view.addSubview(addPassageButton)
         [backgroundBookImage,
          blurView,
          gradientLayerView,
@@ -139,9 +147,7 @@ class BookDetailViewController: UIViewController {
          bookInfoStackView,
          firstDateRecordStackView,
          passageTitleLabel,
-         passageTableView,
-         buttonBackgroundView,
-         addPassageButton].forEach {
+         passageTableView].forEach {
             contentsView.addSubview($0)
         }
         

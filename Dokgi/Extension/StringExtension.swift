@@ -16,4 +16,12 @@ extension String {
         
         return formatter.date(from: self) ?? Date()
     }
+    
+    func percent() -> String {
+        return Int(self)! > 100 ? "100" : self
+    }
+    
+    func page() -> String {
+        return Int(self)! == 0 ? "1" : self
+    }
 }

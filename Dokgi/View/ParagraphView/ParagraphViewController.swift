@@ -55,7 +55,7 @@ class ParagraphViewController: UIViewController {
         return collectionView
     }()
 
-    private var searchResultItems: [(String, String)] = [] {
+    private var searchResultItems: [(String, Date)] = [] {
         didSet {
             if let layout = paragraphCollectionView.collectionViewLayout as? ParagraphCollectionViewLayout {
                 layout.invalidateCache()
@@ -86,6 +86,12 @@ class ParagraphViewController: UIViewController {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
+        if sortButton.titleLabel?.text != "최신순" {
+            let sortedPassageAndDate = viewModel.paragraphData.value.sorted { $0.1 < $1.1 }
+            
+            isFiltering ? searchResultItems.sort { $0.1 < $1.1 } : viewModel.paragraphData.accept(sortedPassageAndDate)
+        }
+        self.paragraphCollectionView.reloadData()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -397,7 +403,8 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
         
         let (text, date) = isFiltering ? searchResultItems[indexPath.item] : viewModel.paragraphData.value[indexPath.item]
         cell.paragraphLabel.text = text
-        cell.dateLabel.text = date
+        let dateString = String(date.toString()).suffix(10)
+        cell.dateLabel.text = String(dateString)
         
         return cell
     }
@@ -405,7 +412,7 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
     func collectionView(_ collectionView: UICollectionView, heightForTextAtIndexPath indexPath: IndexPath) -> CGFloat {
         let text = isFiltering ? searchResultItems[indexPath.item].0 : viewModel.paragraphData.value[indexPath.item].0
         let date = isFiltering ? searchResultItems[indexPath.item].1 : viewModel.paragraphData.value[indexPath.item].1
-        return calculateCellHeight(for: text, for: date, in: collectionView)
+        return calculateCellHeight(for: text, for: date.toString(), in: collectionView)
     }
     
     func heightForText(_ text: String, width: CGFloat) -> CGFloat {
@@ -451,15 +458,18 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
     
     func tappedDeleteButton(in cell: ParagraphCollectionViewCell) {
         guard let indexPath = paragraphCollectionView.indexPath(for: cell) else { return }
-        var currentParagraph = viewModel.paragraphData.value
+        self.viewModel.selectParagraph(text: isFiltering ? searchResultItems[indexPath.item].0 : viewModel.paragraphData.value[indexPath.item].0, at: indexPath.item)
+        var currentParagraph = isFiltering ? searchResultItems : viewModel.paragraphData.value
         currentParagraph.remove(at: indexPath.item)
         viewModel.paragraphData.accept(currentParagraph)
+        searchResultItems = currentParagraph
+        CoreDataManager.shared.deleteData(verse: viewModel.detailParagraph.value)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let modalVC = ParagraphDetailViewController()
         
-        viewModel.selectParagraph(at: indexPath.item)
+        viewModel.selectParagraph(text: isFiltering ? searchResultItems[indexPath.item].0 : viewModel.paragraphData.value[indexPath.item].0, at: indexPath.item)
         modalVC.viewModel.detailParagraph.accept(viewModel.detailParagraph.value)
         present(modalVC, animated: true, completion: nil)
     }
@@ -471,6 +481,7 @@ extension ParagraphViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         self.isFiltering = true
         self.searchBar.showsCancelButton = true
+        searchResultItems = viewModel.paragraphData.value
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
