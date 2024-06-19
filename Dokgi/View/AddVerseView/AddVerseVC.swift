@@ -110,6 +110,19 @@ class AddVerseVC: UIViewController {
             return
         }
         
+        guard let pageNumberText = containerView.pageNumberTextField.text, let pageNumber = Int(pageNumberText) else {
+            showAlert(title: "입력 값 오류", message: "숫자를 입력하세요.")
+            return
+        }
+        
+        if viewModel.pageType == "Page" && Int((containerView.pageNumberTextField.text)!) ?? 0 <= 0 {
+            showAlert(title: "페이지 값 오류", message: "0 이상을 입력하세요.")
+            return
+        } else if viewModel.pageType == "%" && Int((containerView.pageNumberTextField.text)!) ?? 101 > 100 {
+            showAlert(title: "% 값 오류", message: "100이하를 입력하세요.")
+            return
+        }
+        
         viewModel.saveVerse(selectedBook: viewModel.selectedBook,
                             verseText: containerView.verseTextView.text ?? "",
                             pageNumberText: containerView.pageNumberTextField.text ?? "",
@@ -189,8 +202,12 @@ class AddVerseVC: UIViewController {
             }
             
             let recognizedStrings = observations.compactMap { $0.topCandidates(1).first?.string }
+            let joinedString = recognizedStrings.joined(separator: "\n")
+            let limitedString = String(joinedString.prefix(200))
+            
             DispatchQueue.main.async {
-                self?.containerView.verseTextView.text = recognizedStrings.joined(separator: "\n")
+                self?.viewModel.recognizedText = limitedString
+                self?.containerView.verseTextView.text = self?.viewModel.recognizedText
             }
         }
         request.revision = VNRecognizeTextRequestRevision3
@@ -204,7 +221,7 @@ class AddVerseVC: UIViewController {
             print("텍스트 인식 수행 실패: \(error.localizedDescription)")
         }
     }
-    
+
     func removeKeyword(at indexPath: IndexPath) {
         let reversedIndex = viewModel.keywords.count - 1 - indexPath.item
         viewModel.keywords.remove(at: reversedIndex)
@@ -216,8 +233,12 @@ class AddVerseVC: UIViewController {
 extension AddVerseVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let keyword = textField.text, !keyword.isEmpty {
-            viewModel.keywords[viewModel.keywords.count - 1] = keyword
-            containerView.keywordCollectionView.reloadData()
+            if viewModel.keywords.count < 11 { // 10일 경우 alert 반복
+                viewModel.keywords[textField.tag] = keyword
+                containerView.keywordCollectionView.reloadData()
+            } else {
+                showAlert(message: "키워드는 최대 10개까지 입력할 수 있습니다.")
+            }
         }
         textField.text = ""
         textField.resignFirstResponder()
@@ -227,18 +248,21 @@ extension AddVerseVC: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if let text = textField.text, text.isEmpty {
             if !viewModel.keywords.contains("") {
-                viewModel.keywords.append("")
-                containerView.keywordCollectionView.reloadData()
+                if viewModel.keywords.count < 10 {
+                    viewModel.keywords.append("")
+                    containerView.keywordCollectionView.reloadData()
+                    textField.tag = viewModel.keywords.count - 1
+                } else {
+                    showAlert(message: "키워드는 최대 10개까지 입력할 수 있습니다.")
+                }
             }
         }
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
         if let text = textField.text {
-            if viewModel.keywords.isEmpty {
-                viewModel.keywords.append(text)
-            } else {
-                viewModel.keywords[viewModel.keywords.count - 1] = text
+            if viewModel.keywords.count > textField.tag {
+                viewModel.keywords[textField.tag] = text
             }
             containerView.keywordCollectionView.reloadData()
         }
@@ -248,6 +272,12 @@ extension AddVerseVC: UITextFieldDelegate {
         guard let currentText = textField.text as NSString? else { return true }
         let newText = currentText.replacingCharacters(in: range, with: string)
         return newText.count <= 20
+    }
+    
+    private func showAlert(message: String) {
+        let alert = UIAlertController(title: "알림", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -290,7 +320,8 @@ extension AddVerseVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         guard textView.textColor == .placeholderText else { return }
         textView.textColor = .label
-        textView.text = nil
+        textView.font = Pretendard.regular.dynamicFont(style: .body)
+        textView.text = viewModel.recognizedText.isEmpty ? nil : viewModel.recognizedText
         updateCharacterCountLabel()
     }
     
