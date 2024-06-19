@@ -47,6 +47,7 @@ class AddVerseVC: UIViewController {
         view.backgroundColor = .white
         view.addSubview(scrollView)
         scrollView.addSubview(containerView)
+        
         containerView.keywordCollectionView.register(KeywordCell.self, forCellWithReuseIdentifier: KeywordCell.reuseIdentifier)
         containerView.keywordCollectionView.delegate = self
         containerView.keywordCollectionView.dataSource = self
