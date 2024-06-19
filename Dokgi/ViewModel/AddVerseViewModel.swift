@@ -10,12 +10,12 @@ import VisionKit
 
 class AddVerseViewModel {
     // MARK: - Properties
+    weak var delegate: BookSelectionDelegate?
     var selectedBook: Item?
     var images: [UIImage] = []
     var keywords: [String] = []
-    weak var delegate: BookSelectionDelegate?
-    
     var pageType: String = "Page"
+    var recognizedText: String = ""
     
     // MARK: - ViewModel Logic
     func visionKit(presenter: UIViewController) {

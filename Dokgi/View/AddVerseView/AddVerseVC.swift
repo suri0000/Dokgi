@@ -202,8 +202,12 @@ class AddVerseVC: UIViewController {
             }
             
             let recognizedStrings = observations.compactMap { $0.topCandidates(1).first?.string }
+            let joinedString = recognizedStrings.joined(separator: "\n")
+            let limitedString = String(joinedString.prefix(200))
+            
             DispatchQueue.main.async {
-                self?.containerView.verseTextView.text = recognizedStrings.joined(separator: "\n")
+                self?.viewModel.recognizedText = limitedString
+                self?.containerView.verseTextView.text = self?.viewModel.recognizedText
             }
         }
         request.revision = VNRecognizeTextRequestRevision3
@@ -217,6 +221,8 @@ class AddVerseVC: UIViewController {
             print("텍스트 인식 수행 실패: \(error.localizedDescription)")
         }
     }
+
+
     
     func removeKeyword(at indexPath: IndexPath) {
         let reversedIndex = viewModel.keywords.count - 1 - indexPath.item
@@ -317,7 +323,7 @@ extension AddVerseVC: UITextViewDelegate {
         guard textView.textColor == .placeholderText else { return }
         textView.textColor = .label
         textView.font = Pretendard.regular.dynamicFont(style: .body)
-        textView.text = nil
+        textView.text = viewModel.recognizedText.isEmpty ? nil : viewModel.recognizedText
         updateCharacterCountLabel()
     }
     
