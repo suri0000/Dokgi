@@ -87,9 +87,9 @@ class ParagraphViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
         if sortButton.titleLabel?.text != "최신순" {
-            let sortedPassageAndDate = viewModel.paragraphData.value.sorted { $0.1 < $1.1 }
+            let sortedPassageAndDate = viewModel.paragraphData.value.sorted { $0.1 > $1.1 }
             
-            isFiltering ? searchResultItems.sort { $0.1 < $1.1 } : viewModel.paragraphData.accept(sortedPassageAndDate)
+            isFiltering ? searchResultItems.sort { $0.1 > $1.1 } : viewModel.paragraphData.accept(sortedPassageAndDate)
         }
         self.paragraphCollectionView.reloadData()
     }
@@ -388,7 +388,6 @@ extension ParagraphViewController: UICollectionViewDelegate, UICollectionViewDat
         emptyMessageLabel.isHidden = itemCount > 0
         if isFiltering { emptyMessageLabel.text = "검색결과가 없습니다." }
         
-//        print(cellCount, resultCount)
         return itemCount
     }
     
