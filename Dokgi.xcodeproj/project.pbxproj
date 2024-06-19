@@ -672,7 +672,7 @@
 				CODE_SIGN_ENTITLEMENTS = DokgiWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6794YDXXFY;
+				DEVELOPMENT_TEAM = CS9SP68DH3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DokgiWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DokgiWidget;
@@ -702,7 +702,7 @@
 				CODE_SIGN_ENTITLEMENTS = DokgiWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6794YDXXFY;
+				DEVELOPMENT_TEAM = CS9SP68DH3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DokgiWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DokgiWidget;
@@ -854,7 +854,7 @@
 				CODE_SIGN_ENTITLEMENTS = Dokgi/Dokgi.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6794YDXXFY;
+				DEVELOPMENT_TEAM = CS9SP68DH3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Dokgi/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "이 앱은 문서 스캔을 위해 카메라를 사용합니다.";
@@ -891,7 +891,7 @@
 				CODE_SIGN_ENTITLEMENTS = Dokgi/Dokgi.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6794YDXXFY;
+				DEVELOPMENT_TEAM = CS9SP68DH3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Dokgi/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "이 앱은 문서 스캔을 위해 카메라를 사용합니다.";
