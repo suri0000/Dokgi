@@ -363,7 +363,6 @@ extension HomeViewController: UICollectionViewDataSource {
             if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
                 cell.hideView.isHidden = false
                 cell.setupNextLevelCell(viewModel.currentLevel.value)
-                print("다음레벨 가리기")
             } else {
                 cell.hideView.isHidden = true
             }
