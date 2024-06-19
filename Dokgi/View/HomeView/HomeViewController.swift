@@ -246,6 +246,7 @@ class HomeViewController: UIViewController {
             .subscribe(onNext: { [ weak self ] value in
                 guard let self else { return }
                 self.lengthSlider.value = Float(value)
+                nextLengthLabel.text = "다음 레벨까지 \(Int(Float(viewModel.currentLevelPercent.value) * 100)) % 달성했습니다!"
                 self.currentLevelBubble.snp.remakeConstraints {
                     $0.width.equalTo(38)
                     $0.height.equalTo(41)
