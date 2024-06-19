@@ -144,16 +144,18 @@ class ParagraphDetailViewController: UIViewController {
                     self.containerView.pageSegment.selectedIndex = 1
                 }
             } else {
-                self.containerView.editCompleteLayout()
-                self.sheetPresentationController?.detents = [self.smallDetent]
-                self.editBtn.setTitle("수정하기", for: .normal)
-                self.editBtn.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
-                self.editBtn.setTitleColor(.black, for: .normal)
-                self.editBtn.setImage(.modalEdit, for: .normal)
-                self.viewModel.saveDetail(paragraph: self.containerView.paragrapTextField.text, page: self.containerView.pageTextField.text ?? "", pageType: self.containerView.pageSegment.selectedIndex)
-                self.containerView.pageTextField.isHidden = true
-                self.containerView.pageSegment.isHidden = true
-                self.containerView.pageWriteLbl.isHidden = false
+                if self.selectAlert() {
+                    self.containerView.editCompleteLayout()
+                    self.sheetPresentationController?.detents = [self.smallDetent]
+                    self.editBtn.setTitle("수정하기", for: .normal)
+                    self.editBtn.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
+                    self.editBtn.setTitleColor(.black, for: .normal)
+                    self.editBtn.setImage(.modalEdit, for: .normal)
+                    self.viewModel.saveDetail(paragraph: self.containerView.paragrapTextField.text, page: self.containerView.pageTextField.text ?? "", pageType: self.containerView.pageSegment.selectedIndex)
+                    self.containerView.pageTextField.isHidden = true
+                    self.containerView.pageSegment.isHidden = true
+                    self.containerView.pageWriteLbl.isHidden = false
+                }
             }
         }.disposed(by: disposeBag)
         
@@ -197,13 +199,41 @@ class ParagraphDetailViewController: UIViewController {
                 cell.xBtn.isHidden = false
             }
         }.disposed(by: disposeBag)
+    }
+    private func selectAlert() -> Bool {
+        var title: String = ""
+        var message: String = ""
+        if containerView.pageTextField.text!.isEmpty == true {
+            title = "페이지"
+            message = "페이지를 입력해 주세요"
+            showAlert(title: title, message: message)
+            return false
+        }
         
-        containerView.pageTextField.rx.text.subscribe(with: self) { (self, text) in
-            for char in text ?? "" {
-                if Int(String(char)) != nil {
-                    self.containerView.pageTextField.text! += String(char)
-                }
+        if let pageNumberText = containerView.pageTextField.text, let _ = Int(pageNumberText) {
+            if self.containerView.pageSegment.selectedIndex == 0 && Int((containerView.pageTextField.text)!) ?? 0 <= 0 {
+                title = "페이지 값 오류"
+                message = "0 이상을 입력하세요."
+                showAlert(title: title, message: message)
+                return false
+            } else if self.containerView.pageSegment.selectedIndex == 1 && Int((containerView.pageTextField.text)!) ?? 101 > 100 {
+                title = "% 값 오류"
+                message = "100이하를 입력하세요."
+                showAlert(title: title, message: message)
+                return false
             }
-        }.disposed(by: disposeBag)
+        } else {
+            title = "입력값오류"
+            message = "숫자를 입력하세요."
+            showAlert(title: title, message: message)
+            return false
+        }
+        return true
+    }
+    
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 }
