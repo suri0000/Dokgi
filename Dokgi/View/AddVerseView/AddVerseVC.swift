@@ -222,8 +222,6 @@ class AddVerseVC: UIViewController {
         }
     }
 
-
-    
     func removeKeyword(at indexPath: IndexPath) {
         let reversedIndex = viewModel.keywords.count - 1 - indexPath.item
         viewModel.keywords.remove(at: reversedIndex)
