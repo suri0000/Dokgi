@@ -24,14 +24,18 @@ class ParagraphDetailViewModel {
     func updateDetailKeyword(keyword: String) {
         var keywordTmp = self.keywords.value
         if keywordTmp.isEmpty == false && keyword != "" {
-            keywordTmp[0] = keyword
+            if keywordTmp.count <= 10 {
+                keywordTmp[0] = keyword
+            }
         }
         keywords.accept(keywordTmp)
     }
     
     func addDetailKeyword(keyword: String) {
         var keywordTmp = self.keywords.value
-        keywordTmp.insert(keyword, at: 0)
+        if keywordTmp.count < 10 {
+            keywordTmp.insert(keyword, at: 0)
+        }
         keywords.accept(keywordTmp)
     }
     
