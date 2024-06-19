@@ -32,6 +32,11 @@ class SettingViewController: UIViewController{
         NotificationCenter.default.addObserver(self, selector: #selector(checkNotificationSetting), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.alarmView.switchHidden(onoff: UserDefaults.standard.bool(forKey: UserDefaultsKeys.notification.rawValue))
+    }
+    
     // MARK: - Layout
     func setupLayout() {
         view.addSubview(titleLbl)
