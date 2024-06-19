@@ -110,6 +110,14 @@ class AddVerseVC: UIViewController {
             return
         }
         
+        if viewModel.pageType == "Page" && Int((containerView.pageNumberTextField.text)!) ?? 0 <= 0 {
+            showAlert(title: "페이지 값 오류", message: "0 이상을 입력하세요.")
+            return
+        } else if viewModel.pageType == "%" && Int((containerView.pageNumberTextField.text)!) ?? 101 > 100 {
+            showAlert(title: "% 값 오류", message: "100이하를 입력하세요.")
+            return
+        }
+        
         viewModel.saveVerse(selectedBook: viewModel.selectedBook,
                             verseText: containerView.verseTextView.text ?? "",
                             pageNumberText: containerView.pageNumberTextField.text ?? "",

@@ -22,6 +22,6 @@ extension String {
     }
     
     func page() -> String {
-        return Int(self)! == 0 ? "1" : self
+        return Int(self)! <= 0 ? "1" : self
     }
 }
