@@ -116,7 +116,12 @@ class ParagraphDetailContainerView: UIView {
         $0.layer.cornerRadius = 8
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor(resource: .borderGray).cgColor
+        $0.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 18.0, height: 0.0))
+        $0.leftViewMode = .always
         $0.isHidden = true
+        $0.snp.makeConstraints {
+            $0.width.equalTo(60)
+        }
     }
     
     let pageSegment = SegmentControlView().then {

@@ -19,7 +19,9 @@ class CurrentLevelCell: UICollectionViewCell {
     let lengthLabel = UILabel()
     let cardImageView = UIImageView()
     let hideView = UIView()
-
+    let nextLevel = UILabel()
+    let currentLevel = UILabel()
+    let questionMark = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,8 +39,14 @@ class CurrentLevelCell: UICollectionViewCell {
         [textView, cardImageView].forEach {
             cardView.addSubview($0)
         }
+        
         [levelView, levelLabel, descrptionLabel, lengthLabel].forEach {
             textView.addSubview($0)
+        }
+        
+        contentView.addSubview(hideView)
+        [nextLevel, currentLevel, questionMark].forEach {
+            hideView.addSubview($0)
         }
         
         cardView.snp.makeConstraints {
@@ -80,6 +88,26 @@ class CurrentLevelCell: UICollectionViewCell {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
+        
+        hideView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        nextLevel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(30)
+            $0.centerX.equalToSuperview()
+        }
+        
+        currentLevel.snp.makeConstraints {
+            $0.top.equalTo(nextLevel.snp.bottom).offset(4)
+            $0.centerX.equalToSuperview()
+        }
+        
+        questionMark.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(currentLevel.snp.bottom)
+        }
+
     }
     
     func configureUI() {
@@ -101,6 +129,14 @@ class CurrentLevelCell: UICollectionViewCell {
         
         lengthLabel.textColor = .mediumSkyBlue
         lengthLabel.font = Pretendard.extrabold.dynamicFont(style: .title1)
+        
+        nextLevel.font = Pretendard.bold.dynamicFont(style: .title3)
+        currentLevel.font = Pretendard.regular.dynamicFont(style: .callout)
+        currentLevel.textColor = .alarmSettingText
+        questionMark.font = .systemFont(ofSize: 60, weight: .heavy)
+        questionMark.textColor = .deepSkyBlue
+        questionMark.text = "?"
+        
     }
     
     func setCellConfig(_ cardData: Card) {
@@ -126,43 +162,8 @@ class CurrentLevelCell: UICollectionViewCell {
     // 다음 레벨셀 설정
     func setupNextLevelCell(_ level : Int) {
         hideView.backgroundColor = .white
-        let nextLevel = UILabel()
-        let currentLevel = UILabel()
-        let questionMark = UILabel()
-        
-        contentView.addSubview(hideView)
-        [nextLevel, currentLevel, questionMark].forEach {
-            hideView.addSubview($0)
-        }
-        
         nextLevel.text = "Level \(level + 1)"
-        nextLevel.font = Pretendard.bold.dynamicFont(style: .title3)
         currentLevel.text = "Level \(level)을 다 달성하면 보입니다"
-        currentLevel.font = Pretendard.regular.dynamicFont(style: .callout)
-        currentLevel.textColor = .alarmSettingText
-        questionMark.font = .systemFont(ofSize: 60, weight: .heavy)
-        questionMark.textColor = .deepSkyBlue
-        questionMark.text = "?"
-        
-        hideView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        nextLevel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(30)
-            $0.centerX.equalToSuperview()
-        }
-        
-        currentLevel.snp.makeConstraints {
-            $0.top.equalTo(nextLevel.snp.bottom).offset(4)
-            $0.centerX.equalToSuperview()
-        }
-        
-        questionMark.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(currentLevel.snp.bottom)
-        }
-        
     }
 }
 

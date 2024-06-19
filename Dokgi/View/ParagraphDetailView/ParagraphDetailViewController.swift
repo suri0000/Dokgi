@@ -140,7 +140,9 @@ class ParagraphDetailViewController: UIViewController {
                 self.containerView.pageTextField.text = "\(self.viewModel.detailParagraph.value.pageNumber)"
                 self.containerView.pageWriteLbl.isHidden = true
                 self.containerView.keywordCollectionView.reloadData()
-                self.containerView.pageSegment.selectedIndex = self.viewModel.detailParagraph.value.pageType == "Page" ? 0 : 1
+                if self.viewModel.detailParagraph.value.pageType == "%" {
+                    self.containerView.pageSegment.selectedIndex = 1
+                }
             } else {
                 self.containerView.editCompleteLayout()
                 self.sheetPresentationController?.detents = [self.smallDetent]
@@ -193,6 +195,14 @@ class ParagraphDetailViewController: UIViewController {
                 cell.xBtn.isHidden = true
             } else {
                 cell.xBtn.isHidden = false
+            }
+        }.disposed(by: disposeBag)
+        
+        containerView.pageTextField.rx.text.subscribe(with: self) { (self, text) in
+            for char in text ?? "" {
+                if Int(String(char)) != nil {
+                    self.containerView.pageTextField.text! += String(char)
+                }
             }
         }.disposed(by: disposeBag)
     }

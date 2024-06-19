@@ -339,7 +339,6 @@ extension HomeViewController: UICollectionViewDataSource {
         if collectionView == currentLevelCollectionView {
             let currentLevel = viewModel.currentLevel
             return min(currentLevel.value + 1, viewModel.levelCards.count)
-            //        viewModel.levelCards.count //이미지 확인용
         } else if collectionView == todayVersesColletionView {
             
             switch viewModel.randomVerses.value.count {
