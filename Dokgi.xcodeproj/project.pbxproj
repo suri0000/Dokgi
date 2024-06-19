@@ -143,6 +143,7 @@
 		85A821D52C10B24500494313 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85BC84712C21B6FD00D8A27E /* Dokgi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Dokgi.entitlements; sourceTree = "<group>"; };
 		85BC84722C21B70600D8A27E /* DokgiWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DokgiWidgetExtension.entitlements; sourceTree = "<group>"; };
+		85BC84822C22F7CE00D8A27E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		A722B5882C1C715000E43FC9 /* SegmentControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentControlView.swift; sourceTree = "<group>"; };
 		A748745E2C0D7E0600B830EE /* Dokgi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dokgi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A74874612C0D7E0600B830EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -518,11 +519,12 @@
 			};
 			buildConfigurationList = A74874592C0D7E0600B830EE /* Build configuration list for PBXProject "Dokgi" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = A74874552C0D7E0600B830EE;
 			packageReferences = (
@@ -656,6 +658,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A74874702C0D7E0800B830EE /* Base */,
+				85BC84822C22F7CE00D8A27E /* ko */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -729,6 +732,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -793,6 +797,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
