@@ -27,15 +27,14 @@ class BookSearchViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .white
         containerView.searchBar.delegate = self
-        addSubviews()
+        initLayout()
     }
     
-    private func addSubviews() {
+    private func initLayout() {
         view.addSubview(containerView)
         
         containerView.snp.makeConstraints {
-            $0.edges.equalTo(view.safeAreaLayoutGuide)
-            $0.width.equalTo(view.safeAreaLayoutGuide)
+            $0.edges.equalToSuperview()
         }
     }
     

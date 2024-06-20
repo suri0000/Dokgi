@@ -29,7 +29,7 @@ class AddPassageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        initLayout()
+        setConstraints()
         setupActions()
         updateCharacterCountLabel()
     }
@@ -54,8 +54,8 @@ class AddPassageViewController: UIViewController {
         containerView.verseTextView.delegate = self
     }
     
-    // MARK: - 제약조건
-    func initLayout() {
+    // MARK: - setConstraints
+    func setConstraints() {
         scrollView.snp.makeConstraints {
             $0.edges.equalTo(view.safeAreaLayoutGuide)
         }
