@@ -84,6 +84,7 @@
 		AB4BDC042C20394C001FDA8F /* AddPassageContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4BDC032C20394C001FDA8F /* AddPassageContainerView.swift */; };
 		AB4BDC062C216BF7001FDA8F /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4BDC052C216BF7001FDA8F /* RecentSearchCell.swift */; };
 		AB4BDC0A2C219C6F001FDA8F /* BookSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4BDC092C219C6F001FDA8F /* BookSearchViewModel.swift */; };
+		AB4BDC0C2C249608001FDA8F /* addSubviewsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4BDC0B2C249608001FDA8F /* addSubviewsExtension.swift */; };
 		AB66D3442C0EEFE3000D72DA /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3432C0EEFE3000D72DA /* TabBarViewController.swift */; };
 		AB66D3692C17688C000D72DA /* BookSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3682C17688C000D72DA /* BookSearchViewController.swift */; };
 /* End PBXBuildFile section */
@@ -183,6 +184,7 @@
 		AB4BDC032C20394C001FDA8F /* AddPassageContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPassageContainerView.swift; sourceTree = "<group>"; };
 		AB4BDC052C216BF7001FDA8F /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
 		AB4BDC092C219C6F001FDA8F /* BookSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearchViewModel.swift; sourceTree = "<group>"; };
+		AB4BDC0B2C249608001FDA8F /* addSubviewsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addSubviewsExtension.swift; sourceTree = "<group>"; };
 		AB66D3432C0EEFE3000D72DA /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		AB66D3682C17688C000D72DA /* BookSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearchViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -596,6 +598,7 @@
 				A75908D22C12D69300415D6D /* IntArrayExtension.swift */,
 				A75D3D742C1B47D1006C2EB3 /* StringExtension.swift */,
 				A75D3D762C1B493F006C2EB3 /* DateExtension.swift */,
+				AB4BDC0B2C249608001FDA8F /* addSubviewsExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -841,6 +844,7 @@
 				855318C12C17FAD800340ACF /* PassageTableViewCell.swift in Sources */,
 				A75908B72C0EF4C000415D6D /* SettingViewController.swift in Sources */,
 				A7F2DB642C18BAA70020B0AA /* PassageDetailViewModel.swift in Sources */,
+				AB4BDC0C2C249608001FDA8F /* addSubviewsExtension.swift in Sources */,
 				A75908C42C0F6B9600415D6D /* Font.swift in Sources */,
 				AB4BDC0A2C219C6F001FDA8F /* BookSearchViewModel.swift in Sources */,
 				3C73E2A12C1AB164004B1BF8 /* HomeViewController.swift in Sources */,

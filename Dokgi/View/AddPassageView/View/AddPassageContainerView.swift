@@ -5,7 +5,6 @@
 //  Created by 한철희 on 6/17/24.
 //
 
-import BetterSegmentedControl
 import Kingfisher
 import SnapKit
 import Then
@@ -111,7 +110,7 @@ class AddPassageContainerView: UIView {
     }
     
     let keywordLabel = UILabel().then {
-        $0.attributedText = AddPassageViewController.createAttributedString(for: "키워드 (선택)")
+        $0.attributedText = createAttributedString(for: "키워드 (선택)")
         $0.textAlignment = .left
     }
     
@@ -176,24 +175,10 @@ class AddPassageContainerView: UIView {
     
     // MARK: - setupViews
     private func setupViews() {
-        addSubview(scanButton)
-        addSubview(infoView)
-        infoView.addSubview(imageView)
-        infoView.addSubview(titleLabel)
-        infoView.addSubview(authorLabel)
-        infoView.addSubview(overlayView)
+        [scanButton, infoView, overlapView, verseTextView, characterCountLabel, pencilImageView, keywordLabel, keywordField, keywordCollectionView, pageLabel, pageNumberTextField, pageSegment, recordButton].forEach { addSubview($0) }
+        
+        infoView.addSubviews([imageView, titleLabel, authorLabel, overlayView])
         overlayView.addSubview(searchButton)
-        addSubview(overlapView)
-        addSubview(verseTextView)
-        addSubview(characterCountLabel)
-        addSubview(pencilImageView)
-        addSubview(keywordLabel)
-        addSubview(keywordField)
-        addSubview(keywordCollectionView)
-        addSubview(pageLabel)
-        addSubview(pageNumberTextField)
-        addSubview(pageSegment)
-        addSubview(recordButton)
     }
     
     // MARK: - 제약조건
@@ -309,5 +294,21 @@ class AddPassageContainerView: UIView {
         keywordField.leftViewMode = .always
         keywordField.rightView = paddingView
         keywordField.rightViewMode = .always
+    }
+}
+
+extension AddPassageContainerView {
+    static func createAttributedString(for text: String) -> NSAttributedString {
+        let attributedString = NSMutableAttributedString(string: text)
+        
+        // "키워드" 부분 설정
+        let keywordRange = (text as NSString).range(of: "키워드")
+        attributedString.addAttributes([.font: Pretendard.semibold.dynamicFont(style: .headline)], range: keywordRange)
+        
+        // "(선택)" 부분 설정
+        let selectionRange = (text as NSString).range(of: "(선택)")
+        attributedString.addAttributes([.font: Pretendard.regular.dynamicFont(style: .headline), .foregroundColor: UIColor.gray], range: selectionRange)
+        
+        return attributedString
     }
 }

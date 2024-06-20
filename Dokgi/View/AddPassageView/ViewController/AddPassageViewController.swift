@@ -150,19 +150,7 @@ class AddPassageViewController: UIViewController {
     }
     
     // 텍스트 속성을 설정하는 함수
-    static func createAttributedString(for text: String) -> NSAttributedString {
-        let attributedString = NSMutableAttributedString(string: text)
-        
-        // "키워드" 부분 설정
-        let keywordRange = (text as NSString).range(of: "키워드")
-        attributedString.addAttributes([.font: Pretendard.semibold.dynamicFont(style: .headline)], range: keywordRange)
-        
-        // "선택" 부분 설정
-        let selectionRange = (text as NSString).range(of: "(선택)")
-        attributedString.addAttributes([.font: Pretendard.regular.dynamicFont(style: .headline), .foregroundColor: UIColor.gray], range: selectionRange)
-        
-        return attributedString
-    }
+    
     
     func displayBookInfo() {
         if let book = viewModel.selectedBook {
