@@ -143,15 +143,10 @@ class AddPassageViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    // 초기 텍스트뷰 글자 수 설정
     func updateCharacterCountLabel() {
-        let currentCount = containerView.verseTextView.text == "텍스트를 입력하세요" ? 0 : containerView.verseTextView.text.count
-        containerView.characterCountLabel.text = "\(currentCount)/200"
+        viewModel.updateCharacterCountText(for: containerView.verseTextView.text, label: containerView.characterCountLabel)
     }
-    
-    // 텍스트 속성을 설정하는 함수
-    
-    
+
     func displayBookInfo() {
         if let book = viewModel.selectedBook {
             containerView.titleLabel.text = book.title

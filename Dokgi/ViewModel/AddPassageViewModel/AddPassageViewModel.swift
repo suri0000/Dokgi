@@ -80,4 +80,9 @@ class AddPassageViewModel {
         CoreDataManager.shared.saveData(verse: verse)
         completion(true)
     }
+    
+    func updateCharacterCountText(for text: String?, label: UILabel) {
+        let currentCount = text == "텍스트를 입력하세요" ? 0 : (text?.count ?? 0)
+        label.text = "\(currentCount)/200"
+    }
 }
