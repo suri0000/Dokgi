@@ -85,6 +85,7 @@
 		AB4BDC062C216BF7001FDA8F /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4BDC052C216BF7001FDA8F /* RecentSearchCell.swift */; };
 		AB4BDC0A2C219C6F001FDA8F /* BookSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4BDC092C219C6F001FDA8F /* BookSearchViewModel.swift */; };
 		AB4BDC0C2C249608001FDA8F /* addSubviewsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4BDC0B2C249608001FDA8F /* addSubviewsExtension.swift */; };
+		AB4BDC0E2C249F1B001FDA8F /* BookSearchContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4BDC0D2C249F1B001FDA8F /* BookSearchContainerView.swift */; };
 		AB66D3442C0EEFE3000D72DA /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3432C0EEFE3000D72DA /* TabBarViewController.swift */; };
 		AB66D3692C17688C000D72DA /* BookSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3682C17688C000D72DA /* BookSearchViewController.swift */; };
 /* End PBXBuildFile section */
@@ -185,6 +186,7 @@
 		AB4BDC052C216BF7001FDA8F /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
 		AB4BDC092C219C6F001FDA8F /* BookSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearchViewModel.swift; sourceTree = "<group>"; };
 		AB4BDC0B2C249608001FDA8F /* addSubviewsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addSubviewsExtension.swift; sourceTree = "<group>"; };
+		AB4BDC0D2C249F1B001FDA8F /* BookSearchContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearchContainerView.swift; sourceTree = "<group>"; };
 		AB66D3432C0EEFE3000D72DA /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		AB66D3682C17688C000D72DA /* BookSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearchViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -475,6 +477,7 @@
 			isa = PBXGroup;
 			children = (
 				AB4BDC032C20394C001FDA8F /* AddPassageContainerView.swift */,
+				AB4BDC0D2C249F1B001FDA8F /* BookSearchContainerView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -856,6 +859,7 @@
 				A7F2DB1D2C15C6E70020B0AA /* KeywordCollectionViewCell.swift in Sources */,
 				3C208EB02C10273F00CED104 /* DataManager.swift in Sources */,
 				A75908C82C0F758900415D6D /* DaySelectViewController.swift in Sources */,
+				AB4BDC0E2C249F1B001FDA8F /* BookSearchContainerView.swift in Sources */,
 				A75908D32C12D69300415D6D /* IntArrayExtension.swift in Sources */,
 				AB4BDC062C216BF7001FDA8F /* RecentSearchCell.swift in Sources */,
 				A722B5892C1C715000E43FC9 /* SegmentControlView.swift in Sources */,

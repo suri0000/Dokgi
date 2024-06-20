@@ -13,6 +13,7 @@ class BookSearchViewModel {
     
     var searchResults: [Item] = []
     var isLoading = false
+    var isLoadingLast = false
     var query: String = ""
     var startIndex: Int = 1
     
