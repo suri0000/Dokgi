@@ -57,7 +57,7 @@ class KeywordCell: UICollectionViewCell {
     @objc private func deleteButtonTapped() {
         guard let collectionView = superview as? UICollectionView else { return }
         guard let indexPath = collectionView.indexPath(for: self) else { return }
-        (collectionView.delegate as? AddVerseViewController)?.removeKeyword(at: indexPath)
+        (collectionView.delegate as? AddPassageViewController)?.removeKeyword(at: indexPath)
     }
     
     func configure(with text: String) {
