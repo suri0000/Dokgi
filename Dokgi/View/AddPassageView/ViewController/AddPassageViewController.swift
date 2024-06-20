@@ -5,7 +5,6 @@
 //  Created by 한철희 on 6/4/24.
 //
 
-import BetterSegmentedControl
 import Kingfisher
 import SnapKit
 import Then
@@ -31,6 +30,9 @@ class AddPassageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         containerView.pageSegment.selectedIndex = 0
+        viewModel.onRecognizedTextUpdate = { [weak self] recognizedText in
+            self?.updateTextView(with: recognizedText)
+        }
         setupViews()
         initLayout()
         setupActions()
@@ -189,36 +191,12 @@ class AddPassageViewController: UIViewController {
         containerView.searchButton.isHidden = true
     }
     
-    func recognizeText(from image: UIImage) {
-        guard let cgImage = image.cgImage else {
-            fatalError("UIImage에서 CGImage를 얻을 수 없습니다.")
-        }
-        
-        let requestHandler = VNImageRequestHandler(cgImage: cgImage, options: [:])
-        let request = VNRecognizeTextRequest { [weak self] (request, error) in
-            guard let observations = request.results as? [VNRecognizedTextObservation], error == nil else {
-                print("텍스트 인식 오류: \(error?.localizedDescription ?? "알 수 없는 오류")")
-                return
-            }
-            
-            let recognizedStrings = observations.compactMap { $0.topCandidates(1).first?.string }
-            let joinedString = recognizedStrings.joined(separator: "\n")
-            let limitedString = String(joinedString.prefix(200))
-            
-            DispatchQueue.main.async {
-                self?.viewModel.recognizedText = limitedString
-                self?.containerView.verseTextView.text = self?.viewModel.recognizedText
-            }
-        }
-        request.revision = VNRecognizeTextRequestRevision3
-        request.recognitionLevel = .accurate
-        request.recognitionLanguages = ["ko-KR"]
-        request.usesLanguageCorrection = true
-        
-        do {
-            try requestHandler.perform([request])
-        } catch {
-            print("텍스트 인식 수행 실패: \(error.localizedDescription)")
+    private func updateTextView(with text: String) {
+        if containerView.verseTextView.text.isEmpty || containerView.verseTextView.textColor == .placeholderText {
+            containerView.verseTextView.text = text
+            containerView.verseTextView.textColor = .label
+            containerView.verseTextView.font = Pretendard.regular.dynamicFont(style: .body)
+            updateCharacterCountLabel()
         }
     }
 
@@ -318,10 +296,10 @@ extension AddPassageViewController: UICollectionViewDelegate, UICollectionViewDa
 // MARK: - 텍스트뷰 placeholder
 extension AddPassageViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        guard textView.textColor == .placeholderText else { return }
-        textView.textColor = .label
-        textView.font = Pretendard.regular.dynamicFont(style: .body)
-        textView.text = viewModel.recognizedText.isEmpty ? nil : viewModel.recognizedText
+        guard containerView.verseTextView.textColor == .placeholderText else { return }
+        containerView.verseTextView.textColor = .label
+        containerView.verseTextView.font = Pretendard.regular.dynamicFont(style: .body)
+        containerView.verseTextView.text = viewModel.recognizedText.isEmpty ? nil : viewModel.recognizedText
         updateCharacterCountLabel()
     }
     
@@ -349,18 +327,20 @@ extension AddPassageViewController: UITextViewDelegate {
 // MARK: - 스캔
 extension AddPassageViewController: VNDocumentCameraViewControllerDelegate {
     func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
-        let image = scan.imageOfPage(at: 0)
-        recognizeText(from: image)
         controller.dismiss(animated: true)
+        if scan.pageCount > 0 {
+            let scannedImage = scan.imageOfPage(at: 0)
+            viewModel.recognizeText(from: scannedImage)
+        }
     }
-    
+
     func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
         controller.dismiss(animated: true)
     }
-    
+
     func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) {
-        print("문서 스캔 실패: \(error.localizedDescription)")
         controller.dismiss(animated: true)
+        print("스캔 실패: \(error.localizedDescription)")
     }
 }
 
@@ -371,3 +351,4 @@ extension AddPassageViewController: BookSelectionDelegate {
         displayBookInfo()
     }
 }
+
