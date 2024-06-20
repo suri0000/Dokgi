@@ -9,7 +9,6 @@ import Kingfisher
 import SnapKit
 import Then
 import UIKit
-import Vision
 import VisionKit
 
 protocol BookSelectionDelegate: AnyObject {
@@ -29,15 +28,10 @@ class AddPassageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        containerView.pageSegment.selectedIndex = 0
-        viewModel.onRecognizedTextUpdate = { [weak self] recognizedText in
-            self?.updateTextView(with: recognizedText)
-        }
         setupViews()
         initLayout()
         setupActions()
         updateCharacterCountLabel()
-        setUserInfoTextField()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,9 +41,12 @@ class AddPassageViewController: UIViewController {
     
     func setupViews() {
         view.backgroundColor = .white
+        containerView.pageSegment.selectedIndex = 0
+        viewModel.onRecognizedTextUpdate = { [weak self] recognizedText in
+            self?.updateTextView(with: recognizedText)
+        }
         view.addSubview(scrollView)
         scrollView.addSubview(containerView)
-        
         containerView.keywordCollectionView.register(KeywordCell.self, forCellWithReuseIdentifier: KeywordCell.reuseIdentifier)
         containerView.keywordCollectionView.delegate = self
         containerView.keywordCollectionView.dataSource = self
@@ -112,16 +109,16 @@ class AddPassageViewController: UIViewController {
             return
         }
         
-        guard let pageNumberText = containerView.pageNumberTextField.text, let _ = Int(pageNumberText) else {
+        if let pageNumber = Int(containerView.pageNumberTextField.text ?? "") {
+            if viewModel.pageType == "Page" && pageNumber <= 0 {
+                showAlert(title: "페이지 값 오류", message: "0 이상을 입력하세요.")
+                return
+            } else if viewModel.pageType == "%" && pageNumber > 100 {
+                showAlert(title: "% 값 오류", message: "100이하를 입력하세요.")
+                return
+            }
+        } else {
             showAlert(title: "입력 값 오류", message: "숫자를 입력하세요.")
-            return
-        }
-        
-        if viewModel.pageType == "Page" && Int((containerView.pageNumberTextField.text)!) ?? 0 <= 0 {
-            showAlert(title: "페이지 값 오류", message: "0 이상을 입력하세요.")
-            return
-        } else if viewModel.pageType == "%" && Int((containerView.pageNumberTextField.text)!) ?? 101 > 100 {
-            showAlert(title: "% 값 오류", message: "100이하를 입력하세요.")
             return
         }
         
@@ -144,15 +141,6 @@ class AddPassageViewController: UIViewController {
             completion?()
         }))
         present(alert, animated: true, completion: nil)
-    }
-    
-    func setUserInfoTextField() {
-        containerView.keywordField.backgroundColor = .white
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: containerView.keywordField.frame.height))
-        containerView.keywordField.leftView = paddingView
-        containerView.keywordField.leftViewMode = .always
-        containerView.keywordField.rightView = paddingView
-        containerView.keywordField.rightViewMode = .always
     }
     
     // 초기 텍스트뷰 글자 수 설정
@@ -215,7 +203,7 @@ extension AddPassageViewController: UITextFieldDelegate {
                 viewModel.keywords[textField.tag] = keyword
                 containerView.keywordCollectionView.reloadData()
             } else {
-                showAlert(message: "키워드는 최대 10개까지 입력할 수 있습니다.")
+                showAlert(title: "알림", message: "키워드는 최대 10개까지 입력할 수 있습니다.")
             }
         }
         textField.text = ""
@@ -231,7 +219,7 @@ extension AddPassageViewController: UITextFieldDelegate {
                     containerView.keywordCollectionView.reloadData()
                     textField.tag = viewModel.keywords.count - 1
                 } else {
-                    showAlert(message: "키워드는 최대 10개까지 입력할 수 있습니다.")
+                    showAlert(title: "알림", message: "키워드는 최대 10개까지 입력할 수 있습니다.")
                 }
             }
         }
@@ -251,12 +239,6 @@ extension AddPassageViewController: UITextFieldDelegate {
         let newText = currentText.replacingCharacters(in: range, with: string)
         return newText.count <= 20
     }
-    
-    private func showAlert(message: String) {
-        let alert = UIAlertController(title: "알림", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
 }
 
 // MARK: - CollectionView
@@ -273,10 +255,6 @@ extension AddPassageViewController: UICollectionViewDelegate, UICollectionViewDa
         let reversedIndex = viewModel.keywords.count - 1 - indexPath.item
         let keyword = viewModel.keywords[reversedIndex]
         cell.configure(with: keyword)
-        cell.layer.cornerRadius = 14
-        cell.clipsToBounds = true
-        cell.layer.borderColor = UIColor.lightSkyBlue.cgColor
-        cell.layer.borderWidth = 2
         return cell
     }
     
@@ -313,13 +291,12 @@ extension AddPassageViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         let currentCount = textView.text.count
-        containerView.characterCountLabel.text = "\(currentCount)/200"
         
         if currentCount > 200 {
             textView.text = String(textView.text.prefix(200))
             containerView.characterCountLabel.text = "200/200"
         } else {
-            containerView.characterCountLabel.text = "\(currentCount)/200"
+            updateCharacterCountLabel()
         }
     }
 }

@@ -25,6 +25,11 @@ class KeywordCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+        
+        layer.cornerRadius = 14
+        clipsToBounds = true
+        layer.borderColor = UIColor.lightSkyBlue.cgColor
+        layer.borderWidth = 2
     }
     
     required init?(coder: NSCoder) {

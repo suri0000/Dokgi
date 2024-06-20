@@ -167,6 +167,7 @@ class AddPassageContainerView: UIView {
         super.init(frame: frame)
         setupViews()
         initLayout()
+        setkeywordTextField()
     }
     
     required init?(coder: NSCoder) {
@@ -300,5 +301,13 @@ class AddPassageContainerView: UIView {
             $0.centerX.equalToSuperview()
             $0.height.equalTo(50)
         }
+    }
+    
+    func setkeywordTextField() {
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: keywordField.frame.height))
+        keywordField.leftView = paddingView
+        keywordField.leftViewMode = .always
+        keywordField.rightView = paddingView
+        keywordField.rightViewMode = .always
     }
 }
