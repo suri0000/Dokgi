@@ -96,21 +96,21 @@ class AddPassageViewController: UIViewController {
     
     @objc func recordButtonTapped(_ sender: UIButton) {
         if containerView.searchButton.isHidden == false {
-            viewModel.showAlert(presenter: self, title: "책 정보 기록", message: "책 검색을 눌러 책 정보를 기록해주세요")
+            showAlert(title: "책 정보 기록", message: "책 검색을 눌러 책 정보를 기록해주세요")
             return
         }
         
         if containerView.verseTextView.text.isEmpty || containerView.verseTextView.text == "텍스트를 입력하세요" {
-            viewModel.showAlert(presenter: self, title: "구절 입력", message: "구절을 입력해 주세요")
+            showAlert(title: "구절 입력", message: "구절을 입력해 주세요")
             return
         }
         
         if containerView.pageNumberTextField.text?.isEmpty == true {
-            viewModel.showAlert(presenter: self, title: "페이지", message: "페이지를 입력해 주세요")
+            showAlert(title: "페이지", message: "페이지를 입력해 주세요")
             return
         }
         
-        guard let pageNumberText = containerView.pageNumberTextField.text, let pageNumber = Int(pageNumberText) else {
+        guard let pageNumberText = containerView.pageNumberTextField.text, let _ = Int(pageNumberText) else {
             showAlert(title: "입력 값 오류", message: "숫자를 입력하세요.")
             return
         }
@@ -131,7 +131,7 @@ class AddPassageViewController: UIViewController {
             if success {
                 self.navigationController?.popViewController(animated: true)
             } else {
-                self.viewModel.showAlert(presenter: self, title: "경고", message: "모든 필수 정보를 입력해주세요.")
+                self.showAlert(title: "경고", message: "모든 필수 정보를 입력해주세요.")
             }
         }
     }

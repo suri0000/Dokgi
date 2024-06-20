@@ -24,14 +24,6 @@ class AddPassageViewModel {
         presenter.present(scan, animated: true)
     }
     
-    func showAlert(presenter: UIViewController, title: String, message: String, completion: (() -> Void)? = nil) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
-            completion?()
-        }))
-        presenter.present(alert, animated: true, completion: nil)
-    }
-    
     func saveVerse(selectedBook: Item?, verseText: String, pageNumberText: String?, pageType: String, keywords: [String], completion: @escaping (Bool) -> Void) {
         guard let book = selectedBook,
               let pageNumberText = pageNumberText,
