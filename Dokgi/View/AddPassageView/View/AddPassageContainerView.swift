@@ -11,7 +11,7 @@ import SnapKit
 import Then
 import UIKit
 
-class AddVerseContainerView: UIView {
+class AddPassageContainerView: UIView {
     
     // MARK: - Properties
     let scanButton = UIButton(configuration: .filled(), primaryAction: nil).then {
@@ -111,7 +111,7 @@ class AddVerseContainerView: UIView {
     }
     
     let keywordLabel = UILabel().then {
-        $0.attributedText = AddVerseViewController.createAttributedString(for: "키워드 (선택)")
+        $0.attributedText = AddPassageViewController.createAttributedString(for: "키워드 (선택)")
         $0.textAlignment = .left
     }
     

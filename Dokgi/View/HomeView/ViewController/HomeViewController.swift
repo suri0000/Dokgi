@@ -48,7 +48,7 @@ class HomeViewController: UIViewController {
         view.showsHorizontalScrollIndicator = false
         view.backgroundColor = .clear
         view.isPagingEnabled = true
-        view.register(TodayVersesCell.self, forCellWithReuseIdentifier: TodayVersesCell.identifier)
+        view.register(TodayPassageCell.self, forCellWithReuseIdentifier: TodayPassageCell.identifier)
         return view
     }()
             
@@ -381,7 +381,7 @@ extension HomeViewController: UICollectionViewDataSource {
             }
             return cell
         } else {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayVersesCell.identifier, for: indexPath) as? TodayVersesCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayPassageCell.identifier, for: indexPath) as? TodayPassageCell else { return UICollectionViewCell() }
             
             let randomVerses = viewModel.randomVerses.value
             if indexPath.item < randomVerses.count {
@@ -492,7 +492,7 @@ extension UIViewController {
     }
     
     @objc func didTapButton() {
-        let addVC = AddVerseViewController()
+        let addVC = AddPassageViewController()
         self.navigationController?.pushViewController(addVC, animated: true)
     }
 }

@@ -8,7 +8,7 @@
 import SnapKit
 import UIKit
 
-class TodayVersesCell: UICollectionViewCell {
+class TodayPassageCell: UICollectionViewCell {
     static let identifier = "TodayVersesCell"
     
     let baseView = UIView()

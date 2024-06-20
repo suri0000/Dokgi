@@ -17,10 +17,10 @@ protocol BookSelectionDelegate: AnyObject {
     func didSelectBook(_ book: Item)
 }
 
-class AddVerseViewController: UIViewController {
+class AddPassageViewController: UIViewController {
     
     let viewModel = AddPassageViewModel()
-    let containerView = AddVerseContainerView()
+    let containerView = AddPassageContainerView()
     
     let scrollView = UIScrollView().then {
         $0.showsVerticalScrollIndicator = false
@@ -230,7 +230,7 @@ class AddVerseViewController: UIViewController {
 }
 
 // MARK: - UITextFieldDelegate
-extension AddVerseViewController: UITextFieldDelegate {
+extension AddPassageViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let keyword = textField.text, !keyword.isEmpty {
             if viewModel.keywords.count < 11 { // 10일 경우 alert 반복
@@ -282,7 +282,7 @@ extension AddVerseViewController: UITextFieldDelegate {
 }
 
 // MARK: - CollectionView
-extension AddVerseViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension AddPassageViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.keywords.count
     }
@@ -316,7 +316,7 @@ extension AddVerseViewController: UICollectionViewDelegate, UICollectionViewData
 }
 
 // MARK: - 텍스트뷰 placeholder
-extension AddVerseViewController: UITextViewDelegate {
+extension AddPassageViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         guard textView.textColor == .placeholderText else { return }
         textView.textColor = .label
@@ -347,7 +347,7 @@ extension AddVerseViewController: UITextViewDelegate {
 }
 
 // MARK: - 스캔
-extension AddVerseViewController: VNDocumentCameraViewControllerDelegate {
+extension AddPassageViewController: VNDocumentCameraViewControllerDelegate {
     func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
         let image = scan.imageOfPage(at: 0)
         recognizeText(from: image)
@@ -365,7 +365,7 @@ extension AddVerseViewController: VNDocumentCameraViewControllerDelegate {
 }
 
 // MARK: - 데이터 전달
-extension AddVerseViewController: BookSelectionDelegate {
+extension AddPassageViewController: BookSelectionDelegate {
     func didSelectBook(_ book: Item) {
         viewModel.selectedBook = book
         displayBookInfo()

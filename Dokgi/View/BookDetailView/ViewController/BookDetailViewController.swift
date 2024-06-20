@@ -272,7 +272,7 @@ class BookDetailViewController: UIViewController {
     }
     
     @objc private func didTabAddPassageButton() {
-        let addVerseVC = AddVerseViewController()
+        let addVerseVC = AddPassageViewController()
         addVerseVC.viewModel.selectedBook = viewModel.makeAddVerseViewData()
         self.navigationController?.pushViewController(addVerseVC, animated: true)
         addVerseVC.displayBookInfo()
