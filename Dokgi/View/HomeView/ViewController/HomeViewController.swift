@@ -14,11 +14,9 @@ class HomeViewController: UIViewController {
  
     let disposeBag = DisposeBag()
     let viewModel = HomeViewModel()
-    lazy var verese = viewModel.verses.value
 
     let scrollView = UIScrollView()
     let contentView = UIView()
-    
     let settingButton = UIButton()
     let currentLengthLabel = UILabel()
     let currentLevelCollectionView: UICollectionView = {
@@ -38,7 +36,6 @@ class HomeViewController: UIViewController {
     let currentLevelImage = UIImageView()
     let nextLevelBubble = UIImageView()
     let questionMark = UILabel()
-    
     let todayVersesLabel = UILabel()
     let todayVersesColletionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -60,7 +57,6 @@ class HomeViewController: UIViewController {
     }
     
     var indicatorDots = UIPageControl()
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +66,6 @@ class HomeViewController: UIViewController {
         bindViewModel()
         bannerTimer()
         setFloatingButton()
-        
         CoreDataManager.shared.readData() // 추가된 구절 반영
     }
     
@@ -233,7 +228,6 @@ class HomeViewController: UIViewController {
     }
     
     func bindViewModel() {
-        
         // 현재 레벨
         viewModel.currentLevel
             .subscribe(onNext: { [ weak self ] value in
@@ -279,7 +273,6 @@ class HomeViewController: UIViewController {
         currentLevelCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
     
         levelCollectionViewSelectedIndex = index
-        
         updateCurrentLevelCollectionViewCell()
     }
     
@@ -305,7 +298,6 @@ class HomeViewController: UIViewController {
     }
     // 배너 움직이는 매서드
     func bannerMove() {
-        
         if nowPage == viewModel.randomVerses.value.count - 1 {
             scrollToFirstPage()
         } else if viewModel.randomVerses.value.count > nowPage {
@@ -460,41 +452,3 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         }
     }
 }
-
-//extension UICollectionViewCell {
-//    // 셀이 작아지게 설정
-//    func transformToSmall() {
-//        UIView.animate(withDuration: 0.2) {
-//            self.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-//        }
-//    }
-//    
-//    // 기본 셀 크기로 지정
-//    func transformToStandard() {
-//        UIView.animate(withDuration: 0.2) {
-//            self.transform = CGAffineTransform.identity
-//        }
-//    }
-//}
-
-//extension UIViewController {
-//    func setFloatingButton() {
-//        let floatButton = FloatButton()
-//        view.addSubview(floatButton)
-//        
-//        floatButton.snp.makeConstraints {
-//            $0.trailing.equalToSuperview().offset(-25)
-//            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-40)
-//            $0.width.height.equalTo(70)
-//        }
-//        
-//        floatButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
-//    }
-//    
-//    @objc func didTapButton() {
-//        let addVC = AddPassageViewController()
-//        self.navigationController?.pushViewController(addVC, animated: true)
-//    }
-//}
-
-
