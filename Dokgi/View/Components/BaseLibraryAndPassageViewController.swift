@@ -95,6 +95,7 @@ class BaseLibraryAndPassageViewController: UIViewController {
         sortMenuView.oldestCheckImage.isHidden = true
     }
     
+    // 구절, 서재 각 뷰 컨트롤러에서 사용
     func setLabelText(title: String, placeholder: String, noResultsMessage: String) {
         let attributes = [
             NSAttributedString.Key.foregroundColor: UIColor.searchBarDarkGray,

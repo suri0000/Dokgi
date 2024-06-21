@@ -13,43 +13,38 @@ import UIKit
 
 class BaseAlarmSettingSheetViewController: UIViewController {
     
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     private let viewModel = DayTimeViewModel()
     
-    let cancelBtn = UIButton().then {
+    private let cancelBtn = UIButton().then {
         $0.setTitle("취소", for: .normal)
         $0.setTitleColor(.brightRed, for: .normal)
         $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .body)
     }
     
-    let titleLbl = UILabel().then {
+    private let titleLbl = UILabel().then {
         $0.text = "알림 시간 설정"
         $0.font = Pretendard.semibold.dynamicFont(style: .title3)
         $0.textAlignment = .center
+        $0.textColor = .black
     }
     
-    let saveBtn = UIButton().then {
+    private let saveBtn = UIButton().then {
         $0.setTitle("저장", for: .normal)
         $0.setTitleColor(.skyBlue, for: .normal)
         $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .body)
     }
     
-    let titleStack = UIStackView().then {
+    private let titleStack = UIStackView().then {
         $0.axis = .horizontal
         $0.distribution = .equalSpacing
-    }
-    
-    let timePicker = UIPickerView().then {
-        $0.backgroundColor = .white
     }
     
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .white
-        
         setSheet()
         setLayout()
         buttonTapped()
@@ -57,7 +52,7 @@ class BaseAlarmSettingSheetViewController: UIViewController {
     
     // MARK: - UI
     
-    func setSheet() {
+    private func setSheet() {
         let smallId = UISheetPresentationController.Detent.Identifier("small")
         let smallDetent = UISheetPresentationController.Detent.custom(identifier: smallId) { context in
             return UIScreen.main.bounds.size.height - 450
@@ -73,11 +68,11 @@ class BaseAlarmSettingSheetViewController: UIViewController {
     }
     
     // 타이틀 설정, 각 ViewController에서 사용
-    func setTitleLabelText(_ title: String) {
+    private func setTitleLabelText(_ title: String) {
         titleLbl.text = title
     }
     
-    func setLayout() {
+    private func setLayout() {
         [cancelBtn, titleLbl, saveBtn].forEach {
             titleStack.addArrangedSubview($0)
         }
@@ -86,13 +81,13 @@ class BaseAlarmSettingSheetViewController: UIViewController {
         
         titleStack.snp.makeConstraints {
             $0.top.equalToSuperview().offset(25)
-            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.horizontalEdges.equalToSuperview().inset(20)
         }
     }
     
     func buttonTapped() {
-        cancelBtn.rx.tap.subscribe { [weak self] _ in
-            self?.dismiss(animated: true)
+        cancelBtn.rx.tap.subscribe(with: self) { (self, _) in
+            self.dismiss(animated: true)
         }.disposed(by: disposeBag)
         
         saveBtn.rx.tap.subscribe(with: self) { (self, _) in

@@ -18,7 +18,7 @@ class SearchBar: UISearchBar {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupSearchBar() {
+    private func setupSearchBar() {
         let attributes = [
             NSAttributedString.Key.foregroundColor: UIColor.searchBarDarkGray,
             NSAttributedString.Key.font: Pretendard.regular.dynamicFont(style: .subheadline)
