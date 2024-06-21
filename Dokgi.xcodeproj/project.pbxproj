@@ -26,6 +26,8 @@
 		8500B52E2C203A4500A0EB38 /* PassageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8500B52D2C203A4500A0EB38 /* PassageViewModel.swift */; };
 		854E157E2C244FCA00FE5256 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854E157D2C244FCA00FE5256 /* BaseViewModel.swift */; };
 		854E15802C24828D00FE5256 /* BaseAlarmSettingSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854E157F2C24828D00FE5256 /* BaseAlarmSettingSheetViewController.swift */; };
+		854E15842C2495A500FE5256 /* BaseLibraryAndPassageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854E15832C2495A500FE5256 /* BaseLibraryAndPassageViewController.swift */; };
+		854E15862C24A67E00FE5256 /* SortButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854E15852C24A67E00FE5256 /* SortButton.swift */; };
 		855318BB2C16E56800340ACF /* BookDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855318BA2C16E56800340ACF /* BookDetailViewController.swift */; };
 		855318C12C17FAD800340ACF /* PassageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855318C02C17FAD800340ACF /* PassageTableViewCell.swift */; };
 		855318C62C1AEBF900340ACF /* BookDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855318C52C1AEBF900340ACF /* BookDetailViewModel.swift */; };
@@ -133,6 +135,8 @@
 		8500B52D2C203A4500A0EB38 /* PassageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassageViewModel.swift; sourceTree = "<group>"; };
 		854E157D2C244FCA00FE5256 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		854E157F2C24828D00FE5256 /* BaseAlarmSettingSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAlarmSettingSheetViewController.swift; sourceTree = "<group>"; };
+		854E15832C2495A500FE5256 /* BaseLibraryAndPassageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLibraryAndPassageViewController.swift; sourceTree = "<group>"; };
+		854E15852C24A67E00FE5256 /* SortButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortButton.swift; sourceTree = "<group>"; };
 		855318BA2C16E56800340ACF /* BookDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailViewController.swift; sourceTree = "<group>"; };
 		855318C02C17FAD800340ACF /* PassageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassageTableViewCell.swift; sourceTree = "<group>"; };
 		855318C52C1AEBF900340ACF /* BookDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailViewModel.swift; sourceTree = "<group>"; };
@@ -504,6 +508,8 @@
 				A722B5882C1C715000E43FC9 /* SegmentControlView.swift */,
 				A74874822C0D7ED100B830EE /* PaddingLabel.swift */,
 				854E157F2C24828D00FE5256 /* BaseAlarmSettingSheetViewController.swift */,
+				854E15832C2495A500FE5256 /* BaseLibraryAndPassageViewController.swift */,
+				854E15852C24A67E00FE5256 /* SortButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -846,7 +852,9 @@
 				A7F2DB642C18BAA70020B0AA /* PassageDetailViewModel.swift in Sources */,
 				A75908C42C0F6B9600415D6D /* Font.swift in Sources */,
 				AB4BDC0A2C219C6F001FDA8F /* BookSearchViewModel.swift in Sources */,
+				854E15862C24A67E00FE5256 /* SortButton.swift in Sources */,
 				3C73E2A12C1AB164004B1BF8 /* HomeViewController.swift in Sources */,
+				854E15842C2495A500FE5256 /* BaseLibraryAndPassageViewController.swift in Sources */,
 				85BC84762C21BCD700D8A27E /* AppDelegate.swift in Sources */,
 				A75908D12C12D36100415D6D /* UserDefaultsKey.swift in Sources */,
 				AB23869F2C19B5FC00E6FACE /* VerseModel.swift in Sources */,
