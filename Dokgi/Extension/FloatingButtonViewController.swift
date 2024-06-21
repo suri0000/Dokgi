@@ -5,10 +5,8 @@
 //  Created by IMHYEONJEONG on 6/20/24.
 //
 
-import Foundation
-
-import UIKit
 import SnapKit
+import UIKit
 
 extension UIViewController {
     func setFloatingButton() {

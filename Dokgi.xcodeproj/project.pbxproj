@@ -239,15 +239,6 @@
 			path = HomeView;
 			sourceTree = "<group>";
 		};
-		3C9AD89D2C251BCB007393C1 /* FloatButton */ = {
-			isa = PBXGroup;
-			children = (
-				3C9AD8992C2462B0007393C1 /* FloatingButtonViewController.swift */,
-				3C73E2A22C1B03AC004B1BF8 /* FloatButton.swift */,
-			);
-			path = FloatButton;
-			sourceTree = "<group>";
-		};
 		7BE488B02C16E21E00BDB92A /* LibraryView */ = {
 			isa = PBXGroup;
 			children = (
@@ -511,6 +502,7 @@
 		854E157B2C244B6100FE5256 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				3C73E2A22C1B03AC004B1BF8 /* FloatButton.swift */,
 				A722B5882C1C715000E43FC9 /* SegmentControlView.swift */,
 				A74874822C0D7ED100B830EE /* PaddingLabel.swift */,
 			);
@@ -605,6 +597,7 @@
 		A74874792C0D7E1100B830EE /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				3C9AD8992C2462B0007393C1 /* FloatingButtonViewController.swift */,
 				A75908D22C12D69300415D6D /* IntArrayExtension.swift */,
 				3C9AD89B2C24634E007393C1 /* UICollectionViewCellExtension.swift */,
 				A75D3D742C1B47D1006C2EB3 /* StringExtension.swift */,
@@ -624,7 +617,6 @@
 				7BE488B12C16E24800BDB92A /* PassageView */,
 				A7F2DB152C1347840020B0AA /* PassageDetailView */,
 				A75908C92C0F759D00415D6D /* SettingView */,
-				3C9AD89D2C251BCB007393C1 /* FloatButton */,
 				854E157A2C244B4E00FE5256 /* TabBarView */,
 			);
 			path = View;
