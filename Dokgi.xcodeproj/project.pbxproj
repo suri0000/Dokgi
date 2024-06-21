@@ -20,6 +20,7 @@
 		3C73E2A32C1B03AD004B1BF8 /* FloatButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C73E2A22C1B03AC004B1BF8 /* FloatButton.swift */; };
 		3C9AD89A2C2462B0007393C1 /* FloatingButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AD8992C2462B0007393C1 /* FloatingButtonViewController.swift */; };
 		3C9AD89C2C24634E007393C1 /* UICollectionViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AD89B2C24634E007393C1 /* UICollectionViewCellExtension.swift */; };
+		3C9AD8C32C25A4FC007393C1 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AD8C22C25A4FC007393C1 /* HomeView.swift */; };
 		7BE488A92C0F267000BDB92A /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE488A82C0F267000BDB92A /* LibraryViewController.swift */; };
 		7BE488AF2C103E5A00BDB92A /* LibraryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE488AE2C103E5A00BDB92A /* LibraryCollectionViewCell.swift */; };
 		7BE488B32C16E29C00BDB92A /* PassageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE488B22C16E29C00BDB92A /* PassageViewController.swift */; };
@@ -128,6 +129,7 @@
 		3C73E2A22C1B03AC004B1BF8 /* FloatButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatButton.swift; sourceTree = "<group>"; };
 		3C9AD8992C2462B0007393C1 /* FloatingButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButtonViewController.swift; sourceTree = "<group>"; };
 		3C9AD89B2C24634E007393C1 /* UICollectionViewCellExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewCellExtension.swift; sourceTree = "<group>"; };
+		3C9AD8C22C25A4FC007393C1 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		7BE488A82C0F267000BDB92A /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
 		7BE488AE2C103E5A00BDB92A /* LibraryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryCollectionViewCell.swift; sourceTree = "<group>"; };
 		7BE488B22C16E29C00BDB92A /* PassageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassageViewController.swift; sourceTree = "<group>"; };
@@ -233,10 +235,19 @@
 		3C73E2972C1889F6004B1BF8 /* HomeView */ = {
 			isa = PBXGroup;
 			children = (
+				3C9AD8C12C25A49E007393C1 /* View */,
 				854E156C2C2448D300FE5256 /* Cell */,
 				854E156B2C2448B500FE5256 /* ViewController */,
 			);
 			path = HomeView;
+			sourceTree = "<group>";
+		};
+		3C9AD8C12C25A49E007393C1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3C9AD8C22C25A4FC007393C1 /* HomeView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		7BE488B02C16E21E00BDB92A /* LibraryView */ = {
@@ -845,6 +856,7 @@
 				A75D3D732C1A11C7006C2EB3 /* PaddingLabel.swift in Sources */,
 				A75D3D722C1A11C4006C2EB3 /* PassageDetailViewController.swift in Sources */,
 				855318C12C17FAD800340ACF /* PassageTableViewCell.swift in Sources */,
+				3C9AD8C32C25A4FC007393C1 /* HomeView.swift in Sources */,
 				A75908B72C0EF4C000415D6D /* SettingViewController.swift in Sources */,
 				A7F2DB642C18BAA70020B0AA /* PassageDetailViewModel.swift in Sources */,
 				A75908C42C0F6B9600415D6D /* Font.swift in Sources */,
