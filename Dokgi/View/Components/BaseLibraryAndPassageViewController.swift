@@ -13,13 +13,11 @@ import UIKit
 class BaseLibraryAndPassageViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
-    private var isFiltering: Bool = false
-    private var isLatestFirst: Bool = true
-    private var isOldestFirst: Bool = false
     
     private let titleLabel = UILabel().then {
         $0.font = Pretendard.bold.dynamicFont(style: .title1)
         $0.textColor = .black
+        $0.text = "구절"
     }
     
     private let searchBar = UISearchBar().then {
@@ -34,85 +32,19 @@ class BaseLibraryAndPassageViewController: UIViewController {
         $0.searchTextField.layer.masksToBounds = true
         $0.searchTextField.font = Pretendard.regular.dynamicFont(style: .footnote)
         $0.searchTextField.textColor = .black
-//        $0.delegate = self
     }
     
-//    private let sortButton = UIButton().then {
-//        $0.backgroundColor = .lightSkyBlue
-//        $0.layer.cornerRadius = 15
-//        $0.clipsToBounds = true
-//        $0.addTarget(self, action: #selector(showOrHideSortMenuView), for: .touchUpInside)
-//    }
-//    
-//    private let sortButtonImageView = UIImageView().then {
-//        $0.image = .down
-//    }
-//    
-//    private let sortButtonTitleLabel = UILabel().then {
-//        $0.text = "최신순"
-//        $0.font = Pretendard.regular.dynamicFont(style: .footnote)
-//        $0.textColor = .charcoalBlue
-//    }
+    private let sortButton = SortButton()
     
-    private let sortMenuView = UIView().then {
-        $0.backgroundColor = .white
-        $0.layer.cornerRadius = 10
-        
-        $0.layer.shadowColor = UIColor.black.cgColor
-        $0.layer.shadowOpacity = 0.5
-        $0.layer.shadowOffset = CGSize(width: 1, height: 1)
-        $0.layer.shadowRadius = 2
-    }
-    
-    private let latestFirstButton = UIButton().then {
-        $0.backgroundColor = .white
-        $0.addTarget(self, action: #selector(tappedLatestButton), for: .touchUpInside)
-        $0.layer.cornerRadius = 10
-    }
-    
-    private let oldestFirstButton = UIButton().then {
-        $0.backgroundColor = .white
-        $0.addTarget(self, action: #selector(tappedOldestButton), for: .touchUpInside)
-        $0.layer.cornerRadius = 10
-    }
-    
-    private let latestFirstcheckImageView = UIImageView().then {
-        $0.image = .check
-    }
-    
-    private let oldestFirstcheckImageView = UIImageView().then {
-        $0.image = .check
-    }
-    
-    private let latestTextLabel = UILabel().then {
-        $0.text = "최신순"
-        $0.font = Pretendard.regular.dynamicFont(style: .footnote)
-        $0.textColor = .charcoalBlue
-    }
-    
-    private let oldestTextLabel = UILabel().then {
-        $0.text = "오래된순"
-        $0.font = Pretendard.regular.dynamicFont(style: .footnote)
-        $0.textColor = .charcoalBlue
-    }
-    
-    private let emptyMessageLabel = UILabel().then {
-        let attrString = NSMutableAttributedString(string: $0.text!)
-        let paragraphStyle = NSMutableParagraphStyle()
-        
-        $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
-        $0.isHidden = true
-        $0.numberOfLines = 0
-        paragraphStyle.alignment = .center
-        paragraphStyle.lineSpacing = 4
-        attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attrString.length))
-        $0.attributedText = attrString
-    }
+    private let sortMenuView = SortMenuView()
     
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setLayout()
+        setSortMenuView()
+        tappedButton()
 //        searchBar.delegate = self
     }
     
@@ -124,23 +56,82 @@ class BaseLibraryAndPassageViewController: UIViewController {
     
     // MARK: - UI
     
+    private func setLayout() {
+        [titleLabel, searchBar, sortButton, sortMenuView].forEach {
+            self.view.addSubview($0)
+        }
+        
+        titleLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(10)
+            $0.leading.equalToSuperview().inset(20)
+            $0.height.equalTo(41)
+        }
+        
+        searchBar.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom)
+            $0.leading.trailing.equalToSuperview().inset(10)
+        }
+        
+        sortButton.snp.makeConstraints {
+            $0.top.equalTo(searchBar.snp.bottom).offset(10)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(29)
+            $0.width.greaterThanOrEqualTo(87)
+        }
+        
+        sortMenuView.snp.makeConstraints {
+            $0.top.equalTo(sortButton.snp.bottom).offset(3)
+            $0.trailing.equalToSuperview().inset(20)
+        }
+    }
+    
+    private func setSortMenuView() {
+        sortMenuView.isHidden = true
+        sortMenuView.latestCheckImage.isHidden = false
+        sortMenuView.oldestCheckImage.isHidden = true
+    }
+    
+    func tappedButton() {
+        sortButton.rx.tap.subscribe(with: self) { (self, _) in
+            if self.sortMenuView.isHidden {
+                self.sortMenuView.isHidden = false
+                self.view.bringSubviewToFront(self.sortMenuView)
+            } else {
+                self.sortMenuView.isHidden = true
+            }
+        }.disposed(by: disposeBag)
+        
+        sortMenuView.latestButton.rx.tap.subscribe(with: self) { (self, _) in
+            self.sortButton.sortButtonTitleLabel.text = "최신순"
+            self.sortMenuView.latestCheckImage.isHidden = false
+            self.sortMenuView.oldestCheckImage.isHidden = true
+            self.latestButtonAction()
+            self.sortMenuView.isHidden = true
+        }.disposed(by: disposeBag)
+        
+        sortMenuView.oldestButton.rx.tap.subscribe(with: self) { (self, _) in
+            self.sortButton.sortButtonTitleLabel.text = "오래된순"
+            self.sortMenuView.latestCheckImage.isHidden = true
+            self.sortMenuView.oldestCheckImage.isHidden = false
+            self.oldestButtonAction()
+            self.sortMenuView.isHidden = true
+        }.disposed(by: disposeBag)
+    }
+    
+    // 이 함수 override 해서 saveAction 작성해주시면 될 것 같아요
+    func latestButtonAction() {}
+    func oldestButtonAction() {}
+    
     func setTitleLabel(title: String, placeholder: String, emptyMessage: String) {
         titleLabel.text = title
-        searchBar.placeholder = placeholder
-        emptyMessageLabel.text = emptyMessage
+//        searchBar.placeholder = placeholder
+//        emptyMessageLabel.text = emptyMessage
     }
     
-//    @objc func showOrHideSortMenuView() {
-//        
-//    }
-    
-    @objc func tappedLatestButton() {
-        
-    }
-    
-    @objc func tappedOldestButton() {
-        
-    }
+}
+
+#Preview {
+    BaseLibraryAndPassageViewController()
 }
 
 // placdholder 색깔

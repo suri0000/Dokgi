@@ -20,7 +20,7 @@ class SortButton: UIButton {
         $0.image = .down
     }
     
-    private let sortButtonTitleLabel = UILabel().then {
+    let sortButtonTitleLabel = UILabel().then {
         $0.text = "최신순"
         $0.font = Pretendard.regular.dynamicFont(style: .footnote)
         $0.textColor = .charcoalBlue
@@ -38,9 +38,8 @@ class SortButton: UIButton {
     
     private func setupButton() {
         self.backgroundColor = .lightSkyBlue
-        self.layer.cornerRadius = 18
+        self.layer.cornerRadius = 15
         self.clipsToBounds = true
-        self.addTarget(self, action: #selector(showOrHideSortMenuView), for: .touchUpInside)
        }
     
     private func setLayout() {
@@ -59,18 +58,8 @@ class SortButton: UIButton {
             $0.width.height.equalTo(18)
         }
     }
-    
-    @objc func showOrHideSortMenuView() {
-//        if sortMenuView.isHidden {
-//            sortMenuView.isHidden = false
-//            view.bringSubviewToFront(sortMenuView)
-//        } else {
-//            sortMenuView.isHidden = true
-//        }
-    }
-    
 }
-
-#Preview {
-    SortButton()
-}
+//
+//#Preview {
+//    SortButton()
+//}
