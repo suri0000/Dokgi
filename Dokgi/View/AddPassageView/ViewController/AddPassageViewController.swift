@@ -260,7 +260,7 @@ extension AddPassageViewController: UITextViewDelegate {
         guard containerView.verseTextView.textColor == .placeholderText else { return }
         containerView.verseTextView.textColor = .label
         containerView.verseTextView.font = Pretendard.regular.dynamicFont(style: .body)
-        containerView.verseTextView.text = viewModel.recognizedText.isEmpty ? nil : viewModel.recognizedText
+        containerView.verseTextView.text = nil
         updateCharacterCountLabel()
     }
     
