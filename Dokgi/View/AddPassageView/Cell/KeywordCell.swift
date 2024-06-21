@@ -25,6 +25,11 @@ class KeywordCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+        
+        layer.cornerRadius = 14
+        clipsToBounds = true
+        layer.borderColor = UIColor.lightSkyBlue.cgColor
+        layer.borderWidth = 2
     }
     
     required init?(coder: NSCoder) {
@@ -57,7 +62,7 @@ class KeywordCell: UICollectionViewCell {
     @objc private func deleteButtonTapped() {
         guard let collectionView = superview as? UICollectionView else { return }
         guard let indexPath = collectionView.indexPath(for: self) else { return }
-        (collectionView.delegate as? AddVerseViewController)?.removeKeyword(at: indexPath)
+        (collectionView.delegate as? AddPassageViewController)?.removeKeyword(at: indexPath)
     }
     
     func configure(with text: String) {
