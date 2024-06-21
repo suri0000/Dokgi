@@ -14,38 +14,24 @@ class BaseLibraryAndPassageViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
     
+    private let searchBar = SearchBar()
+    private let sortButton = SortButton()
+    private let sortMenuView = SortMenuView()
+    
     private let titleLabel = UILabel().then {
         $0.font = Pretendard.bold.dynamicFont(style: .title1)
         $0.textColor = .black
         $0.text = "구절"
     }
     
-    private let searchBar = UISearchBar().then {
-        $0.searchBarStyle = .minimal
-        $0.setPositionAdjustment(UIOffset(horizontal: 8, vertical: 0), for: .search)
-        $0.setPositionAdjustment(UIOffset(horizontal: -8, vertical: 0), for: .clear)
-        $0.searchTextField.borderStyle = .line
-        $0.searchTextField.layer.borderWidth = 1
-        $0.searchTextField.layer.borderColor = UIColor(resource: .searchBarLightGray).cgColor
-        $0.searchTextField.layer.backgroundColor = UIColor.white.cgColor
-        $0.searchTextField.layer.cornerRadius = 17
-        $0.searchTextField.layer.masksToBounds = true
-        $0.searchTextField.font = Pretendard.regular.dynamicFont(style: .footnote)
-        $0.searchTextField.textColor = .black
-    }
-    
-    private let sortButton = SortButton()
-    
-    private let sortMenuView = SortMenuView()
-    
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         setLayout()
         setSortMenuView()
         tappedButton()
-//        searchBar.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -123,8 +109,13 @@ class BaseLibraryAndPassageViewController: UIViewController {
     func oldestButtonAction() {}
     
     func setTitleLabel(title: String, placeholder: String, emptyMessage: String) {
+        let attributes = [
+            NSAttributedString.Key.foregroundColor: UIColor.searchBarDarkGray,
+            NSAttributedString.Key.font: Pretendard.regular.dynamicFont(style: .subheadline)
+        ]
+        
         titleLabel.text = title
-//        searchBar.placeholder = placeholder
+        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attributes)
 //        emptyMessageLabel.text = emptyMessage
     }
     
@@ -133,7 +124,3 @@ class BaseLibraryAndPassageViewController: UIViewController {
 #Preview {
     BaseLibraryAndPassageViewController()
 }
-
-// placdholder 색깔
-// 서치바 델리게이트
-// 글자색 확인
