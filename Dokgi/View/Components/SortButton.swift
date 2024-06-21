@@ -11,11 +11,6 @@ import UIKit
 
 class SortButton: UIButton {
     
-    private let stackView = UIStackView().then {
-        $0.axis = .horizontal
-        $0.spacing = 5
-    }
-    
     private let sortButtonImageView = UIImageView().then {
         $0.image = .down
     }
@@ -40,26 +35,26 @@ class SortButton: UIButton {
         self.backgroundColor = .lightSkyBlue
         self.layer.cornerRadius = 15
         self.clipsToBounds = true
-       }
+    }
     
     private func setLayout() {
-        self.addSubview(stackView)
-        
         [sortButtonImageView, sortButtonTitleLabel].forEach {
-            stackView.addArrangedSubview($0)
+            self.addSubview($0)
         }
         
-        stackView.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview().inset(15)
-            $0.centerY.equalToSuperview()
+        self.snp.makeConstraints {
+            $0.height.equalTo(29)
+            $0.width.greaterThanOrEqualTo(87)
         }
         
         sortButtonImageView.snp.makeConstraints {
-            $0.width.height.equalTo(18)
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().inset(15)
+        }
+        
+        sortButtonTitleLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(15)
         }
     }
 }
-//
-//#Preview {
-//    SortButton()
-//}

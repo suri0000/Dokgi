@@ -13,7 +13,6 @@ import UIKit
 class BaseLibraryAndPassageViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
-    
     private let searchBar = SearchBar()
     private let sortButton = SortButton()
     private let sortMenuView = SortMenuView()
@@ -24,8 +23,25 @@ class BaseLibraryAndPassageViewController: UIViewController {
         $0.text = "구절"
     }
     
+    private let noResultsLabel = UILabel().then {
+        $0.text = "기록한 구절이 없어요\n구절을 등록해 보세요"
+        let paragraphStyle = NSMutableParagraphStyle()
+        let attributes: [NSAttributedString.Key: Any] = [
+            .paragraphStyle: paragraphStyle,
+            .foregroundColor: UIColor.black,
+            .font: Pretendard.regular.dynamicFont(style: .subheadline)
+        ]
+        let attrString = NSMutableAttributedString(string: $0.text!, attributes: attributes)
+        $0.isHidden = true
+        $0.numberOfLines = 0
+        paragraphStyle.alignment = .center
+        paragraphStyle.lineSpacing = 4
+        attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attrString.length))
+        $0.attributedText = attrString
+    }
+    
     // MARK: - Life Cycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -43,7 +59,7 @@ class BaseLibraryAndPassageViewController: UIViewController {
     // MARK: - UI
     
     private func setLayout() {
-        [titleLabel, searchBar, sortButton, sortMenuView].forEach {
+        [titleLabel, searchBar, sortButton, sortMenuView, noResultsLabel].forEach {
             self.view.addSubview($0)
         }
         
@@ -55,19 +71,21 @@ class BaseLibraryAndPassageViewController: UIViewController {
         
         searchBar.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom)
-            $0.leading.trailing.equalToSuperview().inset(10)
+            $0.horizontalEdges.equalToSuperview().inset(10)
         }
         
         sortButton.snp.makeConstraints {
             $0.top.equalTo(searchBar.snp.bottom).offset(10)
             $0.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(29)
-            $0.width.greaterThanOrEqualTo(87)
         }
         
         sortMenuView.snp.makeConstraints {
             $0.top.equalTo(sortButton.snp.bottom).offset(3)
             $0.trailing.equalToSuperview().inset(20)
+        }
+        
+        noResultsLabel.snp.makeConstraints {
+            $0.center.equalToSuperview()
         }
     }
     
@@ -77,7 +95,18 @@ class BaseLibraryAndPassageViewController: UIViewController {
         sortMenuView.oldestCheckImage.isHidden = true
     }
     
-    func tappedButton() {
+    func setLabelText(title: String, placeholder: String, noResultsMessage: String) {
+        let attributes = [
+            NSAttributedString.Key.foregroundColor: UIColor.searchBarDarkGray,
+            NSAttributedString.Key.font: Pretendard.regular.dynamicFont(style: .subheadline)
+        ]
+        
+        titleLabel.text = title
+        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attributes)
+        noResultsLabel.text = noResultsMessage
+    }
+    
+    private func tappedButton() {
         sortButton.rx.tap.subscribe(with: self) { (self, _) in
             if self.sortMenuView.isHidden {
                 self.sortMenuView.isHidden = false
@@ -107,20 +136,4 @@ class BaseLibraryAndPassageViewController: UIViewController {
     // 이 함수 override 해서 saveAction 작성해주시면 될 것 같아요
     func latestButtonAction() {}
     func oldestButtonAction() {}
-    
-    func setTitleLabel(title: String, placeholder: String, emptyMessage: String) {
-        let attributes = [
-            NSAttributedString.Key.foregroundColor: UIColor.searchBarDarkGray,
-            NSAttributedString.Key.font: Pretendard.regular.dynamicFont(style: .subheadline)
-        ]
-        
-        titleLabel.text = title
-        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attributes)
-//        emptyMessageLabel.text = emptyMessage
-    }
-    
-}
-
-#Preview {
-    BaseLibraryAndPassageViewController()
 }
