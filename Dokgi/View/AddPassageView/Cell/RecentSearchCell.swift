@@ -50,9 +50,6 @@ class RecentSearchCell: UICollectionViewCell {
             $0.width.height.equalTo(20)
         }
         
-        layer.cornerRadius = 10
-        layer.masksToBounds = true
-        
         deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
     }
     
