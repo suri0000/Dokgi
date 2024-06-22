@@ -43,9 +43,9 @@ class BookDetailViewModel {
         return item
     }
 }
-
-struct Passage {
-    var text: String
-    var pageType: String
-    var pageNumber: Int
-}
+//
+//struct Passage {
+//    var text: String
+//    var pageType: String
+//    var pageNumber: Int
+//}

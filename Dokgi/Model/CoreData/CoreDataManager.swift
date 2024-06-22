@@ -13,15 +13,14 @@ import WidgetKit
 class CoreDataManager {
     static let shared = CoreDataManager()
     
-    var bookData = BehaviorRelay<[Verse]>(value: [])
-    
-    //    var persistent: NSPersistentContainer? {
-    //        (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
-    //    }
+    var bookData = BehaviorRelay<[Book]>(value: [])
+    var passageData = BehaviorRelay<[Passage]>(value: [])
     
     var persistent: NSPersistentContainer? = {
         let storeURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.dogaegeol6mo.Dokgi")!.appendingPathComponent("Dokgi.sqlite")
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
+        storeDescription.shouldMigrateStoreAutomatically = true
+        storeDescription.shouldInferMappingModelAutomatically = true
         let container = NSPersistentContainer(name: "Dokgi")
         container.persistentStoreDescriptions = [storeDescription]
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
@@ -32,78 +31,113 @@ class CoreDataManager {
         return container
     }()
     
-    func saveData(verse: Verse) {
+    func saveData(author: String, image: String, passage: Passage) {
         guard let context = self.persistent?.viewContext else { return }
-        
+
         do {
-            let newVerse = ParagraphEntity(context: context)
-            newVerse.name = verse.name
-            newVerse.author = verse.author
-            newVerse.image = verse.image
-            newVerse.text = verse.text
-            newVerse.pageNum = Int32(verse.pageNumber)
-            newVerse.pageType = verse.pageType == "%" ? true : false
-            newVerse.date = verse.date
-            newVerse.keywords = verse.keywords
+            let newPassage = PassageEntity(context: context)
+            newPassage.book?.title = passage.title
+            newPassage.book?.author = author
+            newPassage.book?.image = image
+            newPassage.passage = passage.passage
+            newPassage.page = Int32(passage.page)
+            newPassage.pageType = passage.pageType
+            newPassage.date = passage.date
+            newPassage.keywords = passage.keywords
             try context.save()
             WidgetCenter.shared.reloadTimelines(ofKind: "DokgiWidget")
         } catch {
             print("Failed to fetch or save data: \(error)")
         }
-        
-        CoreDataManager.shared.bookData.accept(CoreDataManager.shared.bookData.value + [verse])
+        readBook()
+        CoreDataManager.shared.passageData.accept(CoreDataManager.shared.passageData.value + [passage])
     }
     
-    func readData() {
+    //text는 검색 그냥일때는 ""
+    func readBook(text: String = "") {
         guard let context = self.persistent?.viewContext else { return }
-        let fetchRequest: NSFetchRequest<ParagraphEntity> = ParagraphEntity.fetchRequest()
+        let fetchRequest: NSFetchRequest<BookEntity> = BookEntity.fetchRequest()
+        if text.isEmpty == false {
+            fetchRequest.predicate = NSPredicate(format: "title CONTAINS[c] %@", text)
+        }
         
         do {
             let books = try context.fetch(fetchRequest)
-            var verse = [Verse]()
+            var bookArr = [Book]()
             for book in books {
-                verse.append(Verse(name: book.name!, author: book.author!, image: book.image!, text: book.text!, pageNumber: Int(book.pageNum), pageType: book.pageType == true ? "%" : "page", keywords: book.keywords ?? [], date: book.date!))
+                bookArr.append(Book(title: book.title!, author: book.author!, image: book.author!, passages: (book.passages?.array as? [Passage])!))
             }
-            bookData.accept(verse)
+            bookData.accept(bookArr)
         } catch {
             print("Failed to fetch or read data: \(error)")
         }
     }
     
-    func deleteData(verse: Verse) {
+    //text는 검색 그냥일때는 ""
+    func readPassage(text: String = "") {
         guard let context = self.persistent?.viewContext else { return }
-        let fetchRequest: NSFetchRequest<ParagraphEntity> = ParagraphEntity.fetchRequest()
-        let namePredicate = NSPredicate(format: "name == %@", verse.name)
-        let textPredicate = NSPredicate(format: "text == %@", verse.text)
-        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [namePredicate, textPredicate])
+        let fetchRequest: NSFetchRequest<PassageEntity> = PassageEntity.fetchRequest()
+        if text.isEmpty == false {
+            fetchRequest.predicate = NSPredicate(format: "passage CONTAINS[c] %@", text)
+        }
         
         do {
-            let books = try context.fetch(fetchRequest)
-            if let book = books.first {
-                context.delete(book)
-                try context.save()
+            let passages = try context.fetch(fetchRequest)
+            var passageArr = [Passage]()
+            for passage in passages {
+                passageArr.append(Passage(title: passage.book?.title, passage: passage.passage!, page: Int(passage.page), pageType: passage.pageType, date: passage.date!, keywords: passage.keywords!))
+            }
+            passageData.accept(passageArr)
+        } catch {
+            print("Failed to fetch or read data: \(error)")
+        }
+    }
+    
+    func deleteData(passage: Passage) {
+        guard let context = self.persistent?.viewContext else { return }
+        let fetchRequest: NSFetchRequest<PassageEntity> = PassageEntity.fetchRequest()
+        let titlePredicate = NSPredicate(format: "book.title == %@", passage.title!)
+        let datePredicate = NSPredicate(format: "date == %@", passage.date as NSDate)
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [titlePredicate, datePredicate])
+
+        do {
+            let passages = try context.fetch(fetchRequest)
+            if let passageEntity = passages.first {
+                if passageEntity.book?.passages?.count == 1 {
+                    let bookRequest: NSFetchRequest<BookEntity> = BookEntity.fetchRequest()
+                    let bookTitlePredicate = NSPredicate(format: "title == %@", (passageEntity.book?.title)!)
+                    let authorPredicate = NSPredicate(format: "author == %@", passageEntity.book!.author!)
+                    bookRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [bookTitlePredicate, authorPredicate])
+                    let books = try context.fetch(bookRequest)
+                    if let bookEntity = books.first {
+                        context.delete(bookEntity)
+                        try context.save()
+                    }
+                } else {
+                    context.delete(passageEntity)
+                    try context.save()
+                }
             }
         } catch {
             print("Failed to fetch or delete data: \(error)")
         }
     }
     
-    func updateData(verse: Verse, before: String) {
+    func updateData(passage: Passage) {
         guard let context = self.persistent?.viewContext else { return }
-        let fetchRequest: NSFetchRequest<ParagraphEntity> = ParagraphEntity.fetchRequest()
-        let namePredicate = NSPredicate(format: "name == %@", verse.name)
-        let textPredicate = NSPredicate(format: "text == %@", before)
-        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [namePredicate, textPredicate])
-        
+        let fetchRequest: NSFetchRequest<PassageEntity> = PassageEntity.fetchRequest()
+        let titlePredicate = NSPredicate(format: "name == %@", passage.title!)
+        let datePredicate = NSPredicate(format: "date == %@", passage.date as NSDate)
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [titlePredicate, datePredicate])
+
         do {
-            let books = try context.fetch(fetchRequest)
-            if books.first != nil {
-                let book = books.first
-                book?.text = verse.text
-                book?.keywords = verse.keywords
-                book?.pageNum = Int32(verse.pageNumber)
-                book?.pageType = verse.pageType == "%" ? true : false
-                try context.save()
+            let passages = try context.fetch(fetchRequest)
+            if passages.first != nil {
+                let passageEntity = passages.first
+                passageEntity?.passage = passage.passage
+                passageEntity?.keywords = passage.keywords
+                passageEntity?.page = Int32(passage.page)
+                passageEntity?.pageType = passage.pageType
             }
         } catch {
             print("Failed to fetch or update data: \(error)")

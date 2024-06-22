@@ -7,26 +7,18 @@
 
 import Foundation
 
-struct Verse {
-    let name: String
+struct Book {
+    let title: String
     let author: String
     let image: String
-    var text: String
-    var pageNumber: Int
-    var pageType: String
-    var keywords: [String]
-    let date: Date
-
-    init(name: String, author: String, image: String, text: String, pageNumber: Int, pageType: String, keywords: [String], date: Date) {
-        self.name = name
-        self.author = author
-        self.image = image
-        self.text = text
-        self.pageNumber = pageNumber
-        self.pageType = pageType
-        self.keywords = keywords
-        self.date = date
-    }
+    var passages: [Passage]
 }
 
-
+struct Passage {
+    let title: String?
+    var passage: String
+    var page: Int
+    var pageType: Bool
+    let date: Date
+    var keywords: [String]
+}

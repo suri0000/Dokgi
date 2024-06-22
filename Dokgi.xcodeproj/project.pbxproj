@@ -68,7 +68,9 @@
 		A75D3D732C1A11C7006C2EB3 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74874822C0D7ED100B830EE /* PaddingLabel.swift */; };
 		A75D3D752C1B47D1006C2EB3 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75D3D742C1B47D1006C2EB3 /* StringExtension.swift */; };
 		A75D3D772C1B493F006C2EB3 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75D3D762C1B493F006C2EB3 /* DateExtension.swift */; };
+		A776FD142C25F15B0035C8BE /* DokgiV1ToV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = A776FD132C25F15B0035C8BE /* DokgiV1ToV2.xcmappingmodel */; };
 		A78D2A1C2C216FCF00F8AC72 /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78D2A1B2C216FCF00F8AC72 /* LibraryViewModel.swift */; };
+		A7D10C0F2C2530C700881AB7 /* DokgiV1ToV2MigrationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D10C0E2C2530C700881AB7 /* DokgiV1ToV2MigrationPolicy.swift */; };
 		A7F2DB192C134B200020B0AA /* PassageDetailContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB182C134B200020B0AA /* PassageDetailContainerView.swift */; };
 		A7F2DB1D2C15C6E70020B0AA /* KeywordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB1C2C15C6E70020B0AA /* KeywordCollectionViewCell.swift */; };
 		A7F2DB212C16FF860020B0AA /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB202C16FF860020B0AA /* CoreDataManager.swift */; };
@@ -169,7 +171,10 @@
 		A75908D22C12D69300415D6D /* IntArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntArrayExtension.swift; sourceTree = "<group>"; };
 		A75D3D742C1B47D1006C2EB3 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		A75D3D762C1B493F006C2EB3 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		A776FD132C25F15B0035C8BE /* DokgiV1ToV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = DokgiV1ToV2.xcmappingmodel; sourceTree = "<group>"; };
 		A78D2A1B2C216FCF00F8AC72 /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
+		A7D10C0E2C2530C700881AB7 /* DokgiV1ToV2MigrationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DokgiV1ToV2MigrationPolicy.swift; sourceTree = "<group>"; };
+		A7D10C112C253E0A00881AB7 /* Dokgi 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Dokgi 2.xcdatamodel"; sourceTree = "<group>"; };
 		A7F2DB162C1347C80020B0AA /* PassageDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassageDetailViewController.swift; sourceTree = "<group>"; };
 		A7F2DB182C134B200020B0AA /* PassageDetailContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassageDetailContainerView.swift; sourceTree = "<group>"; };
 		A7F2DB1C2C15C6E70020B0AA /* KeywordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -577,6 +582,8 @@
 				A74874722C0D7E0800B830EE /* Info.plist */,
 				855318CC2C1C4C4B00340ACF /* Config.xcconfig */,
 				A748746A2C0D7E0700B830EE /* Dokgi.xcdatamodeld */,
+				A776FD132C25F15B0035C8BE /* DokgiV1ToV2.xcmappingmodel */,
+				A7D10C0E2C2530C700881AB7 /* DokgiV1ToV2MigrationPolicy.swift */,
 			);
 			path = Dokgi;
 			sourceTree = "<group>";
@@ -860,6 +867,7 @@
 				7BE488B72C171BC500BDB92A /* PassageCollectionViewLayout.swift in Sources */,
 				A75908CB2C0FEDEF00415D6D /* DayTimeViewModel.swift in Sources */,
 				AB23869D2C18849E00E6FACE /* AddPassageViewController.swift in Sources */,
+				A7D10C0F2C2530C700881AB7 /* DokgiV1ToV2MigrationPolicy.swift in Sources */,
 				AB4BDC042C20394C001FDA8F /* AddPassageContainerView.swift in Sources */,
 				AB66D3692C17688C000D72DA /* BookSearchViewController.swift in Sources */,
 				3C73E29F2C1AB164004B1BF8 /* CurrentLevelCell.swift in Sources */,
@@ -883,6 +891,7 @@
 				7BE488A92C0F267000BDB92A /* LibraryViewController.swift in Sources */,
 				A75908CF2C101A3900415D6D /* DayTableViewCell.swift in Sources */,
 				855318BB2C16E56800340ACF /* BookDetailViewController.swift in Sources */,
+				A776FD142C25F15B0035C8BE /* DokgiV1ToV2.xcmappingmodel in Sources */,
 				A75908B92C0F087900415D6D /* AlarmView.swift in Sources */,
 				A75908C62C0F756800415D6D /* TimePickerViewController.swift in Sources */,
 				A7F2DB212C16FF860020B0AA /* CoreDataManager.swift in Sources */,
@@ -1311,9 +1320,10 @@
 		A748746A2C0D7E0700B830EE /* Dokgi.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				A7D10C112C253E0A00881AB7 /* Dokgi 2.xcdatamodel */,
 				A748746B2C0D7E0700B830EE /* Dokgi.xcdatamodel */,
 			);
-			currentVersion = A748746B2C0D7E0700B830EE /* Dokgi.xcdatamodel */;
+			currentVersion = A7D10C112C253E0A00881AB7 /* Dokgi 2.xcdatamodel */;
 			path = Dokgi.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
