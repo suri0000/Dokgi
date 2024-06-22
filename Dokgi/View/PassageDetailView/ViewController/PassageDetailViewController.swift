@@ -188,15 +188,15 @@ class PassageDetailViewController: UIViewController {
         
         viewModel.keywords.bind(to: containerView.keywordCollectionView.rx.items(cellIdentifier: KeywordCollectionViewCell.identifier,
                    cellType: KeywordCollectionViewCell.self)) { row, data, cell in
-            cell.keywordLbl.text = data
-            cell.xBtn.rx.tap.subscribe(with: self) { (self, data) in
+            cell.keywordLabel.text = data
+            cell.xButton.rx.tap.subscribe(with: self) { (self, data) in
                 self.viewModel.deleteDetailKeyword(keyword: row)
             }.disposed(by: cell.disposeBag)
             
             if self.editBtn.titleLabel?.text == "수정하기" {
-                cell.xBtn.isHidden = true
+                cell.xButton.isHidden = true
             } else {
-                cell.xBtn.isHidden = false
+                cell.xButton.isHidden = false
             }
         }.disposed(by: disposeBag)
     }
