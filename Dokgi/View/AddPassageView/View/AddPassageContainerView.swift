@@ -152,14 +152,18 @@ class AddPassageContainerView: UIView {
         $0.selectedIndex = 0
     }
     
-    let recordButton = UIButton().then {
-        $0.setTitle("기록 하기", for: .normal)
-        $0.titleLabel?.font = Pretendard.bold.dynamicFont(style: .headline)
-        $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = .charcoalBlue
-        $0.layer.cornerRadius = 15
-        $0.clipsToBounds = true
+    let recordButton = AddPassageButton().then {
+        $0.setButtonTitle("기록 하기")
     }
+    
+//    let recordButton = UIButton().then {
+//        $0.setTitle("기록 하기", for: .normal)
+//        $0.titleLabel?.font = Pretendard.bold.dynamicFont(style: .headline)
+//        $0.setTitleColor(.white, for: .normal)
+//        $0.backgroundColor = .charcoalBlue
+//        $0.layer.cornerRadius = 15
+//        $0.clipsToBounds = true
+//    }
     
     // MARK: - Lifecycle
     override init(frame: CGRect) {
