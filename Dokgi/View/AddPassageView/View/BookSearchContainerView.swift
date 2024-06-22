@@ -17,18 +17,12 @@ class BookSearchContainerView: UIView {
         $0.isHidden = true
     }
     
-    let searchBar = UISearchBar().then {
-        $0.searchBarStyle = .minimal
-        $0.setPositionAdjustment(UIOffset(horizontal: 8, vertical: 0), for: .search)
-        $0.setPositionAdjustment(UIOffset(horizontal: -8, vertical: 0), for: .clear)
-        $0.placeholder = "책을 검색해보세요"
-        $0.searchTextField.borderStyle = .line
-        $0.searchTextField.layer.borderWidth = 1
-        $0.searchTextField.layer.borderColor = UIColor(resource: .searchBarLightGray).cgColor
-        $0.searchTextField.layer.backgroundColor = UIColor.white.cgColor
-        $0.searchTextField.layer.cornerRadius = 17
-        $0.searchTextField.layer.masksToBounds = true
-        $0.searchTextField.font = Pretendard.regular.dynamicFont(style: .subheadline)
+    let searchBar = SearchBar().then {
+        let attributes = [
+            NSAttributedString.Key.foregroundColor: UIColor.searchBarDarkGray,
+            NSAttributedString.Key.font: Pretendard.regular.dynamicFont(style: .subheadline)
+        ]
+        $0.searchTextField.attributedPlaceholder = NSAttributedString(string: "책을 검색해보세요", attributes: attributes)
     }
     
     let recentSearchLabel = UILabel().then {
