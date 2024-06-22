@@ -19,23 +19,24 @@ class BookSearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        setupTableView()
-        setupCollectionView()
         containerView.clearAllButton.addTarget(self, action: #selector(clearAllButtonTapped), for: .touchUpInside)
     }
     
     private func setupUI() {
         view.backgroundColor = .white
-        containerView.searchBar.delegate = self
+        setupSearchBar()
+        setupTableView()
+        setupCollectionView()
         initLayout()
     }
     
     private func initLayout() {
         view.addSubview(containerView)
-        
-        containerView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+        containerView.snp.makeConstraints { $0.edges.equalToSuperview() }
+    }
+    
+    private func setupSearchBar() {
+        containerView.searchBar.delegate = self
     }
     
     private func setupTableView() {
@@ -157,7 +158,6 @@ extension BookSearchViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let item = viewModel.searchResults[indexPath.row]
-        
         delegate?.didSelectBook(item)
         dismiss(animated: true, completion: nil)
     }
@@ -179,7 +179,6 @@ extension BookSearchViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchCell.identifier, for: indexPath) as? RecentSearchCell else {
             return UICollectionViewCell()
         }
-        
         let recentSearches = viewModel.loadRecentSearches()
         cell.configure(with: recentSearches[indexPath.item], viewModel: viewModel)
         return cell
