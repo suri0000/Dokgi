@@ -31,7 +31,7 @@ class BookDetailViewController: UIViewController {
         $0.clipsToBounds = true
     }
     
-    private let blurView = UIVisualEffectView().then {
+    private let backgroundImageBlurView = UIVisualEffectView().then {
         $0.backgroundColor = .white.withAlphaComponent(0.6)
         $0.effect = UIBlurEffect(style: .light)
         $0.alpha = 0.8
@@ -141,7 +141,7 @@ class BookDetailViewController: UIViewController {
         view.addSubview(buttonBackgroundView)
         view.addSubview(addPassageButton)
         [backgroundBookImage,
-         blurView,
+         backgroundImageBlurView,
          gradientLayerView,
          bookImage,
          bookInfoStackView,
@@ -180,14 +180,14 @@ class BookDetailViewController: UIViewController {
             $0.bottom.equalTo(bookInfoStackView.snp.top)
         }
         
-        blurView.snp.makeConstraints {
+        backgroundImageBlurView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(-100)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalTo(bookInfoStackView.snp.top)
         }
         
         gradientLayerView.snp.makeConstraints {
-            $0.bottom.equalTo(blurView.snp.bottom)
+            $0.bottom.equalTo(backgroundImageBlurView.snp.bottom)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(view.safeAreaLayoutGuide).multipliedBy(0.09)
         }
@@ -229,7 +229,7 @@ class BookDetailViewController: UIViewController {
         buttonBackgroundView.snp.makeConstraints {
             $0.centerY.equalTo(addPassageButton)
             $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(view.safeAreaLayoutGuide).multipliedBy(0.3)
+            $0.height.equalTo(view.safeAreaLayoutGuide).multipliedBy(0.25)
         }
     }
     
@@ -245,6 +245,7 @@ class BookDetailViewController: UIViewController {
         DispatchQueue.global(qos: .userInitiated).async {
             let startPoint = CGPoint(x: 0.5, y: 0.0)
             let endPoint: CGPoint
+            
             if view == self.buttonBackgroundView {
                 endPoint = CGPoint(x: 0.5, y: 0.5)
             } else {
