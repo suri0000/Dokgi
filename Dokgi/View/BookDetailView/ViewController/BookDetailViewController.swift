@@ -5,8 +5,8 @@
 //  Created by 예슬 on 6/10/24.
 //
 
-import RxSwift
 import Kingfisher
+import RxSwift
 import SnapKit
 import Then
 import UIKit
@@ -51,6 +51,7 @@ class BookDetailViewController: UIViewController {
         $0.font = Pretendard.semibold.dynamicFont(style: .headline)
         $0.numberOfLines = 2
         $0.textAlignment = .center
+        $0.textColor = .black
     }
     
     private let authorLabel = UILabel().then {
@@ -69,6 +70,7 @@ class BookDetailViewController: UIViewController {
         $0.text = "처음 기록 날짜"
         $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
         $0.textAlignment = .left
+        $0.textColor = .black
     }
     
     private let dateLabel = UILabel().then {
@@ -80,6 +82,7 @@ class BookDetailViewController: UIViewController {
     private let passageTitleLabel = UILabel().then {
         $0.text = "구절"
         $0.font = Pretendard.semibold.dynamicFont(style: .title3)
+        $0.textColor = .black
     }
     
     private let passageTableView = UITableView().then {
@@ -88,19 +91,11 @@ class BookDetailViewController: UIViewController {
         $0.separatorStyle = .none
         $0.isScrollEnabled = false
     }
-    
-    lazy var addPassageButton = UIButton().then {
-        $0.backgroundColor = .charcoalBlue
-        $0.layer.cornerRadius = 15
-        $0.clipsToBounds = true
-        $0.addTarget(self, action: #selector(didTabAddPassageButton), for: .touchUpInside)
+
+    private let addPassageButton = AddPassageButton().then {
+        $0.setButtonTitle("구절 추가하기")
     }
-    
-    private let buttonLabel = UILabel().then {
-        $0.text = "구절 추가하기"
-        $0.font = Pretendard.semibold.dynamicFont(style: .headline)
-        $0.textColor = .white
-    }
+
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,15 +103,14 @@ class BookDetailViewController: UIViewController {
         passageTableView.dataSource = self
         passageTableView.delegate = self
         passageTableView.register(PassageTableViewCell.self, forCellReuseIdentifier: PassageTableViewCell.identifier)
-        
         setConstraints()
         bindViewModel()
+        tappedAddPassageButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = false
-        
         blurLayer(layer: gradientLayer, view: gradientLayerView)
         blurLayer(layer: buttonBackgroundLayer, view: buttonBackgroundView)
     }
@@ -139,21 +133,16 @@ class BookDetailViewController: UIViewController {
     
     // MARK: - UI
     private func setConstraints() {
-        view.addSubview(scrollView)
+        view.addSubviews([scrollView, buttonBackgroundView, addPassageButton])
         scrollView.addSubview(contentsView)
-        addPassageButton.addSubview(buttonLabel)
-        view.addSubview(buttonBackgroundView)
-        view.addSubview(addPassageButton)
-        [backgroundBookImage,
-         backgroundImageBlurView,
-         gradientLayerView,
-         bookImage,
-         bookInfoStackView,
-         firstDateRecordStackView,
-         passageTitleLabel,
-         passageTableView].forEach {
-            contentsView.addSubview($0)
-        }
+        contentsView.addSubviews([backgroundBookImage,
+                                  backgroundImageBlurView,
+                                  gradientLayerView,
+                                  bookImage,
+                                  bookInfoStackView,
+                                  firstDateRecordStackView,
+                                  passageTitleLabel,
+                                  passageTableView])
         
         [bookTitleLabel, authorLabel].forEach {
             bookInfoStackView.addArrangedSubview($0)
@@ -225,15 +214,10 @@ class BookDetailViewController: UIViewController {
             $0.centerX.equalTo(buttonBackgroundView)
         }
         
-        buttonLabel.snp.makeConstraints {
-            $0.centerY.centerX.equalToSuperview()
-            $0.verticalEdges.equalToSuperview().inset(15)
-        }
-        
         buttonBackgroundView.snp.makeConstraints {
-            $0.centerY.equalTo(addPassageButton)
+            $0.top.equalTo(addPassageButton)
             $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(view.safeAreaLayoutGuide).multipliedBy(0.25)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
@@ -247,10 +231,11 @@ class BookDetailViewController: UIViewController {
         layer.colors = colors
         
         DispatchQueue.global(qos: .userInitiated).async {
-            let startPoint = CGPoint(x: 0.5, y: 0.0)
+            var startPoint = CGPoint(x: 0.5, y: 0.0)
             let endPoint: CGPoint
             
             if view == self.buttonBackgroundView {
+                startPoint = CGPoint(x: 0.5, y: -0.8)
                 endPoint = CGPoint(x: 0.5, y: 0.5)
             } else {
                 endPoint = CGPoint(x: 0.5, y: 0.8)
@@ -282,11 +267,13 @@ class BookDetailViewController: UIViewController {
         }
     }
     
-    @objc private func didTabAddPassageButton() {
-        let addVerseVC = AddPassageViewController()
-        addVerseVC.viewModel.selectedBook = viewModel.makeAddVerseViewData()
-        self.navigationController?.pushViewController(addVerseVC, animated: true)
-        addVerseVC.displayBookInfo()
+    private func tappedAddPassageButton() {
+        addPassageButton.rx.tap.subscribe(with: self) { (self, _) in
+            let addVerseVC = AddPassageViewController()
+            addVerseVC.viewModel.selectedBook = self.viewModel.makeAddVerseViewData()
+            self.navigationController?.pushViewController(addVerseVC, animated: true)
+            addVerseVC.displayBookInfo()
+        }.disposed(by: disposeBag)
     }
 }
 // MARK: - PassageTableView
