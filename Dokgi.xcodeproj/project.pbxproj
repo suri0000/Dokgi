@@ -18,6 +18,9 @@
 		3C73E2A02C1AB164004B1BF8 /* CurrentLevelCollectionFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C73E29D2C1AB164004B1BF8 /* CurrentLevelCollectionFlowLayout.swift */; };
 		3C73E2A12C1AB164004B1BF8 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C73E29E2C1AB164004B1BF8 /* HomeViewController.swift */; };
 		3C73E2A32C1B03AD004B1BF8 /* FloatButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C73E2A22C1B03AC004B1BF8 /* FloatButton.swift */; };
+		3C9AD89A2C2462B0007393C1 /* FloatingButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AD8992C2462B0007393C1 /* FloatingButtonViewController.swift */; };
+		3C9AD89C2C24634E007393C1 /* UICollectionViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AD89B2C24634E007393C1 /* UICollectionViewCellExtension.swift */; };
+		3C9AD8C32C25A4FC007393C1 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AD8C22C25A4FC007393C1 /* HomeView.swift */; };
 		7BE488A92C0F267000BDB92A /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE488A82C0F267000BDB92A /* LibraryViewController.swift */; };
 		7BE488AF2C103E5A00BDB92A /* LibraryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE488AE2C103E5A00BDB92A /* LibraryCollectionViewCell.swift */; };
 		7BE488B32C16E29C00BDB92A /* PassageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE488B22C16E29C00BDB92A /* PassageViewController.swift */; };
@@ -25,6 +28,12 @@
 		7BE488B72C171BC500BDB92A /* PassageCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE488B62C171BC400BDB92A /* PassageCollectionViewLayout.swift */; };
 		8500B52E2C203A4500A0EB38 /* PassageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8500B52D2C203A4500A0EB38 /* PassageViewModel.swift */; };
 		854E157E2C244FCA00FE5256 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854E157D2C244FCA00FE5256 /* BaseViewModel.swift */; };
+		854E15802C24828D00FE5256 /* BaseAlarmSettingSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854E157F2C24828D00FE5256 /* BaseAlarmSettingSheetViewController.swift */; };
+		854E15842C2495A500FE5256 /* BaseLibraryAndPassageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854E15832C2495A500FE5256 /* BaseLibraryAndPassageViewController.swift */; };
+		854E15862C24A67E00FE5256 /* SortButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854E15852C24A67E00FE5256 /* SortButton.swift */; };
+		854E15882C25534700FE5256 /* SortMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854E15872C25534700FE5256 /* SortMenuView.swift */; };
+		854E158A2C25AE3E00FE5256 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854E15892C25AE3E00FE5256 /* SearchBar.swift */; };
+		854E158E2C25F2FE00FE5256 /* AddPassageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854E158D2C25F2FE00FE5256 /* AddPassageButton.swift */; };
 		855318BB2C16E56800340ACF /* BookDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855318BA2C16E56800340ACF /* BookDetailViewController.swift */; };
 		855318C12C17FAD800340ACF /* PassageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855318C02C17FAD800340ACF /* PassageTableViewCell.swift */; };
 		855318C62C1AEBF900340ACF /* BookDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855318C52C1AEBF900340ACF /* BookDetailViewModel.swift */; };
@@ -86,6 +95,8 @@
 		AB4BDC042C20394C001FDA8F /* AddPassageContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4BDC032C20394C001FDA8F /* AddPassageContainerView.swift */; };
 		AB4BDC062C216BF7001FDA8F /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4BDC052C216BF7001FDA8F /* RecentSearchCell.swift */; };
 		AB4BDC0A2C219C6F001FDA8F /* BookSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4BDC092C219C6F001FDA8F /* BookSearchViewModel.swift */; };
+		AB4BDC0C2C249608001FDA8F /* addSubviewsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4BDC0B2C249608001FDA8F /* addSubviewsExtension.swift */; };
+		AB4BDC0E2C249F1B001FDA8F /* BookSearchContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4BDC0D2C249F1B001FDA8F /* BookSearchContainerView.swift */; };
 		AB66D3442C0EEFE3000D72DA /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3432C0EEFE3000D72DA /* TabBarViewController.swift */; };
 		AB66D3692C17688C000D72DA /* BookSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3682C17688C000D72DA /* BookSearchViewController.swift */; };
 /* End PBXBuildFile section */
@@ -126,6 +137,9 @@
 		3C73E29D2C1AB164004B1BF8 /* CurrentLevelCollectionFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentLevelCollectionFlowLayout.swift; sourceTree = "<group>"; };
 		3C73E29E2C1AB164004B1BF8 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		3C73E2A22C1B03AC004B1BF8 /* FloatButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatButton.swift; sourceTree = "<group>"; };
+		3C9AD8992C2462B0007393C1 /* FloatingButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButtonViewController.swift; sourceTree = "<group>"; };
+		3C9AD89B2C24634E007393C1 /* UICollectionViewCellExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewCellExtension.swift; sourceTree = "<group>"; };
+		3C9AD8C22C25A4FC007393C1 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		7BE488A82C0F267000BDB92A /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
 		7BE488AE2C103E5A00BDB92A /* LibraryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryCollectionViewCell.swift; sourceTree = "<group>"; };
 		7BE488B22C16E29C00BDB92A /* PassageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassageViewController.swift; sourceTree = "<group>"; };
@@ -133,6 +147,12 @@
 		7BE488B62C171BC400BDB92A /* PassageCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassageCollectionViewLayout.swift; sourceTree = "<group>"; };
 		8500B52D2C203A4500A0EB38 /* PassageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassageViewModel.swift; sourceTree = "<group>"; };
 		854E157D2C244FCA00FE5256 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
+		854E157F2C24828D00FE5256 /* BaseAlarmSettingSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAlarmSettingSheetViewController.swift; sourceTree = "<group>"; };
+		854E15832C2495A500FE5256 /* BaseLibraryAndPassageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLibraryAndPassageViewController.swift; sourceTree = "<group>"; };
+		854E15852C24A67E00FE5256 /* SortButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortButton.swift; sourceTree = "<group>"; };
+		854E15872C25534700FE5256 /* SortMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortMenuView.swift; sourceTree = "<group>"; };
+		854E15892C25AE3E00FE5256 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		854E158D2C25F2FE00FE5256 /* AddPassageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPassageButton.swift; sourceTree = "<group>"; };
 		855318BA2C16E56800340ACF /* BookDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailViewController.swift; sourceTree = "<group>"; };
 		855318C02C17FAD800340ACF /* PassageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassageTableViewCell.swift; sourceTree = "<group>"; };
 		855318C52C1AEBF900340ACF /* BookDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailViewModel.swift; sourceTree = "<group>"; };
@@ -188,6 +208,8 @@
 		AB4BDC032C20394C001FDA8F /* AddPassageContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPassageContainerView.swift; sourceTree = "<group>"; };
 		AB4BDC052C216BF7001FDA8F /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
 		AB4BDC092C219C6F001FDA8F /* BookSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearchViewModel.swift; sourceTree = "<group>"; };
+		AB4BDC0B2C249608001FDA8F /* addSubviewsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addSubviewsExtension.swift; sourceTree = "<group>"; };
+		AB4BDC0D2C249F1B001FDA8F /* BookSearchContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearchContainerView.swift; sourceTree = "<group>"; };
 		AB66D3432C0EEFE3000D72DA /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		AB66D3682C17688C000D72DA /* BookSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearchViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -234,10 +256,19 @@
 		3C73E2972C1889F6004B1BF8 /* HomeView */ = {
 			isa = PBXGroup;
 			children = (
+				3C9AD8C12C25A49E007393C1 /* View */,
 				854E156C2C2448D300FE5256 /* Cell */,
 				854E156B2C2448B500FE5256 /* ViewController */,
 			);
 			path = HomeView;
+			sourceTree = "<group>";
+		};
+		3C9AD8C12C25A49E007393C1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3C9AD8C22C25A4FC007393C1 /* HomeView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		7BE488B02C16E21E00BDB92A /* LibraryView */ = {
@@ -478,6 +509,7 @@
 			isa = PBXGroup;
 			children = (
 				AB4BDC032C20394C001FDA8F /* AddPassageContainerView.swift */,
+				AB4BDC0D2C249F1B001FDA8F /* BookSearchContainerView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -506,6 +538,12 @@
 				3C73E2A22C1B03AC004B1BF8 /* FloatButton.swift */,
 				A722B5882C1C715000E43FC9 /* SegmentControlView.swift */,
 				A74874822C0D7ED100B830EE /* PaddingLabel.swift */,
+				854E157F2C24828D00FE5256 /* BaseAlarmSettingSheetViewController.swift */,
+				854E15832C2495A500FE5256 /* BaseLibraryAndPassageViewController.swift */,
+				854E15852C24A67E00FE5256 /* SortButton.swift */,
+				854E15872C25534700FE5256 /* SortMenuView.swift */,
+				854E15892C25AE3E00FE5256 /* SearchBar.swift */,
+				854E158D2C25F2FE00FE5256 /* AddPassageButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -600,9 +638,12 @@
 		A74874792C0D7E1100B830EE /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				3C9AD8992C2462B0007393C1 /* FloatingButtonViewController.swift */,
 				A75908D22C12D69300415D6D /* IntArrayExtension.swift */,
+				3C9AD89B2C24634E007393C1 /* UICollectionViewCellExtension.swift */,
 				A75D3D742C1B47D1006C2EB3 /* StringExtension.swift */,
 				A75D3D762C1B493F006C2EB3 /* DateExtension.swift */,
+				AB4BDC0B2C249608001FDA8F /* addSubviewsExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -846,11 +887,17 @@
 				A75D3D732C1A11C7006C2EB3 /* PaddingLabel.swift in Sources */,
 				A75D3D722C1A11C4006C2EB3 /* PassageDetailViewController.swift in Sources */,
 				855318C12C17FAD800340ACF /* PassageTableViewCell.swift in Sources */,
+				3C9AD8C32C25A4FC007393C1 /* HomeView.swift in Sources */,
 				A75908B72C0EF4C000415D6D /* SettingViewController.swift in Sources */,
 				A7F2DB642C18BAA70020B0AA /* PassageDetailViewModel.swift in Sources */,
+				854E15882C25534700FE5256 /* SortMenuView.swift in Sources */,
+				854E158E2C25F2FE00FE5256 /* AddPassageButton.swift in Sources */,
+				AB4BDC0C2C249608001FDA8F /* addSubviewsExtension.swift in Sources */,
 				A75908C42C0F6B9600415D6D /* Font.swift in Sources */,
 				AB4BDC0A2C219C6F001FDA8F /* BookSearchViewModel.swift in Sources */,
+				854E15862C24A67E00FE5256 /* SortButton.swift in Sources */,
 				3C73E2A12C1AB164004B1BF8 /* HomeViewController.swift in Sources */,
+				854E15842C2495A500FE5256 /* BaseLibraryAndPassageViewController.swift in Sources */,
 				85BC84762C21BCD700D8A27E /* AppDelegate.swift in Sources */,
 				A75908D12C12D36100415D6D /* UserDefaultsKey.swift in Sources */,
 				AB23869F2C19B5FC00E6FACE /* VerseModel.swift in Sources */,
@@ -859,8 +906,10 @@
 				A7F2DB1D2C15C6E70020B0AA /* KeywordCollectionViewCell.swift in Sources */,
 				3C208EB02C10273F00CED104 /* DataManager.swift in Sources */,
 				A75908C82C0F758900415D6D /* DaySelectViewController.swift in Sources */,
+				AB4BDC0E2C249F1B001FDA8F /* BookSearchContainerView.swift in Sources */,
 				A75908D32C12D69300415D6D /* IntArrayExtension.swift in Sources */,
 				AB4BDC062C216BF7001FDA8F /* RecentSearchCell.swift in Sources */,
+				854E15802C24828D00FE5256 /* BaseAlarmSettingSheetViewController.swift in Sources */,
 				A722B5892C1C715000E43FC9 /* SegmentControlView.swift in Sources */,
 				855318C62C1AEBF900340ACF /* BookDetailViewModel.swift in Sources */,
 				A7F2DB192C134B200020B0AA /* PassageDetailContainerView.swift in Sources */,
@@ -876,6 +925,7 @@
 				3C41815F2C0DBF9800D141FD /* BookModel.swift in Sources */,
 				AB66D3442C0EEFE3000D72DA /* TabBarViewController.swift in Sources */,
 				3C73E2A32C1B03AD004B1BF8 /* FloatButton.swift in Sources */,
+				3C9AD89C2C24634E007393C1 /* UICollectionViewCellExtension.swift in Sources */,
 				8500B52E2C203A4500A0EB38 /* PassageViewModel.swift in Sources */,
 				854E157E2C244FCA00FE5256 /* BaseViewModel.swift in Sources */,
 				7BE488B52C16E4CF00BDB92A /* PassageCollectionViewCell.swift in Sources */,
@@ -893,7 +943,9 @@
 				855318BB2C16E56800340ACF /* BookDetailViewController.swift in Sources */,
 				A776FD142C25F15B0035C8BE /* DokgiV1ToV2.xcmappingmodel in Sources */,
 				A75908B92C0F087900415D6D /* AlarmView.swift in Sources */,
+				3C9AD89A2C2462B0007393C1 /* FloatingButtonViewController.swift in Sources */,
 				A75908C62C0F756800415D6D /* TimePickerViewController.swift in Sources */,
+				854E158A2C25AE3E00FE5256 /* SearchBar.swift in Sources */,
 				A7F2DB212C16FF860020B0AA /* CoreDataManager.swift in Sources */,
 				A74874642C0D7E0600B830EE /* SceneDelegate.swift in Sources */,
 				3C208EB22C106DD300CED104 /* HomeViewModel.swift in Sources */,
@@ -930,9 +982,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = DokgiWidgetExtension.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CS9SP68DH3;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = CS9SP68DH3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DokgiWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DokgiWidget;
@@ -946,6 +1000,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dogaegeol6mo.Dokgi.DokgiWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Dokgi Widget Development";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1114,9 +1170,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Dokgi/Dokgi.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CS9SP68DH3;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = CS9SP68DH3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Dokgi/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "이 앱은 문서 스캔을 위해 카메라를 사용합니다.";
@@ -1133,6 +1191,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dogaegeol6mo.Dokgi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Dokgi Development";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1151,9 +1211,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Dokgi/Dokgi.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CS9SP68DH3;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Dokgi/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "이 앱은 문서 스캔을 위해 카메라를 사용합니다.";
@@ -1170,6 +1230,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dogaegeol6mo.Dokgi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
