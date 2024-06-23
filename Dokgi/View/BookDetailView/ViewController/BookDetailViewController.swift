@@ -12,7 +12,7 @@ import Then
 import UIKit
 
 class BookDetailViewController: UIViewController {
-    private let viewModel = BookDetailViewModel.shared
+    let viewModel = BookDetailViewModel()
     private var disposeBag = DisposeBag()
     
     private let contentsView = UIView()
@@ -20,7 +20,6 @@ class BookDetailViewController: UIViewController {
     private let buttonBackgroundView = UIView()
     private let buttonBackgroundLayer = CAGradientLayer()
     private let gradientLayer = CAGradientLayer()
-    
     
     private let scrollView = UIScrollView().then {
         $0.showsVerticalScrollIndicator = false
@@ -109,14 +108,9 @@ class BookDetailViewController: UIViewController {
         passageTableView.dataSource = self
         passageTableView.delegate = self
         passageTableView.register(PassageTableViewCell.self, forCellReuseIdentifier: PassageTableViewCell.identifier)
-        viewModel.makePassageDateOfBook()
-        setConstraints()
-        setBookInfo()
         
-        CoreDataManager.shared.bookData.subscribe(with: self) { (self, bookData) in
-            self.viewModel.makePassageDateOfBook()
-            self.passageTableView.reloadData()
-        }.disposed(by: disposeBag)
+        setConstraints()
+        bindViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -125,14 +119,24 @@ class BookDetailViewController: UIViewController {
         
         blurLayer(layer: gradientLayer, view: gradientLayerView)
         blurLayer(layer: buttonBackgroundLayer, view: buttonBackgroundView)
-        passageTableView.snp.remakeConstraints {
-            $0.top.equalTo(passageTitleLabel.snp.bottom).offset(11)
-            $0.horizontalEdges.equalToSuperview().inset(20)
-            $0.height.equalTo(96 * viewModel.passagesData.value.count)
-            $0.bottom.equalToSuperview().inset(60)
-        }
-
     }
+    
+    private func bindViewModel() {
+        viewModel.bookInfo
+            .observe(on: MainScheduler.instance)
+            .subscribe(with: self) { (self, bookInfo) in
+                self.setBookInfo(bookInfo)
+            }.disposed(by: disposeBag)
+        
+        viewModel.passagesData
+            .observe(on: MainScheduler.instance)
+            .subscribe(with: self) { (self, _) in
+                self.viewModel.makePassageDataOfBook()
+                self.passageTableView.reloadData()
+                self.updatePassageTableHeight()
+            }.disposed(by: disposeBag)
+    }
+    
     // MARK: - UI
     private func setConstraints() {
         view.addSubview(scrollView)
@@ -261,14 +265,20 @@ class BookDetailViewController: UIViewController {
         }
     }
     
-    private func setBookInfo() {
-        bookTitleLabel.text = viewModel.bookInfo.value.name
-        authorLabel.text = viewModel.bookInfo.value.author
-        dateLabel.text = viewModel.recordDateFormat()
+    private func setBookInfo(_ bookInfo: Verse) {
+        bookTitleLabel.text = bookInfo.name
+        authorLabel.text = bookInfo.author
+        dateLabel.text = bookInfo.date.toString()
         
-        if let url = URL(string: viewModel.bookInfo.value.image) {
+        if let url = URL(string: bookInfo.image) {
             bookImage.kf.setImage(with: url)
             backgroundBookImage.kf.setImage(with: url)
+        }
+    }
+    
+    private func updatePassageTableHeight() {
+        passageTableView.snp.updateConstraints {
+            $0.height.equalTo(96 * viewModel.passagesData.value.count)
         }
     }
     
@@ -282,7 +292,6 @@ class BookDetailViewController: UIViewController {
 // MARK: - PassageTableView
 extension BookDetailViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return viewModel.passagesData.value.count
     }
     
@@ -298,8 +307,4 @@ extension BookDetailViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 96
     }
-}
-
-#Preview {
-    BookDetailViewController()
 }

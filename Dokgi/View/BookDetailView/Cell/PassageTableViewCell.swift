@@ -12,7 +12,7 @@ import UIKit
 class PassageTableViewCell: UITableViewCell {
     
     static let identifier = String(describing: PassageTableViewCell.self)
-    private let viewModel = BookDetailViewModel.shared
+    private let viewModel = BookDetailViewModel()
     
     private let circleView = UIView().then {
         $0.backgroundColor = .charcoalBlue
