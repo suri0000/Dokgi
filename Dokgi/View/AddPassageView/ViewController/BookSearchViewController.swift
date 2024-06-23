@@ -132,6 +132,7 @@ extension BookSearchViewController: UISearchBarDelegate {
             containerView.tableView.isHidden = true
             containerView.recentSearchStackView.isHidden = false
             containerView.collectionView.isHidden = false
+            containerView.collectionView.reloadData()
         }
     }
 }
