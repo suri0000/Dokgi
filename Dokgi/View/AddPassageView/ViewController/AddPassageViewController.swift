@@ -47,7 +47,7 @@ class AddPassageViewController: UIViewController {
         }
         view.addSubview(scrollView)
         scrollView.addSubview(containerView)
-        containerView.keywordCollectionView.register(KeywordCell.self, forCellWithReuseIdentifier: KeywordCell.reuseIdentifier)
+        containerView.keywordCollectionView.register(KeywordCollectionViewCell.self, forCellWithReuseIdentifier: KeywordCollectionViewCell.identifier)
         containerView.keywordCollectionView.delegate = self
         containerView.keywordCollectionView.dataSource = self
         containerView.keywordField.delegate = self
@@ -231,13 +231,14 @@ extension AddPassageViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "KeywordCell", for: indexPath) as? KeywordCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: KeywordCollectionViewCell.identifier, for: indexPath) as? KeywordCollectionViewCell else {
             return UICollectionViewCell()
         }
         
         let reversedIndex = viewModel.keywords.count - 1 - indexPath.item
         let keyword = viewModel.keywords[reversedIndex]
-        cell.configure(with: keyword)
+        cell.xButton.isHidden = false
+        cell.keywordLabel.text = keyword
         return cell
     }
     
@@ -247,7 +248,7 @@ extension AddPassageViewController: UICollectionViewDelegate, UICollectionViewDa
         let font = Pretendard.regular.dynamicFont(style: .callout)
         let attributes = [NSAttributedString.Key.font: font]
         let textSize = (keyword as NSString).size(withAttributes: attributes)
-        let cellWidth = textSize.width + 35
+        let cellWidth = textSize.width + 40
         let cellHeight: CGFloat = 34
         
         return CGSize(width: cellWidth, height: cellHeight)
