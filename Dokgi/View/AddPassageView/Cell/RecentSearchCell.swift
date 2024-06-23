@@ -60,6 +60,11 @@ class RecentSearchCell: UICollectionViewCell {
         layer.borderWidth = 2
     }
     
+    func configure(with text: String, viewModel: BookSearchViewModel) {
+        self.viewModel = viewModel
+        label.text = text
+    }
+    
     @objc private func deleteButtonTapped() {
         guard let collectionView = superview as? UICollectionView else { return }
         guard let indexPath = collectionView.indexPath(for: self) else { return }
@@ -67,10 +72,5 @@ class RecentSearchCell: UICollectionViewCell {
         viewModel.removeRecentSearch(at: indexPath)
         
         collectionView.reloadData()
-    }
-    
-    func configure(with text: String, viewModel: BookSearchViewModel) {
-        self.viewModel = viewModel
-        label.text = text
     }
 }

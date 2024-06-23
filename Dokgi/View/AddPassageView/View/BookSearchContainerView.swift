@@ -26,10 +26,8 @@ class BookSearchContainerView: UIView {
     }
     
     let recentSearchLabel = UILabel().then {
-        let poundKeyImage: UIImage? = .poundKey
-        $0.text = "최근 검색"
         $0.font = Pretendard.semibold.dynamicFont(style: .headline)
-        $0.textColor = .black
+        let poundKeyImage: UIImage? = .poundKey
         if let image = poundKeyImage {
             let attachment = NSTextAttachment()
             attachment.image = image

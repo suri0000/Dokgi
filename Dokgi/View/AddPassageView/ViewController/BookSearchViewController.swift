@@ -19,7 +19,7 @@ class BookSearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        containerView.clearAllButton.addTarget(self, action: #selector(clearAllButtonTapped), for: .touchUpInside)
+        setUpAction()
     }
     
     private func setupUI() {
@@ -33,6 +33,10 @@ class BookSearchViewController: UIViewController {
     private func initLayout() {
         view.addSubview(containerView)
         containerView.snp.makeConstraints { $0.edges.equalToSuperview() }
+    }
+    
+    private func setUpAction() {
+        containerView.clearAllButton.addTarget(self, action: #selector(clearAllButtonTapped), for: .touchUpInside)
     }
     
     private func setupSearchBar() {
@@ -52,6 +56,21 @@ class BookSearchViewController: UIViewController {
         containerView.collectionView.register(RecentSearchCell.self, forCellWithReuseIdentifier: RecentSearchCell.identifier)
     }
     
+    private func showNoResults() {
+        containerView.noResultsLabel.isHidden = false
+        containerView.tableView.isHidden = true
+    }
+    
+    private func showSearchResults() {
+        containerView.noResultsLabel.isHidden = true
+        containerView.tableView.isHidden = false
+    }
+    
+    private func hideSearchResults() {
+        containerView.noResultsLabel.isHidden = true
+        containerView.tableView.isHidden = true
+    }
+    
     private func fetchBooks(query: String, startIndex: Int) {
         viewModel.isLoading = true
         viewModel.fetchBooks(query: query, startIndex: startIndex) { [weak self] result in
@@ -60,13 +79,11 @@ class BookSearchViewController: UIViewController {
             case .success(let items):
                 DispatchQueue.main.async {
                     if items.isEmpty {
-                        self.containerView.noResultsLabel.isHidden = false
-                        self.containerView.tableView.isHidden = true
+                        self.showNoResults()
                     } else {
-                        self.containerView.noResultsLabel.isHidden = true
                         self.viewModel.searchResults.append(contentsOf: items)
                         self.containerView.tableView.reloadData()
-                        self.containerView.tableView.isHidden = false
+                        self.showSearchResults()
                     }
                     self.viewModel.isLoading = false
                 }
@@ -77,7 +94,7 @@ class BookSearchViewController: UIViewController {
         }
     }
     
-    func loadMore() {
+    private func loadMore() {
         if viewModel.isLoading { return }
         viewModel.isLoading = true
         viewModel.startIndex += 1
@@ -111,29 +128,35 @@ class BookSearchViewController: UIViewController {
 // MARK: - UISearchBarDelegate
 extension BookSearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        if let query = searchBar.text {
-            self.viewModel.query = query
-            self.viewModel.startIndex = 1
-            self.viewModel.searchResults = []
-            fetchBooks(query: query, startIndex: viewModel.startIndex)
-            viewModel.saveRecentSearch(query)
-            containerView.tableView.isHidden = false
-            containerView.recentSearchStackView.isHidden = true
-            containerView.collectionView.isHidden = true
-            containerView.noResultsLabel.isHidden = true
-            searchBar.resignFirstResponder()
-        }
+        guard let query = searchBar.text, !query.isEmpty else { return }
+        viewModel.query = query
+        viewModel.startIndex = 1
+        viewModel.searchResults = []
+        fetchBooks(query: query, startIndex: viewModel.startIndex)
+        viewModel.saveRecentSearch(query)
+        showSearchResults()
+        hideRecentSearches()
+        searchBar.resignFirstResponder()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
-            self.viewModel.searchResults = []
-            self.containerView.tableView.reloadData()
-            containerView.tableView.isHidden = true
-            containerView.recentSearchStackView.isHidden = false
-            containerView.collectionView.isHidden = false
-            containerView.collectionView.reloadData()
+            viewModel.searchResults = []
+            containerView.tableView.reloadData()
+            hideSearchResults()
+            showRecentSearches()
         }
+    }
+    
+    private func hideRecentSearches() {
+        containerView.recentSearchStackView.isHidden = true
+        containerView.collectionView.isHidden = true
+    }
+    
+    private func showRecentSearches() {
+        containerView.recentSearchStackView.isHidden = false
+        containerView.collectionView.isHidden = false
+        containerView.collectionView.reloadData()
     }
 }
 
