@@ -19,6 +19,7 @@ class SettingViewController: UIViewController{
     let titleLbl = UILabel().then {
         $0.text = "설정"
         $0.font = Pretendard.bold.dynamicFont(style: .title2)
+        $0.textColor = .black
     }
     
     //MARK: - lifeCycle
