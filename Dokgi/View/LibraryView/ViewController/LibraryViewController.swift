@@ -339,8 +339,8 @@ extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        BookDetailViewModel.shared.bookInfo.accept(libraryViewModel.libraryData.value[indexPath.row])
         let bookDetailViewController = BookDetailViewController()
+        bookDetailViewController.viewModel.bookInfo.accept(libraryViewModel.libraryData.value[indexPath.row])
         self.navigationController?.pushViewController(bookDetailViewController, animated: true)
     }
 }
