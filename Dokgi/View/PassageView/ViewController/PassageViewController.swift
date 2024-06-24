@@ -68,7 +68,7 @@ class PassageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewModel.paragraphData.subscribe(with: self) { (self, data) in
+        viewModel.passageData.subscribe(with: self) { (self, data) in
             if let layout = self.paragraphCollectionView.collectionViewLayout as? PassageCollectionViewLayout {
                 layout.invalidateCache()
             }
@@ -86,11 +86,13 @@ class PassageViewController: UIViewController {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
+        
         if sortButton.titleLabel?.text != "최신순" {
-            let sortedPassageAndDate = viewModel.paragraphData.value.sorted { $0.1 > $1.1 }
+            let sortedPassageAndDate = viewModel.passageData.value.sorted { $0.1 > $1.1 }
             
-            isFiltering ? searchResultItems.sort { $0.1 > $1.1 } : viewModel.paragraphData.accept(sortedPassageAndDate)
+            isFiltering ? searchResultItems.sort { $0.1 > $1.1 } : viewModel.passageData.accept(sortedPassageAndDate)
         }
+        
         self.paragraphCollectionView.reloadData()
     }
     
@@ -341,9 +343,9 @@ class PassageViewController: UIViewController {
         oldestFirstcheckImageView.isHidden = true
         sortMenuView.isHidden = true
         
-        let sortedPassageAndDate = viewModel.paragraphData.value.sorted { $0.1 > $1.1 }
+        let sortedPassageAndDate = viewModel.passageData.value.sorted { $0.1 > $1.1 }
         
-        isFiltering ? searchResultItems.sort { $0.1 > $1.1 } : viewModel.paragraphData.accept(sortedPassageAndDate)
+        isFiltering ? searchResultItems.sort { $0.1 > $1.1 } : viewModel.passageData.accept(sortedPassageAndDate)
     }
     
     @objc private func tappedOldestFirst() {
@@ -352,9 +354,9 @@ class PassageViewController: UIViewController {
         oldestFirstcheckImageView.isHidden = false
         sortMenuView.isHidden = true
         
-        let sortedPassageAndDate = viewModel.paragraphData.value.sorted { $0.1 < $1.1 }
+        let sortedPassageAndDate = viewModel.passageData.value.sorted { $0.1 < $1.1 }
         
-        isFiltering ? searchResultItems.sort { $0.1 < $1.1 } : viewModel.paragraphData.accept(sortedPassageAndDate)
+        isFiltering ? searchResultItems.sort { $0.1 < $1.1 } : viewModel.passageData.accept(sortedPassageAndDate)
     }
     
     @objc private func tappedSelectionButton() {
@@ -381,7 +383,7 @@ extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let cellCount = viewModel.paragraphData.value.count
+        let cellCount = viewModel.passageData.value.count
         let resultCount = searchResultItems.count
         let itemCount = isFiltering ? resultCount : cellCount
         
@@ -400,7 +402,7 @@ extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.deleteButton.isHidden = !isEditingMode
         cell.delegate = self
         
-        let (text, date) = isFiltering ? searchResultItems[indexPath.item] : viewModel.paragraphData.value[indexPath.item]
+        let (text, date) = isFiltering ? searchResultItems[indexPath.item] : viewModel.passageData.value[indexPath.item]
         cell.paragraphLabel.text = text
         let dateString = String(date.toString()).suffix(10)
         cell.dateLabel.text = String(dateString)
@@ -409,8 +411,8 @@ extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, heightForTextAtIndexPath indexPath: IndexPath) -> CGFloat {
-        let text = isFiltering ? searchResultItems[indexPath.item].0 : viewModel.paragraphData.value[indexPath.item].0
-        let date = isFiltering ? searchResultItems[indexPath.item].1 : viewModel.paragraphData.value[indexPath.item].1
+        let text = isFiltering ? searchResultItems[indexPath.item].0 : viewModel.passageData.value[indexPath.item].0
+        let date = isFiltering ? searchResultItems[indexPath.item].1 : viewModel.passageData.value[indexPath.item].1
         return calculateCellHeight(for: text, for: date.toString(), in: collectionView)
     }
     
@@ -457,19 +459,19 @@ extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func tappedDeleteButton(in cell: PassageCollectionViewCell) {
         guard let indexPath = paragraphCollectionView.indexPath(for: cell) else { return }
-        self.viewModel.selectParagraph(text: isFiltering ? searchResultItems[indexPath.item].0 : viewModel.paragraphData.value[indexPath.item].0, at: indexPath.item)
-        var currentParagraph = isFiltering ? searchResultItems : viewModel.paragraphData.value
+        self.viewModel.selectPassage(text: isFiltering ? searchResultItems[indexPath.item].0 : viewModel.passageData.value[indexPath.item].0, at: indexPath.item)
+        var currentParagraph = isFiltering ? searchResultItems : viewModel.passageData.value
         currentParagraph.remove(at: indexPath.item)
-        viewModel.paragraphData.accept(currentParagraph)
+        viewModel.passageData.accept(currentParagraph)
         searchResultItems = currentParagraph
-        CoreDataManager.shared.deleteData(verse: viewModel.detailParagraph.value)
+        CoreDataManager.shared.deleteData(passage: viewModel.detailPassage.value)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let modalVC = PassageDetailViewController()
         
-        viewModel.selectParagraph(text: isFiltering ? searchResultItems[indexPath.item].0 : viewModel.paragraphData.value[indexPath.item].0, at: indexPath.item)
-        modalVC.viewModel.detailParagraph.accept(viewModel.detailParagraph.value)
+        viewModel.selectPassage(text: isFiltering ? searchResultItems[indexPath.item].0 : viewModel.passageData.value[indexPath.item].0, at: indexPath.item)
+        modalVC.viewModel.detailPassage.accept(viewModel.detailPassage.value)
         present(modalVC, animated: true, completion: nil)
     }
 }
@@ -480,7 +482,7 @@ extension PassageViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         self.isFiltering = true
         self.searchBar.showsCancelButton = true
-        searchResultItems = viewModel.paragraphData.value
+        searchResultItems = viewModel.passageData.value
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -489,9 +491,9 @@ extension PassageViewController: UISearchBarDelegate {
     
     private func filterItems(with searchText: String) {
         if searchText.isEmpty {
-            searchResultItems = viewModel.paragraphData.value
+            searchResultItems = viewModel.passageData.value
         } else {
-            searchResultItems = viewModel.paragraphData.value.filter { $0.0.localizedCaseInsensitiveContains(searchText) }
+            searchResultItems = viewModel.passageData.value.filter { $0.0.localizedCaseInsensitiveContains(searchText) }
         }
     }
     
