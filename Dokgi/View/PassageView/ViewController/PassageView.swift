@@ -4,12 +4,13 @@
 //
 //  Created by t2023-m0095 on 6/21/24.
 //
+import SnapKit
 import Then
 import UIKit
 
 class PassageView: UIView {
     
-    let passageLabel = UILabel().then {
+    private let passageLabel = UILabel().then {
         $0.text = "구절"
         $0.font = Pretendard.bold.dynamicFont(style: .title1)
     }
@@ -110,23 +111,32 @@ class PassageView: UIView {
         $0.textColor = .charcoalBlue
     }
     
-    let passageCollectionView = PassageCollectionVC().passageCollectionView
+    let passageCollectionView = PassageCollectionView().passageCollectionView
     
     let emptyMessageLabel = UILabel().then {
         $0.text = "기록한 구절이 없어요\n구절을 등록해 보세요"
         $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
         $0.numberOfLines = 0
         let attrString = NSMutableAttributedString(string: $0.text!)
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .center
-        paragraphStyle.lineSpacing = 4
-        attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attrString.length))
+        let passageStyle = NSMutableParagraphStyle()
+        passageStyle.alignment = .center
+        passageStyle.lineSpacing = 4
+        attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value: passageStyle, range: NSMakeRange(0, attrString.length))
         $0.attributedText = attrString
-        $0.isHidden = true
+    }
+    
+    override init(frame: CGRect) {
+          super.init(frame: frame)
+          setConstraints()
+      }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func setConstraints() {
-        [passageLabel, selectionButton, doneButton, searchBar, sortButton, sortMenuView, passageCollectionView, emptyMessageLabel].forEach { addSubview($0)
+        [passageLabel, selectionButton, doneButton, searchBar, sortButton, sortMenuView, passageCollectionView, emptyMessageLabel].forEach { 
+            addSubview($0)
         }
         
         passageLabel.snp.makeConstraints {

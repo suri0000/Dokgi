@@ -108,7 +108,7 @@ class PassageDetailViewController: UIViewController {
     }
     
     func dataBinding() {
-        viewModel.detailParagraph.subscribe(with: self) { (self, data) in
+        viewModel.detailPassage.subscribe(with: self) { (self, data) in
             self.titleLbl.text = data.name
             self.containerView.paragrapTextLbl.text = data.text
             self.viewModel.keywords.accept(data.keywords)
@@ -137,10 +137,10 @@ class PassageDetailViewController: UIViewController {
                 self.editBtn.setImage(nil, for: .normal)
                 self.containerView.pageTextField.isHidden = false
                 self.containerView.pageSegment.isHidden = false
-                self.containerView.pageTextField.text = "\(self.viewModel.detailParagraph.value.pageNumber)"
+                self.containerView.pageTextField.text = "\(self.viewModel.detailPassage.value.pageNumber)"
                 self.containerView.pageWriteLbl.isHidden = true
                 self.containerView.keywordCollectionView.reloadData()
-                if self.viewModel.detailParagraph.value.pageType == "%" {
+                if self.viewModel.detailPassage.value.pageType == "%" {
                     self.containerView.pageSegment.selectedIndex = 1
                 }
             } else {

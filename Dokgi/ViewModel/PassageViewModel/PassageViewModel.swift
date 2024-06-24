@@ -11,8 +11,10 @@ import RxSwift
 
 class PassageViewModel {
     var disposeBag = DisposeBag()
-    var paragraphData = BehaviorRelay<[(String, Date)]>(value: [("", Date())])
-    var detailParagraph = BehaviorRelay<Verse>(value: Verse(name: "", author: "", image: "", text: "", pageNumber: 1, pageType: "P", keywords: [], date: Date()))
+    var passageData = BehaviorRelay<[(String, Date)]>(value: [("", Date())])
+    var detailPassage = BehaviorRelay<Verse>(value: Verse(name: "", author: "", image: "", text: "", pageNumber: 1, pageType: "P", keywords: [], date: Date()))
+    var isFiltering = BehaviorRelay<Bool>(value: false)
+    var searchBarText = BehaviorRelay<String>(value: "")
     
     init() {
         CoreDataManager.shared.bookData
@@ -22,7 +24,7 @@ class PassageViewModel {
             .sorted { $0.1 > $1.1 }
             }
             .subscribe(onNext: { [weak self] versesAndDates in
-                self?.paragraphData.accept(versesAndDates)
+                self?.passageData.accept(versesAndDates)
             })
             .disposed(by: disposeBag)
     }
@@ -30,7 +32,7 @@ class PassageViewModel {
     func selectParagraph(text: String, at index: Int) {
             let selectedText = text
             if let selectedVerse = CoreDataManager.shared.bookData.value.first(where: { $0.text == selectedText }) {
-                detailParagraph.accept(selectedVerse)
+                detailPassage.accept(selectedVerse)
             }
         }
 }
