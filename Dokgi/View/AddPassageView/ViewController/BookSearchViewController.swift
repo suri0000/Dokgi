@@ -104,7 +104,7 @@ class BookSearchViewController: UIViewController {
     }
     
     private func loadMore() {
-        if viewModel.isLoading { return }
+        if viewModel.isLoading || viewModel.isLoadingLast { return }
         viewModel.isLoading = true
         viewModel.startIndex += 1
         
@@ -196,7 +196,7 @@ extension BookSearchViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == viewModel.searchResults.count - 1 && !viewModel.isLoading {
+        if indexPath.row == viewModel.searchResults.count - 1 && !viewModel.isLoading && !viewModel.isLoadingLast {
             loadMore()
         }
     }
