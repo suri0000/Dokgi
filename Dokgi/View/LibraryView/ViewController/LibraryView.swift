@@ -35,6 +35,7 @@ class LibraryView: UIView {
         $0.layer.cornerRadius = 15
         $0.clipsToBounds = true
     }
+    
     private let sortButtonImageView = UIImageView().then {
         $0.image = .down
     }
@@ -69,15 +70,18 @@ class LibraryView: UIView {
         $0.image = .check
         $0.isHidden = false
     }
+    
     let oldestFirstcheckImageView = UIImageView().then {
         $0.image = .check
         $0.isHidden = true
     }
+    
     private let latestTextLabel = UILabel().then {
         $0.text = "최신순"
         $0.font = Pretendard.regular.dynamicFont(style: .footnote)
         $0.textColor = .charcoalBlue
     }
+    
     private let oldestTextLabel = UILabel().then {
         $0.text = "오래된순"
         $0.font = Pretendard.regular.dynamicFont(style: .footnote)

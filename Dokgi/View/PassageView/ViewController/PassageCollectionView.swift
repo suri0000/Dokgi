@@ -4,9 +4,6 @@
 //
 //  Created by t2023-m0095 on 6/21/24.
 //
-
-import RxSwift
-import Then
 import UIKit
 
 class PassageCollectionView: UICollectionView {

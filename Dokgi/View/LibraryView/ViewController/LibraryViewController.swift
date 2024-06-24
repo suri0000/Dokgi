@@ -4,7 +4,6 @@
 //
 //  Created by t2023-m0095 on 6/4/24.
 //
-
 import Kingfisher
 import RxCocoa
 import RxSwift
@@ -12,7 +11,7 @@ import SnapKit
 import UIKit
 
 class LibraryViewController: UIViewController, UISearchBarDelegate {
-
+    
     let libraryView = LibraryView()
     
     let libraryViewModel = LibraryViewModel()
@@ -91,7 +90,7 @@ class LibraryViewController: UIViewController, UISearchBarDelegate {
         libraryView.sortButton.addTarget(self, action: #selector(showOrHideSortMenuView), for: .touchUpInside)
     }
     
-    //MARK: -버튼 클릭
+    //MARK: -버튼 클릭 시
     @objc private func showOrHideSortMenuView() {
         if libraryView.sortMenuView.isHidden {
             libraryView.sortMenuView.isHidden = false
@@ -103,7 +102,7 @@ class LibraryViewController: UIViewController, UISearchBarDelegate {
     
     @objc private func tappedLatestFirst() {
         libraryView.sortButtonTitleLabel.text = "최신순"
-
+        
         libraryView.latestFirstcheckImageView.isHidden = false
         libraryView.oldestFirstcheckImageView.isHidden = true
         self.libraryViewModel.dataLatest()
@@ -119,7 +118,7 @@ class LibraryViewController: UIViewController, UISearchBarDelegate {
         libraryView.sortMenuView.isHidden = true
     }
 }
-
+//MARK: - CollectionView
 extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
