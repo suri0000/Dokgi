@@ -10,7 +10,7 @@ import RxCocoa
 import SnapKit
 import UIKit
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, HomeViewDelegate {
  
     let disposeBag = DisposeBag()
     let viewModel = HomeViewModel()
@@ -26,12 +26,13 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupConstraints()
-        configureUI()
         setupCollectionView()
         bindViewModel()
         bannerTimer()
         setFloatingButton()
-        CoreDataManager.shared.readData() // 추가된 구절 반영
+        CoreDataManager.shared.readPassage() // 추가된 구절 반영
+        homeView.delegate = self
+        homeView.setConfigureUI(viewModel: viewModel)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -45,13 +46,7 @@ class HomeViewController: UIViewController {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
-        CoreDataManager.shared.readData()
-    }
-
-    func configureUI() {
-        homeView.settingButton.addTarget(self, action: #selector(didTapSetting), for: .touchUpInside)
-        homeView.nextLengthLabel.text = "다음 레벨까지 \(Int(Float(viewModel.currentLevelPercent.value) * 100)) % 달성했습니다!"
-        homeView.indicatorDots.numberOfPages = viewModel.randomVerses.value.count
+        CoreDataManager.shared.readPassage()
     }
     
     func setupConstraints() {
@@ -164,7 +159,7 @@ class HomeViewController: UIViewController {
     }
     
     // 홈 상단에 설정 페이지 이동
-    @objc func didTapSetting() {
+    func didTapSettingButton() {
         let settingVC = SettingViewController()
         self.navigationController?.pushViewController(settingVC, animated: true)
         settingVC.tabBarController?.tabBar.isHidden = true
@@ -206,7 +201,8 @@ extension HomeViewController: UICollectionViewDataSource {
             }
             
             if indexPath.item + 1 == viewModel.currentLevel.value {
-                let length = viewModel.getVerseLength(from: viewModel.verses.value)
+                let passages: [String] = viewModel.passages.value.map { $0.passage }
+                let length = viewModel.getVerseLength(from: passages)
                 cell.lengthLabel.text = MetricUtil.formatLength(length: length)
             }
             
