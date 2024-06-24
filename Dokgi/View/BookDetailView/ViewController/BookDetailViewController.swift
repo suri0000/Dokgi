@@ -12,7 +12,7 @@ import Then
 import UIKit
 
 class BookDetailViewController: UIViewController {
-    private let viewModel = BookDetailViewModel.shared
+    let viewModel = BookDetailViewModel.shared
     private var disposeBag = DisposeBag()
     
     private let contentsView = UIView()

@@ -1,21 +1,17 @@
 //
-//  LibraryCollectionVC.swift
+//  LibrarySearchViewController.swift
 //  Dokgi
 //
-//  Created by t2023-m0095 on 6/21/24.
+//  Created by t2023-m0095 on 6/4/24.
 //
+import Kingfisher
+import RxCocoa
 import RxSwift
 import UIKit
 
-class LibraryCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
-    
-    let libraryViewModel = LibraryViewModel()
-    var disposeBag = DisposeBag()
-    
-    var isEditingMode: Bool = false
-    var isFiltering: Bool = false
-    
-    lazy var libraryCollectionView: UICollectionView = {
+class LibraryCollectionView: UICollectionView {
+
+    init() {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 36
         layout.minimumInteritemSpacing = 10
@@ -29,40 +25,12 @@ class LibraryCollectionView: UICollectionView, UICollectionViewDelegate, UIColle
         
         layout.itemSize = .init(width: cellWidth, height: cellWidth * 1.58)
         
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(LibraryCollectionViewCell.self, forCellWithReuseIdentifier: LibraryCollectionViewCell.identifier)
-        collectionView.backgroundColor = .yellow
-        return collectionView
-    }()
-    
+        super.init(frame: .zero, collectionViewLayout: layout)
 
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let cellCount = libraryViewModel.libraryData.value.count
-        
-        LibraryView().emptyMessageLabel.isHidden = cellCount > 0
-        return cellCount
+        self.register(LibraryCollectionViewCell.self, forCellWithReuseIdentifier: LibraryCollectionViewCell.identifier)
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryCollectionViewCell.identifier, for: indexPath) as? LibraryCollectionViewCell else {
-            return UICollectionViewCell()
-        }
-        cell.authorNameLabel.text = libraryViewModel.libraryData.value[indexPath.row].author
-        cell.bookNameLabel.text = libraryViewModel.libraryData.value[indexPath.row].name
-        if let url = URL(string: libraryViewModel.libraryData.value[indexPath.row].image) {
-            cell.bookImageView.kf.setImage(with: url)
-        }
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        BookDetailViewModel.shared.bookInfo.accept(libraryViewModel.libraryData.value[indexPath.row])
-        let bookDetailViewController = BookDetailViewController()
-        PassageViewController().navigationController?.pushViewController(bookDetailViewController, animated: true)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

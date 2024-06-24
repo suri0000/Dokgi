@@ -84,7 +84,7 @@ class LibraryView: UIView {
         $0.textColor = .charcoalBlue
     }
     
-    let libraryCollectionView = LibraryCollectionView().libraryCollectionView
+    let libraryCollectionView = LibraryCollectionView()
     
     let emptyMessageLabel = UILabel().then {
         $0.text = "기록한 책이 없어요\n구절을 등록해 보세요"
@@ -96,6 +96,7 @@ class LibraryView: UIView {
         passageStyle.lineSpacing = 4
         attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value: passageStyle, range: NSMakeRange(0, attrString.length))
         $0.attributedText = attrString
+        $0.isHidden = true
     }
     
     override init(frame: CGRect) {
