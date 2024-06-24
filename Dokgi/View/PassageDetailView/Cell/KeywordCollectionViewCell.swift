@@ -13,19 +13,19 @@ import UIKit
 
 class KeywordCollectionViewCell: UICollectionViewCell {
     static let identifier = "KeywordCollectionViewCell"
-    private var disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
     
     private let stackView = UIStackView().then {
         $0.axis = .horizontal
         $0.spacing = 3
     }
     
-    private let keywordLabel = UILabel().then {
+    let keywordLabel = UILabel().then {
         $0.font = Pretendard.regular.dynamicFont(style: .callout)
         $0.textColor = .brightBlue
     }
     
-    private let xButton = UIButton().then {
+    let xButton = UIButton().then {
         $0.setImage(.deleteKeyword, for: .normal)
         $0.isHidden = true
     }
