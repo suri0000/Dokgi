@@ -149,13 +149,13 @@ class AddPassageViewController: UIViewController {
 
     func displayBookInfo() {
         if let book = viewModel.selectedBook {
-            containerView.titleLabel.text = book.title
-            containerView.titleLabel.font = Pretendard.semibold.dynamicFont(style: .headline)
-            containerView.titleLabel.textColor = .black
-            containerView.authorLabel.text = book.author
+            containerView.infoView.titleLabel.text = book.title
+            containerView.infoView.titleLabel.font = Pretendard.semibold.dynamicFont(style: .headline)
+            containerView.infoView.titleLabel.textColor = .black
+            containerView.infoView.authorLabel.text = book.author
             if let url = URL(string: book.image) {
-                containerView.imageView.kf.setImage(with: url)
-                containerView.imageView.contentMode = .scaleAspectFill
+                containerView.infoView.imageView.kf.setImage(with: url)
+                containerView.infoView.imageView.contentMode = .scaleAspectFill
             }
         }
         containerView.overlayView.isHidden = true

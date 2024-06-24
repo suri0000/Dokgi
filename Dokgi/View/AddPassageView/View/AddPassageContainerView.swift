@@ -32,9 +32,7 @@ class AddPassageContainerView: UIView {
         $0.clipsToBounds = true
     }
     
-    let infoView = UIView().then {
-        $0.layer.cornerRadius = 15
-    }
+    let infoView = InfoView()
     
     let overlayView = UIView().then {
         $0.backgroundColor = UIColor.lightSkyBlue.withAlphaComponent(0.5)
@@ -44,41 +42,19 @@ class AddPassageContainerView: UIView {
     let searchButton = UIButton(type: .system).then {
         var config = UIButton.Configuration.filled()
         config.title = "책 검색"
-        $0.titleLabel?.font = Pretendard.semibold.dynamicFont(style: .headline)
         config.baseForegroundColor = .white
         config.baseBackgroundColor = .charcoalBlue
         config.image = .magnifyingglass
         config.imagePadding = 8
         config.imagePlacement = .leading
         config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 15)
+        $0.titleLabel?.font = Pretendard.semibold.dynamicFont(style: .headline)
         $0.configuration = config
         $0.layer.cornerRadius = 15
         $0.clipsToBounds = true
         $0.titleLabel?.numberOfLines = 1
     }
-    
-    var imageView = UIImageView().then {
-        $0.image = UIImage(resource: .empty).withRenderingMode(.alwaysTemplate)
-        $0.tintColor = .buttonLightGray
-        $0.layer.cornerRadius = 15
-        $0.clipsToBounds = true
-        $0.contentMode = .scaleAspectFit
-    }
-    
-    var titleLabel = UILabel().then {
-        $0.text = "책 제목"
-        $0.font = Pretendard.bold.dynamicFont(style: .body)
-        $0.textColor = .bookTextGray
-        $0.numberOfLines = 2
-    }
-    
-    var authorLabel = UILabel().then {
-        $0.text = "저자"
-        $0.font = Pretendard.bold.dynamicFont(style: .body)
-        $0.textColor = .bookTextGray
-        $0.numberOfLines = 2
-    }
-    
+
     let overlapView = UIView().then {
         $0.backgroundColor = .clear
         $0.layer.borderWidth = 1.0
@@ -100,7 +76,7 @@ class AddPassageContainerView: UIView {
     }
     
     let characterCountLabel = UILabel().then {
-        $0.textColor = .gray
+        $0.textColor = .textFieldGray
         $0.font = Pretendard.bold.dynamicFont(style: .footnote)
     }
     
@@ -115,11 +91,11 @@ class AddPassageContainerView: UIView {
     }
     
     let keywordField = UITextField().then {
-        let placeholder = "키워드를 입력해 주세요"
+        $0.placeholder = "키워드를 입력해 주세요"
         $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
-        $0.placeholder = placeholder
-        $0.clipsToBounds = true
+        $0.textColor = .textFieldGray
         $0.layer.cornerRadius = 10
+        $0.clipsToBounds = true
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.borderGray.cgColor
     }
@@ -143,6 +119,7 @@ class AddPassageContainerView: UIView {
     
     let pageNumberTextField = UITextField().then {
         $0.placeholder = "페이지"
+        $0.textColor = .textFieldGray
         $0.textAlignment = .center
         $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
         $0.borderStyle = .roundedRect
@@ -172,7 +149,7 @@ class AddPassageContainerView: UIView {
     private func setupViews() {
         [scanButton, infoView, overlapView, verseTextView, characterCountLabel, pencilImageView, keywordLabel, keywordField, keywordCollectionView, pageLabel, pageNumberTextField, pageSegment, recordButton].forEach { addSubview($0) }
         
-        infoView.addSubviews([imageView, titleLabel, authorLabel, overlayView])
+        infoView.addSubview(overlayView)
         overlayView.addSubview(searchButton)
     }
     
@@ -197,30 +174,11 @@ class AddPassageContainerView: UIView {
             $0.center.equalToSuperview()
             $0.height.equalTo(35)
         }
-        
-        imageView.snp.makeConstraints {
-            $0.leading.equalTo(infoView.snp.leading)
-            $0.centerY.equalTo(infoView.snp.centerY)
-            $0.width.equalTo(103)
-            $0.height.equalTo(146)
-        }
-        
-        titleLabel.snp.makeConstraints {
-            $0.centerY.equalTo(infoView.snp.centerY).offset(-16)
-            $0.leading.equalTo(imageView.snp.trailing).offset(16)
-            $0.trailing.equalTo(infoView.snp.trailing).offset(-16)
-        }
-        
-        authorLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(16)
-            $0.leading.equalTo(imageView.snp.trailing).offset(16)
-            $0.trailing.equalTo(infoView.snp.trailing).offset(-16)
-        }
-        
+
         overlapView.snp.makeConstraints {
             $0.top.equalTo(infoView.snp.bottom).offset(32)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(329) // 원하는 높이로 설정
+            $0.height.equalTo(329)
         }
         
         verseTextView.snp.makeConstraints {

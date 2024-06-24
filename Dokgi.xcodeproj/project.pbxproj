@@ -96,6 +96,7 @@
 		AB4BDC0E2C249F1B001FDA8F /* BookSearchContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4BDC0D2C249F1B001FDA8F /* BookSearchContainerView.swift */; };
 		AB66D3442C0EEFE3000D72DA /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3432C0EEFE3000D72DA /* TabBarViewController.swift */; };
 		AB66D3692C17688C000D72DA /* BookSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB66D3682C17688C000D72DA /* BookSearchViewController.swift */; };
+		ABEB97222C28FA5C00501696 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEB97212C28FA5C00501696 /* InfoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -206,6 +207,7 @@
 		AB4BDC0D2C249F1B001FDA8F /* BookSearchContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearchContainerView.swift; sourceTree = "<group>"; };
 		AB66D3432C0EEFE3000D72DA /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		AB66D3682C17688C000D72DA /* BookSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearchViewController.swift; sourceTree = "<group>"; };
+		ABEB97212C28FA5C00501696 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -502,6 +504,7 @@
 			isa = PBXGroup;
 			children = (
 				AB4BDC032C20394C001FDA8F /* AddPassageContainerView.swift */,
+				ABEB97212C28FA5C00501696 /* InfoView.swift */,
 				AB4BDC0D2C249F1B001FDA8F /* BookSearchContainerView.swift */,
 			);
 			path = View;
@@ -889,6 +892,7 @@
 				854E15842C2495A500FE5256 /* BaseLibraryAndPassageViewController.swift in Sources */,
 				85BC84762C21BCD700D8A27E /* AppDelegate.swift in Sources */,
 				A75908D12C12D36100415D6D /* UserDefaultsKey.swift in Sources */,
+				ABEB97222C28FA5C00501696 /* InfoView.swift in Sources */,
 				AB23869F2C19B5FC00E6FACE /* VerseModel.swift in Sources */,
 				A748746C2C0D7E0700B830EE /* Dokgi.xcdatamodeld in Sources */,
 				AB355D5B2C18725400B3DE16 /* KeywordCell.swift in Sources */,
