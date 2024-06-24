@@ -28,6 +28,7 @@ class TimePickerViewController: UIViewController {
     let titleLbl = UILabel().then {
         $0.text = "알림 시간 설정"
         $0.font = Pretendard.semibold.dynamicFont(style: .title3)
+        $0.textColor = .black
         $0.textAlignment = .center
     }
     
@@ -44,6 +45,7 @@ class TimePickerViewController: UIViewController {
     
     let timePicker = UIPickerView().then {
         $0.backgroundColor = .white
+        $0.setValue(UIColor.black, forKey: "textColor")
     }
     //MARK: - lifeCycle
     override func viewDidLoad() {

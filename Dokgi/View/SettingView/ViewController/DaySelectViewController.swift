@@ -26,6 +26,7 @@ class DaySelectViewController: UIViewController {
     let titleLbl = UILabel().then {
         $0.text = "알림 요일 설정"
         $0.font = Pretendard.semibold.dynamicFont(style: .title3)
+        $0.textColor = .black
         $0.textAlignment = .center
     }
     
