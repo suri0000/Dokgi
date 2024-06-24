@@ -71,6 +71,14 @@ class BookSearchViewController: UIViewController {
         containerView.tableView.isHidden = true
     }
     
+    private func showAlert(title: String, message: String, completion: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
+            completion?()
+        }))
+        present(alert, animated: true, completion: nil)
+    }
+    
     private func fetchBooks(query: String, startIndex: Int) {
         viewModel.isLoading = true
         viewModel.fetchBooks(query: query, startIndex: startIndex) { [weak self] result in
@@ -89,6 +97,7 @@ class BookSearchViewController: UIViewController {
                 }
             case .failure(let error):
                 print("Error: \(error)")
+                self.showAlert(title: "Error", message: "\(error.localizedDescription)")
                 self.viewModel.isLoading = false
             }
         }
