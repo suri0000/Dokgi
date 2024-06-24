@@ -23,6 +23,7 @@ class PassageDetailViewController: UIViewController {
     
     lazy var titleLbl = UILabel().then {
         $0.font = Pretendard.semibold.dynamicFont(style: .title3)
+        $0.textColor = .black
     }
     
     let xBtn = UIButton().then {
@@ -43,7 +44,7 @@ class PassageDetailViewController: UIViewController {
         $0.setImage(.modalEdit, for: .normal)
     }
     
-    let ParagrapScrollView = UIScrollView().then {
+    let detailScrollView = UIScrollView().then {
         $0.showsVerticalScrollIndicator = false
     }
     
@@ -82,8 +83,8 @@ class PassageDetailViewController: UIViewController {
             titleStack.addArrangedSubview($0)
         }
         view.addSubview(editBtn)
-        view.addSubview(ParagrapScrollView)
-        ParagrapScrollView.addSubview(containerView)
+        view.addSubview(detailScrollView)
+        detailScrollView.addSubview(containerView)
         
         titleStack.snp.makeConstraints {
             $0.top.equalToSuperview().offset(28)
@@ -96,14 +97,14 @@ class PassageDetailViewController: UIViewController {
             $0.height.equalTo(22)
         }
         
-        ParagrapScrollView.snp.makeConstraints {
+        detailScrollView.snp.makeConstraints {
             $0.top.equalTo(editBtn.snp.bottom).offset(8)
             $0.horizontalEdges.bottom.equalToSuperview()
         }
         
         containerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.width.equalTo(ParagrapScrollView.snp.width)
+            $0.width.equalTo(detailScrollView.snp.width)
         }
     }
     
@@ -135,14 +136,14 @@ class PassageDetailViewController: UIViewController {
                 self.editBtn.titleLabel?.font = Pretendard.semibold.dynamicFont(style: .callout)
                 self.editBtn.setTitleColor(.skyBlue, for: .normal)
                 self.editBtn.setImage(nil, for: .normal)
-                self.containerView.pageTextField.text = "\(self.viewModel.detailParagraph.value.pageNumber)"
+                self.containerView.pageTextField.text = "\(self.viewModel.detailPassage.value.pageNumber)"
                 self.containerView.keywordCollectionView.reloadData()
                 if self.viewModel.detailPassage.value.pageType == "%" {
                     self.containerView.pageSegment.selectedIndex = 1
                 }
             } else {
                 let alert = self.containerView.pageTextField.selectAlert(pageType: self.containerView.pageSegment.selectedIndex)
-                if alert.message == "" {
+                if alert.title == nil {
                     self.containerView.editCompleteLayout()
                     self.sheetPresentationController?.detents = [self.smallDetent]
                     self.editBtn.setTitle("수정하기", for: .normal)
@@ -151,9 +152,14 @@ class PassageDetailViewController: UIViewController {
                     self.editBtn.setImage(.modalEdit, for: .normal)
                     self.viewModel.saveDetail(paragraph: self.containerView.passageTextField.text, page: self.containerView.pageTextField.text ?? "", pageType: self.containerView.pageSegment.selectedIndex)
                 } else {
+                    alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
                     self.present(alert, animated: true)
                 }
             }
+        }.disposed(by: disposeBag)
+        
+        containerView.copyButton.rx.tap.subscribe(with: self) { (self, _) in
+            UIPasteboard.general.string = self.containerView.passageTextLbl.text
         }.disposed(by: disposeBag)
         
         containerView.pageSegment.buttons[0].rx.tap.subscribe { sender in
