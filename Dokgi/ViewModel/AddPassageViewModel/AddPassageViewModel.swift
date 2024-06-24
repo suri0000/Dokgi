@@ -62,7 +62,7 @@ class AddPassageViewModel {
         }
     }
     
-    func saveVerse(selectedBook: Item?, passageText: String, pageNumberText: String?, pageType: Bool, keywords: [String], completion: @escaping (Bool) -> Void) {
+    func savePassage(selectedBook: Item?, passageText: String, pageNumberText: String?, pageType: Bool, keywords: [String], completion: @escaping (Bool) -> Void) {
         guard let book = selectedBook,
               let pageNumberText = pageNumberText,
               let pageNumber = Int(pageNumberText),
