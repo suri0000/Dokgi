@@ -111,7 +111,7 @@ class PassageView: UIView {
         $0.textColor = .charcoalBlue
     }
     
-    let passageCollectionView = PassageCollectionView().passageCollectionView
+    let passageCollectionView = PassageCollectionView()
     
     let emptyMessageLabel = UILabel().then {
         $0.text = "기록한 구절이 없어요\n구절을 등록해 보세요"
@@ -123,12 +123,13 @@ class PassageView: UIView {
         passageStyle.lineSpacing = 4
         attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value: passageStyle, range: NSMakeRange(0, attrString.length))
         $0.attributedText = attrString
+        $0.isHidden = true
     }
     
     override init(frame: CGRect) {
-          super.init(frame: frame)
-          setConstraints()
-      }
+        super.init(frame: frame)
+        setConstraints()
+    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
