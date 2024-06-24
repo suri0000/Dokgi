@@ -12,9 +12,9 @@ import Kingfisher
 
 class BookSearchViewController: UIViewController {
     
-    let viewModel = BookSearchViewModel()
-    let containerView = BookSearchContainerView()
     weak var delegate: BookSelectionDelegate?
+    private let viewModel = BookSearchViewModel()
+    private let containerView = BookSearchContainerView()
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -34,7 +34,7 @@ class AddPassageContainerView: UIView {
     
     let infoView = InfoView()
     
-    let overlayView = UIView().then {
+    let infoViewOverLapView = UIView().then {
         $0.backgroundColor = UIColor.lightSkyBlue.withAlphaComponent(0.5)
         $0.layer.cornerRadius = 15
     }
@@ -55,7 +55,7 @@ class AddPassageContainerView: UIView {
         $0.titleLabel?.numberOfLines = 1
     }
 
-    let overlapView = UIView().then {
+    let textViewBoder = UIView().then {
         $0.backgroundColor = .clear
         $0.layer.borderWidth = 1.0
         $0.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.7).cgColor
@@ -147,10 +147,10 @@ class AddPassageContainerView: UIView {
     
     // MARK: - setupViews
     private func setupViews() {
-        [scanButton, infoView, overlapView, verseTextView, characterCountLabel, pencilImageView, keywordLabel, keywordField, keywordCollectionView, pageLabel, pageNumberTextField, pageSegment, recordButton].forEach { addSubview($0) }
+        [scanButton, infoView, textViewBoder, verseTextView, characterCountLabel, pencilImageView, keywordLabel, keywordField, keywordCollectionView, pageLabel, pageNumberTextField, pageSegment, recordButton].forEach { addSubview($0) }
         
-        infoView.addSubview(overlayView)
-        overlayView.addSubview(searchButton)
+        infoView.addSubview(infoViewOverLapView)
+        infoViewOverLapView.addSubview(searchButton)
     }
     
     // MARK: - 제약조건
@@ -166,7 +166,7 @@ class AddPassageContainerView: UIView {
             $0.height.equalTo(200)
         }
         
-        overlayView.snp.makeConstraints {
+        infoViewOverLapView.snp.makeConstraints {
             $0.edges.equalTo(infoView)
         }
         
@@ -175,7 +175,7 @@ class AddPassageContainerView: UIView {
             $0.height.equalTo(35)
         }
 
-        overlapView.snp.makeConstraints {
+        textViewBoder.snp.makeConstraints {
             $0.top.equalTo(infoView.snp.bottom).offset(32)
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(329)
@@ -188,17 +188,17 @@ class AddPassageContainerView: UIView {
         }
         
         characterCountLabel.snp.makeConstraints {
-            $0.trailing.equalTo(overlapView.snp.trailing).offset(-16)
-            $0.bottom.equalTo(overlapView.snp.bottom).offset(-16)
+            $0.trailing.equalTo(textViewBoder.snp.trailing).offset(-16)
+            $0.bottom.equalTo(textViewBoder.snp.bottom).offset(-16)
         }
         
         pencilImageView.snp.makeConstraints {
-            $0.bottom.equalTo(overlapView.snp.bottom).offset(-8)
-            $0.leading.equalTo(overlapView.snp.leading).offset(8)
+            $0.bottom.equalTo(textViewBoder.snp.bottom).offset(-8)
+            $0.leading.equalTo(textViewBoder.snp.leading).offset(8)
         }
         
         keywordLabel.snp.makeConstraints {
-            $0.top.equalTo(overlapView.snp.bottom).offset(32)
+            $0.top.equalTo(textViewBoder.snp.bottom).offset(32)
             $0.horizontalEdges.equalToSuperview().inset(16)
         }
         

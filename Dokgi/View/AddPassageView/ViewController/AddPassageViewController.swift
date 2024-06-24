@@ -18,9 +18,9 @@ protocol BookSelectionDelegate: AnyObject {
 class AddPassageViewController: UIViewController {
     
     let viewModel = AddPassageViewModel()
-    let containerView = AddPassageContainerView()
+    private let containerView = AddPassageContainerView()
     
-    let scrollView = UIScrollView().then {
+    private let scrollView = UIScrollView().then {
         $0.showsVerticalScrollIndicator = false
         $0.alwaysBounceVertical = true
         $0.contentInsetAdjustmentBehavior = .never
@@ -158,7 +158,7 @@ class AddPassageViewController: UIViewController {
                 containerView.infoView.imageView.contentMode = .scaleAspectFill
             }
         }
-        containerView.overlayView.isHidden = true
+        containerView.infoViewOverLapView.isHidden = true
         containerView.searchButton.isHidden = true
     }
     
