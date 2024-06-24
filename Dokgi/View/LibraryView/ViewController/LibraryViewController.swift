@@ -26,7 +26,7 @@ class LibraryViewController: UIViewController, UISearchBarDelegate {
         
         view.backgroundColor = .white
         libraryView.searchBar.delegate = self
-        
+      
         libraryView.libraryCollectionView.delegate = self
         libraryView.libraryCollectionView.dataSource = self
         
@@ -56,31 +56,17 @@ class LibraryViewController: UIViewController, UISearchBarDelegate {
     }
     
     private func setBinding() {
-        CoreDataManager.shared.bookData.subscribe(with: self) { (self, bookData) in
-            self.libraryViewModel.dataFilter(verses: bookData)
-        }.disposed(by: disposeBag)
-        
         libraryViewModel.libraryData.subscribe(with: self) { (self, bookData) in
-            self.libraryView.libraryCollectionView.reloadData()
+            self.libraryCollectionView.reloadData()
         }.disposed(by: disposeBag)
         
-        self.libraryView.searchBar.searchTextField.rx.controlEvent(.editingDidBegin).subscribe(with: self) { (self, _) in
-            self.libraryView.searchBar.showsCancelButton = true
+        self.searchBar.searchTextField.rx.controlEvent(.editingDidBegin).subscribe(with: self) { (self, _) in
+            self.searchBar.showsCancelButton = true
         }.disposed(by: disposeBag)
         
-        self.libraryView.searchBar.rx.text.debounce(.milliseconds(500), scheduler: MainScheduler.instance).subscribe(with: self) { (self, text) in
+        self.searchBar.rx.text.debounce(.milliseconds(500), scheduler: MainScheduler.instance).subscribe(with: self) { (self, text) in
             guard let text = text else { return }
             self.libraryViewModel.dataSearch(text: text)
-        }.disposed(by: disposeBag)
-        
-        self.libraryView.searchBar.rx.searchButtonClicked.subscribe(with: self) { (self, _) in
-            self.libraryView.searchBar.resignFirstResponder()
-            self.libraryView.searchBar.showsCancelButton = false
-        }.disposed(by: disposeBag)
-        
-        self.libraryView.searchBar.rx.cancelButtonClicked.subscribe(with: self) { (self, _) in
-            self.libraryView.searchBar.resignFirstResponder()
-            self.libraryView.searchBar.showsCancelButton = false
         }.disposed(by: disposeBag)
     }
     
