@@ -141,7 +141,7 @@ class PassageDetailViewController: UIViewController {
                     self.containerView.pageSegment.selectedIndex = 1
                 }
             } else {
-                let alert = self.containerView.pageTextField.selectAlert(pageT: self.containerView.pageSegment.selectedIndex)
+                let alert = self.containerView.pageTextField.selectAlert(pageType: self.containerView.pageSegment.selectedIndex)
                 if alert.message == "" {
                     self.containerView.editCompleteLayout()
                     self.sheetPresentationController?.detents = [self.smallDetent]

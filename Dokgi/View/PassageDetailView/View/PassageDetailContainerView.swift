@@ -17,7 +17,6 @@ class PassageDetailContainerView: UIView {
     }
     
     lazy var passageTextLbl = UILabel().then {
-        $0.text = "뭘 쓰고 싶었는지 전혀 기억이 나지 않았다. "
         $0.textAlignment = .left
         $0.font = Pretendard.regular.dynamicFont(style: .callout)
         $0.numberOfLines = 20
@@ -60,7 +59,6 @@ class PassageDetailContainerView: UIView {
     }
     
     lazy var writeDateDay = UILabel().then {
-        $0.text = "2024.6.9"
         $0.font = Pretendard.regular.dynamicFont(style: .body)
         $0.textColor = .alarmSettingText
     }
@@ -76,7 +74,6 @@ class PassageDetailContainerView: UIView {
     }
     
     lazy var pageWriteLbl = UILabel().then {
-        $0.text = "2000"
         $0.font = Pretendard.regular.dynamicFont(style: .body)
         $0.textColor = .alarmSettingText
     }
@@ -213,11 +210,11 @@ class PassageDetailContainerView: UIView {
     func editLayout() {
         passageTextField.becomeFirstResponder()
         [passageTextField, keywordTextField, pageTextField, pageSegment].forEach {
-            $0.isHidden = true
+            $0.isHidden = false
         }
         passageTextField.text = passageTextLbl.text
         [passageTextLbl, pageWriteLbl].forEach {
-            $0.isHidden = false
+            $0.isHidden = true
         }
     }
     

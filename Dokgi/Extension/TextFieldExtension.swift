@@ -8,9 +8,10 @@
 import UIKit
 
 extension UITextField {
-    func selectAlert(pageT: Int) -> UIAlertController {
+    func selectAlert(pageType: Int) -> UIAlertController {
         var title: String = ""
         var message: String = ""
+        
         if self.text!.isEmpty == true {
             title = "페이지"
             message = "페이지를 입력해 주세요"
@@ -20,11 +21,11 @@ extension UITextField {
         }
         
         if let pageNumberText = self.text, let _ = Int(pageNumberText) {
-            if pageT == 0 && Int((self.text)!) ?? 0 <= 0 {
+            if pageType == 0 && Int((self.text)!) ?? 0 <= 0 {
                 let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
                 return alert
-            } else if pageT == 1 && Int((self.text)!) ?? 101 > 100 {
+            } else if pageType == 1 && Int((self.text)!) ?? 101 > 100 {
                 let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
                 return alert
