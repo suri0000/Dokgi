@@ -119,13 +119,13 @@ class LibraryView: UIView {
         
         libraryLabel.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide).inset(10)
-            $0.left.equalToSuperview().inset(20)
+            $0.leading.equalToSuperview().inset(20)
             $0.height.equalTo(41)
         }
         
         searchBar.snp.makeConstraints {
             $0.top.equalTo(libraryLabel.snp.bottom)
-            $0.left.trailing.equalToSuperview().inset(10)
+            $0.leading.trailing.equalToSuperview().inset(10)
         }
         
         sortButton.snp.makeConstraints {
