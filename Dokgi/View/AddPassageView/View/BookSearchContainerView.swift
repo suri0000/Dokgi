@@ -11,6 +11,7 @@ import UIKit
 
 class BookSearchContainerView: UIView {
     
+    // MARK: - UI
     let tableView = UITableView().then {
         $0.rowHeight = 150
         $0.showsVerticalScrollIndicator = false

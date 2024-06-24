@@ -12,7 +12,7 @@ import UIKit
 
 class AddPassageContainerView: UIView {
     
-    // MARK: - Properties
+    // MARK: - UI
     let scanButton = UIButton(configuration: .filled(), primaryAction: nil).then {
         $0.configurationUpdateHandler = { button in
             var configuration = button.configuration
