@@ -77,6 +77,7 @@
 		A75D3D732C1A11C7006C2EB3 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74874822C0D7ED100B830EE /* PaddingLabel.swift */; };
 		A75D3D752C1B47D1006C2EB3 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75D3D742C1B47D1006C2EB3 /* StringExtension.swift */; };
 		A75D3D772C1B493F006C2EB3 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75D3D762C1B493F006C2EB3 /* DateExtension.swift */; };
+		A774B63D2C2943EB00F43394 /* TextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A774B63C2C2943EB00F43394 /* TextFieldExtension.swift */; };
 		A78D2A1C2C216FCF00F8AC72 /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78D2A1B2C216FCF00F8AC72 /* LibraryViewModel.swift */; };
 		A7F2DB192C134B200020B0AA /* PassageDetailContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB182C134B200020B0AA /* PassageDetailContainerView.swift */; };
 		A7F2DB1D2C15C6E70020B0AA /* KeywordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F2DB1C2C15C6E70020B0AA /* KeywordCollectionViewCell.swift */; };
@@ -189,6 +190,7 @@
 		A75908D22C12D69300415D6D /* IntArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntArrayExtension.swift; sourceTree = "<group>"; };
 		A75D3D742C1B47D1006C2EB3 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		A75D3D762C1B493F006C2EB3 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		A774B63C2C2943EB00F43394 /* TextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldExtension.swift; sourceTree = "<group>"; };
 		A78D2A1B2C216FCF00F8AC72 /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
 		A7F2DB162C1347C80020B0AA /* PassageDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassageDetailViewController.swift; sourceTree = "<group>"; };
 		A7F2DB182C134B200020B0AA /* PassageDetailContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassageDetailContainerView.swift; sourceTree = "<group>"; };
@@ -637,6 +639,7 @@
 				A75D3D742C1B47D1006C2EB3 /* StringExtension.swift */,
 				A75D3D762C1B493F006C2EB3 /* DateExtension.swift */,
 				AB4BDC0B2C249608001FDA8F /* addSubviewsExtension.swift */,
+				A774B63C2C2943EB00F43394 /* TextFieldExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -934,6 +937,7 @@
 				A75908CF2C101A3900415D6D /* DayTableViewCell.swift in Sources */,
 				855318BB2C16E56800340ACF /* BookDetailViewController.swift in Sources */,
 				A75908B92C0F087900415D6D /* AlarmView.swift in Sources */,
+				A774B63D2C2943EB00F43394 /* TextFieldExtension.swift in Sources */,
 				3C9AD89A2C2462B0007393C1 /* FloatingButtonViewController.swift in Sources */,
 				A75908C62C0F756800415D6D /* TimePickerViewController.swift in Sources */,
 				854E158A2C25AE3E00FE5256 /* SearchBar.swift in Sources */,
