@@ -16,7 +16,7 @@ class AddPassageViewModel {
     var selectedBook: Item?
     var images: [UIImage] = []
     var keywords: [String] = []
-    var pageType: String = "Page"
+    var pageType: Bool = true
     var recognizedText: String = "" {
         didSet {
             onRecognizedTextUpdate?(recognizedText)
@@ -62,12 +62,12 @@ class AddPassageViewModel {
         }
     }
     
-    func saveVerse(selectedBook: Item?, verseText: String, pageNumberText: String?, pageType: String, keywords: [String], completion: @escaping (Bool) -> Void) {
+    func saveVerse(selectedBook: Item?, passageText: String, pageNumberText: String?, pageType: Bool, keywords: [String], completion: @escaping (Bool) -> Void) {
         guard let book = selectedBook,
               let pageNumberText = pageNumberText,
               let pageNumber = Int(pageNumberText),
-              !verseText.isEmpty,
-              verseText != "텍스트를 입력하세요" else {
+              !passageText.isEmpty,
+              passageText != "텍스트를 입력하세요" else {
             completion(false)
             return
         }
@@ -75,9 +75,9 @@ class AddPassageViewModel {
         let currentDate = Date()
         
         // Verse 인스턴스 생성
-        let verse = Verse(name: book.title, author: book.author, image: book.image, text: verseText, pageNumber: pageNumber, pageType: pageType, keywords: keywords, date: currentDate)
+        let passage = Passage(title: book.title, passage: passageText, page: pageNumber, pageType: pageType, date: currentDate, keywords: keywords)
         
-        CoreDataManager.shared.saveData(verse: verse)
+        CoreDataManager.shared.saveData(author: book.author, image: book.image, passage: passage)
         completion(true)
     }
     
