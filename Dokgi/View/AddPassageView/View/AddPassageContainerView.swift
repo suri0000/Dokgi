@@ -156,8 +156,7 @@ class AddPassageContainerView: UIView {
     // MARK: - 제약조건
     private func initLayout() {
         scanButton.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
+            $0.top.trailing.equalToSuperview().inset(16)
         }
         
         infoView.snp.makeConstraints {
@@ -188,13 +187,11 @@ class AddPassageContainerView: UIView {
         }
         
         characterCountLabel.snp.makeConstraints {
-            $0.trailing.equalTo(textViewBoder.snp.trailing).offset(-16)
-            $0.bottom.equalTo(textViewBoder.snp.bottom).offset(-16)
+            $0.trailing.bottom.equalTo(textViewBoder).inset(16)
         }
         
         pencilImageView.snp.makeConstraints {
-            $0.bottom.equalTo(textViewBoder.snp.bottom).offset(-8)
-            $0.leading.equalTo(textViewBoder.snp.leading).offset(8)
+            $0.leading.bottom.equalTo(textViewBoder).inset(16)
         }
         
         keywordLabel.snp.makeConstraints {
@@ -228,7 +225,7 @@ class AddPassageContainerView: UIView {
         
         pageSegment.snp.makeConstraints {
             $0.centerY.equalTo(pageLabel.snp.centerY)
-            $0.trailing.equalToSuperview().offset(-16)
+            $0.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(30)
             $0.width.equalTo(120)
         }
@@ -236,7 +233,6 @@ class AddPassageContainerView: UIView {
         recordButton.snp.makeConstraints {
             $0.top.equalTo(pageLabel.snp.bottom).offset(60)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.centerX.equalToSuperview()
             $0.height.equalTo(50)
         }
     }

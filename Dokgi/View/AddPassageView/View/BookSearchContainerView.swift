@@ -99,7 +99,7 @@ class BookSearchContainerView: UIView {
     private func setConstraints() {
         searchBar.snp.makeConstraints {
             $0.top.equalToSuperview().inset(16)
-            $0.horizontalEdges.equalToSuperview().inset(14)
+            $0.horizontalEdges.equalToSuperview().inset(16)
         }
         
         recentSearchStackView.snp.makeConstraints {
