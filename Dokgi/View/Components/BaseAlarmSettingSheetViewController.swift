@@ -44,12 +44,16 @@ class BaseAlarmSettingSheetViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        initialize()
         setSheet()
         buttonTapped()
         setLayout()
         titleLbl.text = titleString
     }
     
+    func initialize() {
+        
+    }
     // MARK: - UI
     
     private func setSheet() {

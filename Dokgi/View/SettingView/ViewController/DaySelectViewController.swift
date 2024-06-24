@@ -20,7 +20,6 @@ class DaySelectViewController: BaseAlarmSettingSheetViewController {
     // MARK: - Layout
     override func setLayout() {
         super.setLayout()
-        titleString = "알림 요일 설정"
         view.addSubview(tableView)
         
         tableView.snp.makeConstraints {
@@ -31,13 +30,16 @@ class DaySelectViewController: BaseAlarmSettingSheetViewController {
         }
     }
     
-    override func buttonTapped() {
-        super.buttonTapped()
+    override func initialize() {
+        titleString = "알림 요일 설정"
         viewModel.selectday = DayTimeViewModel.dayCheck.value
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(DayTableViewCell.self, forCellReuseIdentifier: DayTableViewCell.identifier)
-        
+    }
+    
+    override func buttonTapped() {
+        super.buttonTapped()
         tableView.rx.itemSelected.subscribe { [weak self] item in
             self?.viewModel.dayimage(row: item.row)
             self?.tableView.reloadData()

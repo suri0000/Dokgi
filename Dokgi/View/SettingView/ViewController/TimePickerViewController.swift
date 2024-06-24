@@ -36,8 +36,7 @@ class TimePickerViewController: BaseAlarmSettingSheetViewController {
         timePicker.selectRow(viewModel.selectTime[2], inComponent: 2, animated: false)
     }
     
-    override func buttonTapped() {
-        super.buttonTapped()
+    override func initialize() {
         if writeBool == true {
             viewModel.selectTime = DayTimeViewModel.writeTime.value
         } else {
