@@ -30,7 +30,7 @@ class HomeViewController: UIViewController, HomeViewDelegate {
         bindViewModel()
         bannerTimer()
         setFloatingButton()
-        CoreDataManager.shared.readData() // 추가된 구절 반영
+        CoreDataManager.shared.readPassage() // 추가된 구절 반영
         homeView.delegate = self
         homeView.setConfigureUI(viewModel: viewModel)
     }
@@ -46,7 +46,7 @@ class HomeViewController: UIViewController, HomeViewDelegate {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
-        CoreDataManager.shared.readData()
+        CoreDataManager.shared.readPassage()
         
         // 오늘의 구절 업데이트
         CoreDataManager.shared.bookData
@@ -209,7 +209,8 @@ extension HomeViewController: UICollectionViewDataSource {
             }
             
             if indexPath.item + 1 == viewModel.currentLevel.value {
-                let length = viewModel.getVerseLength(from: viewModel.verses.value)
+                let passages: [String] = viewModel.passages.value.map { $0.passage }
+                let length = viewModel.getVerseLength(from: passages)
                 cell.lengthLabel.text = MetricUtil.formatLength(length: length)
             }
             

@@ -5,41 +5,26 @@
 //  Created by 송정훈 on 6/18/24.
 //
 
+import Foundation
 import RxCocoa
 import RxSwift
-import Foundation
 
 class LibraryViewModel {
-    var libraryData = BehaviorRelay<[Verse]>(value: [])
-    private var saveData = [Verse]()
-    
-    func dataFilter(verses: [Verse]) {
-        let tmpVerse = verses.sorted { $0.date > $1.date }
-        self.saveData = []
-        for verse in tmpVerse {
-            if saveData.filter({ $0.name == verse.name }).isEmpty == true {
-                self.saveData.append(verse)
-            }
-        }
-        self.libraryData.accept(saveData)
-    }
-    
-    func dataSearch(text: String) {
-        if text.isEmpty == true {
-            self.libraryData.accept(self.saveData)
-        } else {
-            let verse = self.saveData.filter { $0.name.contains(text) }
-            self.libraryData.accept(verse)
-        }
-    }
+    var libraryData = BehaviorRelay<[Book]>(value: [])
     
     func dataLatest() {
-        let verse = self.libraryData.value.sorted { $0.date > $1.date }
-        self.libraryData.accept(verse)
+        let latestSortedBooks = libraryData.value.sorted {
+                    guard let date1 = $0.passages.first?.date, let date2 = $1.passages.first?.date else { return false }
+                    return date1 > date2
+                }
+        self.libraryData.accept(latestSortedBooks)
     }
     
     func dataOldest() {
-        let verse = self.libraryData.value.sorted { $0.date < $1.date }
-        self.libraryData.accept(verse)
+        let oldestSortedBooks = libraryData.value.sorted {
+                    guard let date1 = $0.passages.first?.date, let date2 = $1.passages.first?.date else { return false }
+                    return date1 > date2
+                }
+        self.libraryData.accept(oldestSortedBooks)
     }
 }

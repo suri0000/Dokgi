@@ -110,10 +110,10 @@ class PassageDetailViewController: UIViewController {
     
     func dataBinding() {
         viewModel.detailPassage.subscribe(with: self) { (self, data) in
-            self.titleLbl.text = data.name
-            self.containerView.passageTextLbl.text = data.text
+            self.titleLbl.text = data.title
+            self.containerView.paragrapTextLbl.text = data.passage
             self.viewModel.keywords.accept(data.keywords)
-            self.containerView.pageWriteLbl.text = "\(data.pageNumber) \(data.pageType)"
+            self.containerView.pageWriteLbl.text = "\(data.page) \(data.pageType == true ? "Page" : "%")"
             self.containerView.writeDateDay.text = data.date.toString()
         }.disposed(by: disposeBag)
         
@@ -129,9 +129,9 @@ class PassageDetailViewController: UIViewController {
                 self.editBtn.titleLabel?.font = Pretendard.semibold.dynamicFont(style: .callout)
                 self.editBtn.setTitleColor(.skyBlue, for: .normal)
                 self.editBtn.setImage(nil, for: .normal)
-                self.containerView.pageTextField.text = "\(self.viewModel.detailPassage.value.pageNumber)"
+                self.containerView.pageTextField.text = "\(self.viewModel.detailPassage.value.page)"
                 self.containerView.keywordCollectionView.reloadData()
-                if self.viewModel.detailPassage.value.pageType == "%" {
+                if self.viewModel.detailPassage.value.pageType == false {
                     self.containerView.pageSegment.selectedIndex = 1
                 }
             } else {

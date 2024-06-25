@@ -41,8 +41,9 @@ class LibraryViewController: UIViewController, UISearchBarDelegate {
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
         
-        CoreDataManager.shared.readData()
-        if libraryView.sortButtonTitleLabel.text == "오래된순" {
+        CoreDataManager.shared.readBook()
+        
+        if sortButtonTitleLabel.text == "오래된순" {
             self.libraryViewModel.dataOldest()
         }
     }
@@ -119,7 +120,7 @@ extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataS
             return UICollectionViewCell()
         }
         cell.authorNameLabel.text = libraryViewModel.libraryData.value[indexPath.row].author
-        cell.bookNameLabel.text = libraryViewModel.libraryData.value[indexPath.row].name
+        cell.bookNameLabel.text = libraryViewModel.libraryData.value[indexPath.row].title
         if let url = URL(string: libraryViewModel.libraryData.value[indexPath.row].image) {
             cell.bookImageView.kf.setImage(with: url)
         }

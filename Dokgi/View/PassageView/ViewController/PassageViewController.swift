@@ -33,7 +33,13 @@ class PassageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+      
+        viewModel.passageData.subscribe(with: self) { (self, data) in
+            if let layout = self.paragraphCollectionView.collectionViewLayout as? PassageCollectionViewLayout {
+                layout.invalidateCache()
+            }
+            self.paragraphCollectionView.reloadData()
+        }.disposed(by: disposeBag)
         view.backgroundColor = .white
         passageView.searchBar.delegate = self
         
@@ -54,8 +60,10 @@ class PassageViewController: UIViewController {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
-        if passageView.sortButton.titleLabel?.text != "최신순" {
+        
+        if sortButton.titleLabel?.text != "최신순" {
             let sortedPassageAndDate = viewModel.passageData.value.sorted { $0.1 > $1.1 }
+            
             isFiltering ? searchResultItems.sort { $0.1 > $1.1 } : viewModel.passageData.accept(sortedPassageAndDate)
         }
         self.passageView.passageCollectionView.reloadData()
@@ -118,6 +126,7 @@ class PassageViewController: UIViewController {
         passageView.sortMenuView.isHidden = true
         
         let sortedPassageAndDate = viewModel.passageData.value.sorted { $0.1 < $1.1 }
+      
         isFiltering ? searchResultItems.sort { $0.1 < $1.1 } : viewModel.passageData.accept(sortedPassageAndDate)
     }
     
@@ -258,14 +267,51 @@ extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataS
         currentParagraph.remove(at: indexPath.item)
         viewModel.passageData.accept(currentParagraph)
         searchResultItems = currentParagraph
-        CoreDataManager.shared.deleteData(verse: viewModel.detailPassage.value)
+        CoreDataManager.shared.deleteData(passage: viewModel.detailPassage.value)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let modalVC = PassageDetailViewController()
-        
-        viewModel.selectParagraph(text: isFiltering ? searchResultItems[indexPath.item].0 : viewModel.passageData.value[indexPath.item].0, at: indexPath.item)
+        viewModel.selectPassage(text: isFiltering ? searchResultItems[indexPath.item].0 : viewModel.passageData.value[indexPath.item].0, at: indexPath.item)
         modalVC.viewModel.detailPassage.accept(viewModel.detailPassage.value)
         present(modalVC, animated: true, completion: nil)
+    }
+}
+
+//MARK: - SearchBar
+extension PassageViewController: UISearchBarDelegate {
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.isFiltering = true
+        self.searchBar.showsCancelButton = true
+        searchResultItems = viewModel.passageData.value
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filterItems(with: searchText)
+    }
+    
+    private func filterItems(with searchText: String) {
+        if searchText.isEmpty {
+            searchResultItems = viewModel.passageData.value
+        } else {
+            searchResultItems = viewModel.passageData.value.filter { $0.0.localizedCaseInsensitiveContains(searchText) }
+        }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.searchBar.showsCancelButton = false
+        self.searchBar.resignFirstResponder()
+        self.isFiltering = false
+        self.searchBar.text = ""
+        self.searchResultItems = []
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let searchText = searchBar.text else { return }
+        filterItems(with: searchText)
+        
+        self.searchBar.showsCancelButton = false
+        self.searchBar.resignFirstResponder()
     }
 }
