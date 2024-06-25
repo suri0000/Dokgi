@@ -10,6 +10,7 @@ import RxCocoa
 import RxSwift
 
 class PassageDetailViewModel {
+
     var detailPassage = BehaviorRelay<Passage>(value: Passage(title: "", passage: "", page: 0, pageType: true, date: Date(), keywords: []))
     var keywords = BehaviorRelay<[String]>(value: [])
     
