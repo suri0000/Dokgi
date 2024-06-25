@@ -81,7 +81,7 @@ class HomeViewModel {
     }
     
     // MARK: - Today's verese
-    private func loadTodayVerses() {
+    func loadTodayVerses() {
         let savedDate = UserDefaults.standard.string(forKey: "savedDate")
         
         // 날짜에 따른 구절 업데이트
