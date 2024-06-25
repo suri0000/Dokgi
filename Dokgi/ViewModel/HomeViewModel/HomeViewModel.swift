@@ -82,13 +82,13 @@ class HomeViewModel {
     
     // MARK: - Today's verese
     func loadTodayVerses() {
-        let savedDate = UserDefaults.standard.string(forKey: "savedDate")
+        let savedDate = UserDefaults.standard.string(forKey: UserDefaultsKeys.todayDate.rawValue)
         
         // 날짜에 따른 구절 업데이트
         if today != savedDate {
             shuffleAndSaveVerses()
         } else {
-            if let savedVerses = UserDefaults.standard.array(forKey: "shuffledVerses") as? [String] {
+            if let savedVerses = UserDefaults.standard.array(forKey: UserDefaultsKeys.shuffledPassage.rawValue) as? [String] {
                 randomVerses.accept(savedVerses)
             } else {
                 shuffleAndSaveVerses()
@@ -108,8 +108,8 @@ class HomeViewModel {
         let shuffled = verses.value.shuffled().prefix(shuffledCount).map { $0 }
         
         randomVerses.accept(shuffled)
-        UserDefaults.standard.set(today, forKey: "savedDate")
-        UserDefaults.standard.set(shuffled, forKey: "shuffledVerses")
+        UserDefaults.standard.set(today, forKey: UserDefaultsKeys.todayDate.rawValue)
+        UserDefaults.standard.set(shuffled, forKey: UserDefaultsKeys.shuffledPassage.rawValue)
     }
 }
 

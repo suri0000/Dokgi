@@ -50,6 +50,7 @@ class CurrentLevelCell: UICollectionViewCell {
     
     let nextLevel = UILabel().then {
         $0.font = Pretendard.bold.dynamicFont(style: .title3)
+        $0.textColor = .black
     }
     
     let currentLevel = UILabel().then {
@@ -91,9 +92,7 @@ class CurrentLevelCell: UICollectionViewCell {
         }
         
         contentView.addSubview(hideView)
-        [stackView].forEach {
-            hideView.addSubview($0)
-        }
+        [stackView].forEach { hideView.addSubview($0) }
         
         cardView.snp.makeConstraints {
             $0.edges.equalToSuperview()

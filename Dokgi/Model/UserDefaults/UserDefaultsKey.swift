@@ -16,4 +16,6 @@ enum UserDefaultsKeys: String {
     case lauchedBefore
     case notification
     case recentSearches
+    case todayDate
+    case shuffledPassage
 }
