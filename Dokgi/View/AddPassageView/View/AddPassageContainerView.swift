@@ -237,8 +237,8 @@ class AddPassageContainerView: UIView {
         
         recordButton.snp.makeConstraints {
             $0.top.equalTo(pageLabel.snp.bottom).offset(60)
+            $0.bottom.equalToSuperview().inset(16)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(50)
         }
     }
     
