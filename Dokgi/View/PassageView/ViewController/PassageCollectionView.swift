@@ -13,6 +13,8 @@ class PassageCollectionView: UICollectionView {
         
         self.contentInset = UIEdgeInsets(top: 2, left: 14, bottom: 15, right: 14)
         self.register(PassageCollectionViewCell.self, forCellWithReuseIdentifier: PassageCollectionViewCell.identifier)
+        
+        backgroundColor = .white
     }
     
     required init?(coder: NSCoder) {

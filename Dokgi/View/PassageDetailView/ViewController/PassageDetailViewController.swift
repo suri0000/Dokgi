@@ -135,7 +135,7 @@ class PassageDetailViewController: UIViewController {
                 self.editBtn.titleLabel?.font = Pretendard.semibold.dynamicFont(style: .callout)
                 self.editBtn.setTitleColor(.skyBlue, for: .normal)
                 self.editBtn.setImage(nil, for: .normal)
-                self.containerView.pageTextField.text = "\(self.viewModel.detailParagraph.value.pageNumber)"
+                self.containerView.pageTextField.text = "\(self.viewModel.detailPassage.value.pageNumber)"
                 self.containerView.keywordCollectionView.reloadData()
                 if self.viewModel.detailPassage.value.pageType == "%" {
                     self.containerView.pageSegment.selectedIndex = 1

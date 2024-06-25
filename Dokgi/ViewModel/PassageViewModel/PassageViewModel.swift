@@ -35,4 +35,14 @@ class PassageViewModel {
                 detailPassage.accept(selectedVerse)
             }
         }
+    
+    func dataLatest() {
+          let sortedData = passageData.value.sorted { $0.1 > $1.1 }
+          passageData.accept(sortedData)
+      }
+      
+      func dataOldest() {
+          let sortedData = passageData.value.sorted { $0.1 < $1.1 }
+          passageData.accept(sortedData)
+      }
 }
