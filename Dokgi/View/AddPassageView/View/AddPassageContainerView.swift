@@ -164,7 +164,7 @@ class AddPassageContainerView: UIView {
     
     // MARK: - setupViews
     private func setupViews() {
-        [scanButton, passageLabel, infoView, textViewBoder, verseTextView, characterCountLabel, pencilImageView, keywordLabel, keywordField, keywordCollectionView, pageLabel, pageNumberTextField, pageSegment, recordButton].forEach { addSubview($0) }
+        [infoView, scanButton, passageLabel, textViewBoder, verseTextView, characterCountLabel, pencilImageView, keywordLabel, keywordField, keywordCollectionView, pageLabel, pageNumberTextField, pageSegment, recordButton].forEach { addSubview($0) }
         
         infoView.addSubview(infoViewOverLapView)
         infoViewOverLapView.addSubview(searchButton)
@@ -172,20 +172,8 @@ class AddPassageContainerView: UIView {
     
     // MARK: - 제약조건
     private func initLayout() {
-        scanButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(16)
-            $0.top.equalTo(infoView.snp.bottom).offset(16)
-            $0.height.equalTo(35)
-            $0.width.equalTo(112)
-        }
-        
-        passageLabel.snp.makeConstraints {
-            $0.centerY.equalTo(scanButton.snp.centerY)
-            $0.leading.equalToSuperview().inset(18)
-        }
-        
         infoView.snp.makeConstraints {
-            $0.top.equalToSuperview()
+            $0.top.equalToSuperview().inset(8)
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(138)
         }
@@ -198,7 +186,19 @@ class AddPassageContainerView: UIView {
             $0.center.equalToSuperview()
             $0.height.equalTo(35)
         }
-
+        
+        scanButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(16)
+            $0.top.equalTo(infoView.snp.bottom).offset(16)
+            $0.height.equalTo(35)
+            $0.width.equalTo(112)
+        }
+        
+        passageLabel.snp.makeConstraints {
+            $0.centerY.equalTo(scanButton.snp.centerY)
+            $0.leading.equalToSuperview().inset(18)
+        }
+        
         textViewBoder.snp.makeConstraints {
             $0.top.equalTo(scanButton.snp.bottom).offset(16)
             $0.horizontalEdges.equalToSuperview().inset(16)
