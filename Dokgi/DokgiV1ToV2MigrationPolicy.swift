@@ -13,8 +13,6 @@ class DokgiV1ToV2MigrationPolicy: NSEntityMigrationPolicy {
     static var bookCache = [String: NSManagedObject]()
     override func createDestinationInstances(forSource sInstance: NSManagedObject, in mapping: NSEntityMapping, manager: NSMigrationManager) throws {
         // BookEntity 생성
-        
-        print("dfafads")
         let bookTitle = sInstance.value(forKey: "name") as? String ?? ""
         let bookAuthor = sInstance.value(forKey: "author") as? String ?? ""
         
@@ -24,8 +22,8 @@ class DokgiV1ToV2MigrationPolicy: NSEntityMigrationPolicy {
             bookEntity = cachedBook
         } else {
             bookEntity = NSEntityDescription.insertNewObject(forEntityName: "BookEntity", into: manager.destinationContext)
-            bookEntity.setValue(bookTitle, forKey: "title")
-            bookEntity.setValue(bookAuthor, forKey: "author")
+            bookEntity.setValue(sInstance.value(forKey: "name"), forKey: "title")
+            bookEntity.setValue(sInstance.value(forKey: "author"), forKey: "author")
             bookEntity.setValue(sInstance.value(forKey: "image"), forKey: "image")
             
             DokgiV1ToV2MigrationPolicy.bookCache[bookTitle + bookAuthor] = bookEntity
@@ -46,6 +44,6 @@ class DokgiV1ToV2MigrationPolicy: NSEntityMigrationPolicy {
         }
         
         // Associate the source and destination instances
-        manager.associate(sourceInstance: sInstance, withDestinationInstance: bookEntity, for: mapping)
+        manager.associate(sourceInstance: sInstance, withDestinationInstance: passageEntity, for: mapping)
     }
 }

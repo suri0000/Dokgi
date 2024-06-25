@@ -33,7 +33,10 @@ class CoreDataManager {
     
     func saveData(author: String, image: String, passage: Passage) {
         guard let context = self.persistent?.viewContext else { return }
-
+        let fetchRequest: NSFetchRequest<BookEntity> = BookEntity.fetchRequest()
+        let titlePredicate = NSPredicate(format: "title == %@", passage.title!)
+        let authorPredicate = NSPredicate(format: "author == %@", author)
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [titlePredicate, authorPredicate])
         do {
             let newPassage = PassageEntity(context: context)
             newPassage.book?.title = passage.title
@@ -44,7 +47,19 @@ class CoreDataManager {
             newPassage.pageType = passage.pageType
             newPassage.date = passage.date
             newPassage.keywords = passage.keywords
-            try context.save()
+            
+            let books = try context.fetch(fetchRequest)
+            if books.isEmpty == true {
+                let newBook = BookEntity(context: context)
+                newBook.title = passage.title
+                newBook.author = author
+                newBook.image = image
+                newBook.addToPassages(newPassage)
+                try context.save()
+            } else {
+                books.first?.addToPassages(newPassage)
+                try context.save()
+            }
 //            WidgetCenter.shared.reloadTimelines(ofKind: "DokgiWidget")
         } catch {
             print("Failed to fetch or save data: \(error)")
@@ -57,7 +72,7 @@ class CoreDataManager {
     func readBook(text: String = "") {
         guard let context = self.persistent?.viewContext else { return }
         let fetchRequest: NSFetchRequest<BookEntity> = BookEntity.fetchRequest()
-        if text.isEmpty == false {
+        if text != "" {
             fetchRequest.predicate = NSPredicate(format: "title CONTAINS[c] %@", text)
         }
         
@@ -65,13 +80,23 @@ class CoreDataManager {
             let books = try context.fetch(fetchRequest)
             var bookArr = [Book]()
             for book in books {
-                if let passagesSet = book.value(forKey: "passages") as? NSSet {
-                    // NSSet을 NSArray로 변환한 다음 [Passage] 배열로 캐스팅
-                    let passagesArray = passagesSet.allObjects as? [Passage] ?? []
+                if let passagesSet = book.passages?.array {
+                    var passagesArray = [Passage]()
+                    for passage in passagesSet {
+                        if let passageText = (passage as AnyObject).value(forKey: "passage") as? String, let page = (passage as AnyObject).value(forKey: "page") as? Int, let pageType = (passage as AnyObject).value(forKey: "pageType") as? Bool, let date = (passage as AnyObject).value(forKey: "date") as? Date, let keywords = (passage as AnyObject).value(forKey: "keywords") as? [String] {
+                            
+                            let passageInstance = Passage(title: book.title, passage: passageText, page: page, pageType: pageType, date: date, keywords: keywords)
+                            
+                            passagesArray.append(passageInstance)
+                        } else {
+                            print("Failed to extract passage attributes from NSManagedObject")
+                        }
+                    }
                     // 이제 passagesArray를 사용할 수 있습니다.
                     bookArr.append(Book(title: book.title!, author: book.author!, image: book.author!, passages: passagesArray))
                 }
             }
+            print(bookArr)
             bookData.accept(bookArr)
         } catch {
             print("Failed to fetch or read data: \(error)")
@@ -92,6 +117,7 @@ class CoreDataManager {
             for passage in passages {
                 passageArr.append(Passage(title: passage.book?.title, passage: passage.passage!, page: Int(passage.page), pageType: passage.pageType, date: passage.date!, keywords: passage.keywords!))
             }
+            print(passageArr)
             passageData.accept(passageArr)
         } catch {
             print("Failed to fetch or read data: \(error)")
