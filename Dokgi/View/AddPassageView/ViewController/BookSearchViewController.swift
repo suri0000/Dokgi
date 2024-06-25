@@ -5,21 +5,25 @@
 //  Created by 한철희 on 6/11/24.
 //
 
-import UIKit
-import Then
-import SnapKit
 import Kingfisher
+import Network
+import Then
+import UIKit
+import SnapKit
 
 class BookSearchViewController: UIViewController {
     
     weak var delegate: BookSelectionDelegate?
     private let viewModel = BookSearchViewModel()
     private let containerView = BookSearchContainerView()
+    private let monitor = NWPathMonitor()
+    private var isNetworkAvailable: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setUpAction()
+        startNetworkMonitoring()
     }
     
     private func setupUI() {
@@ -71,6 +75,14 @@ class BookSearchViewController: UIViewController {
         containerView.tableView.isHidden = true
     }
     
+    private func startNetworkMonitoring() {
+        let queue = DispatchQueue.global(qos: .background)
+        monitor.pathUpdateHandler = { path in
+            self.isNetworkAvailable = path.status == .satisfied
+        }
+        monitor.start(queue: queue)
+    }
+    
     private func showAlert(title: String, message: String, completion: (() -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
@@ -85,25 +97,22 @@ class BookSearchViewController: UIViewController {
             guard let self = self else { return }
             switch result {
             case .success(let items):
-                if items.isEmpty {
-                    self.showNoResults()
-                } else {
-                    self.viewModel.searchResults.append(contentsOf: items)
-                    self.containerView.tableView.reloadData()
-                    self.showSearchResults()
+                DispatchQueue.main.async {
+                    if items.isEmpty {
+                        self.showNoResults()
+                    } else {
+                        self.viewModel.searchResults.append(contentsOf: items)
+                        self.containerView.tableView.reloadData()
+                        self.showSearchResults()
+                    }
+                    self.viewModel.isLoading = false
                 }
             case .failure(let error):
-                if case NetworkError.noConnection = error {
-                    self.showAlert(title: "인터넷 연결", message: "인터넷이 연결되어 있지 않습니다.\n설정에서 인터넷 연결상태를 확인해주세요.")
-                } else {
-                    self.showAlert(title: "Error", message: "Error: \(error)")
-                    print("Error: \(error)")
-                }
+                print("Error: \(error)")
             }
             self.viewModel.isLoading = false
         }
     }
-
     
     private func loadMore() {
         if viewModel.isLoading { return }
@@ -148,6 +157,14 @@ extension BookSearchViewController: UISearchBarDelegate {
         showSearchResults()
         hideRecentSearches()
         searchBar.resignFirstResponder()
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        guard isNetworkAvailable else {
+            self.showAlert(title: "인터넷 연결", message: "인터넷이 연결되어 있지 않습니다.\n 설정에서 인터넷 연결상태를 확인해주세요.")
+            searchBar.resignFirstResponder()
+            return
+        }
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -223,6 +240,10 @@ extension BookSearchViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension BookSearchViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard isNetworkAvailable else {
+            self.showAlert(title: "인터넷 연결", message: "인터넷이 연결되어 있지 않습니다.\n 설정에서 인터넷 연결상태를 확인해주세요.")
+            return
+        }
         let recentSearches = viewModel.loadRecentSearches()
         containerView.searchBar.text = recentSearches[indexPath.item]
         searchBarSearchButtonClicked(containerView.searchBar)

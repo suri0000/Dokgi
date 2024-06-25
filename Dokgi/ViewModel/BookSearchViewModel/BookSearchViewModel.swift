@@ -6,46 +6,31 @@
 //
 
 import Foundation
-import Network
 
 class BookSearchViewModel {
     
     private let bookManager = BookManager.shared
-    private var monitor: NWPathMonitor?
     
     var searchResults: [Item] = []
     var isLoading = false
     var isLoadingLast = false
     var query: String = ""
-    var startIndex: Int = 1
+    var startIndex: Int = 0
     
     func fetchBooks(query: String, startIndex: Int, completion: @escaping (Result<[Item], Error>) -> Void) {
-        monitor = NWPathMonitor()
-        let queue = DispatchQueue(label: "NetworkMonitor")
-        monitor?.start(queue: queue)
-        
-        monitor?.pathUpdateHandler = { [weak self] path in
-            guard let self = self else { return }
-            
-            if path.status == .satisfied {
-                self.isLoading = true
-                self.bookManager.fetchBookData(queryValue: query, startIndex: startIndex) { result in
-                    DispatchQueue.main.async {
-                        switch result {
-                        case .success(let response):
-                            completion(.success(response.items))
-                        case .failure(let error):
-                            completion(.failure(error))
-                        }
-                        self.isLoading = false
-                    }
-                }
-            } else {
+        isLoading = true
+        bookManager.fetchBookData(queryValue: query, startIndex: startIndex) { result in
+            switch result {
+            case .success(let response):
                 DispatchQueue.main.async {
-                    completion(.failure(NetworkError.noConnection))
+                    completion(.success(response.items))
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    completion(.failure(error))
                 }
             }
-            self.monitor?.cancel()
+            self.isLoading = false
         }
     }
     
@@ -74,8 +59,4 @@ class BookSearchViewModel {
         recentSearches.remove(at: indexPath.item)
         UserDefaults.standard.set(recentSearches, forKey: UserDefaultsKeys.recentSearches.rawValue)
     }
-}
-
-enum NetworkError: Error {
-    case noConnection
 }
