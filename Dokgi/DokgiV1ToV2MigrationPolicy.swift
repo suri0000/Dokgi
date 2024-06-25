@@ -10,16 +10,17 @@ import CoreData
 
 class DokgiV1ToV2MigrationPolicy: NSEntityMigrationPolicy {
     // Create the Book instance in the destination context
-    var bookCache = [String: NSManagedObject]()
-    
+    static var bookCache = [String: NSManagedObject]()
     override func createDestinationInstances(forSource sInstance: NSManagedObject, in mapping: NSEntityMapping, manager: NSMigrationManager) throws {
         // BookEntity 생성
+        
+        print("dfafads")
         let bookTitle = sInstance.value(forKey: "name") as? String ?? ""
         let bookAuthor = sInstance.value(forKey: "author") as? String ?? ""
         
         var bookEntity: NSManagedObject
         
-        if let cachedBook = bookCache[bookTitle + bookAuthor] {
+        if let cachedBook = DokgiV1ToV2MigrationPolicy.bookCache[bookTitle + bookAuthor] {
             bookEntity = cachedBook
         } else {
             bookEntity = NSEntityDescription.insertNewObject(forEntityName: "BookEntity", into: manager.destinationContext)
@@ -27,7 +28,7 @@ class DokgiV1ToV2MigrationPolicy: NSEntityMigrationPolicy {
             bookEntity.setValue(bookAuthor, forKey: "author")
             bookEntity.setValue(sInstance.value(forKey: "image"), forKey: "image")
             
-            bookCache[bookTitle + bookAuthor] = bookEntity
+            DokgiV1ToV2MigrationPolicy.bookCache[bookTitle + bookAuthor] = bookEntity
         }
         
         let passageEntity = NSEntityDescription.insertNewObject(forEntityName: "PassageEntity", into: manager.destinationContext)
@@ -38,8 +39,7 @@ class DokgiV1ToV2MigrationPolicy: NSEntityMigrationPolicy {
         passageEntity.setValue(sInstance.value(forKey: "keywords"), forKey: "keywords")
         passageEntity.setValue(bookEntity, forKey: "book")
         
-        passageEntity.setValue(bookEntity, forKey: "book")
-        if var passages = bookEntity.value(forKey: "passages") as? NSMutableOrderedSet {
+        if let passages = bookEntity.value(forKey: "passages") as? NSMutableOrderedSet {
             passages.add(passageEntity)
         } else {
             bookEntity.setValue(NSMutableOrderedSet(object: passageEntity), forKey: "passages")
