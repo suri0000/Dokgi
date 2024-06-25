@@ -65,7 +65,12 @@ class CoreDataManager {
             let books = try context.fetch(fetchRequest)
             var bookArr = [Book]()
             for book in books {
-                bookArr.append(Book(title: book.title!, author: book.author!, image: book.author!, passages: (book.passages?.array as? [Passage])!))
+                if let passagesSet = book.value(forKey: "passages") as? NSSet {
+                    // NSSet을 NSArray로 변환한 다음 [Passage] 배열로 캐스팅
+                    let passagesArray = passagesSet.allObjects as? [Passage] ?? []
+                    // 이제 passagesArray를 사용할 수 있습니다.
+                    bookArr.append(Book(title: book.title!, author: book.author!, image: book.author!, passages: passagesArray))
+                }
             }
             bookData.accept(bookArr)
         } catch {
