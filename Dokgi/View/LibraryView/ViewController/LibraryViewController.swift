@@ -35,9 +35,10 @@ class LibraryViewController: BaseLibraryAndPassageViewController, UISearchBarDel
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(true, animated: animated)
-        
+
         CoreDataManager.shared.readData()
         if sortButton.sortButtonTitleLabel.text == "오래된순" {
+
             self.libraryViewModel.dataOldest()
         }
         self.libraryCollectionView.reloadData()
@@ -109,7 +110,7 @@ extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataS
             return UICollectionViewCell()
         }
         cell.authorNameLabel.text = libraryViewModel.libraryData.value[indexPath.row].author
-        cell.bookNameLabel.text = libraryViewModel.libraryData.value[indexPath.row].name
+        cell.bookNameLabel.text = libraryViewModel.libraryData.value[indexPath.row].title
         if let url = URL(string: libraryViewModel.libraryData.value[indexPath.row].image) {
             cell.bookImageView.kf.setImage(with: url)
         }

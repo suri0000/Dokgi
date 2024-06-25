@@ -15,7 +15,7 @@ class HomeViewModel {
     
     let currentLevel = BehaviorRelay<Int>(value: 1)
     let currentLevelPercent = BehaviorRelay<Double>(value: 0)
-    let verses = BehaviorRelay<[String]>(value: [])
+    let passages = BehaviorRelay<[Passage]>(value: [])
     let currentLevelImage = BehaviorRelay<UIImage?>(value: UIImage(named: " "))
     let randomVerses = BehaviorRelay<[String]>(value: [])
     
@@ -38,7 +38,8 @@ class HomeViewModel {
 
     init() {
         
-        verses
+        passages
+            .map { $0.map { $0.passage } }
             .subscribe(onNext: { [weak self] value in
                 guard let self = self else { return }
                 
@@ -61,10 +62,10 @@ class HomeViewModel {
             .disposed(by: disposeBag)
         
         // 구절 추가 업데이트
-        CoreDataManager.shared.bookData
-            .map{ $0.map { $0.text }}
-            .subscribe(onNext: { [weak self] verses in
-                self?.verses.accept(verses)
+        CoreDataManager.shared.passageData
+//            .map{ $0.map { $0.text }}
+            .subscribe(onNext: { [weak self] passages in
+                self?.passages.accept(passages)
             })
             .disposed(by: disposeBag)
         
@@ -81,14 +82,14 @@ class HomeViewModel {
     }
     
     // MARK: - Today's verese
-    private func loadTodayVerses() {
-        let savedDate = UserDefaults.standard.string(forKey: "savedDate")
+    func loadTodayVerses() {
+        let savedDate = UserDefaults.standard.string(forKey: UserDefaultsKeys.todayDate.rawValue)
         
         // 날짜에 따른 구절 업데이트
         if today != savedDate {
             shuffleAndSaveVerses()
         } else {
-            if let savedVerses = UserDefaults.standard.array(forKey: "shuffledVerses") as? [String] {
+            if let savedVerses = UserDefaults.standard.array(forKey: UserDefaultsKeys.shuffledPassage.rawValue) as? [String] {
                 randomVerses.accept(savedVerses)
             } else {
                 shuffleAndSaveVerses()
@@ -97,7 +98,7 @@ class HomeViewModel {
     }
     
     func shuffleAndSaveVerses() {
-        let versesCount = self.verses.value.count
+        let versesCount = self.passages.value.count
         
         guard versesCount > 0 else {
             print("No verses recorded")
@@ -105,11 +106,11 @@ class HomeViewModel {
         }
         
         let shuffledCount = min(5, versesCount)
-        let shuffled = verses.value.shuffled().prefix(shuffledCount).map { $0 }
+        let shuffled = passages.value.shuffled().prefix(shuffledCount).map { $0.passage }
         
         randomVerses.accept(shuffled)
-        UserDefaults.standard.set(today, forKey: "savedDate")
-        UserDefaults.standard.set(shuffled, forKey: "shuffledVerses")
+        UserDefaults.standard.set(today, forKey: UserDefaultsKeys.todayDate.rawValue)
+        UserDefaults.standard.set(shuffled, forKey: UserDefaultsKeys.shuffledPassage.rawValue)
     }
 }
 

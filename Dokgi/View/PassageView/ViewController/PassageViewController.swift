@@ -72,7 +72,7 @@ class PassageViewController: BaseLibraryAndPassageViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         if sortButton.titleLabel?.text == "오래된순" {
             self.passageViewModel.dataOldest()
         }
@@ -274,14 +274,54 @@ extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataS
         currentParagraph.remove(at: indexPath.item)
         passageViewModel.passageData.accept(currentParagraph)
         searchResultItems = currentParagraph
+
         CoreDataManager.shared.deleteData(verse: passageViewModel.detailPassage.value)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let modalVC = PassageDetailViewController()
-        
+
         passageViewModel.selectParagraph(text: isFiltering ? searchResultItems[indexPath.item].0 : passageViewModel.passageData.value[indexPath.item].0, at: indexPath.item)
         modalVC.viewModel.detailPassage.accept(passageViewModel.detailPassage.value)
+
         present(modalVC, animated: true, completion: nil)
+    }
+}
+
+//MARK: - SearchBar
+extension PassageViewController: UISearchBarDelegate {
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.isFiltering = true
+        self.searchBar.showsCancelButton = true
+        searchResultItems = viewModel.passageData.value
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filterItems(with: searchText)
+    }
+    
+    private func filterItems(with searchText: String) {
+        if searchText.isEmpty {
+            searchResultItems = viewModel.passageData.value
+        } else {
+            searchResultItems = viewModel.passageData.value.filter { $0.0.localizedCaseInsensitiveContains(searchText) }
+        }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.searchBar.showsCancelButton = false
+        self.searchBar.resignFirstResponder()
+        self.isFiltering = false
+        self.searchBar.text = ""
+        self.searchResultItems = []
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let searchText = searchBar.text else { return }
+        filterItems(with: searchText)
+        
+        self.searchBar.showsCancelButton = false
+        self.searchBar.resignFirstResponder()
     }
 }

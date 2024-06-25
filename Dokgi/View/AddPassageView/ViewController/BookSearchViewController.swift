@@ -5,21 +5,25 @@
 //  Created by 한철희 on 6/11/24.
 //
 
-import UIKit
-import Then
-import SnapKit
 import Kingfisher
+import Network
+import Then
+import UIKit
+import SnapKit
 
 class BookSearchViewController: UIViewController {
     
     weak var delegate: BookSelectionDelegate?
     private let viewModel = BookSearchViewModel()
     private let containerView = BookSearchContainerView()
+    private let monitor = NWPathMonitor()
+    private var isNetworkAvailable: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setUpAction()
+        startNetworkMonitoring()
     }
     
     private func setupUI() {
@@ -71,6 +75,22 @@ class BookSearchViewController: UIViewController {
         containerView.tableView.isHidden = true
     }
     
+    private func startNetworkMonitoring() {
+        let queue = DispatchQueue.global(qos: .background)
+        monitor.pathUpdateHandler = { path in
+            self.isNetworkAvailable = path.status == .satisfied
+        }
+        monitor.start(queue: queue)
+    }
+    
+    private func showAlert(title: String, message: String, completion: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
+            completion?()
+        }))
+        present(alert, animated: true, completion: nil)
+    }
+    
     private func fetchBooks(query: String, startIndex: Int) {
         viewModel.isLoading = true
         viewModel.fetchBooks(query: query, startIndex: startIndex) { [weak self] result in
@@ -89,15 +109,15 @@ class BookSearchViewController: UIViewController {
                 }
             case .failure(let error):
                 print("Error: \(error)")
-                self.viewModel.isLoading = false
             }
+            self.viewModel.isLoading = false
         }
     }
     
     private func loadMore() {
         if viewModel.isLoading { return }
         viewModel.isLoading = true
-        viewModel.startIndex += 1
+        viewModel.startIndex += 10
         
         viewModel.fetchBooks(query: viewModel.query, startIndex: viewModel.startIndex) { [weak self] result in
             guard let self = self else { return }
@@ -137,6 +157,14 @@ extension BookSearchViewController: UISearchBarDelegate {
         showSearchResults()
         hideRecentSearches()
         searchBar.resignFirstResponder()
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        guard isNetworkAvailable else {
+            self.showAlert(title: "인터넷 연결", message: "인터넷이 연결되어 있지 않습니다.\n 설정에서 인터넷 연결상태를 확인해주세요.")
+            searchBar.resignFirstResponder()
+            return
+        }
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -212,6 +240,10 @@ extension BookSearchViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension BookSearchViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard isNetworkAvailable else {
+            self.showAlert(title: "인터넷 연결", message: "인터넷이 연결되어 있지 않습니다.\n 설정에서 인터넷 연결상태를 확인해주세요.")
+            return
+        }
         let recentSearches = viewModel.loadRecentSearches()
         containerView.searchBar.text = recentSearches[indexPath.item]
         searchBarSearchButtonClicked(containerView.searchBar)

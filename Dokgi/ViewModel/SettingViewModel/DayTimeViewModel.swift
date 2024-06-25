@@ -12,9 +12,9 @@ import NotificationCenter
 
 class DayTimeViewModel {
     
-    static var dayCheck = BehaviorRelay<[Int]>(value: UserDefaults.standard.array(forKey: "writeWeek") as? [Int] ?? [1, 1, 1, 1, 1, 1, 1])
-    static var remindTime = BehaviorRelay<[Int]>(value: UserDefaults.standard.array(forKey: "remindTime") as? [Int] ?? [3, 00, 1])
-    static var writeTime = BehaviorRelay<[Int]>(value: UserDefaults.standard.array(forKey: "writeTime") as? [Int] ?? [3, 00, 1])
+    static var dayCheck = BehaviorRelay<[Int]>(value: UserDefaults.standard.array(forKey: UserDefaultsKeys.writeWeek.rawValue) as? [Int] ?? [1, 1, 1, 1, 1, 1, 1])
+    static var remindTime = BehaviorRelay<[Int]>(value: UserDefaults.standard.array(forKey: UserDefaultsKeys.remindTime.rawValue) as? [Int] ?? [3, 00, 1])
+    static var writeTime = BehaviorRelay<[Int]>(value: UserDefaults.standard.array(forKey: UserDefaultsKeys.writeTime.rawValue) as? [Int] ?? [3, 00, 1])
     
     let hourArr = [Int](1...12)
     let minArr = [Int](00...59).map { String($0).count == 1 ? "0\($0)" : "\($0)" }
@@ -53,7 +53,7 @@ class DayTimeViewModel {
     }
     
     func sendLocalPushRemind(identifier: String, time: [Int]) {
-        let gujur : [String] = CoreDataManager.shared.bookData.value.count == 0 ? ["누군가를 있는 그대로 존중한다는 것은 그만큼 어려운 일이다.", "본질을 아는 것보다, 본질을 알기 위해 있는 그대로를 보기 위해 노력하는 것이 중요하다고, 그것이 바로 그 대상에 대한 존중이라고."] : CoreDataManager.shared.bookData.value.map { $0.text }
+        let gujur : [String] = CoreDataManager.shared.passageData.value.count == 0 ? ["누군가를 있는 그대로 존중한다는 것은 그만큼 어려운 일이다.", "본질을 아는 것보다, 본질을 알기 위해 있는 그대로를 보기 위해 노력하는 것이 중요하다고, 그것이 바로 그 대상에 대한 존중이라고."] : CoreDataManager.shared.passageData.value.map { $0.passage }
         UserDefaults.standard.set(time, forKey: UserDefaultsKeys.remindTime.rawValue)
         for i in 1...31 {
             let content = UNMutableNotificationContent()

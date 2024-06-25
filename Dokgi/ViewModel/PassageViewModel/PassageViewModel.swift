@@ -11,30 +11,21 @@ import RxSwift
 
 class PassageViewModel {
     var disposeBag = DisposeBag()
-    var passageData = BehaviorRelay<[(String, Date)]>(value: [("", Date())])
-    var detailPassage = BehaviorRelay<Verse>(value: Verse(name: "", author: "", image: "", text: "", pageNumber: 1, pageType: "P", keywords: [], date: Date()))
-    var isFiltering = BehaviorRelay<Bool>(value: false)
-    var searchBarText = BehaviorRelay<String>(value: "")
+    var passageData = BehaviorRelay<[(String, Date)]>(value: [])
+    var detailPassage = BehaviorRelay<Passage>(value: Passage(title: "", passage: "", page: 0, pageType: true, date: Date(), keywords: []))
     
     init() {
-        CoreDataManager.shared.bookData
-            .map { $0.map {
-                return ($0.text, $0.date)
-            }
-            .sorted { $0.1 > $1.1 }
-            }
-            .subscribe(onNext: { [weak self] versesAndDates in
-                self?.passageData.accept(versesAndDates)
-            })
-            .disposed(by: disposeBag)
+        passageData.accept(
+            CoreDataManager.shared.passageData.value.map { ($0.passage, $0.date) }
+        )
     }
     
-    func selectParagraph(text: String, at index: Int) {
+    func selectPassage(text: String, at index: Int) {
             let selectedText = text
-            if let selectedVerse = CoreDataManager.shared.bookData.value.first(where: { $0.text == selectedText }) {
+      
+            if let selectedVerse = CoreDataManager.shared.passageData.value.first(where: { $0.passage == selectedText }) {
                 detailPassage.accept(selectedVerse)
             }
-        }
     
     func dataLatest() {
           let sortedData = passageData.value.sorted { $0.1 > $1.1 }

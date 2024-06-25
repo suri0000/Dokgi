@@ -6,22 +6,69 @@
 //
 
 import SnapKit
+import Then
 import UIKit
 
 class CurrentLevelCell: UICollectionViewCell {
     static let identifier = "CurrentLevelCell"
     
-    let cardView = UIView()
-    let textView = UIView()
-    let levelView = UIView()
-    let levelLabel = UILabel()
-    let descrptionLabel = UILabel()
-    let lengthLabel = UILabel()
-    let cardImageView = UIImageView()
+    let cardView = UIView().then {
+        $0.backgroundColor = .white
+    }
+    
+    let textView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    let levelView = UIView().then {
+        $0.backgroundColor = .lightSkyBlue
+        $0.layer.cornerRadius = 10
+    }
+    
+    let levelLabel = UILabel().then {
+        $0.textColor = .mediumSkyBlue
+        $0.font = Pretendard.extrabold.dynamicFont(style: .caption1)
+    }
+    
+    let descrptionLabel = UILabel().then {
+        $0.font = Pretendard.regular.dynamicFont(style: .callout)
+        $0.numberOfLines = 2
+        $0.textColor = .black
+    }
+    
+    let lengthLabel = UILabel().then {
+        $0.textColor = .mediumSkyBlue
+        $0.font = Pretendard.extrabold.dynamicFont(style: .title1)
+    }
+    
+    let cardImageView = UIImageView().then {
+        $0.backgroundColor = .clear
+        $0.contentMode = .scaleAspectFit
+    }
+    
     let hideView = UIView()
-    let nextLevel = UILabel()
-    let currentLevel = UILabel()
-    let questionMark = UILabel()
+    
+    let nextLevel = UILabel().then {
+        $0.font = Pretendard.bold.dynamicFont(style: .title3)
+        $0.textColor = .black
+    }
+    
+    let currentLevel = UILabel().then {
+        $0.font = Pretendard.regular.dynamicFont(style: .callout)
+        $0.textColor = .alarmSettingText
+    }
+    
+    let questionMark = UILabel().then {
+        $0.font = .systemFont(ofSize: 60, weight: .heavy)
+        $0.textColor = .deepSkyBlue
+        $0.text = "?"
+    }
+    
+    lazy var stackView = UIStackView(arrangedSubviews: [nextLevel, currentLevel, questionMark]).then {
+        $0.axis = .vertical
+        $0.spacing = 4
+        $0.alignment = .center
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -45,9 +92,7 @@ class CurrentLevelCell: UICollectionViewCell {
         }
         
         contentView.addSubview(hideView)
-        [nextLevel, currentLevel, questionMark].forEach {
-            hideView.addSubview($0)
-        }
+        [stackView].forEach { hideView.addSubview($0) }
         
         cardView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -93,51 +138,13 @@ class CurrentLevelCell: UICollectionViewCell {
             $0.edges.equalToSuperview()
         }
         
-        nextLevel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(30)
-            $0.centerX.equalToSuperview()
+        stackView.snp.makeConstraints {
+            $0.centerY.centerX.equalToSuperview()
         }
-        
-        currentLevel.snp.makeConstraints {
-            $0.top.equalTo(nextLevel.snp.bottom).offset(4)
-            $0.centerX.equalToSuperview()
-        }
-        
-        questionMark.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(currentLevel.snp.bottom)
-        }
-
     }
     
     func configureUI() {
         contentView.layer.cornerRadius = 8
-        cardView.backgroundColor = .white
-        
-        cardImageView.backgroundColor = .clear
-        cardImageView.contentMode = .scaleAspectFit
-        textView.backgroundColor = .clear
-        
-        levelView.backgroundColor = .lightSkyBlue
-        levelView.layer.cornerRadius = 10
-        
-        levelLabel.textColor = .mediumSkyBlue
-        levelLabel.font = Pretendard.extrabold.dynamicFont(style: .caption1)
-        
-        descrptionLabel.font = Pretendard.regular.dynamicFont(style: .callout)
-        descrptionLabel.numberOfLines = 2
-        descrptionLabel.textColor = .black
-        
-        lengthLabel.textColor = .mediumSkyBlue
-        lengthLabel.font = Pretendard.extrabold.dynamicFont(style: .title1)
-        
-        nextLevel.font = Pretendard.bold.dynamicFont(style: .title3)
-        currentLevel.font = Pretendard.regular.dynamicFont(style: .callout)
-        currentLevel.textColor = .alarmSettingText
-        questionMark.font = .systemFont(ofSize: 60, weight: .heavy)
-        questionMark.textColor = .deepSkyBlue
-        questionMark.text = "?"
-        
     }
     
     func setCellConfig(_ cardData: Card) {
@@ -167,4 +174,3 @@ class CurrentLevelCell: UICollectionViewCell {
         currentLevel.text = "Level \(level)을 다 달성하면 보입니다"
     }
 }
-
