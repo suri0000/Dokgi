@@ -47,6 +47,14 @@ class HomeViewController: UIViewController, HomeViewDelegate {
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
         CoreDataManager.shared.readData()
+        
+        // 오늘의 구절 업데이트
+        CoreDataManager.shared.bookData
+            .take(1)
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.loadTodayVerses()
+            })
+            .disposed(by: disposeBag)
     }
     
     func setupConstraints() {
@@ -133,7 +141,7 @@ class HomeViewController: UIViewController, HomeViewDelegate {
     
     // 오늘의 구절 자동 넘기기
     func bannerTimer() {
-        let _: Timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { (Timer) in
+        let _: Timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (Timer) in
             self.bannerMove()
         }
     }
