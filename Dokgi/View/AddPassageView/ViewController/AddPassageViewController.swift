@@ -259,7 +259,7 @@ extension AddPassageViewController: UICollectionViewDelegate, UICollectionViewDa
 extension AddPassageViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         guard containerView.verseTextView.textColor == .placeholderText else { return }
-        containerView.verseTextView.textColor = .label
+        containerView.verseTextView.textColor = .black
         containerView.verseTextView.font = Pretendard.regular.dynamicFont(style: .body)
         containerView.verseTextView.text = nil
         updateCharacterCountLabel()
@@ -268,7 +268,7 @@ extension AddPassageViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = "텍스트를 입력하세요"
-            textView.textColor = .placeholderText
+            textView.textColor = .textFieldGray
         }
         updateCharacterCountLabel()
     }

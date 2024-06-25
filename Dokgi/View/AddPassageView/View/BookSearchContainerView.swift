@@ -13,6 +13,7 @@ class BookSearchContainerView: UIView {
     
     // MARK: - UI
     let tableView = UITableView().then {
+        $0.backgroundColor = .white
         $0.rowHeight = 150
         $0.showsVerticalScrollIndicator = false
         $0.isHidden = true
@@ -28,6 +29,7 @@ class BookSearchContainerView: UIView {
     
     let recentSearchLabel = UILabel().then {
         $0.font = Pretendard.semibold.dynamicFont(style: .headline)
+        $0.textColor = .black
         let poundKeyImage: UIImage? = .poundKey
         if let image = poundKeyImage {
             let attachment = NSTextAttachment()

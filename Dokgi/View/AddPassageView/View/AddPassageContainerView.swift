@@ -72,7 +72,8 @@ class AddPassageContainerView: UIView {
         paragraphStyle.lineSpacing = 8.0
         let attributedString = NSAttributedString(string: $0.text ?? "", attributes: [.paragraphStyle: paragraphStyle])
         $0.attributedText = attributedString
-        $0.textColor = .placeholderText
+        $0.textColor = .textFieldGray
+        $0.backgroundColor = .white
     }
     
     let characterCountLabel = UILabel().then {
@@ -86,21 +87,22 @@ class AddPassageContainerView: UIView {
     }
     
     let keywordLabel = UILabel().then {
+        $0.textColor = .black
         $0.attributedText = createAttributedString(for: "키워드 (선택)")
         $0.textAlignment = .left
     }
     
     let keywordField = UITextField().then {
-        $0.placeholder = "지금 읽은 책을 더 잘 기억하고 싶다면?"
+        $0.attributedPlaceholder = NSAttributedString(string: "지금 읽은 책을 더 잘 기억하고 싶다면?", attributes: [NSAttributedString.Key.foregroundColor : UIColor.textFieldGray])
         $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
-        $0.textColor = .black
         $0.layer.cornerRadius = 10
         $0.clipsToBounds = true
+        $0.textColor = .black
+        $0.backgroundColor = .white
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.borderGray.cgColor
         $0.autocorrectionType = .no
         $0.spellCheckingType = .no
-
     }
     
     lazy var keywordCollectionView = UICollectionView(frame: .zero, collectionViewLayout: {
@@ -121,15 +123,19 @@ class AddPassageContainerView: UIView {
     }
     
     let pageNumberTextField = UITextField().then {
-        $0.placeholder = "페이지"
-        $0.textColor = .black
+        $0.attributedPlaceholder = NSAttributedString(string: "페이지", attributes: [NSAttributedString.Key.foregroundColor : UIColor.textFieldGray])
         $0.textAlignment = .center
         $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
-        $0.borderStyle = .roundedRect
+        $0.layer.cornerRadius = 8
+        $0.clipsToBounds = true
+        $0.textColor = .black
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = UIColor.borderGray.cgColor
+        $0.backgroundColor = .white
         $0.autocorrectionType = .no
         $0.spellCheckingType = .no
     }
-    
+
     let pageSegment = SegmentControlView().then {
         $0.selectedIndex = 0
     }
@@ -242,7 +248,7 @@ class AddPassageContainerView: UIView {
         }
     }
     
-    func setkeywordTextField() {
+    private func setkeywordTextField() {
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: keywordField.frame.height))
         keywordField.leftView = paddingView
         keywordField.leftViewMode = .always

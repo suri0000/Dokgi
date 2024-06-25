@@ -25,6 +25,8 @@ class BookCell: UITableViewCell {
     }
     
     private func setupUI() {
+        self.backgroundColor = .white
+        
         contentView.addSubview(bookImageView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(authorLabel)
