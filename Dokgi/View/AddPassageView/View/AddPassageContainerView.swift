@@ -93,7 +93,7 @@ class AddPassageContainerView: UIView {
     let keywordField = UITextField().then {
         $0.placeholder = "지금 읽은 책을 더 잘 기억하고 싶다면?"
         $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
-        $0.textColor = .textFieldGray
+        $0.textColor = .black
         $0.layer.cornerRadius = 10
         $0.clipsToBounds = true
         $0.layer.borderWidth = 1
@@ -122,7 +122,7 @@ class AddPassageContainerView: UIView {
     
     let pageNumberTextField = UITextField().then {
         $0.placeholder = "페이지"
-        $0.textColor = .textFieldGray
+        $0.textColor = .black
         $0.textAlignment = .center
         $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
         $0.borderStyle = .roundedRect
