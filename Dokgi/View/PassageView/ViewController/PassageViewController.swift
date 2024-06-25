@@ -67,11 +67,7 @@ class PassageViewController: BaseLibraryAndPassageViewController {
         layout.delegate = self
         
         setLabelText(title: "구절", placeholder: "기록한 구절을 검색해보세요", noResultsMessage: "기록한 구절이 없어요\n구절을 등록해 보세요")
-        
-        initLayout()
-        setBinding()
         setButtonActions()
-        setFloatingButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -83,7 +79,7 @@ class PassageViewController: BaseLibraryAndPassageViewController {
         self.passageCollectionView.reloadData()
     }
     
-    private func initLayout() {
+    override func initLayout() {
         view.backgroundColor = .white
         
         [selectionButton, doneButton, passageCollectionView].forEach {
@@ -122,7 +118,7 @@ class PassageViewController: BaseLibraryAndPassageViewController {
         }
     }
     
-    private func setBinding() {
+    override func setBinding() {
         passageViewModel.passageData.subscribe(with: self) { (self, data) in
             if let layout = self.passageCollectionView.collectionViewLayout as? PassageCollectionViewLayout {
                 layout.invalidateCache()
@@ -203,7 +199,7 @@ extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataS
         
         noResultsLabel.isHidden = itemCount > 0
         if isFiltering { noResultsLabel.text = "검색결과가 없습니다." }
-        
+
         return itemCount
     }
     

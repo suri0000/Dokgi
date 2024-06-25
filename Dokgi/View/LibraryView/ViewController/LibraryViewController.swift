@@ -31,10 +31,6 @@ class LibraryViewController: BaseLibraryAndPassageViewController, UISearchBarDel
         libraryCollectionView.dataSource = self
         
         setLabelText(title: "서재", placeholder: "기록한 책을 검색해보세요", noResultsMessage: "기록한 책이 없어요\n구절을 등록해 보세요")
-        
-        initLayout()
-        setBinding()
-        setFloatingButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,7 +43,7 @@ class LibraryViewController: BaseLibraryAndPassageViewController, UISearchBarDel
         self.libraryCollectionView.reloadData()
     }
     
-    private func initLayout() {
+    override func initLayout() {
         view.backgroundColor = .white
         
         view.addSubview(libraryCollectionView)
@@ -58,7 +54,7 @@ class LibraryViewController: BaseLibraryAndPassageViewController, UISearchBarDel
         }
     }
     
-    private func setBinding() {
+    override func setBinding() {
         CoreDataManager.shared.bookData.subscribe(with: self) { (self, bookData) in
             self.libraryViewModel.dataFilter(verses: bookData)
         }.disposed(by: disposeBag)

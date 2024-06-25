@@ -47,6 +47,7 @@ class BaseLibraryAndPassageViewController: UIViewController {
         setLayout()
         setSortMenuView()
         tappedButton()
+        setFloatingButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -140,4 +141,7 @@ class BaseLibraryAndPassageViewController: UIViewController {
     func latestButtonAction() {}
     
     func oldestButtonAction() {}
+    
+    func initLayout() {}
+    func setBinding() {}
 }
