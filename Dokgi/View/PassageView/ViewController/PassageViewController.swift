@@ -7,14 +7,37 @@
 
 import RxSwift
 import SnapKit
+import Then
 import UIKit
 
-class PassageViewController: UIViewController {
+class PassageViewController: BaseLibraryAndPassageViewController {
     
-    let passageView = PassageView()
-    
-    let viewModel = PassageViewModel()
+    let passageViewModel = PassageViewModel()
     var disposeBag = DisposeBag()
+    
+    let selectionButton = UIButton().then {
+        $0.backgroundColor = .white
+        $0.sizeToFit()
+    }
+    
+    let selectionButtonImageView = UIImageView().then {
+        $0.image = .filter
+    }
+    
+    let selectionButtonLabel = UILabel().then {
+        $0.text = "선택"
+        $0.font = Pretendard.semibold.dynamicFont(style: .headline)
+        $0.textColor = .charcoalBlue
+    }
+    
+    let doneButton = UIButton().then {
+        $0.titleLabel?.font = Pretendard.semibold.dynamicFont(style: .headline)
+        $0.setTitle("완료", for: .normal)
+        $0.setTitleColor(.brightRed, for: .normal)
+        $0.isHidden = true
+    }
+    
+    let passageCollectionView = PassageCollectionView()
     
     var isFiltering: Bool = false
     var isEditingMode: Bool = false
@@ -24,124 +47,108 @@ class PassageViewController: UIViewController {
     
     private var searchResultItems: [(String, Date)] = [] {
         didSet {
-            if let layout = passageView.passageCollectionView.collectionViewLayout as? PassageCollectionViewLayout {
+            if let layout = passageCollectionView.collectionViewLayout as? PassageCollectionViewLayout {
                 layout.invalidateCache()
             }
-            passageView.passageCollectionView.reloadData()
+            passageCollectionView.reloadData()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      
-        viewModel.passageData.subscribe(with: self) { (self, data) in
-            if let layout = self.paragraphCollectionView.collectionViewLayout as? PassageCollectionViewLayout {
-                layout.invalidateCache()
-            }
-            self.paragraphCollectionView.reloadData()
-        }.disposed(by: disposeBag)
-        view.backgroundColor = .white
-        passageView.searchBar.delegate = self
         
-        passageView.passageCollectionView.delegate = self
-        passageView.passageCollectionView.dataSource = self
+        searchBar.delegate = self
+        
+        passageCollectionView.delegate = self
+        passageCollectionView.dataSource = self
         
         let layout = PassageCollectionViewLayout()
-        passageView.passageCollectionView.collectionViewLayout = layout
+        passageCollectionView.collectionViewLayout = layout
         layout.delegate = self
-
-        initLayout()
-        setBinding()
+        
+        setLabelText(title: "구절", placeholder: "기록한 구절을 검색해보세요", noResultsMessage: "기록한 구절이 없어요\n구절을 등록해 보세요")
         setButtonActions()
-        setFloatingButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = false
-        self.navigationController?.navigationBar.isHidden = true
+
+        if sortButton.titleLabel?.text == "오래된순" {
+            self.passageViewModel.dataOldest()
+        }
+        self.passageCollectionView.reloadData()
+    }
+    
+    override func initLayout() {
+        view.backgroundColor = .white
         
-        if sortButton.titleLabel?.text != "최신순" {
-            let sortedPassageAndDate = viewModel.passageData.value.sorted { $0.1 > $1.1 }
-            
-            isFiltering ? searchResultItems.sort { $0.1 > $1.1 } : viewModel.passageData.accept(sortedPassageAndDate)
+        [selectionButton, doneButton, passageCollectionView].forEach {
+            view.addSubview($0)
         }
-        self.passageView.passageCollectionView.reloadData()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        passageView.sortMenuView.isHidden = true
-    }
-    
-    private func initLayout() {
-        view.addSubview(passageView)
-        passageView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+        
+        selectionButton.snp.makeConstraints {
+            $0.centerY.equalTo(titleLabel.snp.centerY)
+            $0.trailing.equalToSuperview().inset(20)
+        }
+        
+        [selectionButtonImageView, selectionButtonLabel].forEach {
+            selectionButton.addSubview($0)
+        }
+        
+        selectionButtonImageView.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().inset(4)
+            $0.width.equalTo(14.67)
+            $0.height.equalTo(13.2)
+        }
+        
+        selectionButtonLabel.snp.makeConstraints {
+            $0.centerY.trailing.equalToSuperview()
+            $0.leading.equalTo(selectionButtonImageView.snp.trailing).offset(5)
+        }
+        
+        doneButton.snp.makeConstraints {
+            $0.centerY.equalTo(titleLabel.snp.centerY)
+            $0.trailing.equalToSuperview().inset(20)
+        }
+        
+        passageCollectionView.snp.makeConstraints {
+            $0.top.equalTo(sortButton.snp.bottom).offset(20)
+            $0.bottom.leading.trailing.equalToSuperview()
         }
     }
     
-    private func setBinding() {
-        viewModel.passageData.subscribe(with: self) { (self, data) in
-            if let layout = self.passageView.passageCollectionView.collectionViewLayout as? PassageCollectionViewLayout {
+    override func setBinding() {
+        passageViewModel.passageData.subscribe(with: self) { (self, data) in
+            if let layout = self.passageCollectionView.collectionViewLayout as? PassageCollectionViewLayout {
                 layout.invalidateCache()
             }
-            self.passageView.passageCollectionView.reloadData()
+            self.passageCollectionView.reloadData()
+        }.disposed(by: disposeBag)
+    }
+    // MARK: - 버튼 Action
+    private func setButtonActions() {
+        selectionButton.rx.tap.subscribe(with: self) { (self, _) in
+            self.isEditingMode = true
+            self.selectionButton.isHidden = true
+            self.doneButton.isHidden = false
+            self.passageCollectionView.reloadData()
+        }.disposed(by: disposeBag)
+        
+        doneButton.rx.tap.subscribe(with: self) { (self, _) in
+            self.isEditingMode = false
+            self.selectionButton.isHidden = false
+            self.doneButton.isHidden = true
+            self.passageCollectionView.reloadData()
         }.disposed(by: disposeBag)
     }
     
-    private func setButtonActions() {
-        passageView.selectionButton.addTarget(self, action: #selector(tappedSelectionButton), for: .touchUpInside)
-        passageView.sortButton.addTarget(self, action: #selector(showOrHideSortMenuView), for: .touchUpInside)
-        passageView.latestFirstButton.addTarget(self, action: #selector(tappedLatestFirst), for: .touchUpInside)
-        passageView.doneButton.addTarget(self, action: #selector(tappedDoneButton), for: .touchUpInside)
-        passageView.oldestFirstButton.addTarget(self, action: #selector(tappedOldestFirst), for: .touchUpInside)
+    override func latestButtonAction() {
+        self.passageViewModel.dataLatest()
     }
     
-    // MARK: - 설정버튼
-    @objc private func showOrHideSortMenuView() {
-        if passageView.sortMenuView.isHidden {
-            passageView.sortMenuView.isHidden = false
-            passageView.bringSubviewToFront(passageView.sortMenuView)
-        } else {
-            passageView.sortMenuView.isHidden = true
-        }
-    }
-    
-    @objc private func tappedLatestFirst() {
-        passageView.sortButtonTitleLabel.text = "최신순"
-        passageView.latestFirstcheckImageView.isHidden = false
-        passageView.oldestFirstcheckImageView.isHidden = true
-        passageView.sortMenuView.isHidden = true
-        
-        let sortedPassageAndDate = viewModel.passageData.value.sorted { $0.1 > $1.1 }
-        
-        isFiltering ? searchResultItems.sort { $0.1 > $1.1 } : viewModel.passageData.accept(sortedPassageAndDate)
-    }
-    
-    @objc private func tappedOldestFirst() {
-        passageView.sortButtonTitleLabel.text = "오래된순"
-        passageView.latestFirstcheckImageView.isHidden = true
-        passageView.oldestFirstcheckImageView.isHidden = false
-        passageView.sortMenuView.isHidden = true
-        
-        let sortedPassageAndDate = viewModel.passageData.value.sorted { $0.1 < $1.1 }
-      
-        isFiltering ? searchResultItems.sort { $0.1 < $1.1 } : viewModel.passageData.accept(sortedPassageAndDate)
-    }
-    
-    @objc private func tappedSelectionButton() {
-        isEditingMode = true
-        passageView.selectionButton.isHidden = true
-        passageView.doneButton.isHidden = false
-        self.passageView.passageCollectionView.reloadData()
-    }
-    
-    @objc private func tappedDoneButton() {
-        isEditingMode = false
-        passageView.selectionButton.isHidden = false
-        passageView.doneButton.isHidden = true
-        self.passageView.passageCollectionView.reloadData()
+    override func oldestButtonAction() {
+        self.passageViewModel.dataOldest()
     }
 }
 
@@ -150,8 +157,8 @@ extension PassageViewController: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         self.isFiltering = true
-        self.passageView.searchBar.showsCancelButton = true
-        searchResultItems = viewModel.passageData.value
+        self.searchBar.showsCancelButton = true
+        searchResultItems = passageViewModel.passageData.value
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -160,17 +167,17 @@ extension PassageViewController: UISearchBarDelegate {
     
     private func filterItems(with searchText: String) {
         if searchText.isEmpty {
-            searchResultItems = viewModel.passageData.value
+            searchResultItems = passageViewModel.passageData.value
         } else {
-            searchResultItems = viewModel.passageData.value.filter { $0.0.localizedCaseInsensitiveContains(searchText) }
+            searchResultItems = passageViewModel.passageData.value.filter { $0.0.localizedCaseInsensitiveContains(searchText) }
         }
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        self.passageView.searchBar.showsCancelButton = false
-        self.passageView.searchBar.resignFirstResponder()
+        self.searchBar.showsCancelButton = false
+        self.searchBar.resignFirstResponder()
         self.isFiltering = false
-        self.passageView.searchBar.text = ""
+        self.searchBar.text = ""
         self.searchResultItems = []
     }
     
@@ -178,21 +185,21 @@ extension PassageViewController: UISearchBarDelegate {
         guard let searchText = searchBar.text else { return }
         filterItems(with: searchText)
         
-        self.passageView.searchBar.showsCancelButton = false
-        self.passageView.searchBar.resignFirstResponder()
+        self.searchBar.showsCancelButton = false
+        self.searchBar.resignFirstResponder()
     }
 }
 //MARK: -CollectionView
 extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataSource, PassageCollectionViewLayoutDelegate, PassageCollectionViewCellDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let cellCount = viewModel.passageData.value.count
+        let cellCount = passageViewModel.passageData.value.count
         let resultCount = searchResultItems.count
         let itemCount = isFiltering ? resultCount : cellCount
         
-        passageView.emptyMessageLabel.isHidden = itemCount > 0
-        if isFiltering { passageView.emptyMessageLabel.text = "검색결과가 없습니다." }
-        
+        noResultsLabel.isHidden = itemCount > 0
+        if isFiltering { noResultsLabel.text = "검색결과가 없습니다." }
+
         return itemCount
     }
     
@@ -205,7 +212,7 @@ extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.deleteButton.isHidden = !isEditingMode
         cell.delegate = self
         
-        let (text, date) = isFiltering ? searchResultItems[indexPath.item] : viewModel.passageData.value[indexPath.item]
+        let (text, date) = isFiltering ? searchResultItems[indexPath.item] : passageViewModel.passageData.value[indexPath.item]
         cell.paragraphLabel.text = text
         let dateString = String(date.toString()).suffix(10)
         cell.dateLabel.text = String(dateString)
@@ -214,8 +221,8 @@ extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, heightForTextAtIndexPath indexPath: IndexPath) -> CGFloat {
-        let text = isFiltering ? searchResultItems[indexPath.item].0 : viewModel.passageData.value[indexPath.item].0
-        let date = isFiltering ? searchResultItems[indexPath.item].1 : viewModel.passageData.value[indexPath.item].1
+        let text = isFiltering ? searchResultItems[indexPath.item].0 : passageViewModel.passageData.value[indexPath.item].0
+        let date = isFiltering ? searchResultItems[indexPath.item].1 : passageViewModel.passageData.value[indexPath.item].1
         return calculateCellHeight(for: text, for: date.toString(), in: collectionView)
     }
     
@@ -261,19 +268,22 @@ extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func tappedDeleteButton(in cell: PassageCollectionViewCell) {
-        guard let indexPath = passageView.passageCollectionView.indexPath(for: cell) else { return }
-        self.viewModel.selectParagraph(text: isFiltering ? searchResultItems[indexPath.item].0 : viewModel.passageData.value[indexPath.item].0, at: indexPath.item)
-        var currentParagraph = isFiltering ? searchResultItems : viewModel.passageData.value
+        guard let indexPath = passageCollectionView.indexPath(for: cell) else { return }
+        self.passageViewModel.selectParagraph(text: isFiltering ? searchResultItems[indexPath.item].0 : passageViewModel.passageData.value[indexPath.item].0, at: indexPath.item)
+        var currentParagraph = isFiltering ? searchResultItems : passageViewModel.passageData.value
         currentParagraph.remove(at: indexPath.item)
-        viewModel.passageData.accept(currentParagraph)
+        passageViewModel.passageData.accept(currentParagraph)
         searchResultItems = currentParagraph
-        CoreDataManager.shared.deleteData(passage: viewModel.detailPassage.value)
+
+        CoreDataManager.shared.deleteData(verse: passageViewModel.detailPassage.value)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let modalVC = PassageDetailViewController()
-        viewModel.selectPassage(text: isFiltering ? searchResultItems[indexPath.item].0 : viewModel.passageData.value[indexPath.item].0, at: indexPath.item)
-        modalVC.viewModel.detailPassage.accept(viewModel.detailPassage.value)
+
+        passageViewModel.selectParagraph(text: isFiltering ? searchResultItems[indexPath.item].0 : passageViewModel.passageData.value[indexPath.item].0, at: indexPath.item)
+        modalVC.viewModel.detailPassage.accept(passageViewModel.detailPassage.value)
+
         present(modalVC, animated: true, completion: nil)
     }
 }

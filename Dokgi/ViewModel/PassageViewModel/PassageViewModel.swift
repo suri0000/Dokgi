@@ -26,5 +26,14 @@ class PassageViewModel {
             if let selectedVerse = CoreDataManager.shared.passageData.value.first(where: { $0.passage == selectedText }) {
                 detailPassage.accept(selectedVerse)
             }
+    
+    func dataLatest() {
+          let sortedData = passageData.value.sorted { $0.1 > $1.1 }
+          passageData.accept(sortedData)
+      }
+      
+      func dataOldest() {
+          let sortedData = passageData.value.sorted { $0.1 < $1.1 }
+          passageData.accept(sortedData)
       }
 }

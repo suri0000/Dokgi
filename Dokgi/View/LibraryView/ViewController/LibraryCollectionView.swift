@@ -7,7 +7,7 @@
 import UIKit
 
 class LibraryCollectionView: UICollectionView {
-
+    
     init() {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 36
@@ -23,8 +23,10 @@ class LibraryCollectionView: UICollectionView {
         layout.itemSize = .init(width: cellWidth, height: cellWidth * 1.58)
         
         super.init(frame: .zero, collectionViewLayout: layout)
-
+        
         self.register(LibraryCollectionViewCell.self, forCellWithReuseIdentifier: LibraryCollectionViewCell.identifier)
+        
+        backgroundColor = .white
     }
     
     required init?(coder: NSCoder) {

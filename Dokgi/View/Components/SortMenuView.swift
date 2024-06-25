@@ -20,10 +20,12 @@ class SortMenuView: UIView {
     
     let latestButton = UIButton().then {
         $0.backgroundColor = .white
+//        $0.layer.cornerRadius = 10
     }
     
     let latestCheckImage = UIImageView().then {
         $0.image = .check
+        $0.isHidden = false
     }
     
     private let latestLabel = UILabel().then {
@@ -38,6 +40,7 @@ class SortMenuView: UIView {
     
     let oldestCheckImage = UIImageView().then {
         $0.image = .check
+        $0.isHidden = true
     }
     
     private let oldestLabel = UILabel().then {
