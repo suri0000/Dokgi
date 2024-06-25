@@ -48,7 +48,7 @@ class InfoView: UIView {
     private func setupConstraints() {
         imageView.snp.makeConstraints {
             $0.leading.centerY.equalToSuperview()
-            $0.size.equalTo(CGSize(width: 103, height: 146))
+            $0.size.equalTo(CGSize(width: 69, height: 98))
         }
         
         titleLabel.snp.makeConstraints {

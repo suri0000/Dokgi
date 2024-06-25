@@ -32,6 +32,12 @@ class AddPassageContainerView: UIView {
         $0.clipsToBounds = true
     }
     
+    let passageLabel = UILabel().then {
+        $0.text = "구절"
+        $0.textColor = .black
+        $0.font = Pretendard.semibold.dynamicFont(style: .title3)
+    }
+    
     let infoView = InfoView()
     
     let infoViewOverLapView = UIView().then {
@@ -158,7 +164,7 @@ class AddPassageContainerView: UIView {
     
     // MARK: - setupViews
     private func setupViews() {
-        [scanButton, infoView, textViewBoder, verseTextView, characterCountLabel, pencilImageView, keywordLabel, keywordField, keywordCollectionView, pageLabel, pageNumberTextField, pageSegment, recordButton].forEach { addSubview($0) }
+        [scanButton, passageLabel, infoView, textViewBoder, verseTextView, characterCountLabel, pencilImageView, keywordLabel, keywordField, keywordCollectionView, pageLabel, pageNumberTextField, pageSegment, recordButton].forEach { addSubview($0) }
         
         infoView.addSubview(infoViewOverLapView)
         infoViewOverLapView.addSubview(searchButton)
@@ -171,6 +177,11 @@ class AddPassageContainerView: UIView {
             $0.top.equalTo(infoView.snp.bottom).offset(16)
             $0.height.equalTo(35)
             $0.width.equalTo(112)
+        }
+        
+        passageLabel.snp.makeConstraints {
+            $0.centerY.equalTo(scanButton.snp.centerY)
+            $0.leading.equalToSuperview().inset(18)
         }
         
         infoView.snp.makeConstraints {
