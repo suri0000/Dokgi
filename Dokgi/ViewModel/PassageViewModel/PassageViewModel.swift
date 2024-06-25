@@ -10,31 +10,13 @@ import RxCocoa
 import RxSwift
 
 class PassageViewModel {
-    var disposeBag = DisposeBag()
-    var passageData = BehaviorRelay<[(String, Date)]>(value: [])
-    var detailPassage = BehaviorRelay<Passage>(value: Passage(title: "", passage: "", page: 0, pageType: true, date: Date(), keywords: []))
-    
-    init() {
-        passageData.accept(
-            CoreDataManager.shared.passageData.value.map { ($0.passage, $0.date) }
-        )
-    }
-    
-    func selectPassage(text: String, at index: Int) {
-        let selectedText = text
-        
-        if let selectedVerse = CoreDataManager.shared.passageData.value.first(where: { $0.passage == selectedText }) {
-            detailPassage.accept(selectedVerse)
-        }
-    }
-    
     func dataLatest() {
-          let sortedData = passageData.value.sorted { $0.1 > $1.1 }
-          passageData.accept(sortedData)
-      }
+        let sortedData = CoreDataManager.shared.passageData.value.sorted { $0.date > $1.date }
+        CoreDataManager.shared.passageData.accept(sortedData)
+    }
       
       func dataOldest() {
-          let sortedData = passageData.value.sorted { $0.1 < $1.1 }
-          passageData.accept(sortedData)
+          let sortedData = CoreDataManager.shared.passageData.value.sorted { $0.date < $1.date }
+          CoreDataManager.shared.passageData.accept(sortedData)
       }
 }

@@ -38,7 +38,8 @@ class PassageCollectionViewCell: UICollectionViewCell {
         paragraphLabel.font = Pretendard.regular.dynamicFont(style: .subheadline)
         paragraphLabel.numberOfLines = 0  //자동 줄바꿈
         paragraphLabel.lineBreakMode = .byCharWrapping
-
+        paragraphLabel.textColor = .black
+        
         dateLabel.font = Pretendard.regular.dynamicFont(style: .caption2)
         dateLabel.textColor = .alarmMemoGray
         dateLabel.numberOfLines = 1

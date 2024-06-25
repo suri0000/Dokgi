@@ -71,10 +71,7 @@ class PassageViewController: BaseLibraryAndPassageViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if sortButton.titleLabel?.text == "오래된순" {
-            self.passageViewModel.dataOldest()
-        }
-        self.passageCollectionView.reloadData()
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -142,6 +139,11 @@ class PassageViewController: BaseLibraryAndPassageViewController {
         
         searchBar.rx.text.debounce(.milliseconds(250), scheduler: MainScheduler.instance).subscribe(with: self) { (self, text) in
             CoreDataManager.shared.readPassage(text: text ?? "")
+            if self.sortButton.sortButtonTitleLabel.text == "최신순"{
+                self.passageViewModel.dataLatest()
+            } else {
+                self.passageViewModel.dataOldest()
+            }
         }.disposed(by: disposeBag)
     }
     // MARK: - 버튼 Action
@@ -170,14 +172,10 @@ class PassageViewController: BaseLibraryAndPassageViewController {
     }
 }
 
-//MARK: - SearchBar
-
 //MARK: -CollectionView
 extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataSource, PassageCollectionViewLayoutDelegate, PassageCollectionViewCellDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let cellCount = CoreDataManager.shared.passageData.value.count
-
         return CoreDataManager.shared.passageData.value.count
     }
     
@@ -246,8 +244,14 @@ extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func tappedDeleteButton(in cell: PassageCollectionViewCell) {
         guard let indexPath = passageCollectionView.indexPath(for: cell) else { return }
-        CoreDataManager.shared.deleteData(passage: CoreDataManager.shared.passageData.value[indexPath.item])
-        CoreDataManager.shared.readPassage(text: searchBar.text ?? "")
+        let alert = UIAlertController(title: nil, message: "삭제하시겠습니까?", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+            CoreDataManager.shared.deleteData(passage: CoreDataManager.shared.passageData.value[indexPath.item])
+            CoreDataManager.shared.readPassage(text: self?.searchBar.text ?? "")
+        }
+        alert.addAction(okAction)
+        alert.addAction(UIAlertAction(title: "취소", style: .default, handler: nil))
+        self.present(alert, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
