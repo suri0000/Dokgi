@@ -21,11 +21,12 @@ class PassageViewModel {
     }
     
     func selectPassage(text: String, at index: Int) {
-            let selectedText = text
-      
-            if let selectedVerse = CoreDataManager.shared.passageData.value.first(where: { $0.passage == selectedText }) {
-                detailPassage.accept(selectedVerse)
-            }
+        let selectedText = text
+        
+        if let selectedVerse = CoreDataManager.shared.passageData.value.first(where: { $0.passage == selectedText }) {
+            detailPassage.accept(selectedVerse)
+        }
+    }
     
     func dataLatest() {
           let sortedData = passageData.value.sorted { $0.1 > $1.1 }

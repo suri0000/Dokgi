@@ -36,7 +36,7 @@ class LibraryViewController: BaseLibraryAndPassageViewController, UISearchBarDel
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(true, animated: animated)
 
-        CoreDataManager.shared.readData()
+        CoreDataManager.shared.readBook()
         if sortButton.sortButtonTitleLabel.text == "오래된순" {
 
             self.libraryViewModel.dataOldest()
@@ -56,9 +56,9 @@ class LibraryViewController: BaseLibraryAndPassageViewController, UISearchBarDel
     }
     
     override func setBinding() {
-        CoreDataManager.shared.bookData.subscribe(with: self) { (self, bookData) in
-            self.libraryViewModel.dataFilter(verses: bookData)
-        }.disposed(by: disposeBag)
+//        CoreDataManager.shared.bookData.subscribe(with: self) { (self, bookData) in
+//            self.libraryViewModel.dataFilter(verses: bookData)
+//        }.disposed(by: disposeBag)
         
         libraryViewModel.libraryData.subscribe(with: self) { (self, bookData) in
             self.libraryCollectionView.reloadData()
@@ -70,7 +70,7 @@ class LibraryViewController: BaseLibraryAndPassageViewController, UISearchBarDel
         
         self.searchBar.rx.text.debounce(.milliseconds(500), scheduler: MainScheduler.instance).subscribe(with: self) { (self, text) in
             guard let text = text else { return }
-            self.libraryViewModel.dataSearch(text: text)
+            CoreDataManager.shared.readBook(text: text)
         }.disposed(by: disposeBag)
         
         self.searchBar.rx.searchButtonClicked.subscribe(with: self) { (self, _) in

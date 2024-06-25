@@ -111,7 +111,7 @@ class PassageDetailViewController: UIViewController {
     func dataBinding() {
         viewModel.detailPassage.subscribe(with: self) { (self, data) in
             self.titleLbl.text = data.title
-            self.containerView.paragrapTextLbl.text = data.passage
+            self.containerView.passageTextLbl.text = data.passage
             self.viewModel.keywords.accept(data.keywords)
             self.containerView.pageWriteLbl.text = "\(data.page) \(data.pageType == true ? "Page" : "%")"
             self.containerView.writeDateDay.text = data.date.toString()
