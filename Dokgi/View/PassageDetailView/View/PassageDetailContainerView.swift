@@ -44,7 +44,7 @@ class PassageDetailContainerView: UIView {
     }
     
     let noKeywordLabel = UILabel().then {
-        $0.text = "키워드 없습니다"
+        $0.text = "키워드가 없습니다"
         $0.font = Pretendard.regular.dynamicFont(style: .callout)
         $0.textColor = .bookTextGray
     }
@@ -188,8 +188,7 @@ class PassageDetailContainerView: UIView {
         }
         
         passageTextLbl.snp.makeConstraints {
-            $0.width.equalToSuperview()
-            $0.top.equalToSuperview()
+            $0.top.width.equalToSuperview()
             $0.bottom.equalToSuperview().inset(10)
         }
         
@@ -217,7 +216,7 @@ class PassageDetailContainerView: UIView {
         pageStackView.snp.makeConstraints {
             $0.top.equalTo(writeStackView.snp.bottom).offset(30)
             $0.horizontalEdges.equalToSuperview().inset(20)
-            $0.bottom.equalToSuperview().inset(291)
+            $0.bottom.equalToSuperview().inset(10)
         }
     }
     

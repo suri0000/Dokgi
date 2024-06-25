@@ -113,13 +113,6 @@ class PassageDetailViewController: UIViewController {
             self.titleLbl.text = data.name
             self.containerView.passageTextLbl.text = data.text
             self.viewModel.keywords.accept(data.keywords)
-            if self.viewModel.keywords.value.isEmpty {
-                self.containerView.noKeywordLabel.isHidden = false
-                self.containerView.keywordCollectionView.isHidden = true
-            } else {
-                self.containerView.noKeywordLabel.isHidden = true
-                self.containerView.keywordCollectionView.isHidden = false
-            }
             self.containerView.pageWriteLbl.text = "\(data.pageNumber) \(data.pageType)"
             self.containerView.writeDateDay.text = data.date.toString()
         }.disposed(by: disposeBag)
@@ -187,6 +180,16 @@ class PassageDetailViewController: UIViewController {
         
         containerView.keywordTextField.rx.controlEvent(.editingDidEnd).subscribe(with: self) { (self, _) in
             self.containerView.keywordTextField.text = ""
+        }.disposed(by: disposeBag)
+        
+        viewModel.keywords.subscribe(with: self) { (self, data) in
+            if data.isEmpty {
+                self.containerView.noKeywordLabel.isHidden = false
+                self.containerView.keywordCollectionView.isHidden = true
+            } else {
+                self.containerView.noKeywordLabel.isHidden = true
+                self.containerView.keywordCollectionView.isHidden = false
+            }
         }.disposed(by: disposeBag)
         
         viewModel.keywords.bind(to: containerView.keywordCollectionView.rx.items(cellIdentifier: KeywordCollectionViewCell.identifier,
