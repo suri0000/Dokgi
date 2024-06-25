@@ -67,10 +67,6 @@ class LibraryViewController: UIViewController {
         setSortMenuView()
         setFloatingButton()
         
-        CoreDataManager.shared.bookData.subscribe(with: self) { (self, bookData) in
-            self.libraryViewModel.dataFilter(verses: bookData)
-        }.disposed(by: disposeBag)
-        
         libraryViewModel.libraryData.subscribe(with: self) { (self, bookData) in
             self.libraryCollectionView.reloadData()
         }.disposed(by: disposeBag)
@@ -81,7 +77,7 @@ class LibraryViewController: UIViewController {
         
         self.searchBar.rx.text.debounce(.milliseconds(500), scheduler: MainScheduler.instance).subscribe(with: self) { (self, text) in
             guard let text = text else { return }
-            self.libraryViewModel.dataSearch(text: text)
+            CoreDataManager.shared.readBook(text: text)
         }.disposed(by: disposeBag)
         
         self.searchBar.rx.searchButtonClicked.subscribe(with: self) { (self, _) in
@@ -99,7 +95,9 @@ class LibraryViewController: UIViewController {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
-        CoreDataManager.shared.readData()
+        
+        CoreDataManager.shared.readBook()
+        
         if sortButtonTitleLabel.text == "오래된순" {
             self.libraryViewModel.dataOldest()
         }
@@ -330,7 +328,7 @@ extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataS
             return UICollectionViewCell()
         }
         cell.authorNameLabel.text = libraryViewModel.libraryData.value[indexPath.row].author
-        cell.bookNameLabel.text = libraryViewModel.libraryData.value[indexPath.row].name
+        cell.bookNameLabel.text = libraryViewModel.libraryData.value[indexPath.row].title
         if let url = URL(string: libraryViewModel.libraryData.value[indexPath.row].image) {
             cell.bookImageView.kf.setImage(with: url)
         }
