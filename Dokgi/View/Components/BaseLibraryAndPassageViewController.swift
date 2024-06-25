@@ -74,9 +74,9 @@ class BaseLibraryAndPassageViewController: UIViewController {
         }
         
         searchBar.snp.makeConstraints {
-                   $0.top.equalTo(titleLabel.snp.bottom)
-                   $0.horizontalEdges.equalToSuperview().inset(10)
-               }
+            $0.top.equalTo(titleLabel.snp.bottom)
+            $0.horizontalEdges.equalToSuperview().inset(10)
+        }
    
         sortButton.snp.makeConstraints {
             $0.top.equalTo(searchBar.snp.bottom).offset(10)
