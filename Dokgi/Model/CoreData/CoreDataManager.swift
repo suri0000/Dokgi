@@ -96,7 +96,6 @@ class CoreDataManager {
                     bookArr.append(Book(title: book.title!, author: book.author!, image: book.author!, passages: passagesArray))
                 }
             }
-            print(bookArr)
             bookData.accept(bookArr)
         } catch {
             print("Failed to fetch or read data: \(error)")
@@ -117,7 +116,6 @@ class CoreDataManager {
             for passage in passages {
                 passageArr.append(Passage(title: passage.book?.title, passage: passage.passage!, page: Int(passage.page), pageType: passage.pageType, date: passage.date!, keywords: passage.keywords!))
             }
-            print(passageArr)
             passageData.accept(passageArr)
         } catch {
             print("Failed to fetch or read data: \(error)")
@@ -145,8 +143,16 @@ class CoreDataManager {
                         try context.save()
                     }
                 } else {
-                    context.delete(passageEntity)
-                    try context.save()
+                    let bookRequest: NSFetchRequest<BookEntity> = BookEntity.fetchRequest()
+                    let bookTitlePredicate = NSPredicate(format: "title == %@", (passageEntity.book?.title)!)
+                    let authorPredicate = NSPredicate(format: "author == %@", passageEntity.book!.author!)
+                    bookRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [bookTitlePredicate, authorPredicate])
+                    let books = try context.fetch(bookRequest)
+                    if let bookEntity = books.first {
+                        context.delete(passageEntity)
+                        bookEntity.removeFromPassages(passageEntity)
+                        try context.save()
+                    }
                 }
             }
         } catch {
