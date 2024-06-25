@@ -98,6 +98,9 @@ class AddPassageContainerView: UIView {
         $0.clipsToBounds = true
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.borderGray.cgColor
+        $0.autocorrectionType = .no
+        $0.spellCheckingType = .no
+
     }
     
     lazy var keywordCollectionView = UICollectionView(frame: .zero, collectionViewLayout: {
@@ -123,6 +126,8 @@ class AddPassageContainerView: UIView {
         $0.textAlignment = .center
         $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
         $0.borderStyle = .roundedRect
+        $0.autocorrectionType = .no
+        $0.spellCheckingType = .no
     }
     
     let pageSegment = SegmentControlView().then {
