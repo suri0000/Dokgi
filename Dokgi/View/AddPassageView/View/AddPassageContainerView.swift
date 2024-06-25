@@ -162,6 +162,8 @@ class AddPassageContainerView: UIView {
     private func initLayout() {
         scanButton.snp.makeConstraints {
             $0.top.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(35)
+            $0.width.equalTo(112)
         }
         
         infoView.snp.makeConstraints {
@@ -231,14 +233,12 @@ class AddPassageContainerView: UIView {
         pageSegment.snp.makeConstraints {
             $0.centerY.equalTo(pageLabel.snp.centerY)
             $0.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(30)
-            $0.width.equalTo(120)
         }
         
         recordButton.snp.makeConstraints {
             $0.top.equalTo(pageLabel.snp.bottom).offset(60)
+            $0.centerX.equalToSuperview()
             $0.bottom.equalToSuperview().inset(16)
-            $0.horizontalEdges.equalToSuperview().inset(16)
         }
     }
     
