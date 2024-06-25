@@ -36,7 +36,6 @@ class SortMenuView: UIView {
     
     let oldestButton = UIButton().then {
         $0.backgroundColor = .white
-//        $0.layer.cornerRadius = 10
     }
     
     let oldestCheckImage = UIImageView().then {
