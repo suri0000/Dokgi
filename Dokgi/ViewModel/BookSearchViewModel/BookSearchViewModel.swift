@@ -6,10 +6,12 @@
 //
 
 import Foundation
+import Network
 
 class BookSearchViewModel {
     
     private let bookManager = BookManager.shared
+    private var monitor: NWPathMonitor?
     
     var searchResults: [Item] = []
     var isLoading = false
@@ -18,19 +20,32 @@ class BookSearchViewModel {
     var startIndex: Int = 1
     
     func fetchBooks(query: String, startIndex: Int, completion: @escaping (Result<[Item], Error>) -> Void) {
-        isLoading = true
-        bookManager.fetchBookData(queryValue: query, startIndex: startIndex) { result in
-            switch result {
-            case .success(let response):
-                DispatchQueue.main.async {
-                    completion(.success(response.items))
+        monitor = NWPathMonitor()
+        let queue = DispatchQueue(label: "NetworkMonitor")
+        monitor?.start(queue: queue)
+        
+        monitor?.pathUpdateHandler = { [weak self] path in
+            guard let self = self else { return }
+            
+            if path.status == .satisfied {
+                self.isLoading = true
+                self.bookManager.fetchBookData(queryValue: query, startIndex: startIndex) { result in
+                    DispatchQueue.main.async {
+                        switch result {
+                        case .success(let response):
+                            completion(.success(response.items))
+                        case .failure(let error):
+                            completion(.failure(error))
+                        }
+                        self.isLoading = false
+                    }
                 }
-            case .failure(let error):
+            } else {
                 DispatchQueue.main.async {
-                    completion(.failure(error))
+                    completion(.failure(NetworkError.noConnection))
                 }
             }
-            self.isLoading = false
+            self.monitor?.cancel()
         }
     }
     
@@ -59,4 +74,8 @@ class BookSearchViewModel {
         recentSearches.remove(at: indexPath.item)
         UserDefaults.standard.set(recentSearches, forKey: UserDefaultsKeys.recentSearches.rawValue)
     }
+}
+
+enum NetworkError: Error {
+    case noConnection
 }

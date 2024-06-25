@@ -85,23 +85,25 @@ class BookSearchViewController: UIViewController {
             guard let self = self else { return }
             switch result {
             case .success(let items):
-                DispatchQueue.main.async {
-                    if items.isEmpty {
-                        self.showNoResults()
-                    } else {
-                        self.viewModel.searchResults.append(contentsOf: items)
-                        self.containerView.tableView.reloadData()
-                        self.showSearchResults()
-                    }
-                    self.viewModel.isLoading = false
+                if items.isEmpty {
+                    self.showNoResults()
+                } else {
+                    self.viewModel.searchResults.append(contentsOf: items)
+                    self.containerView.tableView.reloadData()
+                    self.showSearchResults()
                 }
             case .failure(let error):
-                print("Error: \(error)")
-                self.showAlert(title: "Error", message: "\(error.localizedDescription)")
-                self.viewModel.isLoading = false
+                if case NetworkError.noConnection = error {
+                    self.showAlert(title: "인터넷 연결", message: "인터넷이 연결되어 있지 않습니다.\n설정에서 인터넷 연결상태를 확인해주세요.")
+                } else {
+                    self.showAlert(title: "Error", message: "Error: \(error)")
+                    print("Error: \(error)")
+                }
             }
+            self.viewModel.isLoading = false
         }
     }
+
     
     private func loadMore() {
         if viewModel.isLoading { return }
