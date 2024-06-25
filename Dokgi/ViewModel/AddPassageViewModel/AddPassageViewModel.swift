@@ -45,8 +45,6 @@ class AddPassageViewModel {
         }
     }
     
-
-    
     private func createTextRecognitionRequest() -> VNRecognizeTextRequest {
         return VNRecognizeTextRequest { [weak self] (request, error) in
             self?.handleTextRecognition(request: request, error: error)

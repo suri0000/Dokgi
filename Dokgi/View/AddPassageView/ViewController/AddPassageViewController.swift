@@ -258,7 +258,7 @@ extension AddPassageViewController: UICollectionViewDelegate, UICollectionViewDa
 // MARK: - 텍스트뷰 placeholder
 extension AddPassageViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        guard containerView.verseTextView.textColor == .placeholderText else { return }
+        guard containerView.verseTextView.textColor == .textFieldGray else { return }
         containerView.verseTextView.textColor = .black
         containerView.verseTextView.font = Pretendard.regular.dynamicFont(style: .body)
         containerView.verseTextView.text = nil

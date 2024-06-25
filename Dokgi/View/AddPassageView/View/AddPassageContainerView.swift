@@ -167,15 +167,16 @@ class AddPassageContainerView: UIView {
     // MARK: - 제약조건
     private func initLayout() {
         scanButton.snp.makeConstraints {
-            $0.top.trailing.equalToSuperview().inset(16)
+            $0.trailing.equalToSuperview().inset(16)
+            $0.top.equalTo(infoView.snp.bottom).offset(16)
             $0.height.equalTo(35)
             $0.width.equalTo(112)
         }
         
         infoView.snp.makeConstraints {
-            $0.top.equalTo(scanButton.snp.bottom).offset(16)
+            $0.top.equalToSuperview()
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(200)
+            $0.height.equalTo(138)
         }
         
         infoViewOverLapView.snp.makeConstraints {
@@ -188,13 +189,13 @@ class AddPassageContainerView: UIView {
         }
 
         textViewBoder.snp.makeConstraints {
-            $0.top.equalTo(infoView.snp.bottom).offset(32)
+            $0.top.equalTo(scanButton.snp.bottom).offset(16)
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(329)
         }
         
         verseTextView.snp.makeConstraints {
-            $0.top.equalTo(infoView.snp.bottom).offset(35)
+            $0.top.equalTo(scanButton.snp.bottom).offset(35)
             $0.horizontalEdges.equalToSuperview().inset(18)
             $0.bottom.equalTo(pencilImageView.snp.top).inset(8)
         }
@@ -221,7 +222,7 @@ class AddPassageContainerView: UIView {
         keywordCollectionView.snp.makeConstraints {
             $0.top.equalTo(keywordField.snp.bottom).offset(16)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(35)
+            $0.height.equalTo(1)
         }
         
         pageLabel.snp.makeConstraints {
@@ -244,7 +245,7 @@ class AddPassageContainerView: UIView {
         recordButton.snp.makeConstraints {
             $0.top.equalTo(pageLabel.snp.bottom).offset(60)
             $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(16)
+//            $0.bottom.equalToSuperview().inset(16)
         }
     }
     
