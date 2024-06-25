@@ -34,6 +34,7 @@ class SearchBar: UISearchBar {
         self.setPositionAdjustment(UIOffset(horizontal: -8, vertical: 0), for: .clear)
         self.searchTextField.borderStyle = .line
         self.searchTextField.layer.borderWidth = 1
+        self.searchTextField.textColor = UIColor.black
         self.searchTextField.layer.borderColor = UIColor(resource: .searchBarLightGray).cgColor
         self.searchTextField.layer.backgroundColor = UIColor.white.cgColor
         self.searchTextField.layer.cornerRadius = 18
