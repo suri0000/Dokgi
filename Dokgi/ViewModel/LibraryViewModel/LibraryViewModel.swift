@@ -4,10 +4,9 @@
 //
 //  Created by 송정훈 on 6/18/24.
 //
-
+import Foundation
 import RxCocoa
 import RxSwift
-import Foundation
 
 class LibraryViewModel {
     var libraryData = BehaviorRelay<[Verse]>(value: [])

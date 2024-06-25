@@ -19,6 +19,7 @@ class SortButton: UIButton {
         $0.text = "최신순"
         $0.font = Pretendard.regular.dynamicFont(style: .footnote)
         $0.textColor = .charcoalBlue
+        $0.textAlignment = .center
     }
     
     override init(frame: CGRect) {
@@ -43,8 +44,8 @@ class SortButton: UIButton {
         }
         
         self.snp.makeConstraints {
-            $0.height.equalTo(29)
-            $0.width.greaterThanOrEqualTo(87)
+            $0.height.equalTo(28)
+            $0.width.greaterThanOrEqualTo(100)
         }
         
         sortButtonImageView.snp.makeConstraints {
@@ -54,6 +55,7 @@ class SortButton: UIButton {
         
         sortButtonTitleLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
+            $0.leading.equalTo(sortButtonImageView.snp.trailing).offset(5)
             $0.trailing.equalToSuperview().inset(15)
         }
     }

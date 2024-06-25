@@ -18,13 +18,11 @@
 		3C73E2A02C1AB164004B1BF8 /* CurrentLevelCollectionFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C73E29D2C1AB164004B1BF8 /* CurrentLevelCollectionFlowLayout.swift */; };
 		3C73E2A12C1AB164004B1BF8 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C73E29E2C1AB164004B1BF8 /* HomeViewController.swift */; };
 		3C73E2A32C1B03AD004B1BF8 /* FloatButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C73E2A22C1B03AC004B1BF8 /* FloatButton.swift */; };
-		7B487B0E2C2503940082EF92 /* PassageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B487B0D2C2503940082EF92 /* PassageCollectionView.swift */; };
-		7B487B102C251A380082EF92 /* PassageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B487B0F2C251A380082EF92 /* PassageView.swift */; };
-		7B487B122C2590130082EF92 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B487B112C2590130082EF92 /* LibraryView.swift */; };
-		7B487B142C25922A0082EF92 /* LibraryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B487B132C25922A0082EF92 /* LibraryCollectionView.swift */; };
 		3C9AD89A2C2462B0007393C1 /* FloatingButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AD8992C2462B0007393C1 /* FloatingButtonViewController.swift */; };
 		3C9AD89C2C24634E007393C1 /* UICollectionViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AD89B2C24634E007393C1 /* UICollectionViewCellExtension.swift */; };
 		3C9AD8C32C25A4FC007393C1 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AD8C22C25A4FC007393C1 /* HomeView.swift */; };
+		7B487B0E2C2503940082EF92 /* PassageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B487B0D2C2503940082EF92 /* PassageCollectionView.swift */; };
+		7B487B142C25922A0082EF92 /* LibraryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B487B132C25922A0082EF92 /* LibraryCollectionView.swift */; };
 		7BE488A92C0F267000BDB92A /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE488A82C0F267000BDB92A /* LibraryViewController.swift */; };
 		7BE488AF2C103E5A00BDB92A /* LibraryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE488AE2C103E5A00BDB92A /* LibraryCollectionViewCell.swift */; };
 		7BE488B32C16E29C00BDB92A /* PassageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE488B22C16E29C00BDB92A /* PassageViewController.swift */; };
@@ -140,13 +138,11 @@
 		3C73E29D2C1AB164004B1BF8 /* CurrentLevelCollectionFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentLevelCollectionFlowLayout.swift; sourceTree = "<group>"; };
 		3C73E29E2C1AB164004B1BF8 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		3C73E2A22C1B03AC004B1BF8 /* FloatButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatButton.swift; sourceTree = "<group>"; };
-		7B487B0D2C2503940082EF92 /* PassageCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassageCollectionView.swift; sourceTree = "<group>"; };
-		7B487B0F2C251A380082EF92 /* PassageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassageView.swift; sourceTree = "<group>"; };
-		7B487B112C2590130082EF92 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
-		7B487B132C25922A0082EF92 /* LibraryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryCollectionView.swift; sourceTree = "<group>"; };
 		3C9AD8992C2462B0007393C1 /* FloatingButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButtonViewController.swift; sourceTree = "<group>"; };
 		3C9AD89B2C24634E007393C1 /* UICollectionViewCellExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewCellExtension.swift; sourceTree = "<group>"; };
 		3C9AD8C22C25A4FC007393C1 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		7B487B0D2C2503940082EF92 /* PassageCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassageCollectionView.swift; sourceTree = "<group>"; };
+		7B487B132C25922A0082EF92 /* LibraryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryCollectionView.swift; sourceTree = "<group>"; };
 		7BE488A82C0F267000BDB92A /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
 		7BE488AE2C103E5A00BDB92A /* LibraryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryCollectionViewCell.swift; sourceTree = "<group>"; };
 		7BE488B22C16E29C00BDB92A /* PassageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassageViewController.swift; sourceTree = "<group>"; };
@@ -388,7 +384,6 @@
 			isa = PBXGroup;
 			children = (
 				7BE488B22C16E29C00BDB92A /* PassageViewController.swift */,
-				7B487B0F2C251A380082EF92 /* PassageView.swift */,
 				7B487B0D2C2503940082EF92 /* PassageCollectionView.swift */,
 			);
 			path = ViewController;
@@ -441,7 +436,6 @@
 			isa = PBXGroup;
 			children = (
 				7BE488A82C0F267000BDB92A /* LibraryViewController.swift */,
-				7B487B112C2590130082EF92 /* LibraryView.swift */,
 				7B487B132C25922A0082EF92 /* LibraryCollectionView.swift */,
 			);
 			path = ViewController;
@@ -909,7 +903,6 @@
 				A75908D12C12D36100415D6D /* UserDefaultsKey.swift in Sources */,
 				ABEB97222C28FA5C00501696 /* InfoView.swift in Sources */,
 				AB23869F2C19B5FC00E6FACE /* VerseModel.swift in Sources */,
-				7B487B102C251A380082EF92 /* PassageView.swift in Sources */,
 				A748746C2C0D7E0700B830EE /* Dokgi.xcdatamodeld in Sources */,
 				AB355D5B2C18725400B3DE16 /* KeywordCell.swift in Sources */,
 				A7F2DB1D2C15C6E70020B0AA /* KeywordCollectionViewCell.swift in Sources */,
@@ -917,7 +910,6 @@
 				A75908C82C0F758900415D6D /* DaySelectViewController.swift in Sources */,
 				AB4BDC0E2C249F1B001FDA8F /* BookSearchContainerView.swift in Sources */,
 				A75908D32C12D69300415D6D /* IntArrayExtension.swift in Sources */,
-				7B487B122C2590130082EF92 /* LibraryView.swift in Sources */,
 				AB4BDC062C216BF7001FDA8F /* RecentSearchCell.swift in Sources */,
 				854E15802C24828D00FE5256 /* BaseAlarmSettingSheetViewController.swift in Sources */,
 				A722B5892C1C715000E43FC9 /* SegmentControlView.swift in Sources */,

@@ -8,11 +8,12 @@ import Kingfisher
 import RxCocoa
 import RxSwift
 import SnapKit
+import Then
 import UIKit
 
-class LibraryViewController: UIViewController, UISearchBarDelegate {
+class LibraryViewController: BaseLibraryAndPassageViewController, UISearchBarDelegate {
     
-    let libraryView = LibraryView()
+    let libraryCollectionView = LibraryCollectionView()
     
     let libraryViewModel = LibraryViewModel()
     let disposeBag = DisposeBag()
@@ -23,39 +24,45 @@ class LibraryViewController: UIViewController, UISearchBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+     
+        searchBar.delegate = self
         
-        view.backgroundColor = .white
-        libraryView.searchBar.delegate = self
-      
-        libraryView.libraryCollectionView.delegate = self
-        libraryView.libraryCollectionView.dataSource = self
+        libraryCollectionView.delegate = self
+        libraryCollectionView.dataSource = self
+        
+        setLabelText(title: "서재", placeholder: "기록한 책을 검색해보세요", noResultsMessage: "기록한 책이 없어요\n구절을 등록해 보세요")
         
         initLayout()
         setBinding()
-        setButtonActions()
         setFloatingButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = false
-        self.navigationController?.navigationBar.isHidden = true
+        navigationController?.setNavigationBarHidden(true, animated: animated)
         
         CoreDataManager.shared.readData()
-        if libraryView.sortButtonTitleLabel.text == "오래된순" {
+        if sortButton.sortButtonTitleLabel.text == "오래된순" {
             self.libraryViewModel.dataOldest()
         }
+        self.libraryCollectionView.reloadData()
     }
     
     private func initLayout() {
-        view.addSubview(libraryView)
+        view.backgroundColor = .white
         
-        libraryView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+        view.addSubview(libraryCollectionView)
+        
+        libraryCollectionView.snp.makeConstraints {
+            $0.top.equalTo(sortButton.snp.bottom).offset(20)
+            $0.bottom.leading.trailing.equalToSuperview()
         }
     }
     
     private func setBinding() {
+        CoreDataManager.shared.bookData.subscribe(with: self) { (self, bookData) in
+            self.libraryViewModel.dataFilter(verses: bookData)
+        }.disposed(by: disposeBag)
+        
         libraryViewModel.libraryData.subscribe(with: self) { (self, bookData) in
             self.libraryCollectionView.reloadData()
         }.disposed(by: disposeBag)
@@ -68,40 +75,25 @@ class LibraryViewController: UIViewController, UISearchBarDelegate {
             guard let text = text else { return }
             self.libraryViewModel.dataSearch(text: text)
         }.disposed(by: disposeBag)
-    }
-    
-    private func setButtonActions() {
-        libraryView.oldestFirstButton.addTarget(self, action: #selector(tappedOldestFirst), for: .touchUpInside)
-        libraryView.latestFirstButton.addTarget(self, action: #selector(tappedLatestFirst), for: .touchUpInside)
-        libraryView.sortButton.addTarget(self, action: #selector(showOrHideSortMenuView), for: .touchUpInside)
+        
+        self.searchBar.rx.searchButtonClicked.subscribe(with: self) { (self, _) in
+            self.searchBar.resignFirstResponder()
+            self.searchBar.showsCancelButton = false
+        }.disposed(by: disposeBag)
+        
+        self.searchBar.rx.cancelButtonClicked.subscribe(with: self) { (self, _) in
+            self.searchBar.resignFirstResponder()
+            self.searchBar.showsCancelButton = false
+        }.disposed(by: disposeBag)
     }
     
     //MARK: -버튼 클릭 시
-    @objc private func showOrHideSortMenuView() {
-        if libraryView.sortMenuView.isHidden {
-            libraryView.sortMenuView.isHidden = false
-            libraryView.bringSubviewToFront(libraryView.sortMenuView)
-        } else {
-            libraryView.sortMenuView.isHidden = true
-        }
-    }
-    
-    @objc private func tappedLatestFirst() {
-        libraryView.sortButtonTitleLabel.text = "최신순"
-        
-        libraryView.latestFirstcheckImageView.isHidden = false
-        libraryView.oldestFirstcheckImageView.isHidden = true
+    override func latestButtonAction() {
         self.libraryViewModel.dataLatest()
-        libraryView.sortMenuView.isHidden = true
     }
     
-    @objc private func tappedOldestFirst() {
-        libraryView.sortButtonTitleLabel.text = "오래된순"
-        
-        libraryView.latestFirstcheckImageView.isHidden = true
-        libraryView.oldestFirstcheckImageView.isHidden = false
+    override func oldestButtonAction() {
         self.libraryViewModel.dataOldest()
-        libraryView.sortMenuView.isHidden = true
     }
 }
 //MARK: - CollectionView
@@ -110,7 +102,9 @@ extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let cellCount = libraryViewModel.libraryData.value.count
         
-        libraryView.emptyMessageLabel.isHidden = cellCount > 0
+        noResultsLabel.isHidden = cellCount > 0
+        if isFiltering { noResultsLabel.text = "검색결과가 없습니다." }
+        
         return cellCount
     }
     

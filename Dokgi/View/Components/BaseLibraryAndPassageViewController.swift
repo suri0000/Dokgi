@@ -13,18 +13,17 @@ import UIKit
 class BaseLibraryAndPassageViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
-    private let searchBar = SearchBar()
-    private let sortButton = SortButton()
-    private let sortMenuView = SortMenuView()
+    let searchBar = SearchBar()
+    let sortButton = SortButton()
+    let sortMenuView = SortMenuView()
     
-    private let titleLabel = UILabel().then {
+    let titleLabel = UILabel().then {
         $0.font = Pretendard.bold.dynamicFont(style: .title1)
         $0.textColor = .black
-        $0.text = "구절"
     }
     
-    private let noResultsLabel = UILabel().then {
-        $0.text = "기록한 구절이 없어요\n구절을 등록해 보세요"
+    let noResultsLabel = UILabel().then {
+        $0.text = "기록한 책이 없어요\n구절을 등록해 보세요"
         let paragraphStyle = NSMutableParagraphStyle()
         let attributes: [NSAttributedString.Key: Any] = [
             .paragraphStyle: paragraphStyle,
@@ -56,6 +55,10 @@ class BaseLibraryAndPassageViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        sortMenuView.isHidden = true
+    }
     // MARK: - UI
     
     private func setLayout() {
@@ -70,17 +73,17 @@ class BaseLibraryAndPassageViewController: UIViewController {
         }
         
         searchBar.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom)
-            $0.horizontalEdges.equalToSuperview().inset(10)
-        }
-        
+                   $0.top.equalTo(titleLabel.snp.bottom)
+                   $0.horizontalEdges.equalToSuperview().inset(10)
+               }
+   
         sortButton.snp.makeConstraints {
             $0.top.equalTo(searchBar.snp.bottom).offset(10)
             $0.trailing.equalToSuperview().inset(20)
         }
         
         sortMenuView.snp.makeConstraints {
-            $0.top.equalTo(sortButton.snp.bottom).offset(3)
+            $0.top.equalTo(sortButton.snp.bottom).offset(5)
             $0.trailing.equalToSuperview().inset(20)
         }
         
@@ -134,7 +137,7 @@ class BaseLibraryAndPassageViewController: UIViewController {
         }.disposed(by: disposeBag)
     }
     
-    // 이 함수 override 해서 saveAction 작성해주시면 될 것 같아요
     func latestButtonAction() {}
+    
     func oldestButtonAction() {}
 }
