@@ -163,13 +163,13 @@ class CoreDataManager {
     func updateData(passage: Passage) {
         guard let context = self.persistent?.viewContext else { return }
         let fetchRequest: NSFetchRequest<PassageEntity> = PassageEntity.fetchRequest()
-        let titlePredicate = NSPredicate(format: "name == %@", passage.title!)
+        let titlePredicate = NSPredicate(format: "book.title == %@", passage.title!)
         let datePredicate = NSPredicate(format: "date == %@", passage.date as NSDate)
         fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [titlePredicate, datePredicate])
 
         do {
             let passages = try context.fetch(fetchRequest)
-            if passages.first != nil {
+            if passages.isEmpty != true {
                 let passageEntity = passages.first
                 passageEntity?.passage = passage.passage
                 passageEntity?.keywords = passage.keywords
