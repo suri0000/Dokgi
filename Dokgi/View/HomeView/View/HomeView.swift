@@ -147,11 +147,20 @@ class HomeView: UIView {
             $0.leading.equalToSuperview().offset(29)
         }
         
-        currentLevelCollectionView.snp.makeConstraints {
-            $0.top.equalTo(currentLengthLabel.snp.bottom).offset(15)
-            $0.leading.trailing.centerX.equalToSuperview()
-            $0.height.equalTo(200)
+        if UIApplication.shared.preferredContentSizeCategory.rawValue == "UICTContentSizeCategoryXXXL" {
+            currentLevelCollectionView.snp.makeConstraints {
+                $0.top.equalTo(currentLengthLabel.snp.bottom).offset(15)
+                $0.leading.trailing.centerX.equalToSuperview()
+                $0.height.equalTo(232)
+            }
+        } else {
+            currentLevelCollectionView.snp.makeConstraints {
+                $0.top.equalTo(currentLengthLabel.snp.bottom).offset(15)
+                $0.leading.trailing.centerX.equalToSuperview()
+                $0.height.equalTo(200)
+            }
         }
+        
         
         nextLengthLabel.snp.makeConstraints {
             $0.top.equalTo(currentLevelCollectionView.snp.bottom).offset(20)

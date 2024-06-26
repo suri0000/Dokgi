@@ -22,7 +22,8 @@ class HomeViewController: UIViewController, HomeViewDelegate {
             self.homeView.indicatorDots.currentPage = nowPage
         }
     }
-
+    let contentSizeCategory = UIApplication.shared.preferredContentSizeCategory
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupConstraints()
@@ -33,8 +34,9 @@ class HomeViewController: UIViewController, HomeViewDelegate {
         CoreDataManager.shared.readPassage() // 추가된 구절 반영
         homeView.delegate = self
         homeView.setConfigureUI(viewModel: viewModel)
+        
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         homeView.currentLevelBubble.snp.makeConstraints {
@@ -118,10 +120,11 @@ class HomeViewController: UIViewController, HomeViewDelegate {
         let index = max(0, min(level - 1, viewModel.levelCards.count - 1))
         let indexPath = IndexPath(item: index, section: 0)
         
+        levelCollectionViewSelectedIndex = index
         homeView.currentLevelCollectionView.reloadData() // 데이터 업데이트시 콜렉션뷰 리로드
         homeView.currentLevelCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
     
-        levelCollectionViewSelectedIndex = index
+//        levelCollectionViewSelectedIndex = index
         updateCurrentLevelCollectionViewCell()
     }
     
@@ -242,7 +245,11 @@ extension HomeViewController: UICollectionViewDelegate {
         if collectionView == homeView.todayVersesColletionView {
             return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
         } else {
-            return CGSize(width: 300, height: 164)
+            if contentSizeCategory.rawValue == "UICTContentSizeCategoryXXXL" {
+                return CGSize(width: 300, height: 195)
+            } else {
+                return CGSize(width: 300, height: 164)
+            }
         }
     }
 }
