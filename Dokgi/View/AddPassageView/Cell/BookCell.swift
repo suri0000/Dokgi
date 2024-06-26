@@ -58,9 +58,15 @@ class BookCell: UITableViewCell {
         }
     }
     
+    func formatAuthors(from authorString: String) -> String {
+        let authors = authorString.components(separatedBy: "^")
+        let formattedAuthorString = authors.joined(separator: ", ")
+        return formattedAuthorString
+    }
+    
     func configure(with item: Item) {
         titleLabel.text = item.title
-        authorLabel.text = item.author
+        authorLabel.text = formatAuthors(from: item.author)
         
         if let url = URL(string: item.image) {
             bookImageView.kf.setImage(with: url)
