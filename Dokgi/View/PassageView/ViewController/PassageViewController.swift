@@ -218,12 +218,12 @@ extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataS
     func tappedDeleteButton(in cell: PassageCollectionViewCell) {
         guard let indexPath = passageCollectionView.indexPath(for: cell) else { return }
         let alert = UIAlertController(title: nil, message: "삭제하시겠습니까?", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "취소", style: .default) { [weak self] _ in
+        let okAction = UIAlertAction(title: "확인", style: .cancel) { [weak self] _ in
             CoreDataManager.shared.deleteData(passage: CoreDataManager.shared.passageData.value[indexPath.item])
             CoreDataManager.shared.readPassage(text: self?.searchBar.text ?? "")
         }
         alert.addAction(okAction)
-        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
         self.present(alert, animated: true)
     }
     
