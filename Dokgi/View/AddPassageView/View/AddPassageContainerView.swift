@@ -177,13 +177,6 @@ class AddPassageContainerView: UIView {
             $0.horizontalEdges.equalToSuperview().inset(16)
         }
         
-        scanButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(16)
-            $0.top.equalTo(searchButton.snp.bottom).offset(16)
-            $0.height.equalTo(35)
-            $0.width.equalTo(112)
-        }
-        
         passageLabel.snp.makeConstraints {
             $0.centerY.equalTo(scanButton.snp.centerY)
             $0.leading.equalToSuperview().inset(18)
@@ -224,11 +217,6 @@ class AddPassageContainerView: UIView {
             $0.top.equalTo(keywordField.snp.bottom).offset(8)
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(35)
-        }
-        
-        pageLabel.snp.makeConstraints {
-            $0.top.equalTo(keywordCollectionView.snp.bottom).offset(60)
-            $0.leading.equalToSuperview().offset(16)
         }
         
         pageNumberTextField.snp.makeConstraints {
