@@ -179,6 +179,7 @@ class CoreDataManager {
                 passageEntity?.page = Int32(passage.page)
                 passageEntity?.pageType = passage.pageType
             }
+            try context.save()
         } catch {
             print("Failed to fetch or update data: \(error)")
         }

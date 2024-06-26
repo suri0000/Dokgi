@@ -47,6 +47,7 @@ class TabBarViewController: UITabBarController {
         let blurEffect = UIBlurEffect(style: .light)
         let blurView = UIVisualEffectView(effect: blurEffect)
         blurView.frame = tabBar.bounds
+        blurView.backgroundColor = .white.withAlphaComponent(0.7)
         blurView.autoresizingMask = .flexibleWidth
         tabBar.insertSubview(blurView, at: 0)
         blurView.snp.makeConstraints { make in
