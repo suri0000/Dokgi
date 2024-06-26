@@ -4,7 +4,7 @@
 //
 //  Created by 예슬 on 6/21/24.
 //
-import RXCocoa
+import RxCocoa
 import RxSwift
 import SnapKit
 import Then
@@ -147,6 +147,12 @@ class BaseLibraryAndPassageViewController: UIViewController {
     func setBinding() {
         searchBar.searchTextField.rx.controlEvent(.editingDidBegin).subscribe(with: self) { (self, _) in
             self.searchBar.showsCancelButton = true
+        }.disposed(by: disposeBag)
+        
+        searchBar.rx.cancelButtonClicked.subscribe(with: self) { (self, _) in
+            self.searchBar.text = ""
+            self.searchBar.resignFirstResponder()
+            self.searchBar.showsCancelButton = false
         }.disposed(by: disposeBag)
         
         searchBar.rx.searchButtonClicked.subscribe(with: self) { (self, _) in

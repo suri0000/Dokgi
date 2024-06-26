@@ -15,7 +15,7 @@ class LibraryViewController: BaseLibraryAndPassageViewController {
     
     let libraryCollectionView = LibraryCollectionView()
     let libraryViewModel = LibraryViewModel()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,10 +27,11 @@ class LibraryViewController: BaseLibraryAndPassageViewController {
         
         CoreDataManager.shared.readBook()
         
-        if sortButton.titleLabel?.text == "오래된순" {
-                   self.libraryViewModel.dataOldest()
-               }
-               self.libraryCollectionView.reloadData()
+        if sortButton.sortButtonTitleLabel.text == "최신순" {
+            self.libraryViewModel.dataLatest()
+        } else {
+            self.libraryViewModel.dataOldest()
+        }
     }
     
     override func configureUI() {
@@ -59,7 +60,7 @@ class LibraryViewController: BaseLibraryAndPassageViewController {
             }
             self.libraryCollectionView.reloadData()
         }.disposed(by: disposeBag)
- 
+        
         searchBar.rx.text.debounce(.milliseconds(250), scheduler: MainScheduler.instance).subscribe(with: self) { (self, text) in
             CoreDataManager.shared.readBook(text: text ?? "")
             if self.sortButton.sortButtonTitleLabel.text == "최신순" {
@@ -94,8 +95,8 @@ extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.authorNameLabel.text = book.author
         cell.bookNameLabel.text = book.title
         if let url = URL(string: book.image) {
-                    cell.bookImageView.kf.setImage(with: url)
-                }
+            cell.bookImageView.kf.setImage(with: url)
+        }
         return cell
     }
     
