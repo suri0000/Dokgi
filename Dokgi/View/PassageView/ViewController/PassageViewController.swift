@@ -68,12 +68,6 @@ class PassageViewController: BaseLibraryAndPassageViewController {
         }.disposed(by: disposeBag)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        
-    }
-    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
         self.searchBar.resignFirstResponder()
