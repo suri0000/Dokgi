@@ -28,6 +28,7 @@ class AddPassageContainerView: UIView {
             configuration?.imagePadding = 10
             button.configuration = configuration
         }
+        $0.titleLabel?.numberOfLines = 1
         $0.layer.cornerRadius = 17
         $0.clipsToBounds = true
     }
@@ -49,12 +50,12 @@ class AddPassageContainerView: UIView {
         config.imagePadding = 8
         config.imagePlacement = .leading
         config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 15)
-        $0.titleLabel?.font = Pretendard.semibold.dynamicFont(style: .headline)
         $0.configuration = config
         $0.layer.cornerRadius = 15
         $0.clipsToBounds = true
         $0.titleLabel?.numberOfLines = 1
         $0.tintColor = .black
+        $0.titleLabel?.font = Pretendard.bold.dynamicFont(style: .headline)
     }
 
     let textViewBoder = UIView().then {
@@ -67,8 +68,7 @@ class AddPassageContainerView: UIView {
     
     lazy var verseTextView = UITextView().then {
         $0.text = "텍스트를 입력하세요"
-        $0.textContainerInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
-        $0.font = Pretendard.regular.dynamicFont(style: .body)
+        $0.textContainerInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 16.0, right: 16.0)
         $0.showsVerticalScrollIndicator = false
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 8.0
