@@ -172,7 +172,7 @@ class CoreDataManager {
 
         do {
             let passages = try context.fetch(fetchRequest)
-            if passages.isEmpty != true {
+            if !passages.isEmpty {
                 let passageEntity = passages.first
                 passageEntity?.passage = passage.passage
                 passageEntity?.keywords = passage.keywords

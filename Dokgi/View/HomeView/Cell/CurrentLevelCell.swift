@@ -139,7 +139,7 @@ class CurrentLevelCell: UICollectionViewCell {
         }
         
         stackView.snp.makeConstraints {
-            $0.centerY.centerX.equalToSuperview()
+            $0.centerY.horizontalEdges.equalToSuperview()
         }
     }
     

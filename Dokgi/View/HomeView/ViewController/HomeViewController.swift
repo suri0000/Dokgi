@@ -22,7 +22,8 @@ class HomeViewController: UIViewController, HomeViewDelegate {
             self.homeView.indicatorDots.currentPage = nowPage
         }
     }
-
+    let contentSizeCategory = UIApplication.shared.preferredContentSizeCategory
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupConstraints()
@@ -34,7 +35,7 @@ class HomeViewController: UIViewController, HomeViewDelegate {
         homeView.delegate = self
         homeView.setConfigureUI(viewModel: viewModel)
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         homeView.currentLevelBubble.snp.makeConstraints {
@@ -242,7 +243,11 @@ extension HomeViewController: UICollectionViewDelegate {
         if collectionView == homeView.todayVersesColletionView {
             return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
         } else {
-            return CGSize(width: 300, height: 164)
+            if contentSizeCategory.rawValue == "UICTContentSizeCategoryXXXL" {
+                return CGSize(width: 300, height: 195)
+            } else {
+                return CGSize(width: 300, height: 164)
+            }
         }
     }
 }

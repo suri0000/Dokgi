@@ -32,19 +32,20 @@ class AddPassageContainerView: UIView {
         $0.clipsToBounds = true
     }
     
-    let infoView = InfoView()
-    
-    let infoViewOverLapView = UIView().then {
-        $0.backgroundColor = UIColor.lightSkyBlue.withAlphaComponent(0.5)
-        $0.layer.cornerRadius = 15
+    let passageLabel = UILabel().then {
+        $0.text = "구절"
+        $0.textColor = .black
+        $0.font = Pretendard.semibold.dynamicFont(style: .title3)
     }
+    
+    let infoView = InfoView()
     
     let searchButton = UIButton(type: .system).then {
         var config = UIButton.Configuration.filled()
         config.title = "책 검색"
-        config.baseForegroundColor = .white
-        config.baseBackgroundColor = .charcoalBlue
-        config.image = .magnifyingglass
+        config.baseForegroundColor = .black
+        config.baseBackgroundColor = .searchButtonBlue
+        config.image = UIImage(resource: .magnifyingglass).withRenderingMode(.alwaysTemplate)
         config.imagePadding = 8
         config.imagePlacement = .leading
         config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 15)
@@ -53,6 +54,7 @@ class AddPassageContainerView: UIView {
         $0.layer.cornerRadius = 15
         $0.clipsToBounds = true
         $0.titleLabel?.numberOfLines = 1
+        $0.tintColor = .black
     }
 
     let textViewBoder = UIView().then {
@@ -72,7 +74,8 @@ class AddPassageContainerView: UIView {
         paragraphStyle.lineSpacing = 8.0
         let attributedString = NSAttributedString(string: $0.text ?? "", attributes: [.paragraphStyle: paragraphStyle])
         $0.attributedText = attributedString
-        $0.textColor = .placeholderText
+        $0.textColor = .textFieldGray
+        $0.backgroundColor = .white
     }
     
     let characterCountLabel = UILabel().then {
@@ -86,18 +89,22 @@ class AddPassageContainerView: UIView {
     }
     
     let keywordLabel = UILabel().then {
+        $0.textColor = .black
         $0.attributedText = createAttributedString(for: "키워드 (선택)")
         $0.textAlignment = .left
     }
     
     let keywordField = UITextField().then {
-        $0.placeholder = "지금 읽은 책을 더 잘 기억하고 싶다면?"
+        $0.attributedPlaceholder = NSAttributedString(string: "지금 읽은 책을 더 잘 기억하고 싶다면?", attributes: [NSAttributedString.Key.foregroundColor : UIColor.textFieldGray])
         $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
-        $0.textColor = .textFieldGray
         $0.layer.cornerRadius = 10
         $0.clipsToBounds = true
+        $0.textColor = .black
+        $0.backgroundColor = .white
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.borderGray.cgColor
+        $0.autocorrectionType = .no
+        $0.spellCheckingType = .no
     }
     
     lazy var keywordCollectionView = UICollectionView(frame: .zero, collectionViewLayout: {
@@ -118,13 +125,19 @@ class AddPassageContainerView: UIView {
     }
     
     let pageNumberTextField = UITextField().then {
-        $0.placeholder = "페이지"
-        $0.textColor = .textFieldGray
+        $0.attributedPlaceholder = NSAttributedString(string: "페이지", attributes: [NSAttributedString.Key.foregroundColor : UIColor.textFieldGray])
         $0.textAlignment = .center
         $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
-        $0.borderStyle = .roundedRect
+        $0.layer.cornerRadius = 8
+        $0.clipsToBounds = true
+        $0.textColor = .black
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = UIColor.borderGray.cgColor
+        $0.backgroundColor = .white
+        $0.autocorrectionType = .no
+        $0.spellCheckingType = .no
     }
-    
+
     let pageSegment = SegmentControlView().then {
         $0.selectedIndex = 0
     }
@@ -147,41 +160,35 @@ class AddPassageContainerView: UIView {
     
     // MARK: - setupViews
     private func setupViews() {
-        [scanButton, infoView, textViewBoder, verseTextView, characterCountLabel, pencilImageView, keywordLabel, keywordField, keywordCollectionView, pageLabel, pageNumberTextField, pageSegment, recordButton].forEach { addSubview($0) }
-        
-        infoView.addSubview(infoViewOverLapView)
-        infoViewOverLapView.addSubview(searchButton)
+        [infoView, searchButton, scanButton, passageLabel, textViewBoder, verseTextView, characterCountLabel, pencilImageView, keywordLabel, keywordField, keywordCollectionView, pageLabel, pageNumberTextField, pageSegment, recordButton].forEach { addSubview($0) }
     }
     
     // MARK: - 제약조건
     private func initLayout() {
-        scanButton.snp.makeConstraints {
-            $0.top.trailing.equalToSuperview().inset(16)
-        }
-        
         infoView.snp.makeConstraints {
-            $0.top.equalTo(scanButton.snp.bottom).offset(16)
+            $0.top.equalToSuperview().inset(8)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(200)
-        }
-        
-        infoViewOverLapView.snp.makeConstraints {
-            $0.edges.equalTo(infoView)
+            $0.height.equalTo(138)
         }
         
         searchButton.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.height.equalTo(35)
+            $0.top.horizontalEdges.equalToSuperview().inset(16)
+            $0.height.equalTo(50)
         }
-
+        
+        passageLabel.snp.makeConstraints {
+            $0.centerY.equalTo(scanButton.snp.centerY)
+            $0.leading.equalToSuperview().inset(18)
+        }
+        
         textViewBoder.snp.makeConstraints {
-            $0.top.equalTo(infoView.snp.bottom).offset(32)
+            $0.top.equalTo(scanButton.snp.bottom).offset(16)
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(329)
         }
         
         verseTextView.snp.makeConstraints {
-            $0.top.equalTo(infoView.snp.bottom).offset(35)
+            $0.top.equalTo(scanButton.snp.bottom).offset(35)
             $0.horizontalEdges.equalToSuperview().inset(18)
             $0.bottom.equalTo(pencilImageView.snp.top).inset(8)
         }
@@ -200,20 +207,15 @@ class AddPassageContainerView: UIView {
         }
         
         keywordField.snp.makeConstraints {
-            $0.top.equalTo(keywordLabel.snp.bottom).offset(16)
+            $0.top.equalTo(keywordLabel.snp.bottom).offset(8)
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(36)
         }
         
         keywordCollectionView.snp.makeConstraints {
-            $0.top.equalTo(keywordField.snp.bottom).offset(16)
+            $0.top.equalTo(keywordField.snp.bottom).offset(8)
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(35)
-        }
-        
-        pageLabel.snp.makeConstraints {
-            $0.top.equalTo(keywordCollectionView.snp.bottom).offset(50)
-            $0.leading.equalToSuperview().offset(16)
         }
         
         pageNumberTextField.snp.makeConstraints {
@@ -226,23 +228,60 @@ class AddPassageContainerView: UIView {
         pageSegment.snp.makeConstraints {
             $0.centerY.equalTo(pageLabel.snp.centerY)
             $0.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(30)
-            $0.width.equalTo(120)
         }
         
         recordButton.snp.makeConstraints {
             $0.top.equalTo(pageLabel.snp.bottom).offset(60)
-            $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(50)
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(24)
         }
     }
     
-    func setkeywordTextField() {
+    private func setkeywordTextField() {
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: keywordField.frame.height))
         keywordField.leftView = paddingView
         keywordField.leftViewMode = .always
         keywordField.rightView = paddingView
         keywordField.rightViewMode = .always
+    }
+    
+    func updateViewForSearchResult(isSearched: Bool) {
+        searchButton.isHidden = isSearched
+        infoView.isHidden = !isSearched
+
+        if isSearched {
+            scanButton.snp.remakeConstraints {
+                $0.trailing.equalToSuperview().inset(16)
+                $0.top.equalTo(infoView.snp.bottom).offset(16)
+                $0.height.equalTo(35)
+                $0.width.equalTo(112)
+            }
+        } else {
+            scanButton.snp.remakeConstraints {
+                $0.trailing.equalToSuperview().inset(16)
+                $0.top.equalTo(searchButton.snp.bottom).offset(16)
+                $0.height.equalTo(35)
+                $0.width.equalTo(112)
+            }
+        }
+        layoutIfNeeded()
+    }
+    
+    func updateViewForKeyword(isAdded: Bool) {
+        keywordCollectionView.isHidden = isAdded
+
+        if isAdded {
+            pageLabel.snp.remakeConstraints {
+                $0.top.equalTo(keywordField.snp.bottom).offset(24)
+                $0.leading.equalToSuperview().offset(16)
+            }
+        } else {
+            pageLabel.snp.remakeConstraints {
+                $0.top.equalTo(keywordCollectionView.snp.bottom).offset(60)
+                $0.leading.equalToSuperview().offset(16)
+            }
+        }
+        layoutIfNeeded()
     }
 }
 
