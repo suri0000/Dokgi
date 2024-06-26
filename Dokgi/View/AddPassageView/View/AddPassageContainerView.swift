@@ -58,7 +58,6 @@ class AddPassageContainerView: UIView {
         $0.configuration = config
         $0.layer.cornerRadius = 15
         $0.clipsToBounds = true
-        $0.titleLabel?.numberOfLines = 1
         $0.tintColor = .black
     }
 
