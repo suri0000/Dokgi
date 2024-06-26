@@ -281,6 +281,7 @@ extension BookDetailViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PassageTableViewCell.identifier, for: indexPath) as? PassageTableViewCell else { return UITableViewCell() }
         
+        cell.backgroundColor = .white
         cell.selectionStyle = .none
         cell.setPassageData(passage: viewModel.bookInfo.value.passages[indexPath.row])
         
