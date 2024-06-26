@@ -26,13 +26,7 @@ struct Provider: TimelineProvider {
         let currentDate = Date()
         let midnight = Calendar.current.startOfDay(for: currentDate)
         let nextDayMidnight = Calendar.current.date(byAdding: .day, value: 1, to: midnight)!
-        
-        guard let randomPassage = CoreDataManager.shared.passageData.value.randomElement()?.passage
-        else {
-            let entry = SimpleEntry(date: currentDate, passage: "본질을 아는 것보다, 본질을 알기 위해 있는 그대로를 보기 위해 노력하는 것이 중요하다고, 그것이 바로 그 대상에 대한 존중이라고.")
-            return
-        }
-        
+        let randomPassage = CoreDataManager.shared.passageData.value.randomElement()?.passage ?? "누군가를 있는 그대로 존중한다는 것은 그만큼 어려운 일이다."
         let entry = SimpleEntry(date: currentDate, passage: randomPassage)
         let timeline = Timeline(entries: [entry], policy: .after(nextDayMidnight))
         completion(timeline)
@@ -56,6 +50,7 @@ struct DokgiWidgetEntryView: View {
             Text(entry.passage)
                 .font(.subheadline)
                 .padding(EdgeInsets(top: 7, leading: 15, bottom: 16, trailing: 0))
+                .foregroundColor(.black)
             Spacer(minLength: 0)
         }
     }
@@ -70,7 +65,7 @@ struct DokgiWidget: Widget {
                 .containerBackground(.white, for: .widget)
         }
         .configurationDisplayName("구절")
-        .description("작성한 구절을 보여줍니다. \n하루에 하나씩 새로운 구절을 만나보세요.")
+        .description("작성한 구절을 보여줍니다. 처음에는 기본 문구가 들어가요. \n하루에 하나씩 새로운 구절을 만나보세요!")
         .supportedFamilies([.systemMedium])
     }
 }
