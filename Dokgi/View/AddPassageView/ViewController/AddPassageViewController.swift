@@ -174,6 +174,7 @@ class AddPassageViewController: UIViewController {
         let reversedIndex = viewModel.keywords.count - 1 - indexPath.item
         viewModel.keywords.remove(at: reversedIndex)
         containerView.keywordField.text = ""
+        containerView.keywordField.resignFirstResponder()
         if viewModel.keywords.count == 0 {
             containerView.updateViewForKeyword(isAdded: true)
         }
