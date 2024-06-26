@@ -23,8 +23,7 @@ class LibraryViewController: BaseLibraryAndPassageViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(true, animated: animated)
-        
+        super.viewWillAppear(animated)
         CoreDataManager.shared.readBook()
         
         if sortButton.sortButtonTitleLabel.text == "최신순" {
