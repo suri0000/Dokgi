@@ -27,8 +27,8 @@ class AddPassageContainerView: UIView {
             configuration?.image = UIImage(resource: .camera).withTintColor(UIColor(resource: .charcoalBlue), renderingMode: .alwaysOriginal)
             configuration?.imagePadding = 10
             button.configuration = configuration
+            button.titleLabel?.numberOfLines = 1
         }
-        $0.titleLabel?.numberOfLines = 1
         $0.layer.cornerRadius = 17
         $0.clipsToBounds = true
     }
@@ -75,11 +75,17 @@ class AddPassageContainerView: UIView {
         $0.showsVerticalScrollIndicator = false
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 8.0
-        let attributedString = NSAttributedString(string: $0.text ?? "", attributes: [.paragraphStyle: paragraphStyle])
+        let font = Pretendard.regular.dynamicFont(style: .body)
+        let attributes: [NSAttributedString.Key: Any] = [
+            .paragraphStyle: paragraphStyle,
+            .font: font
+        ]
+        let attributedString = NSAttributedString(string: $0.text ?? "", attributes: attributes)
         $0.attributedText = attributedString
         $0.textColor = .textFieldGray
         $0.backgroundColor = .white
     }
+
     
     let characterCountLabel = UILabel().then {
         $0.textColor = .textFieldGray

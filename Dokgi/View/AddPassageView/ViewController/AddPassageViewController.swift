@@ -49,7 +49,6 @@ class AddPassageViewController: UIViewController {
         }
         view.addSubview(scrollView)
         scrollView.addSubview(containerView)
-        containerView.verseTextView.font = Pretendard.regular.dynamicFont(style: .body)
         containerView.keywordCollectionView.register(KeywordCollectionViewCell.self, forCellWithReuseIdentifier: KeywordCollectionViewCell.identifier)
         containerView.keywordCollectionView.delegate = self
         containerView.keywordCollectionView.dataSource = self
