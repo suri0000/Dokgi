@@ -183,7 +183,7 @@ extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.delegate = self
 
         cell.paragraphLabel.text = CoreDataManager.shared.passageData.value[indexPath.item].passage
-        let dateString = String(CoreDataManager.shared.passageData.value[indexPath.item].date.toString()).suffix(10)
+        let dateString = CoreDataManager.shared.passageData.value[indexPath.item].date.toString().suffix(10)
         cell.dateLabel.text = String(dateString)
         
         return cell
@@ -191,7 +191,7 @@ extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, heightForTextAtIndexPath indexPath: IndexPath) -> CGFloat {
         let text = CoreDataManager.shared.passageData.value[indexPath.item].passage
-        let date = String(CoreDataManager.shared.passageData.value[indexPath.item].date.toString()).suffix(10)
+        let date = CoreDataManager.shared.passageData.value[indexPath.item].date.toString().suffix(10)
         return calculateCellHeight(for: text, for: String(date), in: collectionView)
     }
     
