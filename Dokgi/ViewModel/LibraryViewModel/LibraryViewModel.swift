@@ -10,8 +10,6 @@ import RxCocoa
 import RxSwift
 
 class LibraryViewModel {
-    var libraryData = BehaviorRelay<[Book]>(value: [])
-    
     func dataLatest() {
         let latestSortedBooks = CoreDataManager.shared.bookData
             .value.sorted {
