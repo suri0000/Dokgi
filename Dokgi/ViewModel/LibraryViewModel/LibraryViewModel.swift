@@ -10,21 +10,21 @@ import RxCocoa
 import RxSwift
 
 class LibraryViewModel {
-    var libraryData = BehaviorRelay<[Book]>(value: [])
-    
     func dataLatest() {
-        let latestSortedBooks = libraryData.value.sorted {
+        let latestSortedBooks = CoreDataManager.shared.bookData
+            .value.sorted {
                     guard let date1 = $0.passages.first?.date, let date2 = $1.passages.first?.date else { return false }
                     return date1 > date2
                 }
-        self.libraryData.accept(latestSortedBooks)
+        CoreDataManager.shared.bookData.accept(latestSortedBooks)
     }
     
     func dataOldest() {
-        let oldestSortedBooks = libraryData.value.sorted {
+        let oldestSortedBooks = CoreDataManager.shared.bookData
+            .value.sorted {
                     guard let date1 = $0.passages.first?.date, let date2 = $1.passages.first?.date else { return false }
-                    return date1 > date2
+                    return date1 < date2
                 }
-        self.libraryData.accept(oldestSortedBooks)
+        CoreDataManager.shared.bookData.accept(oldestSortedBooks)
     }
 }

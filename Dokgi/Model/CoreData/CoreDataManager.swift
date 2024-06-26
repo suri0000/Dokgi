@@ -74,6 +74,9 @@ class CoreDataManager {
         let fetchRequest: NSFetchRequest<BookEntity> = BookEntity.fetchRequest()
         if text != "" {
             fetchRequest.predicate = NSPredicate(format: "title CONTAINS[c] %@", text)
+            let titlePredicate = NSPredicate(format: "title CONTAINS[c] %@", text)
+            let authorPredicate = NSPredicate(format: "author CONTAINS[c] %@", text)
+            fetchRequest.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: [titlePredicate, authorPredicate])
         }
         
         do {
@@ -93,7 +96,7 @@ class CoreDataManager {
                         }
                     }
                     // 이제 passagesArray를 사용할 수 있습니다.
-                    bookArr.append(Book(title: book.title!, author: book.author!, image: book.author!, passages: passagesArray))
+                    bookArr.append(Book(title: book.title!, author: book.author!, image: book.image!, passages: passagesArray))
                 }
             }
             bookData.accept(bookArr)

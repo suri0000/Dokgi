@@ -38,6 +38,7 @@ class LibraryCollectionViewCell: UICollectionViewCell {
         bookImageView.contentMode = .scaleToFill
   
         bookNameLabel.font = Pretendard.bold.dynamicFont(style: .subheadline)
+        bookNameLabel.textColor = .black
         bookNameLabel.textAlignment = .center
         bookNameLabel.numberOfLines = 2
         bookNameLabel.layer.masksToBounds = true
