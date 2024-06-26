@@ -4,7 +4,7 @@
 //
 //  Created by 예슬 on 6/21/24.
 //
-
+import RXCocoa
 import RxSwift
 import SnapKit
 import Then
@@ -40,7 +40,6 @@ class BaseLibraryAndPassageViewController: UIViewController {
     }
     
     // MARK: - Life Cycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -63,8 +62,8 @@ class BaseLibraryAndPassageViewController: UIViewController {
         self.searchBar.resignFirstResponder()
         self.searchBar.showsCancelButton = false
     }
-    // MARK: - UI
     
+    // MARK: - UI
     private func setLayout() {
         [titleLabel, searchBar, sortButton, sortMenuView, noResultsLabel].forEach {
             self.view.addSubview($0)
@@ -142,7 +141,6 @@ class BaseLibraryAndPassageViewController: UIViewController {
     }
     
     func latestButtonAction() {}
-    
     func oldestButtonAction() {}
     
     func configureUI() {}
@@ -155,12 +153,5 @@ class BaseLibraryAndPassageViewController: UIViewController {
             self.searchBar.resignFirstResponder()
             self.searchBar.showsCancelButton = false
         }.disposed(by: disposeBag)
-        
-        searchBar.rx.cancelButtonClicked.subscribe(with: self) { (self, _) in
-            self.searchBar.resignFirstResponder()
-            self.searchBar.showsCancelButton = false
-            self.searchBar.text = ""
-        }.disposed(by: disposeBag)
-        
     }
 }
