@@ -123,6 +123,8 @@ class AddPassageViewController: UIViewController {
             return
         }
         
+        viewModel.removeEmptyKeywords()
+        
         viewModel.savePassage(selectedBook: viewModel.selectedBook,
                               passageText: containerView.verseTextView.text ?? "",
                             pageNumberText: containerView.pageNumberTextField.text ?? "",

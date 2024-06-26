@@ -25,6 +25,10 @@ class AddPassageViewModel {
     }
     
     // MARK: - func
+    func removeEmptyKeywords() {
+        keywords = keywords.filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+    }
+    
     func visionKit(presenter: UIViewController) {
         let scan = VNDocumentCameraViewController()
         scan.delegate = presenter as? VNDocumentCameraViewControllerDelegate
