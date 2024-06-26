@@ -53,7 +53,7 @@ class LibraryViewController: BaseLibraryAndPassageViewController {
             self.libraryCollectionView.isHidden = data.count < 0
             self.noResultsLabel.isHidden = data.count > 0
             if self.searchBar.text == "" {
-                self.noResultsLabel.text = "기록한 구절이 없어요\n구절을 등록해 보세요"
+                self.noResultsLabel.text = "기록한 책이 없어요\n구절을 등록해 보세요"
             } else {
                 self.noResultsLabel.text = "검색결과가 없습니다."
             }
