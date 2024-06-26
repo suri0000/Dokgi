@@ -63,7 +63,11 @@ class PassageViewController: BaseLibraryAndPassageViewController {
             }
             self.passageCollectionView.isHidden = data.count < 0
             self.noResultsLabel.isHidden = data.count > 0
-            self.noResultsLabel.text = "검색결과가 없습니다."
+            if self.searchBar.text == "" {
+                self.noResultsLabel.text = "기록한 구절이 없어요\n구절을 등록해 보세요"
+            } else {
+                self.noResultsLabel.text = "검색결과가 없습니다."
+            }
             self.passageCollectionView.reloadData()
         }.disposed(by: disposeBag)
     }
