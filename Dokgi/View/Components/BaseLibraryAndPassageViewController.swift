@@ -12,7 +12,7 @@ import UIKit
 
 class BaseLibraryAndPassageViewController: UIViewController {
     
-    private let disposeBag = DisposeBag()
+    let disposeBag = DisposeBag()
     let searchBar = SearchBar()
     let sortButton = SortButton()
     let sortMenuView = SortMenuView()
@@ -48,6 +48,8 @@ class BaseLibraryAndPassageViewController: UIViewController {
         setSortMenuView()
         tappedButton()
         setFloatingButton()
+        configureUI()
+        setBinding()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,8 +59,9 @@ class BaseLibraryAndPassageViewController: UIViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        sortMenuView.isHidden = true
+        super.viewDidDisappear(true)
+        self.searchBar.resignFirstResponder()
+        self.searchBar.showsCancelButton = false
     }
     // MARK: - UI
     
@@ -77,7 +80,7 @@ class BaseLibraryAndPassageViewController: UIViewController {
             $0.top.equalTo(titleLabel.snp.bottom)
             $0.horizontalEdges.equalToSuperview().inset(10)
         }
-   
+        
         sortButton.snp.makeConstraints {
             $0.top.equalTo(searchBar.snp.bottom).offset(10)
             $0.trailing.equalToSuperview().inset(20)
@@ -142,6 +145,22 @@ class BaseLibraryAndPassageViewController: UIViewController {
     
     func oldestButtonAction() {}
     
-    func initLayout() {}
-    func setBinding() {}
+    func configureUI() {}
+    func setBinding() {
+        searchBar.searchTextField.rx.controlEvent(.editingDidBegin).subscribe(with: self) { (self, _) in
+            self.searchBar.showsCancelButton = true
+        }.disposed(by: disposeBag)
+        
+        searchBar.rx.searchButtonClicked.subscribe(with: self) { (self, _) in
+            self.searchBar.resignFirstResponder()
+            self.searchBar.showsCancelButton = false
+        }.disposed(by: disposeBag)
+        
+        searchBar.rx.cancelButtonClicked.subscribe(with: self) { (self, _) in
+            self.searchBar.resignFirstResponder()
+            self.searchBar.showsCancelButton = false
+            self.searchBar.text = ""
+        }.disposed(by: disposeBag)
+        
+    }
 }
