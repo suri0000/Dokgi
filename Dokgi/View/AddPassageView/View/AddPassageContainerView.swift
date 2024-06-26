@@ -86,7 +86,6 @@ class AddPassageContainerView: UIView {
         $0.backgroundColor = .white
     }
 
-    
     let characterCountLabel = UILabel().then {
         $0.textColor = .textFieldGray
         $0.font = Pretendard.bold.dynamicFont(style: .footnote)

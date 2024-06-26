@@ -173,6 +173,7 @@ class AddPassageViewController: UIViewController {
     func removeKeyword(at indexPath: IndexPath) {
         let reversedIndex = viewModel.keywords.count - 1 - indexPath.item
         viewModel.keywords.remove(at: reversedIndex)
+        containerView.keywordField.text = ""
         if viewModel.keywords.count == 0 {
             containerView.updateViewForKeyword(isAdded: true)
         }
