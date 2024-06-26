@@ -53,6 +53,7 @@ class AddPassageViewController: UIViewController {
         containerView.keywordCollectionView.delegate = self
         containerView.keywordCollectionView.dataSource = self
         containerView.keywordField.delegate = self
+        containerView.pageNumberTextField.delegate = self
         containerView.verseTextView.delegate = self
     }
     
@@ -184,8 +185,13 @@ class AddPassageViewController: UIViewController {
 // MARK: - UITextFieldDelegate
 extension AddPassageViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == containerView.pageNumberTextField {
+            textField.resignFirstResponder()
+            return true
+        }
+        
         if let keyword = textField.text, !keyword.isEmpty {
-            if viewModel.keywords.count < 11 { // 10일 경우 alert 반복
+            if viewModel.keywords.count < 11 {
                 viewModel.keywords[textField.tag] = keyword
                 containerView.keywordCollectionView.reloadData()
             } else {
@@ -198,6 +204,8 @@ extension AddPassageViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        guard textField == containerView.keywordField else { return }
+        
         if let text = textField.text, text.isEmpty {
             if !viewModel.keywords.contains("") {
                 if viewModel.keywords.count < 10 {
@@ -211,8 +219,10 @@ extension AddPassageViewController: UITextFieldDelegate {
         }
         containerView.updateViewForKeyword(isAdded: false)
     }
-    
+
     @objc func textFieldDidChange(_ textField: UITextField) {
+        guard textField == containerView.keywordField else { return }
+        
         if let text = textField.text {
             if viewModel.keywords.count > textField.tag {
                 viewModel.keywords[textField.tag] = text
@@ -220,8 +230,10 @@ extension AddPassageViewController: UITextFieldDelegate {
             containerView.keywordCollectionView.reloadData()
         }
     }
-    
+
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard textField == containerView.keywordField else { return true }
+        
         guard let currentText = textField.text as NSString? else { return true }
         let newText = currentText.replacingCharacters(in: range, with: string)
         return newText.count <= 20
