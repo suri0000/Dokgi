@@ -91,6 +91,7 @@ class BookDetailViewController: UIViewController {
         $0.estimatedRowHeight = 289
         $0.separatorStyle = .none
         $0.isScrollEnabled = false
+        $0.backgroundColor = .white
     }
 
     private let addPassageButton = AddPassageButton().then {

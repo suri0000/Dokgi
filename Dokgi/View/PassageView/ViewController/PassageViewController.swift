@@ -12,10 +12,8 @@ import UIKit
 
 class PassageViewController: BaseLibraryAndPassageViewController {
     
+    let passageCollectionView = PassageCollectionView()
     let passageViewModel = PassageViewModel()
-    var disposeBag = DisposeBag()
-    
-    private var isFiltering: Bool = false
     
     let selectionButton = UIButton().then {
         $0.backgroundColor = .white
@@ -39,12 +37,7 @@ class PassageViewController: BaseLibraryAndPassageViewController {
         $0.isHidden = true
     }
     
-    let passageCollectionView = PassageCollectionView()
-    
     var isEditingMode: Bool = false
-    
-    private var isLatestFirst: Bool = true
-    private var isOldestFirst: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,32 +94,20 @@ class PassageViewController: BaseLibraryAndPassageViewController {
     }
     
     override func setBinding() {
+        super.setBinding()
+        
         CoreDataManager.shared.passageData.subscribe(with: self) { (self, data) in
             if let layout = self.passageCollectionView.collectionViewLayout as? PassageCollectionViewLayout {
                 layout.invalidateCache()
             }
-            self.passageCollectionView.isHidden = data.count == 0
+            self.passageCollectionView.isHidden = data.count < 0
             self.noResultsLabel.isHidden = data.count > 0
-            if self.isFiltering { self.noResultsLabel.text = "검색결과가 없습니다." }
+            if self.searchBar.text == "" {
+                self.noResultsLabel.text = "기록한 구절이 없어요\n구절을 등록해 보세요"
+            } else {
+                self.noResultsLabel.text = "검색결과가 없습니다."
+            }
             self.passageCollectionView.reloadData()
-        }.disposed(by: disposeBag)
-        
-        searchBar.searchTextField.rx.controlEvent(.editingDidBegin).subscribe(with: self) { (self, _) in
-            self.isFiltering = true
-            self.searchBar.showsCancelButton = true
-        }.disposed(by: disposeBag)
-        
-        searchBar.rx.searchButtonClicked.subscribe(with: self) { (self, _) in
-            self.searchBar.resignFirstResponder()
-            self.searchBar.showsCancelButton = false
-            self.isFiltering = false
-        }.disposed(by: disposeBag)
-        
-        searchBar.rx.cancelButtonClicked.subscribe(with: self) { (self, _) in
-            self.searchBar.resignFirstResponder()
-            self.searchBar.showsCancelButton = false
-            self.isFiltering = false
-            self.searchBar.text = ""
         }.disposed(by: disposeBag)
         
         searchBar.rx.text.debounce(.milliseconds(250), scheduler: MainScheduler.instance).subscribe(with: self) { (self, text) in
@@ -179,7 +160,7 @@ extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.setColor(with: indexPath)
         cell.deleteButton.isHidden = !isEditingMode
         cell.delegate = self
-
+        
         cell.passageLabel.text = CoreDataManager.shared.passageData.value[indexPath.item].passage
         let dateString = String(CoreDataManager.shared.passageData.value[indexPath.item].date.toString()).suffix(10)
         cell.dateLabel.text = String(dateString)

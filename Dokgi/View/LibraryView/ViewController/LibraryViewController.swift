@@ -14,12 +14,8 @@ import UIKit
 class LibraryViewController: BaseLibraryAndPassageViewController {
     
     let libraryCollectionView = LibraryCollectionView()
-    
     let libraryViewModel = LibraryViewModel()
-    let disposeBag = DisposeBag()
-    
-    private var isFiltering: Bool = false
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,11 +26,11 @@ class LibraryViewController: BaseLibraryAndPassageViewController {
         navigationController?.setNavigationBarHidden(true, animated: animated)
         
         CoreDataManager.shared.readBook()
-        //        if sortButton.sortButtonTitleLabel.text == "오래된순" {
-        //
-        //            self.libraryViewModel.dataOldest()
-        //        }
-        //        self.libraryCollectionView.reloadData()
+        
+        if sortButton.titleLabel?.text == "오래된순" {
+                   self.libraryViewModel.dataOldest()
+               }
+               self.libraryCollectionView.reloadData()
     }
     
     override func configureUI() {
@@ -52,31 +48,18 @@ class LibraryViewController: BaseLibraryAndPassageViewController {
     }
     
     override func setBinding() {
+        super.setBinding()
         CoreDataManager.shared.bookData.subscribe(with: self) { (self, data) in
             self.libraryCollectionView.isHidden = data.count < 0
             self.noResultsLabel.isHidden = data.count > 0
-            if self.isFiltering { self.noResultsLabel.text = "검색결과가 없습니다." }
+            if self.searchBar.text == "" {
+                self.noResultsLabel.text = "기록한 구절이 없어요\n구절을 등록해 보세요"
+            } else {
+                self.noResultsLabel.text = "검색결과가 없습니다."
+            }
             self.libraryCollectionView.reloadData()
         }.disposed(by: disposeBag)
-        
-        searchBar.searchTextField.rx.controlEvent(.editingDidBegin).subscribe(with: self) { (self, _) in
-            self.isFiltering = true
-            self.searchBar.showsCancelButton = true
-        }.disposed(by: disposeBag)
-        
-        searchBar.rx.searchButtonClicked.subscribe(with: self) { (self, _) in
-            self.searchBar.resignFirstResponder()
-            self.searchBar.showsCancelButton = false
-            self.isFiltering = false
-        }.disposed(by: disposeBag)
-        
-        searchBar.rx.cancelButtonClicked.subscribe(with: self) { (self, _) in
-            self.searchBar.resignFirstResponder()
-            self.searchBar.showsCancelButton = false
-            self.isFiltering = false
-            self.searchBar.text = ""
-        }.disposed(by: disposeBag)
-        
+ 
         searchBar.rx.text.debounce(.milliseconds(250), scheduler: MainScheduler.instance).subscribe(with: self) { (self, text) in
             CoreDataManager.shared.readBook(text: text ?? "")
             if self.sortButton.sortButtonTitleLabel.text == "최신순" {
@@ -107,7 +90,6 @@ extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataS
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryCollectionViewCell.identifier, for: indexPath) as? LibraryCollectionViewCell else {
             return UICollectionViewCell()
         }
-        
         let book = CoreDataManager.shared.bookData.value[indexPath.item]
         cell.authorNameLabel.text = book.author
         cell.bookNameLabel.text = book.title

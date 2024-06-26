@@ -54,6 +54,7 @@ class BookManager {
             do {
                 let response = try JSONDecoder().decode(SearchBookResponse.self, from: data)
                 completion(.success(response))
+                print(response)
             } catch {
                 print("Decoding error: \(error)")
                 completion(.failure(error))
