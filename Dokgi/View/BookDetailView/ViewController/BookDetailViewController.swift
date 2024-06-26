@@ -266,6 +266,7 @@ class BookDetailViewController: UIViewController {
     private func tappedAddPassageButton() {
         addPassageButton.rx.tap.subscribe(with: self) { (self, _) in
             let addVerseVC = AddPassageViewController()
+            addVerseVC.viewModel.showUi = true
             addVerseVC.viewModel.selectedBook = self.viewModel.makeAddVerseViewData()
             self.navigationController?.pushViewController(addVerseVC, animated: true)
             addVerseVC.displayBookInfo()

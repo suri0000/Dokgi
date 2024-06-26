@@ -17,6 +17,7 @@ class AddPassageViewModel {
     var images: [UIImage] = []
     var keywords: [String] = []
     var pageType: Bool = true
+    var showUi: Bool = false
     var recognizedText: String = "" {
         didSet {
             onRecognizedTextUpdate?(recognizedText)

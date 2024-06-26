@@ -32,7 +32,7 @@ class AddPassageViewController: UIViewController {
         setConstraints()
         setupActions()
         updateCharacterCountLabel()
-        containerView.updateViewForSearchResult(isSearched: false)
+        containerView.updateViewForSearchResult(isSearched: viewModel.showUi)
         containerView.updateViewForKeyword(isAdded: true)
     }
     
@@ -159,7 +159,6 @@ class AddPassageViewController: UIViewController {
                 containerView.infoView.imageView.contentMode = .scaleAspectFill
             }
         }
-        containerView.updateViewForSearchResult(isSearched: true)
     }
     
     private func updateTextView(with text: String) {
@@ -325,6 +324,8 @@ extension AddPassageViewController: BookSelectionDelegate {
     func didSelectBook(_ book: Item) {
         viewModel.selectedBook = book
         displayBookInfo()
+        viewModel.showUi = true
+        containerView.updateViewForSearchResult(isSearched: viewModel.showUi)
     }
 }
 
