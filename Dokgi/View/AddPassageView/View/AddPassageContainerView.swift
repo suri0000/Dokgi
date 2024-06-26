@@ -38,9 +38,7 @@ class AddPassageContainerView: UIView {
         $0.font = Pretendard.semibold.dynamicFont(style: .title3)
     }
     
-    let infoView = InfoView().then {
-        $0.isHidden = true
-    }
+    let infoView = InfoView()
     
     let searchButton = UIButton(type: .system).then {
         var config = UIButton.Configuration.filled()
@@ -217,19 +215,19 @@ class AddPassageContainerView: UIView {
         }
         
         keywordField.snp.makeConstraints {
-            $0.top.equalTo(keywordLabel.snp.bottom).offset(16)
+            $0.top.equalTo(keywordLabel.snp.bottom).offset(8)
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(36)
         }
         
         keywordCollectionView.snp.makeConstraints {
-            $0.top.equalTo(keywordField.snp.bottom).offset(16)
+            $0.top.equalTo(keywordField.snp.bottom).offset(8)
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(35)
         }
         
         pageLabel.snp.makeConstraints {
-            $0.top.equalTo(keywordCollectionView.snp.bottom).offset(50)
+            $0.top.equalTo(keywordCollectionView.snp.bottom).offset(60)
             $0.leading.equalToSuperview().offset(16)
         }
         
@@ -248,7 +246,7 @@ class AddPassageContainerView: UIView {
         recordButton.snp.makeConstraints {
             $0.top.equalTo(pageLabel.snp.bottom).offset(60)
             $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().inset(24)
         }
     }
     

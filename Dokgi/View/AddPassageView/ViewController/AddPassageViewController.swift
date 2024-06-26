@@ -32,6 +32,7 @@ class AddPassageViewController: UIViewController {
         setConstraints()
         setupActions()
         updateCharacterCountLabel()
+        containerView.updateViewForSearchResult(isSearched: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,7 +43,7 @@ class AddPassageViewController: UIViewController {
     func setupViews() {
         view.backgroundColor = .white
         containerView.pageSegment.selectedIndex = 0
-        containerView.updateViewForSearchResult(isSearched: false)
+//        containerView.updateViewForSearchResult(isSearched: false)
         viewModel.onRecognizedTextUpdate = { [weak self] recognizedText in
             self?.updateTextView(with: recognizedText)
         }
@@ -62,9 +63,9 @@ class AddPassageViewController: UIViewController {
         }
         
         containerView.snp.makeConstraints {
-            $0.edges.equalTo(scrollView.contentLayoutGuide)
-            $0.width.equalTo(scrollView.snp.width)
-            $0.height.greaterThanOrEqualTo(850)
+            $0.edges.equalToSuperview()
+            $0.width.equalToSuperview()
+            $0.height.greaterThanOrEqualTo(800)
         }
     }
     
