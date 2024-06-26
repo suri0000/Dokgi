@@ -38,19 +38,16 @@ class AddPassageContainerView: UIView {
         $0.font = Pretendard.semibold.dynamicFont(style: .title3)
     }
     
-    let infoView = InfoView()
-    
-    let infoViewOverLapView = UIView().then {
-        $0.backgroundColor = UIColor.lightSkyBlue.withAlphaComponent(0.5)
-        $0.layer.cornerRadius = 15
+    let infoView = InfoView().then {
+        $0.isHidden = true
     }
     
     let searchButton = UIButton(type: .system).then {
         var config = UIButton.Configuration.filled()
         config.title = "책 검색"
-        config.baseForegroundColor = .white
-        config.baseBackgroundColor = .charcoalBlue
-        config.image = .magnifyingglass
+        config.baseForegroundColor = .black
+        config.baseBackgroundColor = .searchButtonBlue
+        config.image = UIImage(resource: .magnifyingglass).withRenderingMode(.alwaysTemplate)
         config.imagePadding = 8
         config.imagePlacement = .leading
         config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 15)
@@ -59,6 +56,7 @@ class AddPassageContainerView: UIView {
         $0.layer.cornerRadius = 15
         $0.clipsToBounds = true
         $0.titleLabel?.numberOfLines = 1
+        $0.tintColor = .black
     }
 
     let textViewBoder = UIView().then {
@@ -164,10 +162,7 @@ class AddPassageContainerView: UIView {
     
     // MARK: - setupViews
     private func setupViews() {
-        [infoView, scanButton, passageLabel, textViewBoder, verseTextView, characterCountLabel, pencilImageView, keywordLabel, keywordField, keywordCollectionView, pageLabel, pageNumberTextField, pageSegment, recordButton].forEach { addSubview($0) }
-        
-        infoView.addSubview(infoViewOverLapView)
-        infoViewOverLapView.addSubview(searchButton)
+        [infoView, searchButton, scanButton, passageLabel, textViewBoder, verseTextView, characterCountLabel, pencilImageView, keywordLabel, keywordField, keywordCollectionView, pageLabel, pageNumberTextField, pageSegment, recordButton].forEach { addSubview($0) }
     }
     
     // MARK: - 제약조건
@@ -178,18 +173,15 @@ class AddPassageContainerView: UIView {
             $0.height.equalTo(138)
         }
         
-        infoViewOverLapView.snp.makeConstraints {
-            $0.edges.equalTo(infoView)
-        }
-        
         searchButton.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.height.equalTo(35)
+            $0.top.equalToSuperview().inset(16)
+            $0.height.equalTo(50)
+            $0.horizontalEdges.equalToSuperview().inset(16)
         }
         
         scanButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(16)
-            $0.top.equalTo(infoView.snp.bottom).offset(16)
+            $0.top.equalTo(searchButton.snp.bottom).offset(16)
             $0.height.equalTo(35)
             $0.width.equalTo(112)
         }
@@ -233,7 +225,7 @@ class AddPassageContainerView: UIView {
         keywordCollectionView.snp.makeConstraints {
             $0.top.equalTo(keywordField.snp.bottom).offset(16)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(1)
+            $0.height.equalTo(35)
         }
         
         pageLabel.snp.makeConstraints {
@@ -256,7 +248,7 @@ class AddPassageContainerView: UIView {
         recordButton.snp.makeConstraints {
             $0.top.equalTo(pageLabel.snp.bottom).offset(60)
             $0.centerX.equalToSuperview()
-//            $0.bottom.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().inset(16)
         }
     }
     
@@ -266,6 +258,28 @@ class AddPassageContainerView: UIView {
         keywordField.leftViewMode = .always
         keywordField.rightView = paddingView
         keywordField.rightViewMode = .always
+    }
+    
+    func updateViewForSearchResult(isSearched: Bool) {
+        searchButton.isHidden = isSearched
+        infoView.isHidden = !isSearched
+
+        if isSearched {
+            scanButton.snp.remakeConstraints {
+                $0.trailing.equalToSuperview().inset(16)
+                $0.top.equalTo(infoView.snp.bottom).offset(16)
+                $0.height.equalTo(35)
+                $0.width.equalTo(112)
+            }
+        } else {
+            scanButton.snp.remakeConstraints {
+                $0.trailing.equalToSuperview().inset(16)
+                $0.top.equalTo(searchButton.snp.bottom).offset(16)
+                $0.height.equalTo(35)
+                $0.width.equalTo(112)
+            }
+        }
+        layoutIfNeeded()
     }
 }
 

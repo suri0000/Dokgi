@@ -42,6 +42,7 @@ class AddPassageViewController: UIViewController {
     func setupViews() {
         view.backgroundColor = .white
         containerView.pageSegment.selectedIndex = 0
+        containerView.updateViewForSearchResult(isSearched: false)
         viewModel.onRecognizedTextUpdate = { [weak self] recognizedText in
             self?.updateTextView(with: recognizedText)
         }
@@ -63,7 +64,7 @@ class AddPassageViewController: UIViewController {
         containerView.snp.makeConstraints {
             $0.edges.equalTo(scrollView.contentLayoutGuide)
             $0.width.equalTo(scrollView.snp.width)
-            $0.height.greaterThanOrEqualTo(1000)
+            $0.height.greaterThanOrEqualTo(850)
         }
     }
     
@@ -158,8 +159,7 @@ class AddPassageViewController: UIViewController {
                 containerView.infoView.imageView.contentMode = .scaleAspectFill
             }
         }
-        containerView.infoViewOverLapView.isHidden = true
-        containerView.searchButton.isHidden = true
+        containerView.updateViewForSearchResult(isSearched: true)
     }
     
     private func updateTextView(with text: String) {
