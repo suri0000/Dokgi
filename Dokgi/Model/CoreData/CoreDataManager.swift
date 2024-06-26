@@ -93,7 +93,7 @@ class CoreDataManager {
                         }
                     }
                     // 이제 passagesArray를 사용할 수 있습니다.
-                    bookArr.append(Book(title: book.title!, author: book.author!, image: book.author!, passages: passagesArray))
+                    bookArr.append(Book(title: book.title!, author: book.author!, image: book.image!, passages: passagesArray))
                 }
             }
             bookData.accept(bookArr)
