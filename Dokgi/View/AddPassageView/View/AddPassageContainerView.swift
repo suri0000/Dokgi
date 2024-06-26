@@ -27,6 +27,7 @@ class AddPassageContainerView: UIView {
             configuration?.image = UIImage(resource: .camera).withTintColor(UIColor(resource: .charcoalBlue), renderingMode: .alwaysOriginal)
             configuration?.imagePadding = 10
             button.configuration = configuration
+            button.titleLabel?.numberOfLines = 1
         }
         $0.layer.cornerRadius = 17
         $0.clipsToBounds = true
@@ -42,18 +43,21 @@ class AddPassageContainerView: UIView {
     
     let searchButton = UIButton(type: .system).then {
         var config = UIButton.Configuration.filled()
-        config.title = "책 검색"
         config.baseForegroundColor = .black
         config.baseBackgroundColor = .searchButtonBlue
-        config.image = UIImage(resource: .magnifyingglass).withRenderingMode(.alwaysTemplate)
+        config.image = UIImage(systemName: "magnifyingglass")?.withRenderingMode(.alwaysTemplate)
         config.imagePadding = 8
         config.imagePlacement = .leading
         config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 15)
-        $0.titleLabel?.font = Pretendard.semibold.dynamicFont(style: .headline)
+        
+        var attributedTitle = AttributedString("책 검색")
+        attributedTitle.font = Pretendard.bold.dynamicFont(style: .headline)
+        attributedTitle.foregroundColor = UIColor.black
+        config.attributedTitle = attributedTitle
+        
         $0.configuration = config
         $0.layer.cornerRadius = 15
         $0.clipsToBounds = true
-        $0.titleLabel?.numberOfLines = 1
         $0.tintColor = .black
     }
 
@@ -67,17 +71,21 @@ class AddPassageContainerView: UIView {
     
     lazy var verseTextView = UITextView().then {
         $0.text = "텍스트를 입력하세요"
-        $0.textContainerInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
-        $0.font = Pretendard.regular.dynamicFont(style: .body)
+        $0.textContainerInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 16.0, right: 16.0)
         $0.showsVerticalScrollIndicator = false
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 8.0
-        let attributedString = NSAttributedString(string: $0.text ?? "", attributes: [.paragraphStyle: paragraphStyle])
+        let font = Pretendard.regular.dynamicFont(style: .body)
+        let attributes: [NSAttributedString.Key: Any] = [
+            .paragraphStyle: paragraphStyle,
+            .font: font
+        ]
+        let attributedString = NSAttributedString(string: $0.text ?? "", attributes: attributes)
         $0.attributedText = attributedString
         $0.textColor = .textFieldGray
         $0.backgroundColor = .white
     }
-    
+
     let characterCountLabel = UILabel().then {
         $0.textColor = .textFieldGray
         $0.font = Pretendard.bold.dynamicFont(style: .footnote)

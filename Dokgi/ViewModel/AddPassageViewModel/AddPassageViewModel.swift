@@ -17,6 +17,7 @@ class AddPassageViewModel {
     var images: [UIImage] = []
     var keywords: [String] = []
     var pageType: Bool = true
+    var showUi: Bool = false
     var recognizedText: String = "" {
         didSet {
             onRecognizedTextUpdate?(recognizedText)
@@ -24,6 +25,10 @@ class AddPassageViewModel {
     }
     
     // MARK: - func
+    func removeEmptyKeywords() {
+        keywords = keywords.filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+    }
+    
     func visionKit(presenter: UIViewController) {
         let scan = VNDocumentCameraViewController()
         scan.delegate = presenter as? VNDocumentCameraViewControllerDelegate

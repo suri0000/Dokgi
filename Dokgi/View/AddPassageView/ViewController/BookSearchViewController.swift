@@ -14,6 +14,7 @@ import SnapKit
 class BookSearchViewController: UIViewController {
     
     weak var delegate: BookSelectionDelegate?
+    let addPassage = AddPassageViewController()
     private let viewModel = BookSearchViewModel()
     private let containerView = BookSearchContainerView()
     private let monitor = NWPathMonitor()
