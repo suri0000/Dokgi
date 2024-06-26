@@ -71,12 +71,6 @@ class AddPassageViewModel {
         }
     }
     
-    func formatAuthors(from authorString: String) -> String {
-        let authors = authorString.components(separatedBy: "^")
-        let formattedAuthorString = authors.joined(separator: ", ")
-        return formattedAuthorString
-    }
-    
     func savePassage(selectedBook: Item?, passageText: String, pageNumberText: String?, pageType: Bool, keywords: [String], completion: @escaping (Bool) -> Void) {
         guard let book = selectedBook,
               let pageNumberText = pageNumberText,
@@ -92,7 +86,7 @@ class AddPassageViewModel {
         // Verse 인스턴스 생성
         let passage = Passage(title: book.title, passage: passageText, page: pageNumber, pageType: pageType, date: currentDate, keywords: keywords)
         
-        CoreDataManager.shared.saveData(author: formatAuthors(from: book.author), image: book.image, passage: passage)
+        CoreDataManager.shared.saveData(author: book.formattedAuthor, image: book.image, passage: passage)
         completion(true)
     }
     

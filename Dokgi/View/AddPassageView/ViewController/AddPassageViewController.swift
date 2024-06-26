@@ -154,7 +154,7 @@ class AddPassageViewController: UIViewController {
             containerView.infoView.titleLabel.text = book.title
             containerView.infoView.titleLabel.font = Pretendard.semibold.dynamicFont(style: .headline)
             containerView.infoView.titleLabel.textColor = .black
-            containerView.infoView.authorLabel.text = viewModel.formatAuthors(from: book.author)
+            containerView.infoView.authorLabel.text = book.formattedAuthor
             if let url = URL(string: book.image) {
                 containerView.infoView.imageView.kf.setImage(with: url)
                 containerView.infoView.imageView.contentMode = .scaleAspectFill
