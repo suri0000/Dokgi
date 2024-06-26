@@ -43,19 +43,23 @@ class AddPassageContainerView: UIView {
     
     let searchButton = UIButton(type: .system).then {
         var config = UIButton.Configuration.filled()
-        config.title = "책 검색"
         config.baseForegroundColor = .black
         config.baseBackgroundColor = .searchButtonBlue
-        config.image = UIImage(resource: .magnifyingglass).withRenderingMode(.alwaysTemplate)
+        config.image = UIImage(systemName: "magnifyingglass")?.withRenderingMode(.alwaysTemplate)
         config.imagePadding = 8
         config.imagePlacement = .leading
         config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 15)
+        
+        var attributedTitle = AttributedString("책 검색")
+        attributedTitle.font = Pretendard.bold.dynamicFont(style: .headline)
+        attributedTitle.foregroundColor = UIColor.black
+        config.attributedTitle = attributedTitle
+        
         $0.configuration = config
         $0.layer.cornerRadius = 15
         $0.clipsToBounds = true
         $0.titleLabel?.numberOfLines = 1
         $0.tintColor = .black
-        $0.titleLabel?.font = Pretendard.bold.dynamicFont(style: .headline)
     }
 
     let textViewBoder = UIView().then {
