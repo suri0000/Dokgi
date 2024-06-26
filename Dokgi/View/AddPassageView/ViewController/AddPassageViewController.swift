@@ -268,7 +268,6 @@ extension AddPassageViewController: UICollectionViewDelegate, UICollectionViewDa
         let textSize = (keyword as NSString).size(withAttributes: attributes)
         let cellWidth = textSize.width + 40
         let cellHeight: CGFloat = 34
-        
         return CGSize(width: cellWidth, height: cellHeight)
     }
 }
