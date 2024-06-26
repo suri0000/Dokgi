@@ -4,7 +4,7 @@
 //
 //  Created by t2023-m0095 on 6/10/24.
 //
-
+import RxCocoa
 import RxSwift
 import SnapKit
 import Then
@@ -14,6 +14,8 @@ class PassageViewController: BaseLibraryAndPassageViewController {
     
     let passageViewModel = PassageViewModel()
     var disposeBag = DisposeBag()
+    
+    private var isFiltering: Bool = false
     
     let selectionButton = UIButton().then {
         $0.backgroundColor = .white
@@ -47,35 +49,18 @@ class PassageViewController: BaseLibraryAndPassageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setLabelText(title: "구절", placeholder: "기록한 구절을 검색해보세요", noResultsMessage: "기록한 구절이 없어요\n구절을 등록해 보세요")
+        
+        setButtonActions()
+    }
+    
+    override func configureUI() {
         passageCollectionView.delegate = self
         passageCollectionView.dataSource = self
         
         let layout = PassageCollectionViewLayout()
         passageCollectionView.collectionViewLayout = layout
         layout.delegate = self
-        setLabelText(title: "구절", placeholder: "기록한 구절을 검색해보세요", noResultsMessage: "기록한 구절이 없어요\n구절을 등록해 보세요")
-        setButtonActions()
-        initLayout()
-        setBinding()
-        CoreDataManager.shared.passageData.subscribe(with: self) { (self, data) in
-            if let layout = self.passageCollectionView.collectionViewLayout as? PassageCollectionViewLayout {
-                layout.invalidateCache()
-            }
-            self.passageCollectionView.isHidden = data.count < 0
-            self.noResultsLabel.isHidden = data.count > 0
-            self.noResultsLabel.text = "검색결과가 없습니다."
-            self.passageCollectionView.reloadData()
-        }.disposed(by: disposeBag)
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(true)
-        self.searchBar.resignFirstResponder()
-        self.searchBar.showsCancelButton = false
-    }
-    
-    override func initLayout() {
-        view.backgroundColor = .white
         
         [selectionButton, doneButton, passageCollectionView].forEach {
             view.addSubview($0)
@@ -116,24 +101,37 @@ class PassageViewController: BaseLibraryAndPassageViewController {
     }
     
     override func setBinding() {
+        CoreDataManager.shared.passageData.subscribe(with: self) { (self, data) in
+            if let layout = self.passageCollectionView.collectionViewLayout as? PassageCollectionViewLayout {
+                layout.invalidateCache()
+            }
+            self.passageCollectionView.isHidden = data.count == 0
+            self.noResultsLabel.isHidden = data.count > 0
+            if self.isFiltering { self.noResultsLabel.text = "검색결과가 없습니다." }
+            self.passageCollectionView.reloadData()
+        }.disposed(by: disposeBag)
+        
         searchBar.searchTextField.rx.controlEvent(.editingDidBegin).subscribe(with: self) { (self, _) in
+            self.isFiltering = true
             self.searchBar.showsCancelButton = true
         }.disposed(by: disposeBag)
         
         searchBar.rx.searchButtonClicked.subscribe(with: self) { (self, _) in
             self.searchBar.resignFirstResponder()
             self.searchBar.showsCancelButton = false
+            self.isFiltering = false
         }.disposed(by: disposeBag)
         
         searchBar.rx.cancelButtonClicked.subscribe(with: self) { (self, _) in
             self.searchBar.resignFirstResponder()
             self.searchBar.showsCancelButton = false
+            self.isFiltering = false
             self.searchBar.text = ""
         }.disposed(by: disposeBag)
         
         searchBar.rx.text.debounce(.milliseconds(250), scheduler: MainScheduler.instance).subscribe(with: self) { (self, text) in
             CoreDataManager.shared.readPassage(text: text ?? "")
-            if self.sortButton.sortButtonTitleLabel.text == "최신순"{
+            if self.sortButton.sortButtonTitleLabel.text == "최신순" {
                 self.passageViewModel.dataLatest()
             } else {
                 self.passageViewModel.dataOldest()
@@ -182,7 +180,7 @@ extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.deleteButton.isHidden = !isEditingMode
         cell.delegate = self
 
-        cell.paragraphLabel.text = CoreDataManager.shared.passageData.value[indexPath.item].passage
+        cell.passageLabel.text = CoreDataManager.shared.passageData.value[indexPath.item].passage
         let dateString = String(CoreDataManager.shared.passageData.value[indexPath.item].date.toString()).suffix(10)
         cell.dateLabel.text = String(dateString)
         
@@ -229,11 +227,11 @@ extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataS
         let leftRightinsets: CGFloat = 15 * 2
         let width = (collectionView.bounds.width - (collectionView.contentInset.left + collectionView.contentInset.right + cellPadding * 4)) / 2 - leftRightinsets + 0.5
         
-        let paragraphLabelHeight = heightForText(text, width: width)
-        let paragraphDateSpacing: CGFloat = 30
+        let passageLabelHeight = heightForText(text, width: width)
+        let passageDateSpacing: CGFloat = 30
         let dateLabelHeight: CGFloat = heightForDateText(date, width: width)
         let topBottomPadding: CGFloat = 14 * 2
-        return paragraphLabelHeight + paragraphDateSpacing + dateLabelHeight + topBottomPadding
+        return passageLabelHeight + passageDateSpacing + dateLabelHeight + topBottomPadding
     }
     
     func tappedDeleteButton(in cell: PassageCollectionViewCell) {

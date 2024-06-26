@@ -16,7 +16,7 @@ class PassageCollectionViewCell: UICollectionViewCell {
     static let identifier = "PassageCollectionViewCell"
     
     let deleteButton = UIButton()
-    let paragraphLabel = UILabel()
+    let passageLabel = UILabel()
     let dateLabel = UILabel()
     weak var delegate: PassageCollectionViewCellDelegate?
     
@@ -35,10 +35,10 @@ class PassageCollectionViewCell: UICollectionViewCell {
         deleteButton.setImage(.deleteParagraph, for: .normal)
         deleteButton.addTarget(self, action: #selector(tappedDeleteButton), for: .touchUpInside)
 
-        paragraphLabel.font = Pretendard.regular.dynamicFont(style: .subheadline)
-        paragraphLabel.numberOfLines = 0  //자동 줄바꿈
-        paragraphLabel.lineBreakMode = .byCharWrapping
-        paragraphLabel.textColor = .black
+        passageLabel.font = Pretendard.regular.dynamicFont(style: .subheadline)
+        passageLabel.numberOfLines = 0  //자동 줄바꿈
+        passageLabel.lineBreakMode = .byCharWrapping
+        passageLabel.textColor = .black
         
         dateLabel.font = Pretendard.regular.dynamicFont(style: .caption2)
         dateLabel.textColor = .alarmMemoGray
@@ -46,7 +46,7 @@ class PassageCollectionViewCell: UICollectionViewCell {
     }
     
     func setConstraints() {
-        [deleteButton, paragraphLabel, dateLabel].forEach {
+        [deleteButton, passageLabel, dateLabel].forEach {
             contentView.addSubview($0)
         }
         
@@ -55,12 +55,12 @@ class PassageCollectionViewCell: UICollectionViewCell {
             $0.width.height.equalTo(26)
         }
         
-        paragraphLabel.snp.makeConstraints {
+        passageLabel.snp.makeConstraints {
             $0.top.trailing.leading.equalToSuperview().inset(15)
         }
         
         dateLabel.snp.makeConstraints {
-            $0.top.equalTo(paragraphLabel.snp.bottom).offset(30)
+            $0.top.equalTo(passageLabel.snp.bottom).offset(30)
             $0.bottom.trailing.equalToSuperview().inset(15)
         }
     }

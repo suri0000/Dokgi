@@ -11,7 +11,7 @@ import SnapKit
 import Then
 import UIKit
 
-class LibraryViewController: BaseLibraryAndPassageViewController, UISearchBarDelegate {
+class LibraryViewController: BaseLibraryAndPassageViewController {
     
     let libraryCollectionView = LibraryCollectionView()
     
@@ -19,33 +19,27 @@ class LibraryViewController: BaseLibraryAndPassageViewController, UISearchBarDel
     let disposeBag = DisposeBag()
     
     private var isFiltering: Bool = false
-    private var isLatestFirst: Bool = true
-    private var isOldestFirst: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-     
-        searchBar.delegate = self
         
-        libraryCollectionView.delegate = self
-        libraryCollectionView.dataSource = self
-        
-        setLabelText(title: "서재", placeholder: "기록한 책을 검색해보세요", noResultsMessage: "기록한 책이 없어요\n구절을 등록해 보세요")
+        setLabelText(title: "서재", placeholder: "기록한 책 또는 책의 저자를 검색해보세요", noResultsMessage: "기록한 책이 없어요\n구절을 등록해 보세요")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(true, animated: animated)
-
+        
         CoreDataManager.shared.readBook()
-        if sortButton.sortButtonTitleLabel.text == "오래된순" {
-
-            self.libraryViewModel.dataOldest()
-        }
-        self.libraryCollectionView.reloadData()
+        //        if sortButton.sortButtonTitleLabel.text == "오래된순" {
+        //
+        //            self.libraryViewModel.dataOldest()
+        //        }
+        //        self.libraryCollectionView.reloadData()
     }
     
-    override func initLayout() {
-        view.backgroundColor = .white
+    override func configureUI() {
+        libraryCollectionView.delegate = self
+        libraryCollectionView.dataSource = self
         
         view.addSubview(libraryCollectionView)
         
@@ -53,37 +47,45 @@ class LibraryViewController: BaseLibraryAndPassageViewController, UISearchBarDel
             $0.top.equalTo(sortButton.snp.bottom).offset(20)
             $0.bottom.leading.trailing.equalToSuperview()
         }
+        
+        view.sendSubviewToBack(libraryCollectionView)
     }
     
     override func setBinding() {
-//        CoreDataManager.shared.bookData.subscribe(with: self) { (self, bookData) in
-//            self.libraryViewModel.dataFilter(verses: bookData)
-//        }.disposed(by: disposeBag)
-        
-        libraryViewModel.libraryData.subscribe(with: self) { (self, bookData) in
+        CoreDataManager.shared.bookData.subscribe(with: self) { (self, data) in
+            self.libraryCollectionView.isHidden = data.count < 0
+            self.noResultsLabel.isHidden = data.count > 0
+            if self.isFiltering { self.noResultsLabel.text = "검색결과가 없습니다." }
             self.libraryCollectionView.reloadData()
         }.disposed(by: disposeBag)
         
-        self.searchBar.searchTextField.rx.controlEvent(.editingDidBegin).subscribe(with: self) { (self, _) in
+        searchBar.searchTextField.rx.controlEvent(.editingDidBegin).subscribe(with: self) { (self, _) in
+            self.isFiltering = true
             self.searchBar.showsCancelButton = true
         }.disposed(by: disposeBag)
         
-        self.searchBar.rx.text.debounce(.milliseconds(500), scheduler: MainScheduler.instance).subscribe(with: self) { (self, text) in
-            guard let text = text else { return }
-            CoreDataManager.shared.readBook(text: text)
-        }.disposed(by: disposeBag)
-        
-        self.searchBar.rx.searchButtonClicked.subscribe(with: self) { (self, _) in
+        searchBar.rx.searchButtonClicked.subscribe(with: self) { (self, _) in
             self.searchBar.resignFirstResponder()
             self.searchBar.showsCancelButton = false
+            self.isFiltering = false
         }.disposed(by: disposeBag)
         
-        self.searchBar.rx.cancelButtonClicked.subscribe(with: self) { (self, _) in
+        searchBar.rx.cancelButtonClicked.subscribe(with: self) { (self, _) in
             self.searchBar.resignFirstResponder()
             self.searchBar.showsCancelButton = false
+            self.isFiltering = false
+            self.searchBar.text = ""
+        }.disposed(by: disposeBag)
+        
+        searchBar.rx.text.debounce(.milliseconds(250), scheduler: MainScheduler.instance).subscribe(with: self) { (self, text) in
+            CoreDataManager.shared.readBook(text: text ?? "")
+            if self.sortButton.sortButtonTitleLabel.text == "최신순" {
+                self.libraryViewModel.dataLatest()
+            } else {
+                self.libraryViewModel.dataOldest()
+            }
         }.disposed(by: disposeBag)
     }
-    
     //MARK: -버튼 클릭 시
     override func latestButtonAction() {
         self.libraryViewModel.dataLatest()
@@ -93,33 +95,31 @@ class LibraryViewController: BaseLibraryAndPassageViewController, UISearchBarDel
         self.libraryViewModel.dataOldest()
     }
 }
+
 //MARK: - CollectionView
 extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let cellCount = libraryViewModel.libraryData.value.count
-        
-        noResultsLabel.isHidden = cellCount > 0
-        if isFiltering { noResultsLabel.text = "검색결과가 없습니다." }
-        
-        return cellCount
+        return CoreDataManager.shared.bookData.value.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryCollectionViewCell.identifier, for: indexPath) as? LibraryCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.authorNameLabel.text = libraryViewModel.libraryData.value[indexPath.row].author
-        cell.bookNameLabel.text = libraryViewModel.libraryData.value[indexPath.row].title
-        if let url = URL(string: libraryViewModel.libraryData.value[indexPath.row].image) {
-            cell.bookImageView.kf.setImage(with: url)
-        }
+        
+        let book = CoreDataManager.shared.bookData.value[indexPath.item]
+        cell.authorNameLabel.text = book.author
+        cell.bookNameLabel.text = book.title
+        if let url = URL(string: book.image) {
+                    cell.bookImageView.kf.setImage(with: url)
+                }
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let bookDetailViewController = BookDetailViewController()
-        bookDetailViewController.viewModel.bookInfo.accept(libraryViewModel.libraryData.value[indexPath.row])
+        bookDetailViewController.viewModel.bookInfo.accept(CoreDataManager.shared.bookData.value[indexPath.item])
         self.navigationController?.pushViewController(bookDetailViewController, animated: true)
     }
 }
