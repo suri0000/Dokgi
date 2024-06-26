@@ -33,6 +33,7 @@ class AddPassageViewController: UIViewController {
         setupActions()
         updateCharacterCountLabel()
         containerView.updateViewForSearchResult(isSearched: false)
+        containerView.updateViewForKeyword(isAdded: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -43,7 +44,6 @@ class AddPassageViewController: UIViewController {
     func setupViews() {
         view.backgroundColor = .white
         containerView.pageSegment.selectedIndex = 0
-//        containerView.updateViewForSearchResult(isSearched: false)
         viewModel.onRecognizedTextUpdate = { [weak self] recognizedText in
             self?.updateTextView(with: recognizedText)
         }
@@ -65,7 +65,6 @@ class AddPassageViewController: UIViewController {
         containerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
             $0.width.equalToSuperview()
-            $0.height.greaterThanOrEqualTo(800)
         }
     }
     
@@ -175,6 +174,9 @@ class AddPassageViewController: UIViewController {
     func removeKeyword(at indexPath: IndexPath) {
         let reversedIndex = viewModel.keywords.count - 1 - indexPath.item
         viewModel.keywords.remove(at: reversedIndex)
+        if viewModel.keywords.count == 0 {
+            containerView.updateViewForKeyword(isAdded: true)
+        }
         containerView.keywordCollectionView.reloadData()
     }
 }
@@ -207,6 +209,7 @@ extension AddPassageViewController: UITextFieldDelegate {
                 }
             }
         }
+        containerView.updateViewForKeyword(isAdded: false)
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {

@@ -279,6 +279,23 @@ class AddPassageContainerView: UIView {
         }
         layoutIfNeeded()
     }
+    
+    func updateViewForKeyword(isAdded: Bool) {
+        keywordCollectionView.isHidden = isAdded
+
+        if isAdded {
+            pageLabel.snp.remakeConstraints {
+                $0.top.equalTo(keywordField.snp.bottom).offset(24)
+                $0.leading.equalToSuperview().offset(16)
+            }
+        } else {
+            pageLabel.snp.remakeConstraints {
+                $0.top.equalTo(keywordCollectionView.snp.bottom).offset(60)
+                $0.leading.equalToSuperview().offset(16)
+            }
+        }
+        layoutIfNeeded()
+    }
 }
 
 extension AddPassageContainerView {
