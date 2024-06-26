@@ -25,6 +25,8 @@ class BookCell: UITableViewCell {
     }
     
     private func setupUI() {
+        self.backgroundColor = .white
+        
         contentView.addSubview(bookImageView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(authorLabel)
@@ -58,7 +60,7 @@ class BookCell: UITableViewCell {
     
     func configure(with item: Item) {
         titleLabel.text = item.title
-        authorLabel.text = item.author
+        authorLabel.text = item.formattedAuthor
         
         if let url = URL(string: item.image) {
             bookImageView.kf.setImage(with: url)

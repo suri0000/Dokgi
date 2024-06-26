@@ -45,8 +45,6 @@ class AddPassageViewModel {
         }
     }
     
-
-    
     private func createTextRecognitionRequest() -> VNRecognizeTextRequest {
         return VNRecognizeTextRequest { [weak self] (request, error) in
             self?.handleTextRecognition(request: request, error: error)
@@ -88,7 +86,7 @@ class AddPassageViewModel {
         // Verse 인스턴스 생성
         let passage = Passage(title: book.title, passage: passageText, page: pageNumber, pageType: pageType, date: currentDate, keywords: keywords)
         
-        CoreDataManager.shared.saveData(author: book.author, image: book.image, passage: passage)
+        CoreDataManager.shared.saveData(author: book.formattedAuthor, image: book.image, passage: passage)
         completion(true)
     }
     

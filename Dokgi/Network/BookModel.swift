@@ -14,6 +14,17 @@ struct SearchBookResponse: Codable {
 
 // MARK: - Item
 struct Item: Codable {
-    let title, image, author : String
+    let title, image: String
+    let author: String
+    
+    enum CodingKeys: String, CodingKey {
+        case title, image, author
+    }
+}
+
+extension Item {
+    var formattedAuthor: String {
+        return author.replacingOccurrences(of: "^", with: ", ")
+    }
 }
 

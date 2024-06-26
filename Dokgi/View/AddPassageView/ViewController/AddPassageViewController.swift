@@ -32,6 +32,8 @@ class AddPassageViewController: UIViewController {
         setConstraints()
         setupActions()
         updateCharacterCountLabel()
+        containerView.updateViewForSearchResult(isSearched: false)
+        containerView.updateViewForKeyword(isAdded: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,6 +53,7 @@ class AddPassageViewController: UIViewController {
         containerView.keywordCollectionView.delegate = self
         containerView.keywordCollectionView.dataSource = self
         containerView.keywordField.delegate = self
+        containerView.pageNumberTextField.delegate = self
         containerView.verseTextView.delegate = self
     }
     
@@ -61,9 +64,7 @@ class AddPassageViewController: UIViewController {
         }
         
         containerView.snp.makeConstraints {
-            $0.edges.equalTo(scrollView.contentLayoutGuide)
-            $0.width.equalTo(scrollView.snp.width)
-            $0.height.greaterThanOrEqualTo(1000)
+            $0.edges.width.equalToSuperview()
         }
     }
     
@@ -152,14 +153,13 @@ class AddPassageViewController: UIViewController {
             containerView.infoView.titleLabel.text = book.title
             containerView.infoView.titleLabel.font = Pretendard.semibold.dynamicFont(style: .headline)
             containerView.infoView.titleLabel.textColor = .black
-            containerView.infoView.authorLabel.text = book.author
+            containerView.infoView.authorLabel.text = book.formattedAuthor
             if let url = URL(string: book.image) {
                 containerView.infoView.imageView.kf.setImage(with: url)
                 containerView.infoView.imageView.contentMode = .scaleAspectFill
             }
         }
-        containerView.infoViewOverLapView.isHidden = true
-        containerView.searchButton.isHidden = true
+        containerView.updateViewForSearchResult(isSearched: true)
     }
     
     private func updateTextView(with text: String) {
@@ -174,6 +174,9 @@ class AddPassageViewController: UIViewController {
     func removeKeyword(at indexPath: IndexPath) {
         let reversedIndex = viewModel.keywords.count - 1 - indexPath.item
         viewModel.keywords.remove(at: reversedIndex)
+        if viewModel.keywords.count == 0 {
+            containerView.updateViewForKeyword(isAdded: true)
+        }
         containerView.keywordCollectionView.reloadData()
     }
 }
@@ -181,8 +184,13 @@ class AddPassageViewController: UIViewController {
 // MARK: - UITextFieldDelegate
 extension AddPassageViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == containerView.pageNumberTextField {
+            textField.resignFirstResponder()
+            return true
+        }
+        
         if let keyword = textField.text, !keyword.isEmpty {
-            if viewModel.keywords.count < 11 { // 10일 경우 alert 반복
+            if viewModel.keywords.count < 11 {
                 viewModel.keywords[textField.tag] = keyword
                 containerView.keywordCollectionView.reloadData()
             } else {
@@ -195,6 +203,8 @@ extension AddPassageViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        guard textField == containerView.keywordField else { return }
+        
         if let text = textField.text, text.isEmpty {
             if !viewModel.keywords.contains("") {
                 if viewModel.keywords.count < 10 {
@@ -206,9 +216,12 @@ extension AddPassageViewController: UITextFieldDelegate {
                 }
             }
         }
+        containerView.updateViewForKeyword(isAdded: false)
     }
-    
+
     @objc func textFieldDidChange(_ textField: UITextField) {
+        guard textField == containerView.keywordField else { return }
+        
         if let text = textField.text {
             if viewModel.keywords.count > textField.tag {
                 viewModel.keywords[textField.tag] = text
@@ -216,8 +229,10 @@ extension AddPassageViewController: UITextFieldDelegate {
             containerView.keywordCollectionView.reloadData()
         }
     }
-    
+
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard textField == containerView.keywordField else { return true }
+        
         guard let currentText = textField.text as NSString? else { return true }
         let newText = currentText.replacingCharacters(in: range, with: string)
         return newText.count <= 20
@@ -258,8 +273,8 @@ extension AddPassageViewController: UICollectionViewDelegate, UICollectionViewDa
 // MARK: - 텍스트뷰 placeholder
 extension AddPassageViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        guard containerView.verseTextView.textColor == .placeholderText else { return }
-        containerView.verseTextView.textColor = .label
+        guard containerView.verseTextView.textColor == .textFieldGray else { return }
+        containerView.verseTextView.textColor = .black
         containerView.verseTextView.font = Pretendard.regular.dynamicFont(style: .body)
         containerView.verseTextView.text = nil
         updateCharacterCountLabel()
@@ -268,7 +283,7 @@ extension AddPassageViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = "텍스트를 입력하세요"
-            textView.textColor = .placeholderText
+            textView.textColor = .textFieldGray
         }
         updateCharacterCountLabel()
     }
