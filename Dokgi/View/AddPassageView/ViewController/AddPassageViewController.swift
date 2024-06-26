@@ -64,8 +64,7 @@ class AddPassageViewController: UIViewController {
         }
         
         containerView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-            $0.width.equalToSuperview()
+            $0.edges.width.equalToSuperview()
         }
     }
     

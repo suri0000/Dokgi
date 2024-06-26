@@ -172,9 +172,8 @@ class AddPassageContainerView: UIView {
         }
         
         searchButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(16)
+            $0.top.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(50)
-            $0.horizontalEdges.equalToSuperview().inset(16)
         }
         
         passageLabel.snp.makeConstraints {
