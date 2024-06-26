@@ -11,7 +11,8 @@ class TabBarViewController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tabBar.backgroundColor = .white.withAlphaComponent(0.7)
+        tabBar.backgroundColor = .white
+        tabBar.backgroundImage = UIImage()
         tabBar.layer.backgroundColor = UIColor.clear.cgColor
         setUpBlur()
         
