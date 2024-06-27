@@ -115,6 +115,10 @@ class BookDetailViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
         blurLayer(layer: gradientLayer, view: gradientLayerView)
         blurLayer(layer: buttonBackgroundLayer, view: buttonBackgroundView)
+        CoreDataManager.shared.readBook(text: self.viewModel.bookInfo.value.title)
+        CoreDataManager.shared.bookData.subscribe { data in
+        self.viewModel.bookInfo.accept(data[0])
+        }.disposed(by: disposeBag)
     }
     
     private func bindViewModel() {
@@ -206,7 +210,7 @@ class BookDetailViewController: UIViewController {
         }
         
         addPassageButton.snp.makeConstraints {
-            $0.bottom.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
             $0.centerX.equalTo(buttonBackgroundView)
         }
         
