@@ -27,10 +27,6 @@ class LibraryCollectionViewCell: UICollectionViewCell {
     }
     
     func setCell() {
-        backgroundColor = .yellow
-        bookNameLabel.backgroundColor = .white
-        authorNameLabel.backgroundColor = .green
-        
         self.contentView.layer.cornerRadius = 15
         self.contentView.layer.masksToBounds = true
         
@@ -66,13 +62,17 @@ class LibraryCollectionViewCell: UICollectionViewCell {
         
         bookNameLabel.snp.makeConstraints {
             $0.top.equalTo(bookImageView.snp.bottom).offset(5)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.greaterThanOrEqualTo(10)
+            $0.leading.trailing.equalToSuperview().inset(5)
+            $0.height.equalTo(40)
         }
         
         authorNameLabel.snp.makeConstraints {
-            $0.top.equalTo(bookNameLabel.snp.bottom).offset(3)
+            $0.top.greaterThanOrEqualTo(bookNameLabel.snp.bottom).offset(3)
             $0.bottom.leading.trailing.equalToSuperview()
+        }
+        
+        contentView.snp.makeConstraints {
+            $0.width.equalToSuperview()
         }
     }
 }
