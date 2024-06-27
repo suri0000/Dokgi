@@ -73,7 +73,6 @@ class CoreDataManager {
         guard let context = self.persistent?.viewContext else { return }
         let fetchRequest: NSFetchRequest<BookEntity> = BookEntity.fetchRequest()
         if text != "" {
-            fetchRequest.predicate = NSPredicate(format: "title CONTAINS[c] %@", text)
             let titlePredicate = NSPredicate(format: "title CONTAINS[c] %@", text)
             let authorPredicate = NSPredicate(format: "author CONTAINS[c] %@", text)
             fetchRequest.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: [titlePredicate, authorPredicate])
