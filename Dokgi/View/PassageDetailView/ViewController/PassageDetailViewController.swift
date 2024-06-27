@@ -153,6 +153,7 @@ class PassageDetailViewController: UIViewController {
         
         containerView.copyButton.rx.tap.subscribe(with: self) { (self, _) in
             UIPasteboard.general.string = self.containerView.passageTextLbl.text
+            self.showToast(message: "클립보드에 저장되었습니다.")
         }.disposed(by: disposeBag)
         
         containerView.pageSegment.buttons[0].rx.tap.subscribe { sender in
@@ -205,5 +206,40 @@ class PassageDetailViewController: UIViewController {
                 cell.xButton.isHidden = false
             }
         }.disposed(by: disposeBag)
+    }
+    
+    func showToast(message : String) {
+        let toastView = UIView().then {
+            $0.backgroundColor = UIColor.charcoalBlue.withAlphaComponent(0.8)
+            $0.alpha = 1.0
+            $0.layer.cornerRadius = 5
+            $0.clipsToBounds  =  true
+        }
+        let toastLabel = UILabel().then {
+            $0.textColor = UIColor.white
+            $0.font = Pretendard.regular.dynamicFont(style: .callout)
+            $0.textAlignment = .center
+            $0.text = message
+        }
+        view.addSubview(toastView)
+        toastView.addSubview(toastLabel)
+        
+        toastView.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(100)
+            $0.centerX.equalToSuperview()
+        }
+        
+        toastLabel.snp.makeConstraints {
+            $0.verticalEdges.equalToSuperview().inset(4)
+            $0.horizontalEdges.equalToSuperview().inset(8)
+        }
+        
+        UIView.animate(withDuration: 3.0, delay: 0, options: .curveEaseOut, animations: {
+            toastView.alpha = 0.0
+        }, completion: {(isCompleted) in
+            toastView.removeFromSuperview()
+            toastView.snp.removeConstraints()
+            toastLabel.snp.removeConstraints()
+        })
     }
 }

@@ -47,6 +47,16 @@ class PassageViewController: BaseLibraryAndPassageViewController {
         setButtonActions()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        CoreDataManager.shared.readPassage(text: searchBar.text ?? "")
+        if self.sortButton.sortButtonTitleLabel.text == "최신순" {
+            self.passageViewModel.dataLatest()
+        } else {
+            self.passageViewModel.dataOldest()
+        }
+    }
+    
     override func configureUI() {
         passageCollectionView.delegate = self
         passageCollectionView.dataSource = self
@@ -95,7 +105,6 @@ class PassageViewController: BaseLibraryAndPassageViewController {
     
     override func setBinding() {
         super.setBinding()
-        
         CoreDataManager.shared.passageData.subscribe(with: self) { (self, data) in
             if let layout = self.passageCollectionView.collectionViewLayout as? PassageCollectionViewLayout {
                 layout.invalidateCache()
@@ -222,8 +231,8 @@ extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataS
             CoreDataManager.shared.deleteData(passage: CoreDataManager.shared.passageData.value[indexPath.item])
             CoreDataManager.shared.readPassage(text: self?.searchBar.text ?? "")
         }
+        alert.addAction(UIAlertAction(title: "취소", style: .default, handler: nil))
         alert.addAction(okAction)
-        alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
         self.present(alert, animated: true)
     }
     
@@ -231,7 +240,19 @@ extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataS
         if !isEditingMode {
             let modalVC = PassageDetailViewController()
             modalVC.viewModel.detailPassage.accept(CoreDataManager.shared.passageData.value[indexPath.item])
+            modalVC.viewModel.delegate = self
             present(modalVC, animated: true, completion: nil)
+        }
+    }
+}
+
+extension PassageViewController: DetailViewDismiss {
+    func dataSort() {
+        CoreDataManager.shared.readPassage(text: searchBar.text ?? "")
+        if self.sortButton.sortButtonTitleLabel.text == "최신순" {
+            self.passageViewModel.dataLatest()
+        } else {
+            self.passageViewModel.dataOldest()
         }
     }
 }

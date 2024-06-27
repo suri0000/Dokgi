@@ -11,9 +11,11 @@ class TabBarViewController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tabBar.backgroundColor = .white.withAlphaComponent(0.7)
+        tabBar.backgroundColor = .white
+        tabBar.backgroundImage = UIImage()
         tabBar.layer.backgroundColor = UIColor.clear.cgColor
         setUpBlur()
+        setUpNavBlur()
         
         // 홈화면 설정
         let homePageVC = HomeViewController()
@@ -45,10 +47,20 @@ class TabBarViewController: UITabBarController {
         let blurEffect = UIBlurEffect(style: .light)
         let blurView = UIVisualEffectView(effect: blurEffect)
         blurView.frame = tabBar.bounds
+        blurView.backgroundColor = .white.withAlphaComponent(0.7)
         blurView.autoresizingMask = .flexibleWidth
         tabBar.insertSubview(blurView, at: 0)
         blurView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+    
+    private func setUpNavBlur() {
+        let navAppearance = UINavigationBarAppearance()
+        let blurEffect = UIBlurEffect(style: .light)
+        navAppearance.backgroundEffect = blurEffect
+        navAppearance.configureWithTransparentBackground()
+        navAppearance.backgroundColor = UIColor.white.withAlphaComponent(0.96)
+        UINavigationBar.appearance().standardAppearance = navAppearance
     }
 }

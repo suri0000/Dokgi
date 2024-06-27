@@ -9,11 +9,15 @@ import Foundation
 import RxCocoa
 import RxSwift
 
+protocol DetailViewDismiss {
+    func dataSort()
+}
+
 class PassageDetailViewModel {
 
     var detailPassage = BehaviorRelay<Passage>(value: Passage(title: "", passage: "", page: 0, pageType: true, date: Date(), keywords: []))
     var keywords = BehaviorRelay<[String]>(value: [])
-    
+    var delegate : DetailViewDismiss?
     func deleteDetailKeyword(keyword: Int) {
         var tmp = self.keywords.value
         if tmp.isEmpty == false {
@@ -48,6 +52,6 @@ class PassageDetailViewModel {
         verse.page = (pageType == 0 ? Int(page.page()) : Int(page.percent()))!
         detailPassage.accept(verse)
         CoreDataManager.shared.updateData(passage: self.detailPassage.value)
-        CoreDataManager.shared.readPassage()
+        delegate?.dataSort()
     }
 }

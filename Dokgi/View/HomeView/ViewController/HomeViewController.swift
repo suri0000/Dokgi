@@ -49,13 +49,7 @@ class HomeViewController: UIViewController, HomeViewDelegate {
         self.navigationController?.navigationBar.isHidden = true
         CoreDataManager.shared.readPassage()
         
-        // 오늘의 구절 업데이트
-        CoreDataManager.shared.bookData
-            .take(1)
-            .subscribe(onNext: { [weak self] _ in
-                self?.viewModel.loadTodayVerses()
-            })
-            .disposed(by: disposeBag)
+        viewModel.loadTodayVerses()
     }
     
     func setupConstraints() {
@@ -110,7 +104,7 @@ class HomeViewController: UIViewController, HomeViewDelegate {
         viewModel.randomVerses
             .subscribe(onNext: { [weak self] value in
                 self?.homeView.todayVersesColletionView.reloadData()
-                self?.homeView.indicatorDots.numberOfPages = value.count
+                self?.homeView.indicatorDots.numberOfPages = 5
             })
             .disposed(by: viewModel.disposeBag)
     }
@@ -148,9 +142,9 @@ class HomeViewController: UIViewController, HomeViewDelegate {
     }
     // 배너 움직이는 매서드
     func bannerMove() {
-        if nowPage == viewModel.randomVerses.value.count - 1 {
+        if nowPage == 4 {
             scrollToFirstPage()
-        } else if viewModel.randomVerses.value.count > nowPage {
+        } else {
             scrollNextToPage(nowPage)
         }
     }
@@ -181,18 +175,9 @@ extension HomeViewController: UICollectionViewDataSource {
         if collectionView == homeView.currentLevelCollectionView {
             let currentLevel = viewModel.currentLevel
             return min(currentLevel.value + 1, viewModel.levelCards.count)
-        } else if collectionView == homeView.todayVersesColletionView {
-            
-            switch viewModel.randomVerses.value.count {
-            case 1...4:
-                return viewModel.randomVerses.value.count
-            case 5...:
-                return 5
-            default:
-                return 1
-            }
+        } else {
+            return 5
         }
-        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -227,10 +212,11 @@ extension HomeViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayPassageCell.identifier, for: indexPath) as? TodayPassageCell else { return UICollectionViewCell() }
             
             let randomVerses = viewModel.randomVerses.value
-            if indexPath.item < randomVerses.count {
+            if randomVerses.isEmpty || indexPath.item >= randomVerses.count {
+                let explainTexts = ["구절을 기록해주세요!", "오늘의 구절은 최대 5개까지 보여집니다", "매일 보여지는 구절은 기록한 구절 중 랜덤으로 보여집니다", "다른 구절을 보고 싶으시면 구절탭을 확인해주세요", "독기와 함께 오늘도 즐거운 독서와 기록 하세요"]
+                cell.verse.text = explainTexts[indexPath.item]
+            } else {
                 cell.verse.text = randomVerses[indexPath.item]
-            } else if randomVerses.count == 0 {
-                cell.verse.text = "구절을 기록해주세요!"
             }
             return cell
         }

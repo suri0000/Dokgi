@@ -31,9 +31,10 @@ class BookCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(authorLabel)
         
+        titleLabel.textColor = .black
+        authorLabel.textColor = .authorLabelGray
         titleLabel.font = Pretendard.semibold.dynamicFont(style: .body)
         authorLabel.font = Pretendard.semibold.dynamicFont(style: .body)
-        authorLabel.textColor = .authorLabelGray
         bookImageView.contentMode = .scaleAspectFill
         bookImageView.layer.cornerRadius = 15
         bookImageView.clipsToBounds = true

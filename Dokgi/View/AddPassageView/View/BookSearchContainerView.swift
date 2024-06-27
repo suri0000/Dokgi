@@ -67,7 +67,6 @@ class BookSearchContainerView: UIView {
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 100, height: 30)
         layout.minimumInteritemSpacing = 10
         layout.minimumLineSpacing = 10
         return UICollectionView(frame: .zero, collectionViewLayout: layout).then {
