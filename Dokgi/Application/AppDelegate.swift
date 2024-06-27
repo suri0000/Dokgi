@@ -5,16 +5,56 @@
 //  Created by 송정훈 on 6/3/24.
 //
 
-import UIKit
 import CoreData
+import IQKeyboardManagerSwift
+import NotificationCenter
+import UIKit
 
 @main
+
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        //런치스크린 시간
+        sleep(1)
+        
+        let viewModel = DayTimeViewModel()
+        
+        UNUserNotificationCenter.current().delegate = self
+        
+        let authOptions: UNAuthorizationOptions = [.alert, .sound] // 필요한 알림 권한을 설정
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: { didAllow, _ in
+                if didAllow {
+                    UserDefaults.standard.set(true, forKey: UserDefaultsKeys.notification.rawValue)
+                    if UserDefaults.standard.bool(forKey: UserDefaultsKeys.lauchedBefore.rawValue) == false {
+                        UserDefaults.standard.set(true, forKey: UserDefaultsKeys.remindSwitch.rawValue)
+                        viewModel.sendLocalPushRemind(identifier: "remindTime", time: [3, 0, 1])
+                        UserDefaults.standard.set(true, forKey: UserDefaultsKeys.writeSwitch.rawValue)
+                        viewModel.sendLocalPushWrite(identifier: "writeTime", time: [3, 0, 1], day: [1, 1, 1, 1, 1, 1, 1])
+                        UserDefaults.standard.set(true, forKey: UserDefaultsKeys.lauchedBefore.rawValue)
+                    }
+                } else {
+                    UserDefaults.standard.set(false, forKey: UserDefaultsKeys.notification.rawValue)
+                    if UserDefaults.standard.bool(forKey: UserDefaultsKeys.lauchedBefore.rawValue) == false {
+                        UserDefaults.standard.set(false, forKey: UserDefaultsKeys.remindSwitch.rawValue)
+                        UserDefaults.standard.set(false, forKey: UserDefaultsKeys.writeSwitch.rawValue)
+                        UserDefaults.standard.set(true, forKey: UserDefaultsKeys.lauchedBefore.rawValue)
+                    }
+                }
+            }
+        )
+        if UserDefaults.standard.bool(forKey: UserDefaultsKeys.remindSwitch.rawValue) == true {
+            viewModel.sendLocalPushRemind(identifier: "remindTime", time: UserDefaults.standard.array(forKey: UserDefaultsKeys.remindTime.rawValue) as? [Int] ?? [3, 00, 1])
+        }
+        if UserDefaults.standard.bool(forKey: UserDefaultsKeys.writeSwitch.rawValue) == true {
+            viewModel.sendLocalPushWrite(identifier: "writeTime", time: UserDefaults.standard.array(forKey: UserDefaultsKeys.writeTime.rawValue) as? [Int] ?? [3, 00, 1], day: UserDefaults.standard.array(forKey: UserDefaultsKeys.writeWeek.rawValue) as? [Int] ?? [1, 1, 1, 1, 1, 1, 1])
+        }
+        IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.enableAutoToolbar = false
+        IQKeyboardManager.shared.resignOnTouchOutside = true
+        
         return true
     }
 
@@ -79,3 +119,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    
+    // 앱이 foreground에 있을때 알림이 오면 이 메서드 호출
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        // 푸쉬가 오면 다음을 표시하라는 뜻
+        // 배너는 배너, 뱃지는 앱 아이콘에 숫자 뜨는것, 사운드는 알림 소리, list는 알림센터에 뜨는거
+        completionHandler([.banner, .sound, .list])
+    }
+}
