@@ -32,7 +32,7 @@ class AddPassageViewController: UIViewController {
         setConstraints()
         setupActions()
         updateCharacterCountLabel()
-        containerView.updateViewForSearchResult(isSearched: false)
+        containerView.updateViewForSearchResult(isSearched: viewModel.showUi)
         containerView.updateViewForKeyword(isAdded: true)
     }
     
@@ -123,6 +123,8 @@ class AddPassageViewController: UIViewController {
             return
         }
         
+        viewModel.removeEmptyKeywords()
+        
         viewModel.savePassage(selectedBook: viewModel.selectedBook,
                               passageText: containerView.verseTextView.text ?? "",
                             pageNumberText: containerView.pageNumberTextField.text ?? "",
@@ -159,7 +161,6 @@ class AddPassageViewController: UIViewController {
                 containerView.infoView.imageView.contentMode = .scaleAspectFill
             }
         }
-        containerView.updateViewForSearchResult(isSearched: true)
     }
     
     private func updateTextView(with text: String) {
@@ -174,6 +175,8 @@ class AddPassageViewController: UIViewController {
     func removeKeyword(at indexPath: IndexPath) {
         let reversedIndex = viewModel.keywords.count - 1 - indexPath.item
         viewModel.keywords.remove(at: reversedIndex)
+        containerView.keywordField.text = ""
+        containerView.keywordField.resignFirstResponder()
         if viewModel.keywords.count == 0 {
             containerView.updateViewForKeyword(isAdded: true)
         }
@@ -265,7 +268,6 @@ extension AddPassageViewController: UICollectionViewDelegate, UICollectionViewDa
         let textSize = (keyword as NSString).size(withAttributes: attributes)
         let cellWidth = textSize.width + 40
         let cellHeight: CGFloat = 34
-        
         return CGSize(width: cellWidth, height: cellHeight)
     }
 }
@@ -325,6 +327,8 @@ extension AddPassageViewController: BookSelectionDelegate {
     func didSelectBook(_ book: Item) {
         viewModel.selectedBook = book
         displayBookInfo()
+        viewModel.showUi = true
+        containerView.updateViewForSearchResult(isSearched: viewModel.showUi)
     }
 }
 
