@@ -262,14 +262,12 @@ class AddPassageContainerView: UIView {
                 $0.trailing.equalToSuperview().inset(16)
                 $0.top.equalTo(infoView.snp.bottom).offset(16)
                 $0.height.equalTo(35)
-                $0.width.equalTo(112)
             }
         } else {
             scanButton.snp.remakeConstraints {
                 $0.trailing.equalToSuperview().inset(16)
                 $0.top.equalTo(searchButton.snp.bottom).offset(16)
                 $0.height.equalTo(35)
-                $0.width.equalTo(112)
             }
         }
         layoutIfNeeded()
