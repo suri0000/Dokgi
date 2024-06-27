@@ -164,7 +164,7 @@ class AddPassageViewController: UIViewController {
     }
     
     private func updateTextView(with text: String) {
-        if containerView.verseTextView.text.isEmpty || containerView.verseTextView.textColor == .placeholderText {
+        if containerView.verseTextView.text.isEmpty || containerView.verseTextView.textColor == .textFieldGray {
             containerView.verseTextView.text = text
             containerView.verseTextView.textColor = .label
             containerView.verseTextView.font = Pretendard.regular.dynamicFont(style: .body)

@@ -65,7 +65,7 @@
   
 | [김예슬](https://github.com/suri0000) | [송정훈](https://github.com/qkwmapel) | [김시온](https://github.com/tldhs27) | [임현정](https://github.com/Imhnjng) | [한철희](https://github.com/myhan601) |
 |:---:|:---:|:---:|:---:|:---:|
-|<img width="100" alt="Suri" src="https://avatars.githubusercontent.com/u/129073316?v=4">|<img width="100" alt="송정훈" src="https://avatars.githubusercontent.com/u/128906664?v=4">|<img width="100" alt="김시온" src="https://github.com/dogaegirl6mo/Dokgi/assets/129073316/345d7363-d04d-485a-9a59-8071914305b8">|<img width="100" alt="임현정" src="https://avatars.githubusercontent.com/u/96654328?v=4">|<img width="100" alt="한철희" src="https://avatars.githubusercontent.com/u/59227948?v=4">|
+|<img width="100" alt="Suri" src="https://avatars.githubusercontent.com/u/129073316?v=4">|<img width="100" alt="송정훈" src="https://github.com/dogaegirl6mo/Dokgi/assets/161270615/2f3460ff-2c42-42a8-939e-80d01be142c9">|<img width="100" alt="김시온" src="https://github.com/dogaegirl6mo/Dokgi/assets/129073316/345d7363-d04d-485a-9a59-8071914305b8">|<img width="100" alt="임현정" src="https://github.com/dogaegirl6mo/Dokgi/assets/161270615/c14fd3c2-8283-4aff-ac20-2bfaf3233fbe">|<img width="100" alt="한철희" src="https://avatars.githubusercontent.com/u/59227948?v=4">|
 
   
 </div>
