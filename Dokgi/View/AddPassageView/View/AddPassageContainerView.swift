@@ -256,6 +256,7 @@ class AddPassageContainerView: UIView {
         searchButton.isHidden = isSearched
         infoView.isHidden = !isSearched
 
+
         scanButton.snp.remakeConstraints {
             $0.trailing.equalToSuperview().inset(16)
             $0.top.equalTo(isSearched ? infoView.snp.bottom : searchButton.snp.bottom).offset(16)

@@ -261,7 +261,7 @@ extension BookSearchViewController: UICollectionViewDelegateFlowLayout {
         let attributes = [NSAttributedString.Key.font: font]
         let textSize = (text as NSString).size(withAttributes: attributes)
         let width = textSize.width + 35
-        let height: CGFloat = 34
+        let height: CGFloat = 42
         return CGSize(width: width, height: height)
     }
 }

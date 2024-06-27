@@ -110,7 +110,7 @@ class BookSearchContainerView: UIView {
         collectionView.snp.makeConstraints {
             $0.top.equalTo(recentSearchStackView.snp.bottom).offset(8)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(40)
+            $0.height.equalTo(42)
         }
         
         tableView.snp.makeConstraints {
