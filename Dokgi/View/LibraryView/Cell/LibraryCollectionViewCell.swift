@@ -36,13 +36,13 @@ class LibraryCollectionViewCell: UICollectionViewCell {
         bookImageView.layer.borderColor = UIColor(resource: .buttonLightGray).cgColor
         bookImageView.layer.borderWidth = 1
         bookImageView.contentMode = .scaleToFill
-  
+        
         bookNameLabel.font = Pretendard.bold.dynamicFont(style: .subheadline)
         bookNameLabel.textColor = .black
         bookNameLabel.textAlignment = .center
         bookNameLabel.numberOfLines = 2
         bookNameLabel.layer.masksToBounds = true
-
+        
         authorNameLabel.font = Pretendard.regular.dynamicFont(style: .caption1)
         authorNameLabel.textColor = UIColor(named: "AuthorLabelGray")
         authorNameLabel.textAlignment = .center
@@ -59,15 +59,20 @@ class LibraryCollectionViewCell: UICollectionViewCell {
             // 기기 변경 시 오토레이아웃 깨지지 않게 -> 피그마 기준 이미지 크기 165:190 = 1:1.151515
             $0.height.equalTo(bookImageView.snp.width).multipliedBy(1.151515)
         }
-
+        
         bookNameLabel.snp.makeConstraints {
-            $0.top.equalTo(bookImageView.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(bookImageView.snp.bottom).offset(5)
+            $0.leading.trailing.equalToSuperview().inset(5)
+            $0.height.equalTo(40)
         }
         
         authorNameLabel.snp.makeConstraints {
-            $0.top.equalTo(bookNameLabel.snp.bottom).inset(5)
+            $0.top.greaterThanOrEqualTo(bookNameLabel.snp.bottom).offset(3)
             $0.bottom.leading.trailing.equalToSuperview()
+        }
+        
+        contentView.snp.makeConstraints {
+            $0.width.equalToSuperview()
         }
     }
 }

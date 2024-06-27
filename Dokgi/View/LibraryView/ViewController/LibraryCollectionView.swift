@@ -10,7 +10,7 @@ class LibraryCollectionView: UICollectionView {
     
     init() {
         let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 36
+        layout.minimumLineSpacing = 30
         layout.minimumInteritemSpacing = 10
         layout.sectionInset = .init(top: 0, left: 20, bottom: 20, right: 20)
         
@@ -19,8 +19,9 @@ class LibraryCollectionView: UICollectionView {
         let deviceWidth = UIScreen.main.bounds.width
         let inset: CGFloat = 20
         let cellWidth = (deviceWidth - spacing - inset * 2)/countForLine
+        let cellHeight = cellWidth * 1.58
         
-        layout.itemSize = .init(width: cellWidth, height: cellWidth * 1.58)
+        layout.itemSize = .init(width: cellWidth, height: cellHeight)
         
         super.init(frame: .zero, collectionViewLayout: layout)
         
