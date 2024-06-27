@@ -20,16 +20,13 @@ class AddPassageContainerView: UIView {
         configuration.imagePlacement = .leading
         configuration.imagePadding = 8
         configuration.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
-        
         configuration.baseForegroundColor = .charcoalBlue
         configuration.baseBackgroundColor = .lightSkyBlue
-        
         configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
             outgoing.font = Pretendard.bold.dynamicFont(style: .subheadline)
             return outgoing
         }
-        
         $0.configuration = configuration
         $0.layer.cornerRadius = 17
         $0.clipsToBounds = true
