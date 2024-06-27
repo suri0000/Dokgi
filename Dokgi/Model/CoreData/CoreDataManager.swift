@@ -16,18 +16,42 @@ class CoreDataManager {
     var bookData = BehaviorRelay<[Book]>(value: [])
     var passageData = BehaviorRelay<[Passage]>(value: [])
     
-    var persistent: NSPersistentContainer? = {
+    var persistent: NSPersistentCloudKitContainer? = {
+        let container = NSPersistentCloudKitContainer(name: "Dokgi")
+        
+        // Create a store description for a local store.
+        //            let localStoreLocation = URL(fileURLWithPath: "/path/to/local.store")
+        //            let localStoreDescription =
+        //                NSPersistentStoreDescription(url: localStoreLocation)
+        //            localStoreDescription.configuration = "Local"
+        
+        // Create a store description for a CloudKit-backed local store.
+        let filePath = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).last!
+        let cloudStoreLocation = filePath
+        let cloudStoreDescription =
+        NSPersistentStoreDescription(url: cloudStoreLocation)
+        cloudStoreDescription.configuration = "Default"
+        
+        
+        // Set the container options on the cloud store.
+        cloudStoreDescription.cloudKitContainerOptions =
+        NSPersistentCloudKitContainerOptions(
+            containerIdentifier: "iCloud.com.dogaegeol6mo.Dokgi")
+        
+        
         let storeURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.dogaegeol6mo.Dokgi")!.appendingPathComponent("Dokgi.sqlite")
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
         storeDescription.shouldMigrateStoreAutomatically = true
         storeDescription.shouldInferMappingModelAutomatically = true
-        let container = NSPersistentContainer(name: "Dokgi")
-        container.persistentStoreDescriptions = [storeDescription]
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        
+        container.persistentStoreDescriptions = [storeDescription, cloudStoreDescription/*, localStoreDescription*/]
+        
+        container.loadPersistentStores { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
-        })
+        }
+        
         return container
     }()
     
@@ -60,7 +84,7 @@ class CoreDataManager {
                 books.first?.addToPassages(newPassage)
                 try context.save()
             }
-//            WidgetCenter.shared.reloadTimelines(ofKind: "DokgiWidget")
+            //            WidgetCenter.shared.reloadTimelines(ofKind: "DokgiWidget")
         } catch {
             print("Failed to fetch or save data: \(error)")
         }
@@ -82,7 +106,7 @@ class CoreDataManager {
             let books = try context.fetch(fetchRequest)
             var bookArr = [Book]()
             for book in books {
-                if let passagesSet = book.passages?.array {
+                if let passagesSet = book.passages {
                     var passagesArray = [Passage]()
                     for passage in passagesSet {
                         if let passageText = (passage as AnyObject).value(forKey: "passage") as? String, let page = (passage as AnyObject).value(forKey: "page") as? Int, let pageType = (passage as AnyObject).value(forKey: "pageType") as? Bool, let date = (passage as AnyObject).value(forKey: "date") as? Date, let keywords = (passage as AnyObject).value(forKey: "keywords") as? [String] {
@@ -130,7 +154,7 @@ class CoreDataManager {
         let titlePredicate = NSPredicate(format: "book.title == %@", passage.title!)
         let datePredicate = NSPredicate(format: "date == %@", passage.date as NSDate)
         fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [titlePredicate, datePredicate])
-
+        
         do {
             let passages = try context.fetch(fetchRequest)
             if let passageEntity = passages.first {
@@ -168,7 +192,7 @@ class CoreDataManager {
         let titlePredicate = NSPredicate(format: "book.title == %@", passage.title!)
         let datePredicate = NSPredicate(format: "date == %@", passage.date as NSDate)
         fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [titlePredicate, datePredicate])
-
+        
         do {
             let passages = try context.fetch(fetchRequest)
             if !passages.isEmpty {
