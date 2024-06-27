@@ -14,21 +14,20 @@ class AddPassageContainerView: UIView {
     
     // MARK: - UI
     let scanButton = UIButton(configuration: .filled(), primaryAction: nil).then {
-        $0.configurationUpdateHandler = { button in
-            var configuration = button.configuration
-            configuration?.title = "구절 스캔"
-            configuration?.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-                var outgoing = incoming
-                outgoing.font = Pretendard.bold.dynamicFont(style: .subheadline)
-                return outgoing
-            }
-            configuration?.baseForegroundColor = .charcoalBlue
-            configuration?.baseBackgroundColor = .lightSkyBlue
-            configuration?.image = UIImage(resource: .camera).withTintColor(UIColor(resource: .charcoalBlue), renderingMode: .alwaysOriginal)
-            configuration?.imagePadding = 10
-            button.configuration = configuration
-            button.titleLabel?.numberOfLines = 1
+        var configuration = UIButton.Configuration.filled()
+        configuration.title = "구절 스캔"
+        configuration.image = UIImage(resource: .camera).withRenderingMode(.alwaysTemplate)
+        configuration.imagePlacement = .leading
+        configuration.imagePadding = 8
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
+        configuration.baseForegroundColor = .charcoalBlue
+        configuration.baseBackgroundColor = .lightSkyBlue
+        configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = Pretendard.bold.dynamicFont(style: .subheadline)
+            return outgoing
         }
+        $0.configuration = configuration
         $0.layer.cornerRadius = 17
         $0.clipsToBounds = true
     }
@@ -257,20 +256,10 @@ class AddPassageContainerView: UIView {
         searchButton.isHidden = isSearched
         infoView.isHidden = !isSearched
 
-        if isSearched {
-            scanButton.snp.remakeConstraints {
-                $0.trailing.equalToSuperview().inset(16)
-                $0.top.equalTo(infoView.snp.bottom).offset(16)
-                $0.height.equalTo(35)
-                $0.width.equalTo(112)
-            }
-        } else {
-            scanButton.snp.remakeConstraints {
-                $0.trailing.equalToSuperview().inset(16)
-                $0.top.equalTo(searchButton.snp.bottom).offset(16)
-                $0.height.equalTo(35)
-                $0.width.equalTo(112)
-            }
+        scanButton.snp.remakeConstraints {
+            $0.trailing.equalToSuperview().inset(16)
+            $0.top.equalTo(isSearched ? infoView.snp.bottom : searchButton.snp.bottom).offset(16)
+            $0.height.equalTo(35)
         }
         layoutIfNeeded()
     }
@@ -278,16 +267,10 @@ class AddPassageContainerView: UIView {
     func updateViewForKeyword(isAdded: Bool) {
         keywordCollectionView.isHidden = isAdded
 
-        if isAdded {
-            pageLabel.snp.remakeConstraints {
-                $0.top.equalTo(keywordField.snp.bottom).offset(24)
-                $0.leading.equalToSuperview().offset(16)
-            }
-        } else {
-            pageLabel.snp.remakeConstraints {
-                $0.top.equalTo(keywordCollectionView.snp.bottom).offset(60)
-                $0.leading.equalToSuperview().offset(16)
-            }
+        pageLabel.snp.remakeConstraints {
+            $0.top.equalTo(isAdded ? keywordField.snp.bottom : keywordCollectionView.snp.bottom)
+                .offset(isAdded ? 24 : 60)
+            $0.leading.equalToSuperview().offset(16)
         }
         layoutIfNeeded()
     }
