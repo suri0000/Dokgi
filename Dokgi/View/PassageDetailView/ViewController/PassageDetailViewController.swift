@@ -42,6 +42,10 @@ class PassageDetailViewController: UIViewController {
         $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
         $0.setTitleColor(.black, for: .normal)
         $0.setImage(.modalEdit, for: .normal)
+        let labelHeight = $0.titleLabel?.snp.height
+        $0.imageView?.snp.makeConstraints {
+            $0.width.height.equalTo(labelHeight ?? 20)
+        }
     }
     
     let detailScrollView = UIScrollView().then {
