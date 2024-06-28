@@ -19,37 +19,38 @@ class CoreDataManager {
     var persistent: NSPersistentCloudKitContainer? = {
         let container = NSPersistentCloudKitContainer(name: "Dokgi")
         
-        // Create a store description for a local store.
-        //            let localStoreLocation = URL(fileURLWithPath: "/path/to/local.store")
-        //            let localStoreDescription =
-        //                NSPersistentStoreDescription(url: localStoreLocation)
-        //            localStoreDescription.configuration = "Local"
-        
-        // Create a store description for a CloudKit-backed local store.
-        let filePath = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).last!
-        let cloudStoreLocation = filePath
-        let cloudStoreDescription =
-        NSPersistentStoreDescription(url: cloudStoreLocation)
-        cloudStoreDescription.configuration = "Default"
-        
-        
-        // Set the container options on the cloud store.
-        cloudStoreDescription.cloudKitContainerOptions =
-        NSPersistentCloudKitContainerOptions(
-            containerIdentifier: "iCloud.com.dogaegeol6mo.Dokgi")
-        
-        
         let storeURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.dogaegeol6mo.Dokgi")!.appendingPathComponent("Dokgi.sqlite")
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
         storeDescription.shouldMigrateStoreAutomatically = true
         storeDescription.shouldInferMappingModelAutomatically = true
+        storeDescription.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.com.dogaegeol6mo.Dokgi")
         
-        container.persistentStoreDescriptions = [storeDescription, cloudStoreDescription/*, localStoreDescription*/]
+        container.persistentStoreDescriptions = [storeDescription]
+        // 클라우드 저장 코드
+        
         
         container.loadPersistentStores { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
+        }
+        
+        #if DEBUG
+                do {
+                    // Use the container to initialize the development schema.
+                    try container.initializeCloudKitSchema(options: [])
+                } catch {
+                    // Handle any errors.
+                }
+        #endif
+        
+        container.viewContext.automaticallyMergesChangesFromParent = true
+        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        
+        do {
+              try container.viewContext.setQueryGenerationFrom(.current)
+        } catch {
+             fatalError("Failed to pin viewContext to the current generation:\(error)")
         }
         
         return container
@@ -90,6 +91,20 @@ class CoreDataManager {
         }
         readBook()
         CoreDataManager.shared.passageData.accept(CoreDataManager.shared.passageData.value + [passage])
+    }
+    
+    func saveContext () {
+        let context = persistent!.viewContext
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
     }
     
     //text는 검색 그냥일때는 ""
