@@ -26,23 +26,12 @@ class CoreDataManager {
         storeDescription.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.com.dogaegeol6mo.Dokgi")
         
         container.persistentStoreDescriptions = [storeDescription]
-        // 클라우드 저장 코드
-        
         
         container.loadPersistentStores { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         }
-        
-        #if DEBUG
-                do {
-                    // Use the container to initialize the development schema.
-                    try container.initializeCloudKitSchema(options: [])
-                } catch {
-                    // Handle any errors.
-                }
-        #endif
         
         container.viewContext.automaticallyMergesChangesFromParent = true
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
@@ -85,7 +74,7 @@ class CoreDataManager {
                 books.first?.addToPassages(newPassage)
                 try context.save()
             }
-            //            WidgetCenter.shared.reloadTimelines(ofKind: "DokgiWidget")
+//                        WidgetCenter.shared.reloadTimelines(ofKind: "DokgiWidget")
         } catch {
             print("Failed to fetch or save data: \(error)")
         }
