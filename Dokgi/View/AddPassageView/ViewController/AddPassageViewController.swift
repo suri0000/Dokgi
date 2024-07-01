@@ -206,12 +206,16 @@ class AddPassageViewController: UIViewController {
     private func updateTextView(with text: String) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            if self.containerView.verseTextView.text.isEmpty || self.containerView.verseTextView.textColor == .textFieldGray {
-                self.containerView.verseTextView.text = text
-                self.containerView.verseTextView.textColor = .black
-                self.containerView.verseTextView.font = Pretendard.regular.dynamicFont(style: .body)
-                self.updateCharacterCountLabel()
-            }
+            
+            // 기존 텍스트와 상관없이 항상 새로운 텍스트로 대체합니다.
+            self.containerView.verseTextView.text = text
+            self.containerView.verseTextView.textColor = .black
+            self.containerView.verseTextView.font = Pretendard.regular.dynamicFont(style: .body)
+            self.updateCharacterCountLabel()
+            
+            // 스크롤을 텍스트의 끝으로 이동합니다.
+            let range = NSMakeRange(self.containerView.verseTextView.text.count - 1, 0)
+            self.containerView.verseTextView.scrollRangeToVisible(range)
         }
     }
     
