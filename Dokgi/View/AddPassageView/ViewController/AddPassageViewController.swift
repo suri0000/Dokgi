@@ -19,6 +19,7 @@ class AddPassageViewController: UIViewController {
     
     let viewModel = AddPassageViewModel()
     private let containerView = AddPassageContainerView()
+    var dataScannerViewController: DataScannerViewController?
     
     private let scrollView = UIScrollView().then {
         $0.showsVerticalScrollIndicator = false
@@ -57,7 +58,6 @@ class AddPassageViewController: UIViewController {
         containerView.verseTextView.delegate = self
     }
     
-    // MARK: - setConstraints
     func setConstraints() {
         scrollView.snp.makeConstraints {
             $0.edges.equalTo(view.safeAreaLayoutGuide)
@@ -79,7 +79,33 @@ class AddPassageViewController: UIViewController {
     }
     
     @objc func scanButtonTapped(_ sender: UIButton) {
-        viewModel.visionKit(presenter: self)
+        startScanning()
+    }
+    
+    func startScanning() {
+        guard DataScannerViewController.isSupported else {
+            print("DataScannerViewController is not supported on this device")
+            return
+        }
+        
+        let recognizedDataTypes: Set<DataScannerViewController.RecognizedDataType> = [.text()]
+        
+        let dataScanner = DataScannerViewController(
+            recognizedDataTypes: recognizedDataTypes,
+            qualityLevel: .balanced,
+            recognizesMultipleItems: false,
+            isPinchToZoomEnabled: true,
+            isGuidanceEnabled: true,
+            isHighlightingEnabled: true
+        )
+        
+        dataScanner.delegate = self
+        
+        dataScannerViewController = dataScanner
+        
+        present(dataScanner, animated: true) {
+            try? dataScanner.startScanning()
+        }
     }
     
     @objc func searchButtonTapped(_ sender: UIButton) {
@@ -127,9 +153,9 @@ class AddPassageViewController: UIViewController {
         
         viewModel.savePassage(selectedBook: viewModel.selectedBook,
                               passageText: containerView.verseTextView.text ?? "",
-                            pageNumberText: containerView.pageNumberTextField.text ?? "",
-                            pageType: viewModel.pageType,
-                            keywords: viewModel.keywords) { success in
+                              pageNumberText: containerView.pageNumberTextField.text ?? "",
+                              pageType: viewModel.pageType,
+                              keywords: viewModel.keywords) { success in
             if success {
                 self.navigationController?.popViewController(animated: true)
             } else {
@@ -149,7 +175,7 @@ class AddPassageViewController: UIViewController {
     func updateCharacterCountLabel() {
         viewModel.updateCharacterCountText(for: containerView.verseTextView.text, label: containerView.characterCountLabel)
     }
-
+    
     func displayBookInfo() {
         if let book = viewModel.selectedBook {
             containerView.infoView.titleLabel.text = book.title
@@ -164,15 +190,17 @@ class AddPassageViewController: UIViewController {
     }
     
     private func updateTextView(with text: String) {
-        print("updateTextView called with text: \(text)")
-        if containerView.verseTextView.text.isEmpty || containerView.verseTextView.textColor == .textFieldGray {
-            containerView.verseTextView.text = text
-            containerView.verseTextView.textColor = .label
-            containerView.verseTextView.font = Pretendard.regular.dynamicFont(style: .body)
-            updateCharacterCountLabel()
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            if self.containerView.verseTextView.text.isEmpty || self.containerView.verseTextView.textColor == .textFieldGray {
+                self.containerView.verseTextView.text = text
+                self.containerView.verseTextView.textColor = .black
+                self.containerView.verseTextView.font = Pretendard.regular.dynamicFont(style: .body)
+                self.updateCharacterCountLabel()
+            }
         }
     }
-
+    
     func removeKeyword(at indexPath: IndexPath) {
         let reversedIndex = viewModel.keywords.count - 1 - indexPath.item
         viewModel.keywords.remove(at: reversedIndex)
@@ -182,6 +210,21 @@ class AddPassageViewController: UIViewController {
             containerView.updateViewForKeyword(isAdded: true)
         }
         containerView.keywordCollectionView.reloadData()
+    }
+}
+
+// MARK: - DataScannerViewControllerDelegate
+extension AddPassageViewController: DataScannerViewControllerDelegate {
+    func dataScanner(_ dataScanner: DataScannerViewController, didTapOn item: RecognizedItem) {
+        switch item {
+        case .text(let text):
+            print("Tapped text: \(text.transcript)")
+            updateTextView(with: text.transcript)
+            dataScanner.stopScanning()
+            dataScanner.dismiss(animated: true, completion: nil)
+        default:
+            print("Unexpected item type")
+        }
     }
 }
 
@@ -222,7 +265,7 @@ extension AddPassageViewController: UITextFieldDelegate {
         }
         containerView.updateViewForKeyword(isAdded: false)
     }
-
+    
     @objc func textFieldDidChange(_ textField: UITextField) {
         guard textField == containerView.keywordField else { return }
         
@@ -233,7 +276,7 @@ extension AddPassageViewController: UITextFieldDelegate {
             containerView.keywordCollectionView.reloadData()
         }
     }
-
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard textField == containerView.keywordField else { return true }
         
@@ -303,26 +346,6 @@ extension AddPassageViewController: UITextViewDelegate {
     }
 }
 
-// MARK: - 스캔
-extension AddPassageViewController: VNDocumentCameraViewControllerDelegate {
-    func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
-        controller.dismiss(animated: true)
-        if scan.pageCount > 0 {
-            let scannedImage = scan.imageOfPage(at: 0)
-            viewModel.recognizeText(from: scannedImage)
-        }
-    }
-
-    func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
-        controller.dismiss(animated: true)
-    }
-
-    func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) {
-        controller.dismiss(animated: true)
-        print("스캔 실패: \(error.localizedDescription)")
-    }
-}
-
 // MARK: - 데이터 전달
 extension AddPassageViewController: BookSelectionDelegate {
     func didSelectBook(_ book: Item) {
@@ -332,5 +355,3 @@ extension AddPassageViewController: BookSelectionDelegate {
         containerView.updateViewForSearchResult(isSearched: viewModel.showUi)
     }
 }
-
-
