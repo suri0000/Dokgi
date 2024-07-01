@@ -46,7 +46,7 @@ class BookSearchContainerView: UIView {
     let clearAllButton = UIButton(configuration: .plain()).then {
         $0.setTitle("전체 삭제", for: .normal)
         $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
-        $0.setTitleColor(.placeholderText, for: .normal)
+        $0.setTitleColor(.allClearGrey, for: .normal)
         $0.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 8)
     }
 
