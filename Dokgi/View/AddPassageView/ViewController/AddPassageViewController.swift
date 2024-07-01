@@ -89,7 +89,7 @@ class AddPassageViewController: UIViewController {
         }
         
         let recognizedDataTypes: Set<DataScannerViewController.RecognizedDataType> = [.text()]
-        
+    
         let dataScanner = DataScannerViewController(
             recognizedDataTypes: recognizedDataTypes,
             qualityLevel: .balanced,
@@ -179,15 +179,6 @@ class AddPassageViewController: UIViewController {
     
     func updateCharacterCountLabel() {
         viewModel.updateCharacterCountText(for: containerView.verseTextView.text, label: containerView.characterCountLabel)
-        updateCharacterCountColor()
-    }
-    
-    func updateCharacterCountColor() {
-        if containerView.verseTextView.text.count > 200 {
-            containerView.characterCountLabel.textColor = .red
-        } else {
-            containerView.characterCountLabel.textColor = .textFieldGray
-        }
     }
     
     func displayBookInfo() {
@@ -281,6 +272,14 @@ extension AddPassageViewController: UITextFieldDelegate {
         containerView.updateViewForKeyword(isAdded: false)
     }
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard textField == containerView.keywordField else { return true }
+        
+        guard let currentText = textField.text as NSString? else { return true }
+        let newText = currentText.replacingCharacters(in: range, with: string)
+        return newText.count <= 20
+    }
+    
     @objc func textFieldDidChange(_ textField: UITextField) {
         guard textField == containerView.keywordField else { return }
         
@@ -290,14 +289,6 @@ extension AddPassageViewController: UITextFieldDelegate {
             }
             containerView.keywordCollectionView.reloadData()
         }
-    }
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard textField == containerView.keywordField else { return true }
-        
-        guard let currentText = textField.text as NSString? else { return true }
-        let newText = currentText.replacingCharacters(in: range, with: string)
-        return newText.count <= 20
     }
 }
 

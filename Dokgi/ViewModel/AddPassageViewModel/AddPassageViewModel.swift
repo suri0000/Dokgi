@@ -96,8 +96,10 @@ class AddPassageViewModel {
     }
     
     func updateCharacterCountText(for text: String?, label: UILabel) {
-        let currentCount = text == "텍스트를 입력하세요" ? 0 : (text?.count ?? 0)
+        let count = text?.count ?? 0
+        let currentCount = text == "텍스트를 입력하세요" ? 0 : count
         label.text = "\(currentCount)/200"
+        label.textColor = count > 200 ? .red : .textFieldGray
     }
 }
 
