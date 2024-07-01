@@ -131,6 +131,11 @@ class AddPassageViewController: UIViewController {
             return
         }
         
+        if containerView.verseTextView.text.count > 200 {
+            showAlert(title: "글자 수 초과", message: "구절을 200자 이하로 작성해 주세요")
+            return
+        }
+        
         if containerView.pageNumberTextField.text?.isEmpty == true {
             showAlert(title: "페이지", message: "페이지를 입력해 주세요")
             return
@@ -174,6 +179,15 @@ class AddPassageViewController: UIViewController {
     
     func updateCharacterCountLabel() {
         viewModel.updateCharacterCountText(for: containerView.verseTextView.text, label: containerView.characterCountLabel)
+        updateCharacterCountColor()
+    }
+    
+    func updateCharacterCountColor() {
+        if containerView.verseTextView.text.count > 200 {
+            containerView.characterCountLabel.textColor = .red
+        } else {
+            containerView.characterCountLabel.textColor = .textFieldGray
+        }
     }
     
     func displayBookInfo() {
@@ -335,14 +349,7 @@ extension AddPassageViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        let currentCount = textView.text.count
-        
-        if currentCount > 200 {
-            textView.text = String(textView.text.prefix(200))
-            containerView.characterCountLabel.text = "200/200"
-        } else {
-            updateCharacterCountLabel()
-        }
+        updateCharacterCountLabel()
     }
 }
 
