@@ -26,6 +26,7 @@ class HomeViewController: UIViewController, HomeViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        CoreDataManager.shared.saveContext()
         setupConstraints()
         setupCollectionView()
         bindViewModel()
