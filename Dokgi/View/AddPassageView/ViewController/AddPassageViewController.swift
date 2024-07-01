@@ -91,7 +91,13 @@ class AddPassageViewController: UIViewController {
     @objc func pageSegmentButtonTapped(_ sender: UIButton) {
         guard let index = containerView.pageSegment.buttons.firstIndex(of: sender) else { return }
         containerView.pageSegment.selectedIndex = index
-        viewModel.pageType = index == 0 ? true : false
+        if index == 0{
+            viewModel.pageType = true
+            containerView.pageLabel.text = "페이지"
+        } else {
+            viewModel.pageType = false
+            containerView.pageLabel.text = "퍼센트"
+        }
     }
     
     @objc func recordButtonTapped(_ sender: UIButton) {
