@@ -76,6 +76,33 @@ class AddPassageViewModel {
         }
     }
     
+    func validatePassage(verseText: String, pageNumberText: String?) -> (Bool, String) {
+        if selectedBook == nil {
+            return (false, "책 검색을 눌러 책 정보를 기록해주세요")
+        }
+        
+        if verseText.isEmpty || verseText == "텍스트를 입력하세요" {
+            return (false, "구절을 입력해 주세요")
+        }
+        
+        if verseText.count > 200 {
+            return (false, "구절을 200자 이하로 작성해 주세요")
+        }
+        
+        guard let pageNumberText = pageNumberText, let pageNumber = Int(pageNumberText) else {
+            return (false, "숫자를 입력하세요.")
+        }
+        
+        if pageType == true && pageNumber <= 0 {
+            return (false, "0 이상을 입력하세요.")
+        } else if pageType == false && (pageNumber < 0 || pageNumber > 100) {
+            return (false, "0이상 100이하를 입력하세요.")
+        }
+        
+        return (true, "")
+    }
+    
+    
     func savePassage(selectedBook: Item?, passageText: String, pageNumberText: String?, pageType: Bool, keywords: [String], completion: @escaping (Bool) -> Void) {
         guard let book = selectedBook,
               let pageNumberText = pageNumberText,

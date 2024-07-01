@@ -121,36 +121,9 @@ class AddPassageViewController: UIViewController {
     }
     
     @objc func recordButtonTapped(_ sender: UIButton) {
-        if containerView.searchButton.isHidden == false {
-            showAlert(title: "책 정보 기록", message: "책 검색을 눌러 책 정보를 기록해주세요")
-            return
-        }
-        
-        if containerView.verseTextView.text.isEmpty || containerView.verseTextView.text == "텍스트를 입력하세요" {
-            showAlert(title: "구절 입력", message: "구절을 입력해 주세요")
-            return
-        }
-        
-        if containerView.verseTextView.text.count > 200 {
-            showAlert(title: "글자 수 초과", message: "구절을 200자 이하로 작성해 주세요")
-            return
-        }
-        
-        if containerView.pageNumberTextField.text?.isEmpty == true {
-            showAlert(title: "페이지", message: "페이지를 입력해 주세요")
-            return
-        }
-        
-        if let pageNumber = Int(containerView.pageNumberTextField.text ?? "") {
-            if viewModel.pageType == true && pageNumber <= 0 {
-                showAlert(title: "페이지 값 오류", message: "0 이상을 입력하세요.")
-                return
-            } else if viewModel.pageType == false && pageNumber > 100 {
-                showAlert(title: "% 값 오류", message: "100이하를 입력하세요.")
-                return
-            }
-        } else {
-            showAlert(title: "입력 값 오류", message: "숫자를 입력하세요.")
+        let (isValid, message) = viewModel.validatePassage(verseText: containerView.verseTextView.text, pageNumberText: containerView.pageNumberTextField.text)
+        if !isValid {
+            showAlert(title: "경고", message: message)
             return
         }
         
