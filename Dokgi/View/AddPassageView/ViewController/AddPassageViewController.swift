@@ -45,12 +45,13 @@ class AddPassageViewController: UIViewController {
     func setupViews() {
         view.backgroundColor = .white
         containerView.pageSegment.selectedIndex = 0
-        viewModel.onRecognizedTextUpdate = { [weak self] recognizedText in
-            self?.updateTextView(with: recognizedText)
-        }
         view.addSubview(scrollView)
         scrollView.addSubview(containerView)
         containerView.keywordCollectionView.register(KeywordCollectionViewCell.self, forCellWithReuseIdentifier: KeywordCollectionViewCell.identifier)
+        setupDelegates()
+    }
+    
+    func setupDelegates() {
         containerView.keywordCollectionView.delegate = self
         containerView.keywordCollectionView.dataSource = self
         containerView.keywordField.delegate = self
@@ -100,7 +101,6 @@ class AddPassageViewController: UIViewController {
         )
         
         dataScanner.delegate = self
-        
         dataScannerViewController = dataScanner
         
         present(dataScanner, animated: true) {
@@ -197,7 +197,6 @@ extension AddPassageViewController: DataScannerViewControllerDelegate {
     func dataScanner(_ dataScanner: DataScannerViewController, didTapOn item: RecognizedItem) {
         switch item {
         case .text(let text):
-            print("Tapped text: \(text.transcript)")
             updateTextView(with: text.transcript)
             dataScanner.stopScanning()
             dataScanner.dismiss(animated: true, completion: nil)
@@ -283,15 +282,19 @@ extension AddPassageViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let reversedIndex = viewModel.keywords.count - 1 - indexPath.item
-        let keyword = viewModel.keywords[reversedIndex]
-        let font = Pretendard.regular.dynamicFont(style: .callout)
-        let attributes = [NSAttributedString.Key.font: font]
-        let textSize = (keyword as NSString).size(withAttributes: attributes)
-        let cellWidth = textSize.width + 40
-        let cellHeight: CGFloat = 34
-        return CGSize(width: cellWidth, height: cellHeight)
-    }
+            let reversedIndex = viewModel.keywords.count - 1 - indexPath.item
+            let keyword = viewModel.keywords[reversedIndex]
+            return calculateCellSize(for: keyword)
+        }
+
+        private func calculateCellSize(for keyword: String) -> CGSize {
+            let font = Pretendard.regular.dynamicFont(style: .callout)
+            let attributes = [NSAttributedString.Key.font: font]
+            let textSize = (keyword as NSString).size(withAttributes: attributes)
+            let cellWidth = textSize.width + 40
+            let cellHeight: CGFloat = 34
+            return CGSize(width: cellWidth, height: cellHeight)
+        }
 }
 
 // MARK: - 텍스트뷰 placeholder
