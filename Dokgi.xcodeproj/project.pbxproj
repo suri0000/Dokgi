@@ -19,7 +19,6 @@
 		3C73E2A12C1AB164004B1BF8 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C73E29E2C1AB164004B1BF8 /* HomeViewController.swift */; };
 		3C73E2A32C1B03AD004B1BF8 /* FloatButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C73E2A22C1B03AC004B1BF8 /* FloatButton.swift */; };
 		3C9AD89A2C2462B0007393C1 /* FloatingButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AD8992C2462B0007393C1 /* FloatingButtonViewController.swift */; };
-		3C9AD89C2C24634E007393C1 /* UICollectionViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AD89B2C24634E007393C1 /* UICollectionViewCellExtension.swift */; };
 		3C9AD8C32C25A4FC007393C1 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AD8C22C25A4FC007393C1 /* HomeView.swift */; };
 		7B487B0E2C2503940082EF92 /* PassageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B487B0D2C2503940082EF92 /* PassageCollectionView.swift */; };
 		7B487B142C25922A0082EF92 /* LibraryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B487B132C25922A0082EF92 /* LibraryCollectionView.swift */; };
@@ -141,7 +140,6 @@
 		3C73E29E2C1AB164004B1BF8 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		3C73E2A22C1B03AC004B1BF8 /* FloatButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatButton.swift; sourceTree = "<group>"; };
 		3C9AD8992C2462B0007393C1 /* FloatingButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButtonViewController.swift; sourceTree = "<group>"; };
-		3C9AD89B2C24634E007393C1 /* UICollectionViewCellExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewCellExtension.swift; sourceTree = "<group>"; };
 		3C9AD8C22C25A4FC007393C1 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		7B487B0D2C2503940082EF92 /* PassageCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassageCollectionView.swift; sourceTree = "<group>"; };
 		7B487B132C25922A0082EF92 /* LibraryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryCollectionView.swift; sourceTree = "<group>"; };
@@ -649,7 +647,6 @@
 			children = (
 				3C9AD8992C2462B0007393C1 /* FloatingButtonViewController.swift */,
 				A75908D22C12D69300415D6D /* IntArrayExtension.swift */,
-				3C9AD89B2C24634E007393C1 /* UICollectionViewCellExtension.swift */,
 				A75D3D742C1B47D1006C2EB3 /* StringExtension.swift */,
 				A75D3D762C1B493F006C2EB3 /* DateExtension.swift */,
 				AB4BDC0B2C249608001FDA8F /* addSubviewsExtension.swift */,
@@ -935,7 +932,6 @@
 				3C41815F2C0DBF9800D141FD /* BookModel.swift in Sources */,
 				AB66D3442C0EEFE3000D72DA /* TabBarViewController.swift in Sources */,
 				3C73E2A32C1B03AD004B1BF8 /* FloatButton.swift in Sources */,
-				3C9AD89C2C24634E007393C1 /* UICollectionViewCellExtension.swift in Sources */,
 				8500B52E2C203A4500A0EB38 /* PassageViewModel.swift in Sources */,
 				854E157E2C244FCA00FE5256 /* BaseViewModel.swift in Sources */,
 				7BE488B52C16E4CF00BDB92A /* PassageCollectionViewCell.swift in Sources */,

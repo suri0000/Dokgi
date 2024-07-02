@@ -173,4 +173,17 @@ class CurrentLevelCell: UICollectionViewCell {
         nextLevel.text = "Level \(level + 1)"
         currentLevel.text = "Level \(level)을 다 달성하면 보입니다"
     }
+    
+    func transformToSmall() {
+        UIView.animate(withDuration: 0.2) {
+            self.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        }
+    }
+    
+    // 기본 셀 크기로 지정
+    func transformToStandard() {
+        UIView.animate(withDuration: 0.2) {
+            self.transform = CGAffineTransform.identity
+        }
+    }
 }
