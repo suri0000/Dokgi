@@ -252,8 +252,10 @@ extension HomeViewController: UICollectionViewDelegate {
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
     // 현재 드래그 되는 셀 작아지게
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        let currentCell = homeView.currentLevelCollectionView.cellForItem(at: IndexPath(row: Int(levelCollectionViewSelectedIndex), section: 0)) as? CurrentLevelCell
-        currentCell?.transformToSmall()
+        if scrollView == homeView.currentLevelCollectionView {
+            let currentCell = homeView.currentLevelCollectionView.cellForItem(at: IndexPath(row: Int(levelCollectionViewSelectedIndex), section: 0)) as? CurrentLevelCell
+            currentCell?.transformToSmall()
+        }
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
