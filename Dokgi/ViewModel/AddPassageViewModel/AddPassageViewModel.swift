@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import Vision
-import VisionKit
 
 class AddPassageViewModel {
     // MARK: - Properties
