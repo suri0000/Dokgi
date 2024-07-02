@@ -56,7 +56,7 @@ class AddPassageViewController: UIViewController {
         containerView.keywordCollectionView.dataSource = self
         containerView.keywordField.delegate = self
         containerView.pageNumberTextField.delegate = self
-        containerView.verseTextView.delegate = self
+        containerView.passageTextView.delegate = self
     }
     
     func setConstraints() {
@@ -121,7 +121,7 @@ class AddPassageViewController: UIViewController {
     }
     
     @objc func recordButtonTapped(_ sender: UIButton) {
-        let (isValid, message) = viewModel.validatePassage(verseText: containerView.verseTextView.text, pageNumberText: containerView.pageNumberTextField.text)
+        let (isValid, message) = viewModel.validatePassage(passageText: containerView.passageTextView.text, pageNumberText: containerView.pageNumberTextField.text)
         if !isValid {
             showAlert(title: "경고", message: message)
             return
@@ -130,7 +130,7 @@ class AddPassageViewController: UIViewController {
         viewModel.removeEmptyKeywords()
         
         viewModel.savePassage(selectedBook: viewModel.selectedBook,
-                              passageText: containerView.verseTextView.text ?? "",
+                              passageText: containerView.passageTextView.text ?? "",
                               pageNumberText: containerView.pageNumberTextField.text ?? "",
                               pageType: viewModel.pageType,
                               keywords: viewModel.keywords) { success in
@@ -151,7 +151,7 @@ class AddPassageViewController: UIViewController {
     }
     
     func updateCharacterCountLabel() {
-        viewModel.updateCharacterCountText(for: containerView.verseTextView.text, label: containerView.characterCountLabel)
+        viewModel.updateCharacterCountText(for: containerView.passageTextView.text, label: containerView.characterCountLabel)
     }
     
     func displayBookInfo() {
@@ -170,13 +170,13 @@ class AddPassageViewController: UIViewController {
     private func updateTextView(with text: String) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.containerView.verseTextView.text = text
-            self.containerView.verseTextView.textColor = .black
-            self.containerView.verseTextView.font = Pretendard.regular.dynamicFont(style: .body)
+            self.containerView.passageTextView.text = text
+            self.containerView.passageTextView.textColor = .black
+            self.containerView.passageTextView.font = Pretendard.regular.dynamicFont(style: .body)
             self.updateCharacterCountLabel()
             
-            let range = NSMakeRange(self.containerView.verseTextView.text.count - 1, 0)
-            self.containerView.verseTextView.scrollRangeToVisible(range)
+            let range = NSMakeRange(self.containerView.passageTextView.text.count - 1, 0)
+            self.containerView.passageTextView.scrollRangeToVisible(range)
         }
     }
     
@@ -300,10 +300,10 @@ extension AddPassageViewController: UICollectionViewDelegate, UICollectionViewDa
 // MARK: - 텍스트뷰 placeholder
 extension AddPassageViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        guard containerView.verseTextView.textColor == .textFieldGray else { return }
-        containerView.verseTextView.textColor = .black
-        containerView.verseTextView.font = Pretendard.regular.dynamicFont(style: .body)
-        containerView.verseTextView.text = nil
+        guard containerView.passageTextView.textColor == .textFieldGray else { return }
+        containerView.passageTextView.textColor = .black
+        containerView.passageTextView.font = Pretendard.regular.dynamicFont(style: .body)
+        containerView.passageTextView.text = nil
         updateCharacterCountLabel()
     }
     
