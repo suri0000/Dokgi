@@ -229,6 +229,8 @@ extension HomeViewController: UICollectionViewDataSource {
             } else {
                 cell.verse.text = randomVerses[indexPath.item]
             }
+            cell.layer.cornerRadius = 10
+            cell.layer.masksToBounds = true
             return cell
         }
     }
