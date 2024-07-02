@@ -67,5 +67,37 @@
 |:---:|:---:|:---:|:---:|:---:|
 |<img width="100" alt="Suri" src="https://avatars.githubusercontent.com/u/129073316?v=4">|<img width="100" alt="송정훈" src="https://github.com/dogaegirl6mo/Dokgi/assets/161270615/2f3460ff-2c42-42a8-939e-80d01be142c9">|<img width="100" alt="김시온" src="https://github.com/dogaegirl6mo/Dokgi/assets/129073316/345d7363-d04d-485a-9a59-8071914305b8">|<img width="100" alt="임현정" src="https://github.com/dogaegirl6mo/Dokgi/assets/161270615/c14fd3c2-8283-4aff-ac20-2bfaf3233fbe">|<img width="100" alt="한철희" src="https://avatars.githubusercontent.com/u/59227948?v=4">|
 
-  
 </div>
+
+*  **김예슬** 
+    - 앱 디자인
+    - 책 상세 화면 개발
+    - 위젯 개발
+    - 컴포넌트 생성
+    - CloudKit 연결 구현
+ 
+*  **송정훈** 
+    - 설정 화면 개발
+    - 구절 상세보기 화면 개발
+    - 다이나믹 폰트 등록
+    - CoreData 모델 설계 및 연결
+ 
+*  **김시온** 
+    - 앱 디자인
+    - 앱 아이콘 디자인
+    - 구절 화면 개발
+    - 내 서재 화면 개발
+    - 런치 스크린 구현
+
+*  **임현정**
+    - 네이버 도서 검색 API 네트워킹
+    - 데이터 모델 생성
+    - 메인화면 - 오늘의 구절 개발
+    - 메인화면 - 현재 구절 길이 개발
+ 
+*  **한철희**
+    - 구절 추가 화면 개발
+    - 탭바 구현
+    - 구절 스캔 OCR 구현
+  
+<br>
