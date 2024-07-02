@@ -78,11 +78,6 @@ class AddPassageViewController: UIViewController {
         }
     }
     
-    @objc func backButtonTapped() {
-        // Custom action for back button tap
-        self.navigationController?.popViewController(animated: true)
-    }
-    
     @objc func scanButtonTapped(_ sender: UIButton) {
         viewModel.visionKit(presenter: self)
     }
