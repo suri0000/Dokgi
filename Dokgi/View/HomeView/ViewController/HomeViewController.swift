@@ -45,7 +45,10 @@ class HomeViewController: UIViewController, HomeViewDelegate {
             switch cloudEvent.type {
                 case .import:
                     print("An import finished!")
-                    CoreDataManager.shared.readPassage()
+                            DispatchQueue.main.async {
+                                CoreDataManager.shared.readPassage()
+                            }
+                    
                 default: break
             }
         }

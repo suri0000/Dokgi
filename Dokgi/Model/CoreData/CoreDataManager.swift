@@ -121,6 +121,7 @@ class CoreDataManager {
                             print("Failed to extract passage attributes from NSManagedObject")
                         }
                     }
+                    passagesArray.sort { $0.date > $1.date }
                     // 이제 passagesArray를 사용할 수 있습니다.
                     bookArr.append(Book(title: book.title!, author: book.author!, image: book.image!, passages: passagesArray))
                 }
@@ -146,9 +147,7 @@ class CoreDataManager {
                 passageArr.append(Passage(title: passage.book?.title, passage: passage.passage!, page: Int(passage.page), pageType: passage.pageType, date: passage.date!, keywords: passage.keywords!))
             }
             
-            DispatchQueue.main.async {
-                self.passageData.accept(passageArr)
-            }
+            self.passageData.accept(passageArr)
             
         } catch {
             print("Failed to fetch or read data: \(error)")
