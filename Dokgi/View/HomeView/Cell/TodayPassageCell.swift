@@ -15,7 +15,6 @@ class TodayPassageCell: UICollectionViewCell {
     let verse = UILabel()
     let bookImage = UIImageView()
 
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupConstraints()

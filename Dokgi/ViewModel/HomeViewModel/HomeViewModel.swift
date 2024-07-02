@@ -65,18 +65,10 @@ class HomeViewModel {
         CoreDataManager.shared.passageData
             .subscribe(onNext: { [weak self] passages in
                 self?.passages.accept(passages)
-            })
-            .disposed(by: disposeBag)
-        
-        // 오늘의 구절 업데이트
-        CoreDataManager.shared.bookData
-            .skip(1)
-            .take(1)
-            .subscribe(onNext: { [weak self] _ in
                 self?.loadTodayVerses()
             })
             .disposed(by: disposeBag)
-
+        
         loadTodayVerses()
     }
     
@@ -84,19 +76,18 @@ class HomeViewModel {
     func loadTodayVerses() {
         let savedDate = UserDefaults.standard.string(forKey: UserDefaultsKeys.todayDate.rawValue)
         
-        if passages.value.count > 5 {
+        if passages.value.count > 5 { // 5개 초과일 때 실행
             // 날짜에 따른 구절 업데이트
-            if today != savedDate {
+            if today != savedDate { // 5개 초과이고 다른 날 일때
                 shuffleAndSaveVerses()
-            } else {
+                print("1일때")
+            } else { // 5개 초과이고 같은 날일 때
                 if let savedVerses = UserDefaults.standard.array(forKey: UserDefaultsKeys.shuffledPassage.rawValue) as? [String] {
                     randomVerses.accept(savedVerses)
-                } else {
-                    shuffleAndSaveVerses()
                 }
             }
-        } else {
-            randomVerses.accept(passages.value.map { $0.passage })
+        } else { // 5개 이하일 때
+            shuffleAndSaveVerses()
         }
     }
     
