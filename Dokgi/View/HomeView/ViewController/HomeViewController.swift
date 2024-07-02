@@ -5,6 +5,7 @@
 //  Created by IMHYEONJEONG on 6/4/24.
 //
 
+import CoreData
 import RxSwift
 import RxCocoa
 import SnapKit
@@ -26,7 +27,6 @@ class HomeViewController: UIViewController, HomeViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        CoreDataManager.shared.saveContext()
         setupConstraints()
         setupCollectionView()
         bindViewModel()
@@ -35,6 +35,20 @@ class HomeViewController: UIViewController, HomeViewDelegate {
         CoreDataManager.shared.readPassage() // 추가된 구절 반영
         homeView.delegate = self
         homeView.setConfigureUI(viewModel: viewModel)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(cloudKitDataSetting(_:)), name: NSPersistentCloudKitContainer.eventChangedNotification, object: nil)
+    }
+    
+    @objc func cloudKitDataSetting(_ notification: Notification) {
+        if let cloudEvent = notification.userInfo?[NSPersistentCloudKitContainer.eventNotificationUserInfoKey]
+            as? NSPersistentCloudKitContainer.Event {
+            switch cloudEvent.type {
+                case .import:
+                    print("An import finished!")
+                    CoreDataManager.shared.readPassage()
+                default: break
+            }
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {

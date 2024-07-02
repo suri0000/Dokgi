@@ -8,7 +8,6 @@ import CoreData
 import RxCocoa
 import RxSwift
 import UIKit
-import WidgetKit
 
 class CoreDataManager {
     static let shared = CoreDataManager()
@@ -146,7 +145,11 @@ class CoreDataManager {
             for passage in passages {
                 passageArr.append(Passage(title: passage.book?.title, passage: passage.passage!, page: Int(passage.page), pageType: passage.pageType, date: passage.date!, keywords: passage.keywords!))
             }
-            passageData.accept(passageArr)
+            
+            DispatchQueue.main.async {
+                self.passageData.accept(passageArr)
+            }
+            
         } catch {
             print("Failed to fetch or read data: \(error)")
         }
