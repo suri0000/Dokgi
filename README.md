@@ -69,6 +69,9 @@
 
 </div>
 
+
+
+##
 *  **김예슬** 
     - 앱 디자인
     - 책 상세 화면 개발
@@ -101,3 +104,28 @@
     - 구절 스캔 OCR 구현
   
 <br>
+
+## 🛠️ 기술적 의사결정
+* **MVVM과 RXSwift의 도입 이유** 
+  - 코드의 간결화 : ViewModel을 사용하여 View와 Model의 의존성을 줄이고 코드가 분리 되어 더 이해하기 쉽게 구현 가능
+  - 비동기 처리의 용의성 : 다양한 비동기 작업을 일관성 있게 처리할 수 있고 이를 통해 복잡한 비동기 흐름을 간단하게 관리할 수 있음
+ 
+* **CoreData 도입 이유**
+    - 사용자들끼리 공유해야하는 사항이 존재 하지 않음으로 내부 DB만으로 기능 구현이 가능
+    - 개발 리소스를 iOS 설계 개발에 집중시키기 위해 : 아키텍처 학습에 리소스 집중, 소셜 로그인 구현 필요 x
+  <details>
+  <summary><b>CoreData 설계도</b></summary>
+  <img width="390" alt="image" src="https://github.com/dogaegirl6mo/Dokgi/assets/161270615/ce268f37-51d9-4f5b-84ae-1d14eb7070bb">
+  </details>
+    
+* **CloudKit 도입 이유**
+    - 앱 내 데이터를 클라우드에 저장하여, 사용자가 앱을 삭제하더라도 데이터가 영구적으로 보존됨
+    - 서버 관리가 필요 없기 때문에 iOS 설계 개발에 집중 가능
+    - Apple 생태계에 완벽하게 통합되어 있어 Apple 기기에 자동 동기화 가능
+
+## 💥 트러블 슈팅   
+* **Components, Extension을 활용하여 중복 코드를 최소화**
+  <details>
+  <summary><b>Extension & 컴포넌트화</b></summary>
+  <img width="616" alt="image" src="https://github.com/dogaegirl6mo/Dokgi/assets/161270615/6390b934-2f7d-4c60-8a79-74749d980a69">
+  </details>
