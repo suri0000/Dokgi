@@ -26,11 +26,8 @@ class AddPassageViewController: UIViewController {
         $0.contentInsetAdjustmentBehavior = .never
     }
     
-    let backButton = BackButton()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         setupViews()
         setConstraints()
         setupActions()
@@ -72,7 +69,6 @@ class AddPassageViewController: UIViewController {
     }
     
     func setupActions() {
-        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         containerView.scanButton.addTarget(self, action: #selector(scanButtonTapped(_:)), for: .touchUpInside)
         containerView.searchButton.addTarget(self, action: #selector(searchButtonTapped(_:)), for: .touchUpInside)
         containerView.recordButton.addTarget(self, action: #selector(recordButtonTapped(_:)), for: .touchUpInside)

@@ -22,15 +22,12 @@ class SettingViewController: UIViewController{
         $0.textColor = .black
     }
     
-    let backButton = BackButton()
-    
     //MARK: - lifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupLayout()
         dataBind()
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         NotificationCenter.default.addObserver(self, selector: #selector(checkNotificationSetting), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
@@ -60,10 +57,6 @@ class SettingViewController: UIViewController{
     }
     
     func dataBind() {
-        backButton.rx.tap.subscribe(with: self) { (self, _) in
-            self.navigationController?.popViewController(animated: true)
-        }.disposed(by: disposeBag)
-        
         alarmView.remindTimeBtn.rx.tap.subscribe { _ in
             if UserDefaults.standard.bool(forKey: UserDefaultsKeys.remindSwitch.rawValue) == true {
                 let remindVC = TimePickerViewController()
