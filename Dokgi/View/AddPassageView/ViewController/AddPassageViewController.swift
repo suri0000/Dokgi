@@ -94,9 +94,11 @@ class AddPassageViewController: UIViewController {
         if index == 0{
             viewModel.pageType = true
             containerView.pageLabel.text = "페이지"
+            containerView.pageNumberTextField.placeholder = "페이지"
         } else {
             viewModel.pageType = false
             containerView.pageLabel.text = "퍼센트"
+            containerView.pageNumberTextField.placeholder = "퍼센트"
         }
     }
     
