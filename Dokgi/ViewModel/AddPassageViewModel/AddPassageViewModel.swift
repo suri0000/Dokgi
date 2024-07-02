@@ -25,11 +25,11 @@ class AddPassageViewModel {
             return (false, "책 검색을 눌러 책 정보를 기록해주세요")
         }
         
-        if verseText.isEmpty || verseText == "텍스트를 입력하세요" {
+        if passageText.isEmpty || passageText == "텍스트를 입력하세요" {
             return (false, "구절을 입력해 주세요")
         }
         
-        if verseText.count > 200 {
+        if passageText.count > 200 {
             return (false, "구절을 200자 이하로 작성해 주세요")
         }
         
