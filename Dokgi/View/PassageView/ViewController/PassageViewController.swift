@@ -56,6 +56,11 @@ final class PassageViewController: BaseLibraryAndPassageViewController {
         } else {
             self.passageViewModel.dataOldest()
         }
+        
+        self.isEditingMode = false
+        self.selectionButton.isHidden = false
+        self.doneButton.isHidden = true
+        
     }
     
     override func configureUI() {
