@@ -9,7 +9,7 @@ import RxCocoa
 import RxSwift
 import UIKit
 
-class CustomNavigationController: UINavigationController {
+class CustomNavigationController: UINavigationController, UIGestureRecognizerDelegate {
     let disposeBag = DisposeBag()
 
     let backButton = UIButton().then {
@@ -22,6 +22,7 @@ class CustomNavigationController: UINavigationController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.interactivePopGestureRecognizer?.delegate = self
     }
     
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {
@@ -37,4 +38,8 @@ class CustomNavigationController: UINavigationController {
             self.popViewController(animated: true)
         }.disposed(by: disposeBag)
     }
+    
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+            return viewControllers.count > 1
+        }
 }
