@@ -42,6 +42,10 @@ class PassageDetailViewController: UIViewController {
         $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
         $0.setTitleColor(.black, for: .normal)
         $0.setImage(.modalEdit, for: .normal)
+        let labelHeight = $0.titleLabel?.snp.height
+        $0.imageView?.snp.makeConstraints {
+            $0.width.height.equalTo(labelHeight ?? 20)
+        }
     }
     
     let detailScrollView = UIScrollView().then {
@@ -158,10 +162,12 @@ class PassageDetailViewController: UIViewController {
         
         containerView.pageSegment.buttons[0].rx.tap.subscribe { sender in
             self.containerView.pageSegment.selectedIndex = 0
+            self.containerView.pageTitle.text = "페이지"
         }.disposed(by: disposeBag)
         
         containerView.pageSegment.buttons[1].rx.tap.subscribe { sender in
             self.containerView.pageSegment.selectedIndex = 1
+            self.containerView.pageTitle.text = "퍼센트"
         }.disposed(by: disposeBag)
         
         containerView.passageTextField.rx.text.orEmpty.subscribe(with: self) { (self, text) in

@@ -97,7 +97,7 @@ class BookDetailViewController: UIViewController {
     private let addPassageButton = AddPassageButton().then {
         $0.setButtonTitle("구절 추가하기")
     }
-
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -154,7 +154,8 @@ class BookDetailViewController: UIViewController {
         }
         
         scrollView.snp.makeConstraints {
-            $0.edges.equalTo(self.view)
+            $0.top.horizontalEdges.equalTo(self.view)
+            $0.bottom.equalTo(buttonBackgroundView.snp.top)
         }
         
         contentsView.snp.makeConstraints {
@@ -165,7 +166,7 @@ class BookDetailViewController: UIViewController {
             $0.top.equalTo(passageTitleLabel.snp.bottom).offset(11)
             $0.horizontalEdges.equalToSuperview().inset(20)
             $0.height.equalTo(96 * viewModel.bookInfo.value.passages.count)
-            $0.bottom.equalToSuperview().inset(60)
+            $0.bottom.equalToSuperview().inset(8)
         }
         
         backgroundBookImage.snp.makeConstraints {
