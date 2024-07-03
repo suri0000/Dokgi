@@ -68,7 +68,7 @@ class AddPassageContainerView: UIView {
         $0.clipsToBounds = true
     }
     
-    lazy var verseTextView = UITextView().then {
+    lazy var passageTextView = UITextView().then {
         $0.text = "텍스트를 입력하세요"
         $0.textContainerInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 16.0, right: 16.0)
         $0.showsVerticalScrollIndicator = false
@@ -167,7 +167,7 @@ class AddPassageContainerView: UIView {
     
     // MARK: - setupViews
     private func setupViews() {
-        [infoView, searchButton, scanButton, passageLabel, textViewBoder, verseTextView, characterCountLabel, pencilImageView, keywordLabel, keywordField, keywordCollectionView, pageLabel, pageNumberTextField, pageSegment, recordButton].forEach { addSubview($0) }
+        [infoView, searchButton, scanButton, passageLabel, textViewBoder, passageTextView, characterCountLabel, pencilImageView, keywordLabel, keywordField, keywordCollectionView, pageLabel, pageNumberTextField, pageSegment, recordButton].forEach { addSubview($0) }
     }
     
     // MARK: - 제약조건
@@ -194,7 +194,7 @@ class AddPassageContainerView: UIView {
             $0.height.equalTo(329)
         }
         
-        verseTextView.snp.makeConstraints {
+        passageTextView.snp.makeConstraints {
             $0.top.equalTo(scanButton.snp.bottom).offset(35)
             $0.horizontalEdges.equalToSuperview().inset(18)
             $0.bottom.equalTo(pencilImageView.snp.top).inset(8)
@@ -254,7 +254,6 @@ class AddPassageContainerView: UIView {
     func updateViewForSearchResult(isSearched: Bool) {
         searchButton.isHidden = isSearched
         infoView.isHidden = !isSearched
-
 
         scanButton.snp.remakeConstraints {
             $0.trailing.equalToSuperview().inset(16)

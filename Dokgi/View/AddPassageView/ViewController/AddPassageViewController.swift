@@ -19,6 +19,7 @@ class AddPassageViewController: UIViewController {
     
     let viewModel = AddPassageViewModel()
     private let containerView = AddPassageContainerView()
+    var dataScannerViewController: DataScannerViewController?
     
     private let scrollView = UIScrollView().then {
         $0.showsVerticalScrollIndicator = false
@@ -44,20 +45,20 @@ class AddPassageViewController: UIViewController {
     func setupViews() {
         view.backgroundColor = .white
         containerView.pageSegment.selectedIndex = 0
-        viewModel.onRecognizedTextUpdate = { [weak self] recognizedText in
-            self?.updateTextView(with: recognizedText)
-        }
         view.addSubview(scrollView)
         scrollView.addSubview(containerView)
         containerView.keywordCollectionView.register(KeywordCollectionViewCell.self, forCellWithReuseIdentifier: KeywordCollectionViewCell.identifier)
+        setupDelegates()
+    }
+    
+    func setupDelegates() {
         containerView.keywordCollectionView.delegate = self
         containerView.keywordCollectionView.dataSource = self
         containerView.keywordField.delegate = self
         containerView.pageNumberTextField.delegate = self
-        containerView.verseTextView.delegate = self
+        containerView.passageTextView.delegate = self
     }
     
-    // MARK: - setConstraints
     func setConstraints() {
         scrollView.snp.makeConstraints {
             $0.edges.equalTo(view.safeAreaLayoutGuide)
@@ -79,7 +80,32 @@ class AddPassageViewController: UIViewController {
     }
     
     @objc func scanButtonTapped(_ sender: UIButton) {
-        viewModel.visionKit(presenter: self)
+        startScanning()
+    }
+    
+    func startScanning() {
+        guard DataScannerViewController.isSupported else {
+            print("DataScannerViewController is not supported on this device")
+            return
+        }
+        
+        let recognizedDataTypes: Set<DataScannerViewController.RecognizedDataType> = [.text()]
+    
+        let dataScanner = DataScannerViewController(
+            recognizedDataTypes: recognizedDataTypes,
+            qualityLevel: .balanced,
+            recognizesMultipleItems: false,
+            isPinchToZoomEnabled: true,
+            isGuidanceEnabled: true,
+            isHighlightingEnabled: true
+        )
+        
+        dataScanner.delegate = self
+        dataScannerViewController = dataScanner
+        
+        present(dataScanner, animated: true) {
+            try? dataScanner.startScanning()
+        }
     }
     
     @objc func searchButtonTapped(_ sender: UIButton) {
@@ -103,41 +129,19 @@ class AddPassageViewController: UIViewController {
     }
     
     @objc func recordButtonTapped(_ sender: UIButton) {
-        if containerView.searchButton.isHidden == false {
-            showAlert(title: "책 정보 기록", message: "책 검색을 눌러 책 정보를 기록해주세요")
-            return
-        }
-        
-        if containerView.verseTextView.text.isEmpty || containerView.verseTextView.text == "텍스트를 입력하세요" {
-            showAlert(title: "구절 입력", message: "구절을 입력해 주세요")
-            return
-        }
-        
-        if containerView.pageNumberTextField.text?.isEmpty == true {
-            showAlert(title: "페이지", message: "페이지를 입력해 주세요")
-            return
-        }
-        
-        if let pageNumber = Int(containerView.pageNumberTextField.text ?? "") {
-            if viewModel.pageType == true && pageNumber <= 0 {
-                showAlert(title: "페이지 값 오류", message: "0 이상을 입력하세요.")
-                return
-            } else if viewModel.pageType == false && pageNumber > 100 {
-                showAlert(title: "% 값 오류", message: "100이하를 입력하세요.")
-                return
-            }
-        } else {
-            showAlert(title: "입력 값 오류", message: "숫자를 입력하세요.")
+        let (isValid, message) = viewModel.validatePassage(passageText: containerView.passageTextView.text, pageNumberText: containerView.pageNumberTextField.text)
+        if !isValid {
+            showAlert(title: "경고", message: message)
             return
         }
         
         viewModel.removeEmptyKeywords()
         
         viewModel.savePassage(selectedBook: viewModel.selectedBook,
-                              passageText: containerView.verseTextView.text ?? "",
-                            pageNumberText: containerView.pageNumberTextField.text ?? "",
-                            pageType: viewModel.pageType,
-                            keywords: viewModel.keywords) { success in
+                              passageText: containerView.passageTextView.text ?? "",
+                              pageNumberText: containerView.pageNumberTextField.text ?? "",
+                              pageType: viewModel.pageType,
+                              keywords: viewModel.keywords) { success in
             if success {
                 self.navigationController?.popViewController(animated: true)
                 let viewModel = DayTimeViewModel()
@@ -159,9 +163,9 @@ class AddPassageViewController: UIViewController {
     }
     
     func updateCharacterCountLabel() {
-        viewModel.updateCharacterCountText(for: containerView.verseTextView.text, label: containerView.characterCountLabel)
+        viewModel.updateCharacterCountText(for: containerView.passageTextView.text, label: containerView.characterCountLabel)
     }
-
+    
     func displayBookInfo() {
         if let book = viewModel.selectedBook {
             containerView.infoView.titleLabel.text = book.title
@@ -176,14 +180,18 @@ class AddPassageViewController: UIViewController {
     }
     
     private func updateTextView(with text: String) {
-        if containerView.verseTextView.text.isEmpty || containerView.verseTextView.textColor == .textFieldGray {
-            containerView.verseTextView.text = text
-            containerView.verseTextView.textColor = .black
-            containerView.verseTextView.font = Pretendard.regular.dynamicFont(style: .body)
-            updateCharacterCountLabel()
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.containerView.passageTextView.text = text
+            self.containerView.passageTextView.textColor = .black
+            self.containerView.passageTextView.font = Pretendard.regular.dynamicFont(style: .body)
+            self.updateCharacterCountLabel()
+            
+            let range = NSMakeRange(self.containerView.passageTextView.text.count - 1, 0)
+            self.containerView.passageTextView.scrollRangeToVisible(range)
         }
     }
-
+    
     func removeKeyword(at indexPath: IndexPath) {
         let reversedIndex = viewModel.keywords.count - 1 - indexPath.item
         viewModel.keywords.remove(at: reversedIndex)
@@ -193,6 +201,20 @@ class AddPassageViewController: UIViewController {
             containerView.updateViewForKeyword(isAdded: true)
         }
         containerView.keywordCollectionView.reloadData()
+    }
+}
+
+// MARK: - DataScannerViewControllerDelegate
+extension AddPassageViewController: DataScannerViewControllerDelegate {
+    func dataScanner(_ dataScanner: DataScannerViewController, didTapOn item: RecognizedItem) {
+        switch item {
+        case .text(let text):
+            updateTextView(with: text.transcript)
+            dataScanner.stopScanning()
+            dataScanner.dismiss(animated: true, completion: nil)
+        default:
+            print("Unexpected item type")
+        }
     }
 }
 
@@ -233,7 +255,15 @@ extension AddPassageViewController: UITextFieldDelegate {
         }
         containerView.updateViewForKeyword(isAdded: false)
     }
-
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard textField == containerView.keywordField else { return true }
+        
+        guard let currentText = textField.text as NSString? else { return true }
+        let newText = currentText.replacingCharacters(in: range, with: string)
+        return newText.count <= 20
+    }
+    
     @objc func textFieldDidChange(_ textField: UITextField) {
         guard textField == containerView.keywordField else { return }
         
@@ -243,14 +273,6 @@ extension AddPassageViewController: UITextFieldDelegate {
             }
             containerView.keywordCollectionView.reloadData()
         }
-    }
-
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard textField == containerView.keywordField else { return true }
-        
-        guard let currentText = textField.text as NSString? else { return true }
-        let newText = currentText.replacingCharacters(in: range, with: string)
-        return newText.count <= 20
     }
 }
 
@@ -264,7 +286,6 @@ extension AddPassageViewController: UICollectionViewDelegate, UICollectionViewDa
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: KeywordCollectionViewCell.identifier, for: indexPath) as? KeywordCollectionViewCell else {
             return UICollectionViewCell()
         }
-        
         let reversedIndex = viewModel.keywords.count - 1 - indexPath.item
         let keyword = viewModel.keywords[reversedIndex]
         cell.xButton.isHidden = false
@@ -273,24 +294,28 @@ extension AddPassageViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let reversedIndex = viewModel.keywords.count - 1 - indexPath.item
-        let keyword = viewModel.keywords[reversedIndex]
-        let font = Pretendard.regular.dynamicFont(style: .callout)
-        let attributes = [NSAttributedString.Key.font: font]
-        let textSize = (keyword as NSString).size(withAttributes: attributes)
-        let cellWidth = textSize.width + 40
-        let cellHeight: CGFloat = 34
-        return CGSize(width: cellWidth, height: cellHeight)
-    }
+            let reversedIndex = viewModel.keywords.count - 1 - indexPath.item
+            let keyword = viewModel.keywords[reversedIndex]
+            return calculateCellSize(for: keyword)
+        }
+
+        private func calculateCellSize(for keyword: String) -> CGSize {
+            let font = Pretendard.regular.dynamicFont(style: .callout)
+            let attributes = [NSAttributedString.Key.font: font]
+            let textSize = (keyword as NSString).size(withAttributes: attributes)
+            let cellWidth = textSize.width + 40
+            let cellHeight: CGFloat = 34
+            return CGSize(width: cellWidth, height: cellHeight)
+        }
 }
 
 // MARK: - 텍스트뷰 placeholder
 extension AddPassageViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        guard containerView.verseTextView.textColor == .textFieldGray else { return }
-        containerView.verseTextView.textColor = .black
-        containerView.verseTextView.font = Pretendard.regular.dynamicFont(style: .body)
-        containerView.verseTextView.text = nil
+        guard containerView.passageTextView.textColor == .textFieldGray else { return }
+        containerView.passageTextView.textColor = .black
+        containerView.passageTextView.font = Pretendard.regular.dynamicFont(style: .body)
+        containerView.passageTextView.text = nil
         updateCharacterCountLabel()
     }
     
@@ -303,34 +328,7 @@ extension AddPassageViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        let currentCount = textView.text.count
-        
-        if currentCount > 200 {
-            textView.text = String(textView.text.prefix(200))
-            containerView.characterCountLabel.text = "200/200"
-        } else {
-            updateCharacterCountLabel()
-        }
-    }
-}
-
-// MARK: - 스캔
-extension AddPassageViewController: VNDocumentCameraViewControllerDelegate {
-    func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
-        controller.dismiss(animated: true)
-        if scan.pageCount > 0 {
-            let scannedImage = scan.imageOfPage(at: 0)
-            viewModel.recognizeText(from: scannedImage)
-        }
-    }
-
-    func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
-        controller.dismiss(animated: true)
-    }
-
-    func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) {
-        controller.dismiss(animated: true)
-        print("스캔 실패: \(error.localizedDescription)")
+        updateCharacterCountLabel()
     }
 }
 
@@ -343,4 +341,3 @@ extension AddPassageViewController: BookSelectionDelegate {
         containerView.updateViewForSearchResult(isSearched: viewModel.showUi)
     }
 }
-
