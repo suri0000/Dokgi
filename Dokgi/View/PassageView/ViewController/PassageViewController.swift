@@ -58,6 +58,11 @@ final class PassageViewController: BaseLibraryAndPassageViewController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        searchBar.delegate?.searchBarCancelButtonClicked?(searchBar)
+    }
+    
     override func configureUI() {
         passageCollectionView.delegate = self
         passageCollectionView.dataSource = self

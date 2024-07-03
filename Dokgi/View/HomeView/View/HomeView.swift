@@ -195,7 +195,7 @@ class HomeView: UIView {
         
         todayVersesColletionView.snp.makeConstraints {
             $0.top.equalTo(todayVersesLabel.snp.bottom).offset(14)
-            $0.bottom.equalToSuperview().offset(-63)
+            $0.bottom.equalToSuperview().offset(-43)
             $0.horizontalEdges.equalToSuperview().inset(20)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(158)

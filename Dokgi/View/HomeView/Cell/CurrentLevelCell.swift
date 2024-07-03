@@ -48,18 +48,18 @@ class CurrentLevelCell: UICollectionViewCell {
     
     let hideView = UIView()
     
-    let nextLevel = UILabel().then {
+    let nextLevel = PaddingLabel(padding: UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 0)).then {
         $0.font = Pretendard.bold.dynamicFont(style: .title3)
         $0.textColor = .black
     }
     
-    let currentLevel = UILabel().then {
+    let currentLevel = PaddingLabel(padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)).then {
         $0.font = Pretendard.regular.dynamicFont(style: .callout)
         $0.textColor = .alarmSettingText
         $0.textAlignment = .center
     }
     
-    let questionMark = UILabel().then {
+    let questionMark = PaddingLabel(padding: UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)).then {
         $0.font = .systemFont(ofSize: 60, weight: .heavy)
         $0.textColor = .deepSkyBlue
         $0.text = "?"
@@ -112,8 +112,7 @@ class CurrentLevelCell: UICollectionViewCell {
         }
         
         levelView.snp.makeConstraints {
-            $0.leading.equalToSuperview()
-            $0.top.equalToSuperview()
+            $0.leading.top.equalToSuperview()
         }
         
         levelLabel.snp.makeConstraints {
