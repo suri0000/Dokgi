@@ -303,7 +303,6 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
             let pageWidth = scrollView.frame.size.width
             let targetXContentOffset = targetContentOffset.pointee.x
             let page = Int(targetXContentOffset / pageWidth)
-            print("page \(page)")
             self.homeView.indicatorDots.currentPage = page
             self.nowPage = page
         }

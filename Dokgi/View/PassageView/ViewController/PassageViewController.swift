@@ -232,6 +232,7 @@ extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataS
         let okAction = UIAlertAction(title: "확인", style: .cancel) { [weak self] _ in
             CoreDataManager.shared.deleteData(passage: CoreDataManager.shared.passageData.value[indexPath.item])
             CoreDataManager.shared.readPassage(text: self?.searchBar.text ?? "")
+            self?.dataSort()
         }
         alert.addAction(UIAlertAction(title: "취소", style: .default, handler: nil))
         alert.addAction(okAction)
