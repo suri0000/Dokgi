@@ -37,6 +37,11 @@ class PassageDetailContainerView: UIView {
         $0.spacing = 7
     }
     
+    let keywordLabelStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.distribution = .equalSpacing
+    }
+    
     let keywordLabel = UILabel().then {
         $0.text = "키워드"
         $0.font = Pretendard.semibold.dynamicFont(style: .body)
@@ -159,7 +164,10 @@ class PassageDetailContainerView: UIView {
         textView.addSubview(passageTextField)
         textView.addSubview(copyButton)
         addSubview(keywordStackView)
-        [keywordLabel, keywordTextField, noKeywordLabel,keywordCollectionView].forEach {
+        [keywordLabel, noKeywordLabel].forEach {
+            keywordLabelStackView.addArrangedSubview($0)
+        }
+        [keywordLabelStackView, keywordTextField, keywordCollectionView].forEach {
             keywordStackView.addArrangedSubview($0)
         }
         addSubview(writeStackView)
