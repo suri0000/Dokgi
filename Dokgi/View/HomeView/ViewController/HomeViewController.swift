@@ -225,6 +225,7 @@ extension HomeViewController: UICollectionViewDataSource {
             let randomVerses = viewModel.randomVerses.value
             if randomVerses.isEmpty || indexPath.item >= randomVerses.count {
                 let explainTexts = ["구절을 기록해주세요!", "오늘의 구절은 최대 5개까지 보여집니다", "매일 보여지는 구절은 기록한 구절 중 랜덤으로 보여집니다", "다른 구절을 보고 싶으시면 구절탭을 확인해주세요", "독기와 함께 오늘도 즐거운 독서와 기록 하세요"]
+                self.homeView.indicatorDots.numberOfPages = 5
                 cell.verse.text = explainTexts[indexPath.item]
             } else {
                 cell.verse.text = randomVerses[indexPath.item]
