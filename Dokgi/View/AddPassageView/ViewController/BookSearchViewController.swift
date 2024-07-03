@@ -150,13 +150,8 @@ class BookSearchViewController: UIViewController {
 extension BookSearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let query = searchBar.text, !query.isEmpty else { return }
-        viewModel.query = query
-        viewModel.startIndex = 1
-        viewModel.searchResults = []
-        fetchBooks(query: query, startIndex: viewModel.startIndex)
+        performSearch(query: query)
         viewModel.saveRecentSearch(query)
-        showSearchResults()
-        hideRecentSearches()
         searchBar.resignFirstResponder()
     }
     
@@ -176,14 +171,17 @@ extension BookSearchViewController: UISearchBarDelegate {
             showRecentSearches()
         } else {
             guard let query = searchBar.text, !query.isEmpty else { return }
-            viewModel.query = query
-            viewModel.startIndex = 1
-            viewModel.searchResults = []
-            fetchBooks(query: query, startIndex: viewModel.startIndex)
-            viewModel.saveRecentSearch(query)
-            showSearchResults()
-            hideRecentSearches()
+            performSearch(query: query)
         }
+    }
+    
+    private func performSearch(query: String) {
+        viewModel.query = query
+        viewModel.startIndex = 1
+        viewModel.searchResults = []
+        fetchBooks(query: query, startIndex: viewModel.startIndex)
+        showSearchResults()
+        hideRecentSearches()
     }
     
     private func hideRecentSearches() {
@@ -218,6 +216,11 @@ extension BookSearchViewController: UITableViewDataSource {
 extension BookSearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        // 현재 searchBar의 텍스트를 가져옵니다.
+        if let lastSearched = containerView.searchBar.text {
+            viewModel.saveRecentSearch(lastSearched)
+        }
         
         let item = viewModel.searchResults[indexPath.row]
         delegate?.didSelectBook(item)
