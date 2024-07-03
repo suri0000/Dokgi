@@ -5,6 +5,7 @@
 //  Created by IMHYEONJEONG on 6/4/24.
 //
 
+import CoreData
 import RxSwift
 import RxCocoa
 import SnapKit
@@ -34,12 +35,23 @@ class HomeViewController: UIViewController, HomeViewDelegate {
         CoreDataManager.shared.readPassage() // 추가된 구절 반영
         homeView.delegate = self
         homeView.setConfigureUI(viewModel: viewModel)
+        
+        self.view.layoutIfNeeded()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(cloudKitDataSetting(_:)), name: NSPersistentCloudKitContainer.eventChangedNotification, object: nil)
     }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        homeView.currentLevelBubble.snp.makeConstraints {
-            $0.centerX.equalTo(self.homeView.lengthSlider.snp.leading).offset(self.homeView.lengthSlider.frame.width * CGFloat(homeView.lengthSlider.value))
+    
+    @objc func cloudKitDataSetting(_ notification: Notification) {
+        if let cloudEvent = notification.userInfo?[NSPersistentCloudKitContainer.eventNotificationUserInfoKey]
+            as? NSPersistentCloudKitContainer.Event {
+            switch cloudEvent.type {
+                case .import:
+                    print("An import finished!")
+                    DispatchQueue.main.async {
+                        CoreDataManager.shared.readPassage()
+                    }
+                default: break
+            }
         }
     }
     
@@ -67,8 +79,6 @@ class HomeViewController: UIViewController, HomeViewDelegate {
         homeView.todayVersesColletionView.delegate = self
         homeView.todayVersesColletionView.register(TodayPassageCell.self, forCellWithReuseIdentifier: TodayPassageCell.identifier)
         homeView.currentLevelCollectionView.register(CurrentLevelCell.self, forCellWithReuseIdentifier: CurrentLevelCell.identifier)
-        homeView.currentLevelCollectionView.layoutIfNeeded() // 레이아웃 새로고침
-        homeView.currentLevelCollectionView.reloadData()
     }
     
     func bindViewModel() {
@@ -89,6 +99,7 @@ class HomeViewController: UIViewController, HomeViewDelegate {
                     $0.width.equalTo(38)
                     $0.height.equalTo(41)
                     $0.top.equalTo(self.homeView.lengthSlider.snp.bottom)
+                    $0.centerX.equalTo(self.homeView.lengthSlider.snp.leading).offset(self.homeView.lengthSlider.frame.width * CGFloat(self.homeView.lengthSlider.value))
                 }
             })
             .disposed(by: disposeBag)
@@ -125,9 +136,9 @@ class HomeViewController: UIViewController, HomeViewDelegate {
         let currIndex = levelCollectionViewSelectedIndex
         let nextIndex = min(levelCollectionViewSelectedIndex + 1, viewModel.levelCards.count - 1)
         
-        let prevCell = homeView.currentLevelCollectionView.cellForItem(at: IndexPath(row: Int(prevIndex), section: 0))
-        let currCell = homeView.currentLevelCollectionView.cellForItem(at: IndexPath(row: Int(currIndex), section: 0))
-        let nextCell = homeView.currentLevelCollectionView.cellForItem(at: IndexPath(row: Int(nextIndex), section: 0))
+        let prevCell = homeView.currentLevelCollectionView.cellForItem(at: IndexPath(row: Int(prevIndex), section: 0)) as? CurrentLevelCell
+        let currCell = homeView.currentLevelCollectionView.cellForItem(at: IndexPath(row: Int(currIndex), section: 0)) as? CurrentLevelCell
+        let nextCell = homeView.currentLevelCollectionView.cellForItem(at: IndexPath(row: Int(nextIndex), section: 0)) as? CurrentLevelCell
         
         if prevIndex != currIndex { prevCell?.transformToSmall() }
         currCell?.transformToStandard()
@@ -202,10 +213,10 @@ extension HomeViewController: UICollectionViewDataSource {
             
             // 현재 보여지는 셀 크기 : Standard
             if levelCollectionViewSelectedIndex == indexPath.item {
-                cell.transformToStandard()
+                cell.transform = CGAffineTransform.identity
             }
             else {
-                cell.transformToSmall()
+                cell.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
             }
             return cell
         } else {
@@ -218,6 +229,8 @@ extension HomeViewController: UICollectionViewDataSource {
             } else {
                 cell.verse.text = randomVerses[indexPath.item]
             }
+            cell.layer.cornerRadius = 10
+            cell.layer.masksToBounds = true
             return cell
         }
     }
@@ -241,8 +254,10 @@ extension HomeViewController: UICollectionViewDelegate {
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
     // 현재 드래그 되는 셀 작아지게
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        let currentCell = homeView.currentLevelCollectionView.cellForItem(at: IndexPath(row: Int(levelCollectionViewSelectedIndex), section: 0))
-        currentCell?.transformToSmall()
+        if scrollView == homeView.currentLevelCollectionView {
+            let currentCell = homeView.currentLevelCollectionView.cellForItem(at: IndexPath(row: Int(levelCollectionViewSelectedIndex), section: 0)) as? CurrentLevelCell
+            currentCell?.transformToSmall()
+        }
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {

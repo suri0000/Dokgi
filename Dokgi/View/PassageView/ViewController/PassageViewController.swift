@@ -4,13 +4,14 @@
 //
 //  Created by t2023-m0095 on 6/10/24.
 //
+
 import RxCocoa
 import RxSwift
 import SnapKit
 import Then
 import UIKit
 
-class PassageViewController: BaseLibraryAndPassageViewController {
+final class PassageViewController: BaseLibraryAndPassageViewController {
     
     let passageCollectionView = PassageCollectionView()
     let passageViewModel = PassageViewModel()
@@ -41,15 +42,15 @@ class PassageViewController: BaseLibraryAndPassageViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setLabelText(title: "구절", placeholder: "기록한 구절을 검색해보세요", noResultsMessage: "기록한 구절이 없어요\n구절을 등록해 보세요")
-        
         setButtonActions()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         CoreDataManager.shared.readPassage(text: searchBar.text ?? "")
+        
         if self.sortButton.sortButtonTitleLabel.text == "최신순" {
             self.passageViewModel.dataLatest()
         } else {
@@ -111,6 +112,7 @@ class PassageViewController: BaseLibraryAndPassageViewController {
             }
             self.passageCollectionView.isHidden = data.count < 0
             self.noResultsLabel.isHidden = data.count > 0
+            
             if self.searchBar.text == "" {
                 self.noResultsLabel.text = "기록한 구절이 없어요\n구절을 등록해 보세요"
             } else {
@@ -229,6 +231,7 @@ extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataS
         let okAction = UIAlertAction(title: "삭제", style: .default) { [weak self] _ in
             CoreDataManager.shared.deleteData(passage: CoreDataManager.shared.passageData.value[indexPath.item])
             CoreDataManager.shared.readPassage(text: self?.searchBar.text ?? "")
+            self?.dataSort()
         }
         alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
         alert.addAction(okAction)

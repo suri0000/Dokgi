@@ -12,7 +12,7 @@ import SnapKit
 import Then
 import UIKit
 
-class BookDetailViewController: UIViewController {
+final class BookDetailViewController: UIViewController {
     let viewModel = BookDetailViewModel()
     private var disposeBag = DisposeBag()
     
@@ -120,9 +120,10 @@ class BookDetailViewController: UIViewController {
             let book = data.filter { $0.title == self.viewModel.bookInfo.value.title }
             self.viewModel.bookInfo.accept(book[0])
         }.disposed(by: disposeBag)
+        viewModel.sortPassageData()
     }
     
-    private func bindViewModel() {
+    func bindViewModel() {
         viewModel.bookInfo
             .observe(on: MainScheduler.instance)
             .subscribe(with: self) { (self, bookInfo) in
@@ -133,7 +134,7 @@ class BookDetailViewController: UIViewController {
     }
     
     // MARK: - UI
-    private func setConstraints() {
+    func setConstraints() {
         view.addSubviews([scrollView, buttonBackgroundView, addPassageButton])
         scrollView.addSubview(contentsView)
         contentsView.addSubviews([backgroundBookImage,
@@ -222,8 +223,10 @@ class BookDetailViewController: UIViewController {
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
-    
-    private func blurLayer(layer: CAGradientLayer, view: UIView) {
+}
+
+private extension BookDetailViewController {
+    func blurLayer(layer: CAGradientLayer, view: UIView) {
         let colors: [CGColor] = [
             UIColor(white: 1.0, alpha: 0.0).cgColor,
             UIColor(white: 1.0, alpha: 1.0).cgColor
@@ -252,7 +255,7 @@ class BookDetailViewController: UIViewController {
         }
     }
     
-    private func setBookInfo(_ bookInfo: Book) {
+    func setBookInfo(_ bookInfo: Book) {
         bookTitleLabel.text = bookInfo.title
         authorLabel.text = bookInfo.author
         dateLabel.text = viewModel.setFirstRecordDate()
@@ -263,13 +266,13 @@ class BookDetailViewController: UIViewController {
         }
     }
     
-    private func updatePassageTableHeight() {
+    func updatePassageTableHeight() {
         passageTableView.snp.updateConstraints {
             $0.height.equalTo(96 * viewModel.bookInfo.value.passages.count)
         }
     }
     
-    private func tappedAddPassageButton() {
+    func tappedAddPassageButton() {
         addPassageButton.rx.tap.subscribe(with: self) { (self, _) in
             let addVerseVC = AddPassageViewController()
             addVerseVC.viewModel.showUi = true
@@ -279,6 +282,7 @@ class BookDetailViewController: UIViewController {
         }.disposed(by: disposeBag)
     }
 }
+
 // MARK: - PassageTableView
 extension BookDetailViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
