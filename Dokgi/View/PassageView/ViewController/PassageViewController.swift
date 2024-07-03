@@ -116,16 +116,18 @@ final class PassageViewController: BaseLibraryAndPassageViewController {
     override func setBinding() {
         super.setBinding()
         CoreDataManager.shared.passageData.subscribe(with: self) { (self, data) in
-            if let layout = self.passageCollectionView.collectionViewLayout as? PassageCollectionViewLayout {
-                layout.invalidateCache()
-            }
-            self.passageCollectionView.isHidden = data.count < 0
-            self.noResultsLabel.isHidden = data.count > 0
-            
-            if self.searchBar.text == "" {
-                self.noResultsLabel.text = "기록한 구절이 없어요\n구절을 등록해 보세요"
-            } else {
-                self.noResultsLabel.text = "검색결과가 없습니다."
+            DispatchQueue.main.async {
+                if let layout = self.passageCollectionView.collectionViewLayout as? PassageCollectionViewLayout {
+                    layout.invalidateCache()
+                }
+                self.passageCollectionView.isHidden = data.count < 0
+                self.noResultsLabel.isHidden = data.count > 0
+                
+                if self.searchBar.text == "" {
+                    self.noResultsLabel.text = "기록한 구절이 없어요\n구절을 등록해 보세요"
+                } else {
+                    self.noResultsLabel.text = "검색결과가 없습니다."
+                }
             }
             self.passageCollectionView.reloadData()
         }.disposed(by: disposeBag)
@@ -238,6 +240,9 @@ extension PassageViewController: UICollectionViewDelegate, UICollectionViewDataS
         guard let indexPath = passageCollectionView.indexPath(for: cell) else { return }
         let alert = UIAlertController(title: nil, message: "삭제하시겠습니까?", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "삭제", style: .default) { [weak self] _ in
+            if let savedVerses = UserDefaults.standard.array(forKey: UserDefaultsKeys.shuffledPassage.rawValue) as? [String] {
+                UserDefaults.standard.set(savedVerses.filter{ $0 != CoreDataManager.shared.passageData.value[indexPath.item].passage }, forKey: UserDefaultsKeys.shuffledPassage.rawValue)
+              }
             CoreDataManager.shared.deleteData(passage: CoreDataManager.shared.passageData.value[indexPath.item])
             CoreDataManager.shared.readPassage(text: self?.searchBar.text ?? "")
             self?.dataSort()

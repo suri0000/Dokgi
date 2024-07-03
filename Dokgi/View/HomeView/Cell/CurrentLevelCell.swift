@@ -53,7 +53,7 @@ class CurrentLevelCell: UICollectionViewCell {
         $0.textColor = .black
     }
     
-    let currentLevel = PaddingLabel(padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)).then {
+    let currentLevel = UILabel().then {
         $0.font = Pretendard.regular.dynamicFont(style: .callout)
         $0.textColor = .alarmSettingText
         $0.textAlignment = .center

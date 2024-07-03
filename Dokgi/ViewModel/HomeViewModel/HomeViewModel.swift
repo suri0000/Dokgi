@@ -35,7 +35,7 @@ class HomeViewModel {
         }
         return 1
     }
-
+    
     init() {
         
         passages
@@ -70,23 +70,23 @@ class HomeViewModel {
                 }
             })
             .disposed(by: disposeBag)
-        
-        loadTodayVerses()
     }
     
     // MARK: - Today's verese
     func loadTodayVerses() {
         let savedDate = UserDefaults.standard.string(forKey: UserDefaultsKeys.todayDate.rawValue)
         
-        if passages.value.count > 5 { // 5개 초과일 때 실행
+        guard let savedVerses = UserDefaults.standard.array(forKey: UserDefaultsKeys.shuffledPassage.rawValue) as? [String] else {
+            shuffleAndSaveVerses() 
+            return
+        }
+        
+        if savedVerses.count == 5 { // 5개 초과일 때 실행
             // 날짜에 따른 구절 업데이트
             if today != savedDate { // 5개 초과이고 다른 날 일때
                 shuffleAndSaveVerses()
-                print("1일때")
             } else { // 5개 초과이고 같은 날일 때
-                if let savedVerses = UserDefaults.standard.array(forKey: UserDefaultsKeys.shuffledPassage.rawValue) as? [String] {
-                    randomVerses.accept(savedVerses)
-                }
+                randomVerses.accept(savedVerses)
             }
         } else { // 5개 이하일 때
             shuffleAndSaveVerses()
