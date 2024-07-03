@@ -91,7 +91,15 @@ class AddPassageViewController: UIViewController {
     @objc func pageSegmentButtonTapped(_ sender: UIButton) {
         guard let index = containerView.pageSegment.buttons.firstIndex(of: sender) else { return }
         containerView.pageSegment.selectedIndex = index
-        viewModel.pageType = index == 0 ? true : false
+        if index == 0{
+            viewModel.pageType = true
+            containerView.pageLabel.text = "페이지"
+            containerView.pageNumberTextField.placeholder = "페이지"
+        } else {
+            viewModel.pageType = false
+            containerView.pageLabel.text = "퍼센트"
+            containerView.pageNumberTextField.placeholder = "퍼센트"
+        }
     }
     
     @objc func recordButtonTapped(_ sender: UIButton) {
@@ -132,6 +140,10 @@ class AddPassageViewController: UIViewController {
                             keywords: viewModel.keywords) { success in
             if success {
                 self.navigationController?.popViewController(animated: true)
+                let viewModel = DayTimeViewModel()
+                if UserDefaults.standard.bool(forKey: UserDefaultsKeys.remindSwitch.rawValue) == true {
+                    viewModel.sendLocalPushRemind(identifier: "remindTime", time: UserDefaults.standard.array(forKey: UserDefaultsKeys.remindTime.rawValue) as? [Int] ?? [3, 00, 1])
+                }
             } else {
                 self.showAlert(title: "경고", message: "모든 필수 정보를 입력해주세요.")
             }

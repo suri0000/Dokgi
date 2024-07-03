@@ -97,7 +97,7 @@ class BookDetailViewController: UIViewController {
     private let addPassageButton = AddPassageButton().then {
         $0.setButtonTitle("구절 추가하기")
     }
-
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
