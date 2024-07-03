@@ -28,7 +28,7 @@ class InfoView: UIView {
         $0.text = "저자"
         $0.font = Pretendard.bold.dynamicFont(style: .body)
         $0.textColor = .bookTextGray
-        $0.numberOfLines = 2
+        $0.numberOfLines = 1
     }
     
     override init(frame: CGRect) {

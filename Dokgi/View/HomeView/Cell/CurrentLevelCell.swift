@@ -56,6 +56,7 @@ class CurrentLevelCell: UICollectionViewCell {
     let currentLevel = UILabel().then {
         $0.font = Pretendard.regular.dynamicFont(style: .callout)
         $0.textColor = .alarmSettingText
+        $0.textAlignment = .center
     }
     
     let questionMark = UILabel().then {

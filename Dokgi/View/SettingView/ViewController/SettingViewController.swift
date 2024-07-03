@@ -33,6 +33,7 @@ class SettingViewController: UIViewController{
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = false
         self.alarmView.switchHidden(onoff: UserDefaults.standard.bool(forKey: UserDefaultsKeys.notification.rawValue))
     }
     
