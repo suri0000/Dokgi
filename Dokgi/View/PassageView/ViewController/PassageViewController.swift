@@ -60,7 +60,6 @@ final class PassageViewController: BaseLibraryAndPassageViewController {
         self.isEditingMode = false
         self.selectionButton.isHidden = false
         self.doneButton.isHidden = true
-        
     }
     
     override func configureUI() {
