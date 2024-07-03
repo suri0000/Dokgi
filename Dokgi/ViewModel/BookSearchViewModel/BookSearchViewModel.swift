@@ -11,7 +11,6 @@ class BookSearchViewModel {
     
     private let bookManager = BookManager.shared
     
-    private var lastSavedQuery: String?
     var searchResults: [Item] = []
     var isLoading = false
     var isLoadingLast = false
