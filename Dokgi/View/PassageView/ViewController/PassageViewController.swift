@@ -26,7 +26,7 @@ final class PassageViewController: BaseLibraryAndPassageViewController {
     }
     
     let selectionButtonLabel = UILabel().then {
-        $0.text = "선택"
+        $0.text = "편집"
         $0.font = Pretendard.semibold.dynamicFont(style: .headline)
         $0.textColor = .charcoalBlue
     }
@@ -34,7 +34,7 @@ final class PassageViewController: BaseLibraryAndPassageViewController {
     let doneButton = UIButton().then {
         $0.titleLabel?.font = Pretendard.semibold.dynamicFont(style: .headline)
         $0.setTitle("완료", for: .normal)
-        $0.setTitleColor(.brightRed, for: .normal)
+        $0.setTitleColor(.systemBlue, for: .normal)
         $0.isHidden = true
     }
     
@@ -56,6 +56,10 @@ final class PassageViewController: BaseLibraryAndPassageViewController {
         } else {
             self.passageViewModel.dataOldest()
         }
+        
+        self.isEditingMode = false
+        self.selectionButton.isHidden = false
+        self.doneButton.isHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
