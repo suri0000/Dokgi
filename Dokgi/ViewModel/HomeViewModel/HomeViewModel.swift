@@ -64,8 +64,10 @@ class HomeViewModel {
         // 구절 추가 업데이트
         CoreDataManager.shared.passageData
             .subscribe(onNext: { [weak self] passages in
-                self?.passages.accept(passages)
-                self?.loadTodayVerses()
+                DispatchQueue.main.async {
+                    self?.passages.accept(passages)
+                    self?.loadTodayVerses()
+                }
             })
             .disposed(by: disposeBag)
         
