@@ -115,11 +115,8 @@ final class BookDetailViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
         blurLayer(layer: gradientLayer, view: gradientLayerView)
         blurLayer(layer: buttonBackgroundLayer, view: buttonBackgroundView)
-        CoreDataManager.shared.readBook()
-        CoreDataManager.shared.bookData.subscribe { data in
-            let book = data.filter { $0.title == self.viewModel.bookInfo.value.title }
-            self.viewModel.bookInfo.accept(book[0])
-        }.disposed(by: disposeBag)
+        let book = CoreDataManager.shared.bookData.value.filter { $0.title == self.viewModel.bookInfo.value.title }
+        self.viewModel.bookInfo.accept(book[0])
         viewModel.sortPassageData()
     }
     

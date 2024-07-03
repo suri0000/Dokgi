@@ -148,6 +148,7 @@ class AddPassageViewController: UIViewController {
                 if UserDefaults.standard.bool(forKey: UserDefaultsKeys.remindSwitch.rawValue) == true {
                     viewModel.sendLocalPushRemind(identifier: "remindTime", time: UserDefaults.standard.array(forKey: UserDefaultsKeys.remindTime.rawValue) as? [Int] ?? [3, 00, 1])
                 }
+                CoreDataManager.shared.readBook()
             } else {
                 self.showAlert(title: "경고", message: "모든 필수 정보를 입력해주세요.")
             }
