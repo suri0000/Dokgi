@@ -86,7 +86,7 @@ class HomeView: UIView {
     
     let todayVersesColletionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal
-        $0.minimumLineSpacing = 15
+        $0.minimumLineSpacing = 0
     }).then {
         $0.showsHorizontalScrollIndicator = false
         $0.backgroundColor = .clear
