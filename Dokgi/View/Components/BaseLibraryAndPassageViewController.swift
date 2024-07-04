@@ -60,6 +60,7 @@ class BaseLibraryAndPassageViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         searchBar.delegate?.searchBarCancelButtonClicked?(searchBar)
+        sortMenuView.isHidden = true
     }
     
     override func viewDidDisappear(_ animated: Bool) {
