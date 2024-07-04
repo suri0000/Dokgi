@@ -118,12 +118,19 @@
  
  </br>
 
-## 💥 개선 사항   
+## ✅ 개선 사항   
 * **Components, Extension을 활용하여 중복 코드를 최소화**
   <details>
   <summary><b>Extension & 컴포넌트화</b></summary>
   <img width="616" alt="image" src="https://github.com/dogaegirl6mo/Dokgi/assets/161270615/6390b934-2f7d-4c60-8a79-74749d980a69">
   </details>
+
+</br>
+
+## 💥 트러블슈팅 
+* [ CoreData ](https://github.com/dogaegirl6mo/Dokgi/wiki/Trouble-Shooting#coredata)
+* [ RxSwift ](https://github.com/dogaegirl6mo/Dokgi/wiki/Trouble-Shooting#rxswift)
+* [ OCR ](https://github.com/dogaegirl6mo/Dokgi/wiki/Trouble-Shooting#ocr)
 
 </br>
 
