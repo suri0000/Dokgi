@@ -119,6 +119,8 @@
  </br>
 
 ## ✅ 개선 사항   
+* [ CloudKit 도입 이유와 개선 사항 ](https://github.com/dogaegirl6mo/Dokgi/wiki/App-Improvement#cloudkit)
+* [ OCR 도입 이유와 개선 사항 ](https://github.com/dogaegirl6mo/Dokgi/wiki/App-Improvement#ocr)
 * **Components, Extension을 활용하여 중복 코드를 최소화**
   <details>
   <summary><b>Extension & 컴포넌트화</b></summary>
