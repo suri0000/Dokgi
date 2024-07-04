@@ -118,7 +118,7 @@
  
  </br>
 
-## 💥 트러블 슈팅   
+## 💥 개선 사항   
 * **Components, Extension을 활용하여 중복 코드를 최소화**
   <details>
   <summary><b>Extension & 컴포넌트화</b></summary>
