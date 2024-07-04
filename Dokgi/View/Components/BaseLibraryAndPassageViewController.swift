@@ -57,6 +57,11 @@ class BaseLibraryAndPassageViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        searchBar.delegate?.searchBarCancelButtonClicked?(searchBar)
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
         self.searchBar.resignFirstResponder()

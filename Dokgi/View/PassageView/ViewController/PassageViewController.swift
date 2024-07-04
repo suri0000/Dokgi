@@ -62,11 +62,6 @@ final class PassageViewController: BaseLibraryAndPassageViewController {
         self.doneButton.isHidden = true
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        searchBar.delegate?.searchBarCancelButtonClicked?(searchBar)
-    }
-    
     override func configureUI() {
         passageCollectionView.delegate = self
         passageCollectionView.dataSource = self
@@ -128,8 +123,9 @@ final class PassageViewController: BaseLibraryAndPassageViewController {
                 } else {
                     self.noResultsLabel.text = "검색결과가 없습니다."
                 }
+                
+                self.passageCollectionView.reloadData()
             }
-            self.passageCollectionView.reloadData()
         }.disposed(by: disposeBag)
         
         searchBar.rx.text.debounce(.milliseconds(250), scheduler: MainScheduler.instance).subscribe(with: self) { (self, text) in
