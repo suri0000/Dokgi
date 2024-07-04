@@ -47,9 +47,7 @@ class HomeViewController: UIViewController, HomeViewDelegate {
             switch cloudEvent.type {
                 case .import:
                     print("An import finished!")
-                    DispatchQueue.main.async {
-                        CoreDataManager.shared.readPassage()
-                    }
+                    CoreDataManager.shared.readPassage()
                 default: break
             }
         }
@@ -60,8 +58,6 @@ class HomeViewController: UIViewController, HomeViewDelegate {
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
         CoreDataManager.shared.readPassage()
-        
-        viewModel.loadTodayVerses()
     }
     
     func setupConstraints() {
