@@ -81,14 +81,14 @@ class HomeViewModel {
             return
         }
         
-        if savedVerses.count == 5 { // 5개 초과일 때 실행
+        if savedVerses.count == 5 { // 5개 일 때 실행
             // 날짜에 따른 구절 업데이트
-            if today != savedDate { // 5개 초과이고 다른 날 일때
+            if today != savedDate { // 5개 이고 다른 날 일때
                 shuffleAndSaveVerses()
-            } else { // 5개 초과이고 같은 날일 때
+            } else { // 5개 이고 같은 날일 때
                 randomVerses.accept(savedVerses)
             }
-        } else { // 5개 이하일 때
+        } else { // 5개 이하 혹은 초과 일 때
             shuffleAndSaveVerses()
         }
     }
