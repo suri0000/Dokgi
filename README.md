@@ -4,7 +4,7 @@
 
 [![appStore](https://user-images.githubusercontent.com/50910456/173174832-7d395623-ceb3-4796-b718-22e550af6934.svg)](https://apps.apple.com/kr/app/%EB%8F%85%EA%B8%B0/id6504522434)
   
-![Generic badge](https://img.shields.io/badge/Version-1.0.1-critical?labelColor=%2523789BFD&color=%252353D9FF.svg)
+![Generic badge](https://img.shields.io/badge/Version-1.1-critical?labelColor=%2523789BFD&color=%252353D9FF.svg)
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fdogaegirl6mo%2FDokgi&count_bg=%2353D9FF&title_bg=%23709FFF&icon=&icon_color=%23E7E7E7&title=&edge_flat=false)](https://hits.seeyoufarm.com)
 
 
