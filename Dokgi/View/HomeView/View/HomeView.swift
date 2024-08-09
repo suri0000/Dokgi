@@ -13,21 +13,21 @@ protocol HomeViewDelegate: AnyObject {
     func didTapSettingButton()
 }
 
-class HomeView: UIView {
+final class HomeView: UIView {
     weak var delegate: HomeViewDelegate?
     
-    let scrollView = UIScrollView().then {
+    private let scrollView = UIScrollView().then {
         $0.showsVerticalScrollIndicator = false
     }
     
-    let contentView = UIView()
+    private let contentView = UIView()
     
-    let settingButton = UIButton().then {
+    private let settingButton = UIButton().then {
         $0.setImage(.setting, for: .normal)
         $0.tintColor = .charcoalBlue
     }
     
-    let currentLengthLabel = UILabel().then {
+    private let currentLengthLabel = UILabel().then {
         $0.text = "현재 구절 길이"
         $0.font = Pretendard.semibold.dynamicFont(style: .title3)
         $0.textColor = .black
@@ -65,20 +65,20 @@ class HomeView: UIView {
         $0.contentMode = .scaleAspectFit
     }
     
-    let nextLevelBubble = UIImageView().then {
+    private let nextLevelBubble = UIImageView().then {
         $0.image = .speechBubble2
         $0.clipsToBounds = true
         $0.layer.masksToBounds = true
     }
     
-    let questionMark = UILabel().then {
+    private let questionMark = UILabel().then {
         $0.font = .systemFont(ofSize: 30, weight: .heavy)
         $0.textColor = .deepSkyBlue
         $0.text = "?"
         $0.textAlignment = .center
     }
     
-    let todayVersesLabel = UILabel().then {
+    private let todayVersesLabel = UILabel().then {
         $0.text = "오늘의 구절"
         $0.font = Pretendard.semibold.dynamicFont(style: .title3)
         $0.textColor = .black
@@ -108,7 +108,7 @@ class HomeView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
         addSubview(scrollView)
         scrollView.addSubview(contentView)
         [settingButton,
@@ -213,7 +213,7 @@ class HomeView: UIView {
         indicatorDots.numberOfPages = viewModel.randomVerses.value.count
     }
     
-    @objc func didTapSetting() {
+    @objc private func didTapSetting() {
         delegate?.didTapSettingButton()
     }
 }

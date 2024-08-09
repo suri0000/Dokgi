@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-class BookCell: UITableViewCell {
+final class BookCell: UITableViewCell {
     static let identifier = "BookCell"
     
     private let bookImageView = UIImageView()

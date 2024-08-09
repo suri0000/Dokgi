@@ -9,9 +9,9 @@ import SnapKit
 import Then
 import UIKit
 
-class AlarmView: UIView {
+final class AlarmView: UIView {
     
-    let alarmTitle = UILabel().then {
+    private let alarmTitle = UILabel().then {
         $0.text = "알림 설정"
         $0.font = Pretendard.bold.dynamicFont(style: .title3)
         $0.textColor = .black
@@ -26,24 +26,24 @@ class AlarmView: UIView {
         $0.backgroundColor = .clear
     }
     
-    let remindTitle = UILabel().then {
+    private let remindTitle = UILabel().then {
         $0.text = "리마인드 알림"
         $0.font = Pretendard.regular.dynamicFont(style: .body)
         $0.textColor = .black
     }
     
-    let remindDescription = UILabel().then {
+    private let remindDescription = UILabel().then {
         $0.text = "구절을 리마인드 해주는 알림"
         $0.textColor = .alarmMemoGray
         $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
     }
     
-    let remindStack = UIStackView().then {
+    private let remindStack = UIStackView().then {
         $0.spacing = 5
         $0.axis = .vertical
     }
     
-    let remindTimeLbl = UILabel().then {
+    private let remindTimeLbl = UILabel().then {
         $0.text = "알림 시간"
         $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
         $0.textColor = .alarmSettingText
@@ -55,7 +55,7 @@ class AlarmView: UIView {
         $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .subheadline)
     }
     
-    let border = UIView().then {
+    private let border = UIView().then {
         $0.backgroundColor = #colorLiteral(red: 0.8588235294, green: 0.8431372549, blue: 0.8431372549, alpha: 1)
     }
     
@@ -64,7 +64,7 @@ class AlarmView: UIView {
         $0.distribution = .equalSpacing
     }
     
-    let borderStack = UIStackView().then {
+    private let borderStack = UIStackView().then {
         $0.spacing = 20
         $0.axis = .vertical
     }
@@ -78,24 +78,24 @@ class AlarmView: UIView {
         $0.backgroundColor = .clear
     }
     
-    let writeTitle = UILabel().then {
+    private let writeTitle = UILabel().then {
         $0.text = "기록하기 알림"
         $0.textColor = .black
         $0.font = Pretendard.regular.dynamicFont(style: .body)
     }
     
-    let writeDescription = UILabel().then {
+    private let writeDescription = UILabel().then {
         $0.text = "독서 알림"
         $0.textColor = .alarmMemoGray
         $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
     }
     
-    let writeStack = UIStackView().then {
+    private let writeStack = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 5
     }
     
-    let writeWeek = UILabel().then {
+    private let writeWeek = UILabel().then {
         $0.text = "알림 요일"
         $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
         $0.textColor = .alarmSettingText
@@ -113,7 +113,7 @@ class AlarmView: UIView {
         $0.distribution = .equalSpacing
     }
     
-    let writeTimeLbl = UILabel().then {
+    private let writeTimeLbl = UILabel().then {
         $0.text = "알림 시간"
         $0.font = Pretendard.regular.dynamicFont(style: .subheadline)
         $0.textColor = .alarmSettingText
@@ -140,7 +140,7 @@ class AlarmView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupLayout() {
+    private func setupLayout() {
         addSubview(alarmTitle)
         addSubview(remindSwitch)
         addSubview(remindSwitchBtn)

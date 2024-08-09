@@ -9,7 +9,7 @@ import SnapKit
 import Then
 import UIKit
 
-class BookSearchContainerView: UIView {
+final class BookSearchContainerView: UIView {
     
     // MARK: - UI
     let tableView = UITableView().then {
@@ -27,7 +27,7 @@ class BookSearchContainerView: UIView {
         $0.searchTextField.attributedPlaceholder = NSAttributedString(string: "책을 검색해보세요", attributes: attributes)
     }
     
-    let recentSearchLabel = UILabel().then {
+    private let recentSearchLabel = UILabel().then {
         $0.font = Pretendard.semibold.dynamicFont(style: .headline)
         $0.textColor = .black
         let poundKeyImage: UIImage? = .poundKey

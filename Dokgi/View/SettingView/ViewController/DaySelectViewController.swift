@@ -11,9 +11,9 @@ import SnapKit
 import Then
 import UIKit
 
-class DaySelectViewController: BaseAlarmSettingSheetViewController {
+final class DaySelectViewController: BaseAlarmSettingSheetViewController {
     
-    let tableView = UITableView().then {
+    private let tableView = UITableView().then {
         $0.backgroundColor = .white
     }
     

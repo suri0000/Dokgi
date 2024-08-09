@@ -9,14 +9,14 @@ import SnapKit
 import Then
 import UIKit
 
-class PassageDetailContainerView: UIView {
-    let textView = UIView().then {
+final class PassageDetailContainerView: UIView {
+    private let textView = UIView().then {
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 20
         $0.backgroundColor = .lightPastelBlue
     }
     
-    lazy var passageScrollView = UIScrollView().then {
+    private lazy var passageScrollView = UIScrollView().then {
         $0.backgroundColor = .clear
     }
     
@@ -32,17 +32,17 @@ class PassageDetailContainerView: UIView {
         $0.setImage(.copyicon, for: .normal)
     }
     
-    let keywordStackView = UIStackView().then {
+    private let keywordStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 7
     }
     
-    let keywordLabelStackView = UIStackView().then {
+    private let keywordLabelStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.distribution = .equalSpacing
     }
     
-    let keywordLabel = UILabel().then {
+    private let keywordLabel = UILabel().then {
         $0.text = "키워드"
         $0.font = Pretendard.semibold.dynamicFont(style: .body)
         $0.textColor = .black
@@ -64,12 +64,12 @@ class PassageDetailContainerView: UIView {
         }
     }
     
-    let writeStackView = UIStackView().then {
+    private let writeStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.distribution = .equalSpacing
     }
     
-    let writeDateTitle = UILabel().then {
+    private let writeDateTitle = UILabel().then {
         $0.text = "기록날짜"
         $0.font = Pretendard.semibold.dynamicFont(style: .body)
         $0.textColor = .black
@@ -80,7 +80,7 @@ class PassageDetailContainerView: UIView {
         $0.textColor = .alarmSettingText
     }
     
-    let pageStackView = UIStackView().then {
+    private let pageStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.distribution = .equalSpacing
     }
@@ -122,7 +122,7 @@ class PassageDetailContainerView: UIView {
         }
     }
     
-    let pageTextStack = UIStackView().then {
+    private let pageTextStack = UIStackView().then {
         $0.axis = .horizontal
         $0.spacing = 8
     }
@@ -157,7 +157,7 @@ class PassageDetailContainerView: UIView {
     }
     
     // MARK: - Layout
-    func setupLayout() {
+    private func setupLayout() {
         addSubview(textView)
         textView.addSubview(passageScrollView)
         passageScrollView.addSubview(passageTextLbl)
@@ -228,7 +228,7 @@ class PassageDetailContainerView: UIView {
         }
     }
     
-    func createBasicListLayout() -> UICollectionViewLayout {
+    private func createBasicListLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .estimated(34))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
       

@@ -7,7 +7,7 @@
 import SnapKit
 import UIKit
 
-class LibraryCollectionViewCell: UICollectionViewCell {
+final class LibraryCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "LibraryCollectionViewCell"
     
@@ -26,7 +26,7 @@ class LibraryCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setCell() {
+    private func setCell() {
         self.contentView.layer.cornerRadius = 15
         self.contentView.layer.masksToBounds = true
         
@@ -49,7 +49,7 @@ class LibraryCollectionViewCell: UICollectionViewCell {
         authorNameLabel.layer.masksToBounds = true
     }
     
-    func setConstraints() {
+    private func setConstraints() {
         [bookImageView,bookNameLabel, authorNameLabel].forEach {
             contentView.addSubview($0)
         }

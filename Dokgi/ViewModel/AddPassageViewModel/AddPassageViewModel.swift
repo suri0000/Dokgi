@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AddPassageViewModel {
+final class AddPassageViewModel {
     // MARK: - Properties
     weak var delegate: BookSelectionDelegate?
     var selectedBook: Item?
@@ -19,7 +19,7 @@ class AddPassageViewModel {
     func removeEmptyKeywords() {
         keywords = keywords.filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
     }
-        
+    
     func validatePassage(passageText: String, pageNumberText: String?) -> (Bool, String) {
         if selectedBook == nil {
             return (false, "책 검색을 눌러 책 정보를 기록해주세요")

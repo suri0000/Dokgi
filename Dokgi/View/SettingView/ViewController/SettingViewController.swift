@@ -12,11 +12,11 @@ import SnapKit
 import Then
 import UIKit
 
-class SettingViewController: UIViewController{
-    let disposeBag = DisposeBag()
-    let alarmView = AlarmView()
-    let viewModel = DayTimeViewModel()
-    let titleLbl = UILabel().then {
+final class SettingViewController: UIViewController{
+    private let disposeBag = DisposeBag()
+    private let alarmView = AlarmView()
+    private let viewModel = DayTimeViewModel()
+    private let titleLbl = UILabel().then {
         $0.text = "설정"
         $0.font = Pretendard.bold.dynamicFont(style: .title2)
         $0.textColor = .black
@@ -38,7 +38,7 @@ class SettingViewController: UIViewController{
     }
     
     // MARK: - Layout
-    func setupLayout() {
+    private func setupLayout() {
         view.addSubview(titleLbl)
         view.addSubview(alarmView)
         
@@ -56,7 +56,7 @@ class SettingViewController: UIViewController{
         alarmView.writeSwitch.isOn = UserDefaults.standard.bool(forKey: UserDefaultsKeys.writeSwitch.rawValue)
     }
     
-    func dataBind() {
+    private func dataBind() {
         alarmView.remindTimeBtn.rx.tap.subscribe { _ in
             if UserDefaults.standard.bool(forKey: UserDefaultsKeys.remindSwitch.rawValue) == true {
                 let remindVC = TimePickerViewController()
@@ -136,7 +136,7 @@ class SettingViewController: UIViewController{
         }
     }
     
-    func switchAlert() {
+    private func switchAlert() {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             DispatchQueue.main.async {
                 guard settings.authorizationStatus == .authorized else {
@@ -162,13 +162,13 @@ class SettingViewController: UIViewController{
         }
     }
     
-    func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+    private func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
 
         return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)
         })
     }
     
-    @objc func checkNotificationSetting() {
+    @objc private func checkNotificationSetting() {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             DispatchQueue.main.async {
                 if settings.authorizationStatus == .authorized {

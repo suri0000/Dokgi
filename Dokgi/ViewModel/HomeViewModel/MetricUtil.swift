@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MetricUtil {
+final class MetricUtil {
     // 길이 계산
     static func formatLength(length: Int) -> String {
         switch length {

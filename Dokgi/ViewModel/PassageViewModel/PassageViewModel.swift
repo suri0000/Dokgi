@@ -14,9 +14,9 @@ final class PassageViewModel {
         let sortedData = CoreDataManager.shared.passageData.value.sorted { $0.date > $1.date }
         CoreDataManager.shared.passageData.accept(sortedData)
     }
-      
-      func dataOldest() {
-          let sortedData = CoreDataManager.shared.passageData.value.sorted { $0.date < $1.date }
-          CoreDataManager.shared.passageData.accept(sortedData)
-      }
+    
+    func dataOldest() {
+        let sortedData = CoreDataManager.shared.passageData.value.sorted { $0.date < $1.date }
+        CoreDataManager.shared.passageData.accept(sortedData)
+    }
 }

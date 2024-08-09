@@ -13,32 +13,32 @@ import UIKit
 
 final class PassageViewController: BaseLibraryAndPassageViewController {
     
-    let passageCollectionView = PassageCollectionView()
-    let passageViewModel = PassageViewModel()
+    private let passageCollectionView = PassageCollectionView()
+    private let passageViewModel = PassageViewModel()
     
-    let selectionButton = UIButton().then {
+    private let selectionButton = UIButton().then {
         $0.backgroundColor = .white
         $0.sizeToFit()
     }
     
-    let selectionButtonImageView = UIImageView().then {
+    private let selectionButtonImageView = UIImageView().then {
         $0.image = .filter
     }
     
-    let selectionButtonLabel = UILabel().then {
+    private let selectionButtonLabel = UILabel().then {
         $0.text = "편집"
         $0.font = Pretendard.semibold.dynamicFont(style: .headline)
         $0.textColor = .charcoalBlue
     }
     
-    let doneButton = UIButton().then {
+    private let doneButton = UIButton().then {
         $0.titleLabel?.font = Pretendard.semibold.dynamicFont(style: .headline)
         $0.setTitle("완료", for: .normal)
         $0.setTitleColor(.systemBlue, for: .normal)
         $0.isHidden = true
     }
     
-    var isEditingMode: Bool = false
+    private var isEditingMode: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()

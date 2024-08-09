@@ -11,7 +11,7 @@ protocol PassageCollectionViewLayoutDelegate: AnyObject {
     func collectionView(_ collectionView: UICollectionView, heightForTextAtIndexPath indexPath: IndexPath) -> CGFloat
 }
 
-class PassageCollectionViewLayout: UICollectionViewFlowLayout {
+final class PassageCollectionViewLayout: UICollectionViewFlowLayout {
     
     weak var delegate: PassageCollectionViewLayoutDelegate?
     

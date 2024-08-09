@@ -7,14 +7,14 @@
 
 import Foundation
 
-class BookManager {
+final class BookManager {
     static let shared = BookManager()
     private init() {}
-
+    
     private let url = "https://openapi.naver.com/v1/search/book.json"
     private let clientID = Bundle.main.object(forInfoDictionaryKey: "API_ID") as? String
     private let clientKEY = Bundle.main.object(forInfoDictionaryKey: "API_KEY") as? String
-
+    
     func fetchBookData(queryValue: String, startIndex: Int = 0, completion: @escaping (Result<SearchBookResponse, Error>) -> Void) {
         
         guard var urlComponents = URLComponents(string: url) else {

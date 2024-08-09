@@ -9,7 +9,7 @@ import RxCocoa
 import RxSwift
 import UIKit
 
-class CustomNavigationController: UINavigationController, UIGestureRecognizerDelegate {
+final class CustomNavigationController: UINavigationController, UIGestureRecognizerDelegate {
     let disposeBag = DisposeBag()
 
     let backButton = UIButton().then {

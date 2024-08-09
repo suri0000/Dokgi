@@ -15,11 +15,11 @@ protocol BookSelectionDelegate: AnyObject {
     func didSelectBook(_ book: Item)
 }
 
-class AddPassageViewController: UIViewController {
+final class AddPassageViewController: UIViewController {
     
     let viewModel = AddPassageViewModel()
     private let containerView = AddPassageContainerView()
-    var dataScannerViewController: DataScannerViewController?
+    private var dataScannerViewController: DataScannerViewController?
     
     private let scrollView = UIScrollView().then {
         $0.showsVerticalScrollIndicator = false
@@ -42,7 +42,7 @@ class AddPassageViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
     }
     
-    func setupViews() {
+    private func setupViews() {
         view.backgroundColor = .white
         containerView.pageSegment.selectedIndex = 0
         view.addSubview(scrollView)
@@ -51,7 +51,7 @@ class AddPassageViewController: UIViewController {
         setupDelegates()
     }
     
-    func setupDelegates() {
+    private func setupDelegates() {
         containerView.keywordCollectionView.delegate = self
         containerView.keywordCollectionView.dataSource = self
         containerView.keywordField.delegate = self
@@ -59,7 +59,7 @@ class AddPassageViewController: UIViewController {
         containerView.passageTextView.delegate = self
     }
     
-    func setConstraints() {
+    private func setConstraints() {
         scrollView.snp.makeConstraints {
             $0.edges.equalTo(view.safeAreaLayoutGuide)
         }
@@ -69,7 +69,7 @@ class AddPassageViewController: UIViewController {
         }
     }
     
-    func setupActions() {
+    private func setupActions() {
         containerView.scanButton.addTarget(self, action: #selector(scanButtonTapped(_:)), for: .touchUpInside)
         containerView.searchButton.addTarget(self, action: #selector(searchButtonTapped(_:)), for: .touchUpInside)
         containerView.recordButton.addTarget(self, action: #selector(recordButtonTapped(_:)), for: .touchUpInside)
@@ -79,11 +79,11 @@ class AddPassageViewController: UIViewController {
         }
     }
     
-    @objc func scanButtonTapped(_ sender: UIButton) {
+    @objc private func scanButtonTapped(_ sender: UIButton) {
         startScanning()
     }
     
-    func startScanning() {
+    private func startScanning() {
         guard DataScannerViewController.isSupported else {
             print("DataScannerViewController is not supported on this device")
             return
@@ -108,16 +108,16 @@ class AddPassageViewController: UIViewController {
         }
     }
     
-    @objc func searchButtonTapped(_ sender: UIButton) {
+    @objc private func searchButtonTapped(_ sender: UIButton) {
         let bookSearchVC = BookSearchViewController()
         bookSearchVC.delegate = self
         present(bookSearchVC, animated: true, completion: nil)
     }
     
-    @objc func pageSegmentButtonTapped(_ sender: UIButton) {
+    @objc private func pageSegmentButtonTapped(_ sender: UIButton) {
         guard let index = containerView.pageSegment.buttons.firstIndex(of: sender) else { return }
         containerView.pageSegment.selectedIndex = index
-        if index == 0{
+        if index == 0 {
             viewModel.pageType = true
             containerView.pageLabel.text = "페이지"
             containerView.pageNumberTextField.placeholder = "페이지"
@@ -128,7 +128,7 @@ class AddPassageViewController: UIViewController {
         }
     }
     
-    @objc func recordButtonTapped(_ sender: UIButton) {
+    @objc private func recordButtonTapped(_ sender: UIButton) {
         let (isValid, message) = viewModel.validatePassage(passageText: containerView.passageTextView.text, pageNumberText: containerView.pageNumberTextField.text)
         if !isValid {
             showAlert(title: "경고", message: message)
@@ -155,7 +155,7 @@ class AddPassageViewController: UIViewController {
         }
     }
     
-    func showAlert(title: String, message: String, completion: (() -> Void)? = nil) {
+    private func showAlert(title: String, message: String, completion: (() -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
             completion?()
@@ -163,7 +163,7 @@ class AddPassageViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func updateCharacterCountLabel() {
+    private func updateCharacterCountLabel() {
         viewModel.updateCharacterCountText(for: containerView.passageTextView.text, label: containerView.characterCountLabel)
     }
     

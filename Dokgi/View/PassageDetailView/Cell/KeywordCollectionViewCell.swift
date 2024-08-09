@@ -11,7 +11,7 @@ import SnapKit
 import Then
 import UIKit
 
-class KeywordCollectionViewCell: UICollectionViewCell {
+final class KeywordCollectionViewCell: UICollectionViewCell {
     static let identifier = "KeywordCollectionViewCell"
     var disposeBag = DisposeBag()
     
