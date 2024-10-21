@@ -9,7 +9,7 @@ import SnapKit
 import Then
 import UIKit
 
-class KeywordCell: UICollectionViewCell {
+final class KeywordCell: UICollectionViewCell {
     
     static let reuseIdentifier = "KeywordCell"
     

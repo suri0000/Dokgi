@@ -11,11 +11,11 @@ import SnapKit
 import Then
 import UIKit
 
-class TimePickerViewController: BaseAlarmSettingSheetViewController {
+final class TimePickerViewController: BaseAlarmSettingSheetViewController {
     
     lazy var writeBool = true
     
-    let timePicker = UIPickerView().then {
+    private let timePicker = UIPickerView().then {
         $0.backgroundColor = .white
         $0.setValue(UIColor.black, forKey: "textColor")
     }

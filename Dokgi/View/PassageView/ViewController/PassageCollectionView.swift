@@ -6,7 +6,7 @@
 //
 import UIKit
 
-class PassageCollectionView: UICollectionView {
+final class PassageCollectionView: UICollectionView {
     
     init() {
         super.init(frame: .zero, collectionViewLayout: UICollectionViewLayout())

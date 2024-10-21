@@ -8,12 +8,12 @@
 import SnapKit
 import UIKit
 
-class TodayPassageCell: UICollectionViewCell {
+final class TodayPassageCell: UICollectionViewCell {
     static let identifier = "TodayVersesCell"
     
-    let baseView = UIView()
+    private let baseView = UIView()
     let verse = UILabel()
-    let bookImage = UIImageView()
+    private let bookImage = UIImageView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,7 +25,7 @@ class TodayPassageCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
         contentView.addSubview(baseView)
         
         [verse, bookImage].forEach {
@@ -55,7 +55,7 @@ class TodayPassageCell: UICollectionViewCell {
         }
     }
     
-    func configureUI() {
+    private func configureUI() {
         baseView.backgroundColor = .lightSkyBlue
         baseView.layer.cornerRadius = 10
         verse.font = Pretendard.regular.dynamicFont(style: .callout)

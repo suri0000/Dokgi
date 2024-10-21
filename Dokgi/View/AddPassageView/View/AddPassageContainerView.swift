@@ -10,7 +10,7 @@ import SnapKit
 import Then
 import UIKit
 
-class AddPassageContainerView: UIView {
+final class AddPassageContainerView: UIView {
     
     // MARK: - UI
     let scanButton = UIButton(configuration: .filled(), primaryAction: nil).then {
@@ -32,7 +32,7 @@ class AddPassageContainerView: UIView {
         $0.clipsToBounds = true
     }
     
-    let passageLabel = UILabel().then {
+    private let passageLabel = UILabel().then {
         $0.text = "구절"
         $0.textColor = .black
         $0.font = Pretendard.semibold.dynamicFont(style: .title3)
@@ -60,7 +60,7 @@ class AddPassageContainerView: UIView {
         $0.tintColor = .black
     }
 
-    let textViewBoder = UIView().then {
+    private let textViewBoder = UIView().then {
         $0.backgroundColor = .clear
         $0.layer.borderWidth = 1.0
         $0.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.7).cgColor
@@ -95,7 +95,7 @@ class AddPassageContainerView: UIView {
         $0.contentMode = .scaleAspectFit
     }
     
-    let keywordLabel = UILabel().then {
+    private let keywordLabel = UILabel().then {
         $0.textColor = .black
         $0.attributedText = createAttributedString(for: "키워드 (선택)")
         $0.textAlignment = .left

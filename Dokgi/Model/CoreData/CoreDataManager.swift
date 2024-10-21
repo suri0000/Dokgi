@@ -9,7 +9,7 @@ import RxCocoa
 import RxSwift
 import UIKit
 
-class CoreDataManager {
+final class CoreDataManager {
     static let shared = CoreDataManager()
     
     var bookData = BehaviorRelay<[Book]>(value: [])
@@ -36,9 +36,9 @@ class CoreDataManager {
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         
         do {
-              try container.viewContext.setQueryGenerationFrom(.current)
+            try container.viewContext.setQueryGenerationFrom(.current)
         } catch {
-             fatalError("Failed to pin viewContext to the current generation:\(error)")
+            fatalError("Failed to pin viewContext to the current generation:\(error)")
         }
         
         return container
@@ -73,7 +73,6 @@ class CoreDataManager {
                 books.first?.addToPassages(newPassage)
                 try context.save()
             }
-//                        WidgetCenter.shared.reloadTimelines(ofKind: "DokgiWidget")
         } catch {
             print("Failed to fetch or save data: \(error)")
         }
@@ -87,8 +86,6 @@ class CoreDataManager {
             do {
                 try context.save()
             } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }

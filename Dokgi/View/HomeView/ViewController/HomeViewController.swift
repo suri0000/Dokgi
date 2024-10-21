@@ -11,19 +11,19 @@ import RxCocoa
 import SnapKit
 import UIKit
 
-class HomeViewController: UIViewController, HomeViewDelegate {
+final class HomeViewController: UIViewController, HomeViewDelegate {
  
-    let disposeBag = DisposeBag()
-    let viewModel = HomeViewModel()
-    let homeView = HomeView()
+    private let disposeBag = DisposeBag()
+    private let viewModel = HomeViewModel()
+    private let homeView = HomeView()
             
-    var levelCollectionViewSelectedIndex = 0
-    var nowPage: Int = 0 {
+    private var levelCollectionViewSelectedIndex = 0
+    private var nowPage: Int = 0 {
         didSet {
             self.homeView.indicatorDots.currentPage = nowPage
         }
     }
-    let contentSizeCategory = UIApplication.shared.preferredContentSizeCategory
+    private let contentSizeCategory = UIApplication.shared.preferredContentSizeCategory
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +41,7 @@ class HomeViewController: UIViewController, HomeViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(cloudKitDataSetting(_:)), name: NSPersistentCloudKitContainer.eventChangedNotification, object: nil)
     }
     
-    @objc func cloudKitDataSetting(_ notification: Notification) {
+    @objc private func cloudKitDataSetting(_ notification: Notification) {
         if let cloudEvent = notification.userInfo?[NSPersistentCloudKitContainer.eventNotificationUserInfoKey]
             as? NSPersistentCloudKitContainer.Event {
             switch cloudEvent.type {
@@ -60,7 +60,7 @@ class HomeViewController: UIViewController, HomeViewDelegate {
         CoreDataManager.shared.readPassage()
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
         view.backgroundColor = .white
         view.addSubview(homeView)
         homeView.snp.makeConstraints {
@@ -68,7 +68,7 @@ class HomeViewController: UIViewController, HomeViewDelegate {
         }
     }
 
-    func setupCollectionView() {
+    private func setupCollectionView() {
         homeView.currentLevelCollectionView.dataSource = self
         homeView.currentLevelCollectionView.delegate = self
         homeView.todayVersesColletionView.dataSource = self
@@ -77,7 +77,7 @@ class HomeViewController: UIViewController, HomeViewDelegate {
         homeView.currentLevelCollectionView.register(CurrentLevelCell.self, forCellWithReuseIdentifier: CurrentLevelCell.identifier)
     }
     
-    func bindViewModel() {
+    private func bindViewModel() {
         // 현재 레벨
         viewModel.currentLevel
             .subscribe(onNext: { [ weak self ] value in
@@ -116,7 +116,7 @@ class HomeViewController: UIViewController, HomeViewDelegate {
             .disposed(by: viewModel.disposeBag)
     }
 
-    func selectLevel(_ level: Int, animated: Bool = true) {
+    private func selectLevel(_ level: Int, animated: Bool = true) {
         let index = max(0, min(level - 1, viewModel.levelCards.count - 1))
         let indexPath = IndexPath(item: index, section: 0)
         
@@ -127,7 +127,7 @@ class HomeViewController: UIViewController, HomeViewDelegate {
         updateCurrentLevelCollectionViewCell()
     }
     
-    func updateCurrentLevelCollectionViewCell() {
+    private func updateCurrentLevelCollectionViewCell() {
         let prevIndex = max(0, levelCollectionViewSelectedIndex - 1)
         let currIndex = levelCollectionViewSelectedIndex
         let nextIndex = min(levelCollectionViewSelectedIndex + 1, viewModel.levelCards.count - 1)
@@ -142,13 +142,13 @@ class HomeViewController: UIViewController, HomeViewDelegate {
     }
     
     // 오늘의 구절 자동 넘기기
-    func bannerTimer() {
+    private func bannerTimer() {
         let _: Timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (Timer) in
             self.bannerMove()
         }
     }
     // 배너 움직이는 매서드
-    func bannerMove() {
+    private func bannerMove() {
         if nowPage == 4 {
             scrollToFirstPage()
         } else {
@@ -157,13 +157,13 @@ class HomeViewController: UIViewController, HomeViewDelegate {
     }
     
     // 첫번째 페이지로 이동
-    func scrollToFirstPage() {
+    private func scrollToFirstPage() {
         homeView.todayVersesColletionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .right, animated: true)
         nowPage = 0
     }
 
     // 다음 페이지 이동
-    func scrollNextToPage(_ page: Int) {
+    private func scrollNextToPage(_ page: Int) {
         nowPage += 1
         homeView.todayVersesColletionView.scrollToItem(at: IndexPath(item: nowPage, section: 0), at: .right, animated: true)
     }

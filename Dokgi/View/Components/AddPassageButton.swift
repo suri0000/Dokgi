@@ -8,7 +8,7 @@
 import SnapKit
 import UIKit
 
-class AddPassageButton: UIButton {
+final class AddPassageButton: UIButton {
     
     override init(frame: CGRect) {
         super.init(frame: frame)

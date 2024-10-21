@@ -7,7 +7,7 @@
 
 import UIKit
 
-class InfoView: UIView {
+final class InfoView: UIView {
 
     var imageView = UIImageView().then {
         $0.image = UIImage(resource: .empty).withRenderingMode(.alwaysTemplate)

@@ -13,11 +13,12 @@ protocol DetailViewDismiss {
     func dataSort()
 }
 
-class PassageDetailViewModel {
+final class PassageDetailViewModel {
 
     var detailPassage = BehaviorRelay<Passage>(value: Passage(title: "", passage: "", page: 0, pageType: true, date: Date(), keywords: []))
     var keywords = BehaviorRelay<[String]>(value: [])
     var delegate : DetailViewDismiss?
+    
     func deleteDetailKeyword(keyword: Int) {
         var tmp = self.keywords.value
         if tmp.isEmpty == false {

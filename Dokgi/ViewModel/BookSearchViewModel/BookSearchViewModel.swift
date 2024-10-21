@@ -21,14 +21,14 @@ class BookSearchViewModel {
         isLoading = true
         bookManager.fetchBookData(queryValue: query, startIndex: startIndex) { result in
             switch result {
-            case .success(let response):
-                DispatchQueue.main.async {
-                    completion(.success(response.items))
-                }
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
+                case .success(let response):
+                    DispatchQueue.main.async {
+                        completion(.success(response.items))
+                    }
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
             }
             self.isLoading = false
         }

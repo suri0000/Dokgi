@@ -9,7 +9,7 @@ import RxSwift
 import RxCocoa
 import UIKit
 
-class HomeViewModel {
+final class HomeViewModel {
     let disposeBag = DisposeBag()
     var levelCards: [Card] { DataManager.shared.cards }
     
@@ -19,7 +19,7 @@ class HomeViewModel {
     let currentLevelImage = BehaviorRelay<UIImage?>(value: UIImage(named: " "))
     let randomVerses = BehaviorRelay<[String]>(value: [])
     
-    let today = DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .none)
+    private let today = DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .none)
     
     // 구절 길이 계산
     func getVerseLength(from verses: [String]) -> Int {
@@ -27,7 +27,7 @@ class HomeViewModel {
     }
     
     // 현재 구절 길이 기반으로 현재 레벨 계산
-    func getVerseLevel(for verseLength: Int) -> Int {
+    private func getVerseLevel(for verseLength: Int) -> Int {
         for (index, card) in levelCards.enumerated() {
             if verseLength < card.length {
                 return index + 1
@@ -73,11 +73,11 @@ class HomeViewModel {
     }
     
     // MARK: - Today's verese
-    func loadTodayVerses() {
+    private func loadTodayVerses() {
         let savedDate = UserDefaults.standard.string(forKey: UserDefaultsKeys.todayDate.rawValue)
         
         guard let savedVerses = UserDefaults.standard.array(forKey: UserDefaultsKeys.shuffledPassage.rawValue) as? [String] else {
-            shuffleAndSaveVerses() 
+            shuffleAndSaveVerses()
             return
         }
         
@@ -93,7 +93,7 @@ class HomeViewModel {
         }
     }
     
-    func shuffleAndSaveVerses() {
+    private func shuffleAndSaveVerses() {
         let versesCount = self.passages.value.count
         
         guard versesCount > 0 else {

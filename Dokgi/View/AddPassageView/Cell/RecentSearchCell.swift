@@ -9,7 +9,7 @@ import SnapKit
 import Then
 import UIKit
 
-class RecentSearchCell: UICollectionViewCell {
+final class RecentSearchCell: UICollectionViewCell {
     
     static let identifier = "RecentSearchCell"
     var viewModel: BookSearchViewModel!

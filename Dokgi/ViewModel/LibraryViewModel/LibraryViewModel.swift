@@ -9,7 +9,7 @@ import Foundation
 import RxCocoa
 import RxSwift
 
-class LibraryViewModel {
+final class LibraryViewModel {
     func dataLatest() {
         let latestSortedBooks = CoreDataManager.shared.bookData
             .value.sorted {

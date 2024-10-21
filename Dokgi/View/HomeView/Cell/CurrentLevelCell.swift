@@ -9,28 +9,28 @@ import SnapKit
 import Then
 import UIKit
 
-class CurrentLevelCell: UICollectionViewCell {
+final class CurrentLevelCell: UICollectionViewCell {
     static let identifier = "CurrentLevelCell"
     
-    let cardView = UIView().then {
+    private let cardView = UIView().then {
         $0.backgroundColor = .white
     }
     
-    let textView = UIView().then {
+    private let textView = UIView().then {
         $0.backgroundColor = .clear
     }
     
-    let levelView = UIView().then {
+    private let levelView = UIView().then {
         $0.backgroundColor = .lightSkyBlue
         $0.layer.cornerRadius = 10
     }
     
-    let levelLabel = UILabel().then {
+    private let levelLabel = UILabel().then {
         $0.textColor = .mediumSkyBlue
         $0.font = Pretendard.extrabold.dynamicFont(style: .caption1)
     }
     
-    let descrptionLabel = UILabel().then {
+    private let descrptionLabel = UILabel().then {
         $0.font = Pretendard.regular.dynamicFont(style: .callout)
         $0.numberOfLines = 2
         $0.textColor = .black
@@ -41,31 +41,31 @@ class CurrentLevelCell: UICollectionViewCell {
         $0.font = Pretendard.extrabold.dynamicFont(style: .title1)
     }
     
-    let cardImageView = UIImageView().then {
+    private let cardImageView = UIImageView().then {
         $0.backgroundColor = .clear
         $0.contentMode = .scaleAspectFit
     }
     
     let hideView = UIView()
     
-    let nextLevel = PaddingLabel(padding: UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 0)).then {
+    private let nextLevel = PaddingLabel(padding: UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 0)).then {
         $0.font = Pretendard.bold.dynamicFont(style: .title3)
         $0.textColor = .black
     }
     
-    let currentLevel = UILabel().then {
+    private let currentLevel = UILabel().then {
         $0.font = Pretendard.regular.dynamicFont(style: .callout)
         $0.textColor = .alarmSettingText
         $0.textAlignment = .center
     }
     
-    let questionMark = PaddingLabel(padding: UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)).then {
+    private let questionMark = PaddingLabel(padding: UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)).then {
         $0.font = .systemFont(ofSize: 60, weight: .heavy)
         $0.textColor = .deepSkyBlue
         $0.text = "?"
     }
     
-    lazy var stackView = UIStackView(arrangedSubviews: [nextLevel, currentLevel, questionMark]).then {
+    private lazy var stackView = UIStackView(arrangedSubviews: [nextLevel, currentLevel, questionMark]).then {
         $0.axis = .vertical
         $0.spacing = 4
         $0.alignment = .center
@@ -82,7 +82,7 @@ class CurrentLevelCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
         contentView.addSubview(cardView)
         [textView, cardImageView].forEach {
             cardView.addSubview($0)
@@ -143,7 +143,7 @@ class CurrentLevelCell: UICollectionViewCell {
         }
     }
     
-    func configureUI() {
+    private func configureUI() {
         contentView.layer.cornerRadius = 8
     }
     
@@ -159,14 +159,14 @@ class CurrentLevelCell: UICollectionViewCell {
     }
     
     // 그림자 설정
-    func setUpShadow() {
+    private func setUpShadow() {
         layer.shadowOpacity = 0.4
         layer.shadowRadius = 9
         layer.shadowOffset = CGSize(width: 0, height: 0)
         contentView.layer.cornerRadius = 10
         contentView.layer.masksToBounds = true
     }
-
+    
     // 다음 레벨셀 설정
     func setupNextLevelCell(_ level : Int) {
         hideView.backgroundColor = .white

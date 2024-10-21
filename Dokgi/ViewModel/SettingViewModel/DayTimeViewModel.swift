@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import NotificationCenter
 
-class DayTimeViewModel {
+final class DayTimeViewModel {
     
     static var dayCheck = BehaviorRelay<[Int]>(value: UserDefaults.standard.array(forKey: UserDefaultsKeys.writeWeek.rawValue) as? [Int] ?? [1, 1, 1, 1, 1, 1, 1])
     static var remindTime = BehaviorRelay<[Int]>(value: UserDefaults.standard.array(forKey: UserDefaultsKeys.remindTime.rawValue) as? [Int] ?? [3, 00, 1])
@@ -25,14 +25,14 @@ class DayTimeViewModel {
     
     func setTime(row: Int , component: Int) {
         switch component {
-        case 0:
-            selectTime[0] = hourArr[row % hourArr.count]
-        case 1:
-            selectTime[1] = Int(minArr[row % minArr.count])!
-        case 2:
-            selectTime[2] = row % ampmArr.count
-        default:
-            print(0)
+            case 0:
+                selectTime[0] = hourArr[row % hourArr.count]
+            case 1:
+                selectTime[1] = Int(minArr[row % minArr.count])!
+            case 2:
+                selectTime[2] = row % ampmArr.count
+            default:
+                print(0)
         }
     }
     
@@ -54,8 +54,11 @@ class DayTimeViewModel {
     
     func sendLocalPushRemind(identifier: String, time: [Int]) {
         CoreDataManager.shared.readPassage()
+        
         let gujur : [String] = CoreDataManager.shared.passageData.value.count == 0 ? ["누군가를 있는 그대로 존중한다는 것은 그만큼 어려운 일이다.", "본질을 아는 것보다, 본질을 알기 위해 있는 그대로를 보기 위해 노력하는 것이 중요하다고, 그것이 바로 그 대상에 대한 존중이라고."] : CoreDataManager.shared.passageData.value.map { $0.passage }
+        
         UserDefaults.standard.set(time, forKey: UserDefaultsKeys.remindTime.rawValue)
+        
         for i in 1...31 {
             let content = UNMutableNotificationContent()
             content.title = NSString.localizedUserNotificationString(forKey: "오늘의 구절", arguments: nil)
@@ -81,17 +84,21 @@ class DayTimeViewModel {
     
     func sendLocalPushWrite(identifier: String, time: [Int], day: [Int]) {
         let content = UNMutableNotificationContent()
+        
         content.title = NSString.localizedUserNotificationString(forKey: "오늘 독서 어때요?", arguments: nil)
         content.body = NSString.localizedUserNotificationString(forKey: "독서를 하고 마음에 드는 구절을 기록해봐요!", arguments: nil)
         content.sound = UNNotificationSound.default
+        
         UserDefaults.standard.set(day, forKey: UserDefaultsKeys.writeWeek.rawValue)
         UserDefaults.standard.set(time, forKey: UserDefaultsKeys.writeTime.rawValue)
+        
         for i in 0...6 {
             if day[i] == 0 {
                 UNUserNotificationCenter
-                        .current()
-                        .removePendingNotificationRequests(withIdentifiers: ["\(identifier)_\(i)"])
+                    .current()
+                    .removePendingNotificationRequests(withIdentifiers: ["\(identifier)_\(i)"])
             }
+            
             var dateInfo = DateComponents()
             dateInfo.calendar = Calendar.current
             dateInfo.hour = time[2] == 1 ? time[0] + 12 : time[0]
@@ -123,8 +130,8 @@ class DayTimeViewModel {
                 UserDefaults.standard.set(on, forKey: UserDefaultsKeys.remindSwitch.rawValue)
                 for i in 0...6 {
                     UNUserNotificationCenter
-                            .current()
-                            .removePendingNotificationRequests(withIdentifiers: ["\(identifiers)_\(i)"])
+                        .current()
+                        .removePendingNotificationRequests(withIdentifiers: ["\(identifiers)_\(i)"])
                 }
             } else {
                 for i in 0...6 {

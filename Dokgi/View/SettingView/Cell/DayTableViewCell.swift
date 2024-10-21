@@ -9,7 +9,7 @@ import SnapKit
 import Then
 import UIKit
 
-class DayTableViewCell: UITableViewCell {
+final class DayTableViewCell: UITableViewCell {
     
     static let identifier = "DayTableViewCell"
     
@@ -31,7 +31,7 @@ class DayTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupLayout() {
+    private func setupLayout() {
         addSubview(dayLabel)
         addSubview(check)
         

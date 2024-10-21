@@ -9,7 +9,7 @@ import SnapKit
 import Then
 import UIKit
 
-class PassageTableViewCell: UITableViewCell {
+final class PassageTableViewCell: UITableViewCell {
     
     static let identifier = String(describing: PassageTableViewCell.self)
     private let viewModel = BookDetailViewModel()

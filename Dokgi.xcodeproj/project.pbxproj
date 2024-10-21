@@ -28,7 +28,6 @@
 		7BE488B52C16E4CF00BDB92A /* PassageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE488B42C16E4CF00BDB92A /* PassageCollectionViewCell.swift */; };
 		7BE488B72C171BC500BDB92A /* PassageCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE488B62C171BC400BDB92A /* PassageCollectionViewLayout.swift */; };
 		8500B52E2C203A4500A0EB38 /* PassageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8500B52D2C203A4500A0EB38 /* PassageViewModel.swift */; };
-		854E157E2C244FCA00FE5256 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854E157D2C244FCA00FE5256 /* BaseViewModel.swift */; };
 		854E15802C24828D00FE5256 /* BaseAlarmSettingSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854E157F2C24828D00FE5256 /* BaseAlarmSettingSheetViewController.swift */; };
 		854E15842C2495A500FE5256 /* BaseLibraryAndPassageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854E15832C2495A500FE5256 /* BaseLibraryAndPassageViewController.swift */; };
 		854E15862C24A67E00FE5256 /* SortButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854E15852C24A67E00FE5256 /* SortButton.swift */; };
@@ -38,7 +37,7 @@
 		855318BB2C16E56800340ACF /* BookDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855318BA2C16E56800340ACF /* BookDetailViewController.swift */; };
 		855318C12C17FAD800340ACF /* PassageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855318C02C17FAD800340ACF /* PassageTableViewCell.swift */; };
 		855318C62C1AEBF900340ACF /* BookDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855318C52C1AEBF900340ACF /* BookDetailViewModel.swift */; };
-		855318CD2C1C4C4B00340ACF /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 855318CC2C1C4C4B00340ACF /* Config.xcconfig */; };
+		855B92E12C6641E60027DBD2 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 855B92E02C6641E60027DBD2 /* Config.xcconfig */; };
 		85A821CB2C10B24300494313 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A821CA2C10B24300494313 /* WidgetKit.framework */; };
 		85A821CD2C10B24300494313 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A821CC2C10B24300494313 /* SwiftUI.framework */; };
 		85A821D02C10B24300494313 /* DokgiWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A821CF2C10B24300494313 /* DokgiWidgetBundle.swift */; };
@@ -150,7 +149,6 @@
 		7BE488B42C16E4CF00BDB92A /* PassageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassageCollectionViewCell.swift; sourceTree = "<group>"; };
 		7BE488B62C171BC400BDB92A /* PassageCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassageCollectionViewLayout.swift; sourceTree = "<group>"; };
 		8500B52D2C203A4500A0EB38 /* PassageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassageViewModel.swift; sourceTree = "<group>"; };
-		854E157D2C244FCA00FE5256 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		854E157F2C24828D00FE5256 /* BaseAlarmSettingSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAlarmSettingSheetViewController.swift; sourceTree = "<group>"; };
 		854E15832C2495A500FE5256 /* BaseLibraryAndPassageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLibraryAndPassageViewController.swift; sourceTree = "<group>"; };
 		854E15852C24A67E00FE5256 /* SortButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortButton.swift; sourceTree = "<group>"; };
@@ -160,7 +158,7 @@
 		855318BA2C16E56800340ACF /* BookDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailViewController.swift; sourceTree = "<group>"; };
 		855318C02C17FAD800340ACF /* PassageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassageTableViewCell.swift; sourceTree = "<group>"; };
 		855318C52C1AEBF900340ACF /* BookDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailViewModel.swift; sourceTree = "<group>"; };
-		855318CC2C1C4C4B00340ACF /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		855B92E02C6641E60027DBD2 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		85A821C82C10B24300494313 /* DokgiWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DokgiWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		85A821CA2C10B24300494313 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		85A821CC2C10B24300494313 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -558,14 +556,6 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		854E157C2C244FAC00FE5256 /* Base */ = {
-			isa = PBXGroup;
-			children = (
-				854E157D2C244FCA00FE5256 /* BaseViewModel.swift */,
-			);
-			path = Base;
-			sourceTree = "<group>";
-		};
 		855318B92C16E42500340ACF /* BookDetailView */ = {
 			isa = PBXGroup;
 			children = (
@@ -628,7 +618,7 @@
 				A74874782C0D7E0E00B830EE /* Resource */,
 				A748746F2C0D7E0800B830EE /* LaunchScreen.storyboard */,
 				A74874722C0D7E0800B830EE /* Info.plist */,
-				855318CC2C1C4C4B00340ACF /* Config.xcconfig */,
+				855B92E02C6641E60027DBD2 /* Config.xcconfig */,
 				A748746A2C0D7E0700B830EE /* Dokgi.xcdatamodeld */,
 				A776FD132C25F15B0035C8BE /* DokgiV1ToV2.xcmappingmodel */,
 				A7D10C0E2C2530C700881AB7 /* DokgiV1ToV2MigrationPolicy.swift */,
@@ -677,7 +667,6 @@
 		A748747B2C0D7E1500B830EE /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				854E157C2C244FAC00FE5256 /* Base */,
 				854E15662C24460300FE5256 /* AddPassageViewModel */,
 				854E15652C24459E00FE5256 /* BookDetailViewModel */,
 				854E15672C2446A400FE5256 /* BookSearchViewModel */,
@@ -866,7 +855,7 @@
 				A75908C02C0F6AD100415D6D /* Pretendard-Bold.otf in Resources */,
 				3C73E29B2C19D95A004B1BF8 /* Pretendard-ExtraBold.otf in Resources */,
 				A75908C12C0F6AD100415D6D /* Pretendard-Regular.otf in Resources */,
-				855318CD2C1C4C4B00340ACF /* Config.xcconfig in Resources */,
+				855B92E12C6641E60027DBD2 /* Config.xcconfig in Resources */,
 				A75908C22C0F6AD100415D6D /* Pretendard-SemiBold.otf in Resources */,
 				A74874712C0D7E0800B830EE /* Base in Resources */,
 				A75908BF2C0F6AD100415D6D /* Pretendard-Medium.otf in Resources */,
@@ -936,7 +925,6 @@
 				AB66D3442C0EEFE3000D72DA /* TabBarViewController.swift in Sources */,
 				3C73E2A32C1B03AD004B1BF8 /* FloatButton.swift in Sources */,
 				8500B52E2C203A4500A0EB38 /* PassageViewModel.swift in Sources */,
-				854E157E2C244FCA00FE5256 /* BaseViewModel.swift in Sources */,
 				7BE488B52C16E4CF00BDB92A /* PassageCollectionViewCell.swift in Sources */,
 				7BE488B32C16E29C00BDB92A /* PassageViewController.swift in Sources */,
 				A75D3D752C1B47D1006C2EB3 /* StringExtension.swift in Sources */,
@@ -989,7 +977,6 @@
 /* Begin XCBuildConfiguration section */
 		85A821DA2C10B24500494313 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 855318CC2C1C4C4B00340ACF /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
@@ -1021,7 +1008,6 @@
 		};
 		85A821DB2C10B24500494313 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 855318CC2C1C4C4B00340ACF /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
@@ -1053,7 +1039,7 @@
 		};
 		A74874732C0D7E0800B830EE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 855318CC2C1C4C4B00340ACF /* Config.xcconfig */;
+			baseConfigurationReference = 855B92E02C6641E60027DBD2 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1118,7 +1104,7 @@
 		};
 		A74874742C0D7E0800B830EE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 855318CC2C1C4C4B00340ACF /* Config.xcconfig */;
+			baseConfigurationReference = 855B92E02C6641E60027DBD2 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1176,7 +1162,6 @@
 		};
 		A74874762C0D7E0800B830EE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 855318CC2C1C4C4B00340ACF /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1215,7 +1200,6 @@
 		};
 		A74874772C0D7E0800B830EE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 855318CC2C1C4C4B00340ACF /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;

@@ -14,7 +14,7 @@ struct Card {
     var length: Int
 }
 
-class DataManager {
+final class DataManager {
     static let shared = DataManager()
     private init() {}
     let cards: [Card] = [

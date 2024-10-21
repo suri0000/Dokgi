@@ -6,7 +6,7 @@
 //
 import UIKit
 
-class LibraryCollectionView: UICollectionView {
+final class LibraryCollectionView: UICollectionView {
     
     init() {
         let layout = UICollectionViewFlowLayout()

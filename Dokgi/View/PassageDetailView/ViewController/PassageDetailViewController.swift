@@ -11,22 +11,22 @@ import SnapKit
 import Then
 import UIKit
 
-class PassageDetailViewController: UIViewController {
-    let disposeBag = DisposeBag()
+final class PassageDetailViewController: UIViewController {
+    private let disposeBag = DisposeBag()
     
     let viewModel = PassageDetailViewModel()
     
-    let titleStack = UIStackView().then {
+    private let titleStack = UIStackView().then {
         $0.axis = .horizontal
         $0.distribution = .equalSpacing
     }
     
-    lazy var titleLbl = UILabel().then {
+    private lazy var titleLbl = UILabel().then {
         $0.font = Pretendard.semibold.dynamicFont(style: .title3)
         $0.textColor = .black
     }
     
-    let xBtn = UIButton().then {
+    private let xBtn = UIButton().then {
         $0.setImage(UIImage(resource: .deleteKeyword).withRenderingMode(.alwaysTemplate), for: .normal)
         $0.tintColor = .modelxGray
         $0.clipsToBounds = true
@@ -37,7 +37,7 @@ class PassageDetailViewController: UIViewController {
         }
     }
     
-    let editBtn = UIButton().then {
+    private let editBtn = UIButton().then {
         $0.setTitle("수정하기", for: .normal)
         $0.titleLabel?.font = Pretendard.regular.dynamicFont(style: .footnote)
         $0.setTitleColor(.black, for: .normal)
@@ -48,18 +48,18 @@ class PassageDetailViewController: UIViewController {
         }
     }
     
-    let detailScrollView = UIScrollView().then {
+    private let detailScrollView = UIScrollView().then {
         $0.showsVerticalScrollIndicator = false
     }
     
-    lazy var containerView = PassageDetailContainerView()
+    private lazy var containerView = PassageDetailContainerView()
     
-    let smallId = UISheetPresentationController.Detent.Identifier("small")
-    lazy var smallDetent = UISheetPresentationController.Detent.custom(identifier: smallId) { context in
+    private let smallId = UISheetPresentationController.Detent.Identifier("small")
+    private lazy var smallDetent = UISheetPresentationController.Detent.custom(identifier: smallId) { context in
         return UIScreen.main.bounds.size.height - 228
     }
-    let largeId = UISheetPresentationController.Detent.Identifier("large")
-    lazy var largeDetent = UISheetPresentationController.Detent.custom(identifier: self.largeId) { context in
+    private let largeId = UISheetPresentationController.Detent.Identifier("large")
+    private lazy var largeDetent = UISheetPresentationController.Detent.custom(identifier: self.largeId) { context in
         return UIScreen.main.bounds.size.height - 115
     }
     
@@ -81,7 +81,7 @@ class PassageDetailViewController: UIViewController {
     }
     
     // MARK: - Layout
-    func setupLayout() {
+    private func setupLayout() {
         view.addSubview(titleStack)
         [titleLbl, xBtn].forEach {
             titleStack.addArrangedSubview($0)
@@ -112,7 +112,7 @@ class PassageDetailViewController: UIViewController {
         }
     }
     
-    func dataBinding() {
+    private func dataBinding() {
         viewModel.detailPassage.subscribe(with: self) { (self, data) in
             self.titleLbl.text = data.title
             self.containerView.passageTextLbl.text = data.passage
@@ -200,7 +200,7 @@ class PassageDetailViewController: UIViewController {
         }.disposed(by: disposeBag)
         
         viewModel.keywords.bind(to: containerView.keywordCollectionView.rx.items(cellIdentifier: KeywordCollectionViewCell.identifier,
-                   cellType: KeywordCollectionViewCell.self)) { row, data, cell in
+                                                                                 cellType: KeywordCollectionViewCell.self)) { row, data, cell in
             cell.keywordLabel.text = data
             cell.xButton.rx.tap.subscribe(with: self) { (self, data) in
                 self.viewModel.deleteDetailKeyword(keyword: row)
@@ -214,19 +214,21 @@ class PassageDetailViewController: UIViewController {
         }.disposed(by: disposeBag)
     }
     
-    func showToast(message : String) {
+    private func showToast(message : String) {
         let toastView = UIView().then {
             $0.backgroundColor = UIColor.charcoalBlue.withAlphaComponent(0.8)
             $0.alpha = 1.0
             $0.layer.cornerRadius = 5
             $0.clipsToBounds  =  true
         }
+        
         let toastLabel = UILabel().then {
             $0.textColor = UIColor.white
             $0.font = Pretendard.regular.dynamicFont(style: .callout)
             $0.textAlignment = .center
             $0.text = message
         }
+        
         view.addSubview(toastView)
         toastView.addSubview(toastLabel)
         

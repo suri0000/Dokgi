@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CurrentLevelCollectionFlowLayout: UICollectionViewFlowLayout {
+final class CurrentLevelCollectionFlowLayout: UICollectionViewFlowLayout {
     
     private let itemWidth: CGFloat = 300
     private let itemHeight: CGFloat = 164

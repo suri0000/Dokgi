@@ -11,7 +11,7 @@ protocol PassageCollectionViewCellDelegate: AnyObject {
     func tappedDeleteButton(in cell: PassageCollectionViewCell)
 }
 
-class PassageCollectionViewCell: UICollectionViewCell {
+final class PassageCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "PassageCollectionViewCell"
     
@@ -31,7 +31,7 @@ class PassageCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setCell() {
+    private func setCell() {
         deleteButton.setImage(.deleteParagraph, for: .normal)
         deleteButton.addTarget(self, action: #selector(tappedDeleteButton), for: .touchUpInside)
 
@@ -46,7 +46,7 @@ class PassageCollectionViewCell: UICollectionViewCell {
         bookTitleLabel.lineBreakMode = .byCharWrapping
     }
     
-    func setConstraints() {
+    private func setConstraints() {
         [deleteButton, passageLabel, bookTitleLabel].forEach {
             contentView.addSubview($0)
         }

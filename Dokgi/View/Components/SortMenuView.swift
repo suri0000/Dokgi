@@ -9,7 +9,7 @@ import SnapKit
 import Then
 import UIKit
 
-class SortMenuView: UIView {
+final class SortMenuView: UIView {
     
     private let stackView = UIStackView().then {
         $0.axis = .vertical
@@ -20,7 +20,6 @@ class SortMenuView: UIView {
     
     let latestButton = UIButton().then {
         $0.backgroundColor = .white
-//        $0.layer.cornerRadius = 10
     }
     
     let latestCheckImage = UIImageView().then {

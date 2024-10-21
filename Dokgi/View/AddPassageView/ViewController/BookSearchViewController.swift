@@ -11,10 +11,10 @@ import Then
 import UIKit
 import SnapKit
 
-class BookSearchViewController: UIViewController {
+final class BookSearchViewController: UIViewController {
     
     weak var delegate: BookSelectionDelegate?
-    let addPassage = AddPassageViewController()
+    private let addPassage = AddPassageViewController()
     private let viewModel = BookSearchViewModel()
     private let containerView = BookSearchContainerView()
     private let monitor = NWPathMonitor()

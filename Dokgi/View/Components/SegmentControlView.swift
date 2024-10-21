@@ -9,8 +9,8 @@ import UIKit
 import SnapKit
 import Then
 
-class SegmentControlView: UIView {
-    let segmentTitles = ["Page", "%"]
+final class SegmentControlView: UIView {
+    private let segmentTitles = ["Page", "%"]
     var buttons: [UIButton] = []
     
     var selectedIndex: Int = 0 {
@@ -19,7 +19,7 @@ class SegmentControlView: UIView {
         }
     }
     
-    var selectedColor: UIColor? {
+    private var selectedColor: UIColor? {
         didSet {
             updateButtonColors()
         }

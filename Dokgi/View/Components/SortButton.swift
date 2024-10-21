@@ -9,7 +9,7 @@ import SnapKit
 import Then
 import UIKit
 
-class SortButton: UIButton {
+final class SortButton: UIButton {
     
     private let sortButtonImageView = UIImageView().then {
         $0.image = .down

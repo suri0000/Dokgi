@@ -11,10 +11,10 @@ import SnapKit
 import Then
 import UIKit
 
-class LibraryViewController: BaseLibraryAndPassageViewController {
+final class LibraryViewController: BaseLibraryAndPassageViewController {
     
-    let libraryCollectionView = LibraryCollectionView()
-    let libraryViewModel = LibraryViewModel()
+    private let libraryCollectionView = LibraryCollectionView()
+    private let libraryViewModel = LibraryViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
