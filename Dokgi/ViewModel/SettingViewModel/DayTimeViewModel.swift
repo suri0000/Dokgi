@@ -18,10 +18,11 @@ final class DayTimeViewModel {
     
     let hourArr = [Int](1...12)
     let minArr = [Int](00...59).map { String($0).count == 1 ? "0\($0)" : "\($0)" }
+    // String(format: "%d : %d : %d", hours, minutes, seconds)
     let ampmArr = ["AM", "PM"]
     let DayArr = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"]
     var selectday = [Int](1...7)
-    var selectTime : [Int] = [3, 00, 1]
+    var selectTime: [Int] = [3, 00, 1]
     
     func setTime(row: Int , component: Int) {
         switch component {
@@ -128,11 +129,13 @@ final class DayTimeViewModel {
         } else {
             if identifiers == "remindTime" {
                 UserDefaults.standard.set(on, forKey: UserDefaultsKeys.remindSwitch.rawValue)
-                for i in 0...6 {
+                for i in 1...31 {
                     UNUserNotificationCenter
                         .current()
                         .removePendingNotificationRequests(withIdentifiers: ["\(identifiers)_\(i)"])
                 }
+                
+                UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: (1...31).map { "\(identifiers)_\($0)" })
             } else {
                 for i in 0...6 {
                     UserDefaults.standard.set(on, forKey: UserDefaultsKeys.writeSwitch.rawValue)
