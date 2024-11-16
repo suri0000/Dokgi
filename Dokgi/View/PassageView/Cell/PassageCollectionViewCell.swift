@@ -63,7 +63,11 @@ final class PassageCollectionViewCell: UICollectionViewCell {
         bookTitleLabel.snp.makeConstraints {
             $0.top.equalTo(passageLabel.snp.bottom).offset(30)
             $0.leading.trailing.equalToSuperview().inset(15)
+            $0.bottom.equalToSuperview().inset(15)
         }
+        
+        bookTitleLabel.setContentHuggingPriority(.required, for: .vertical)
+        bookTitleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
     }
     
     func setColor(with indexPath: IndexPath) {
